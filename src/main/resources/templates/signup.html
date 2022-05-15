@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+<div class="flex">
+    <div class="flex flex-col justify-center w-[50vw]">
+        <img src="../static/a.png" class="" alt="">
+    </div>
+    <div class="w-[50vw] bg-gray-800 text-white flex flex-col justify-center h-[100vh] p-12">
+        <form action="#" method="POST" class="">
+            <div class="text-5xl font-bold text-center">Signup</div>
+            <div class="py-5">
+                <label for="username" class="">Username</label>
+                <input type="text" id="username"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Username" required>
+            </div>
+            <div class="py-5">
+                <label for="email" class="">Email</label>
+                <input type="text" id="email"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Email" required>
+            </div>
+            <div class="py-5">
+                <label for="password" class="">Password</label>
+                <input type="text" id="password"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Password" required>
+            </div>
+            <div class="py-5">
+                <label for="passwordRepeat" class="">Repeat Password</label>
+                <input type="text" id="passwordRepeat"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Repeat Password" required>
+            </div>
+            <div class="my-5">
+                <ul class="flex gap-4 items-center">
+                    <li>
+                        <input
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="submit" value="Register"/>
+                    </li>
+                    <li>
+                        <a class="signup__link" href="#">I am already a member</a>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
