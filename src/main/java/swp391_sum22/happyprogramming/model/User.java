@@ -1,31 +1,31 @@
 package swp391_sum22.happyprogramming.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "Users")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "fullname")
     private String fullName;
 
-    @Column(unique = true)
+    @Column(name = "email",unique = true)
     private String email;
+    @Column(name = "password")
     private String password;
+    @Column(name = "created")
     private Date created;
+    @Column(name = "modified")
     private Date modified;
+    @Column(name = "profile_id")
     private Long profile_id;
 }
