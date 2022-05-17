@@ -5,16 +5,15 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "Users")
 @Data
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
     @Column(name = "fullname")
     private String fullName;
 
@@ -22,6 +21,7 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+
     @Column(name = "created")
     private Date created;
     @Column(name = "modified")
