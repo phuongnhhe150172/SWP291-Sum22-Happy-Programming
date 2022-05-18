@@ -30,6 +30,10 @@ public class UserService implements IUserService {
         return repository.save(user);
     }
 
+    public User getUserById(Long id) {
+        return repository.findOne(id);
+    }
+
     private boolean emailExists(String email) {
         return repository.findByEmail(email) != null;
     }

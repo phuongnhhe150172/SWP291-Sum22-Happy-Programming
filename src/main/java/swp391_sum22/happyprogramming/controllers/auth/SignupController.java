@@ -30,11 +30,8 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto,
-                                            HttpServletRequest request,
-                                            Errors errors) {
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto) {
         ModelAndView mav = new ModelAndView("signup");
-
         try {
             User registered = userService.registerNewUserAccount(userDto);
         } catch (UserAlreadyExistException ex) {
