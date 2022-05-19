@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import swp391_sum22.happyprogramming.dto.UserDTO;
 import swp391_sum22.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp391_sum22.happyprogramming.model.User;
+import swp391_sum22.happyprogramming.services.IMentorService;
 import swp391_sum22.happyprogramming.services.servicesimpl.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class SignupController {
     public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto) {
         ModelAndView mav = new ModelAndView("signup");
         try {
-            User registered = userService.registerNewUserAccount(userDto);
+            userService.registerNewUserAccount(userDto);
         } catch (UserAlreadyExistException ex) {
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;

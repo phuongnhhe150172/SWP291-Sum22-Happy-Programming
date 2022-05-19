@@ -1,11 +1,12 @@
 package swp391_sum22.happyprogramming.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 
 @Entity
@@ -31,19 +32,4 @@ public class User {
     private Date created;
     @Column(name = "modified")
     private Date modified;
-    @Column(name = "profile_id")
-    private Long profile_id;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

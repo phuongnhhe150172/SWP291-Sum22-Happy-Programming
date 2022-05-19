@@ -10,14 +10,30 @@
 </head>
 
 <body class="bg-gray-900 text-white">
-<nav class="">
-
+<nav class="w-full bg-gray-800 p-5">
+    <div class="max-w-[1230px] flex justify-between items-center mx-auto">
+        <div class="flex items-center gap-10">
+            <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
+                <img src="../static/styleindex/imgs/download.svg" alt="">
+                Happy Programming
+            </div>
+            <ul class="flex items-center gap-4 font-semibold">
+                <a href="" class="hover:text-gray-400">Mentors</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+            </ul>
+        </div>
+        <div class="">
+            <img src="../static/styleindex/imgs/avatar1.jpg" alt="" class="w-8 h-8 rounded-full">
+        </div>
+    </div>
 </nav>
 <div class="max-w-full border-b border-gray-600 mt-6">
     <div class="max-w-[1250px] mx-auto grid grid-cols-4">
         <div class="col-span-1"></div>
         <nav class="pl-12 flex gap-4">
-            <div class="border-b-2 border-orange-500 py-2">
+            <div class="border-b-2 border-blue-600 py-2">
                 <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex
                    items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
@@ -45,23 +61,23 @@
         </nav>
     </div>
 </div>
-<div class="max-w-[1250px] mx-auto grid grid-cols-4">
+<div class="max-w-[1250px] mx-auto grid grid-cols-4" th:object="${mentor}">
     <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
-        <img src="../static/a.png" class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
-        <h1 class="text-2xl font-bold my-6">Nguyễn Huy Hoàng</h1>
-<!--        <button type="button"-->
-<!--                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10-->
-<!--                focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white-->
-<!--                hover:bg-gray-700">-->
-<!--            Edit profile-->
-<!--        </button>-->
+        <img src="../static/styleindex/imgs/avatar1.jpg" class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
+        <h1 class="text-2xl font-bold my-6">Lorem ipsum dolor</h1>
+        <!--        <button type="button"-->
+        <!--                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10-->
+        <!--                        focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white-->
+        <!--                        hover:bg-gray-700">-->
+        <!--            Edit profile-->
+        <!--        </button>-->
     </div>
     <div class="col-span-3 p-8">
         <div class="">
             <h2 class="my-4 text-xl">About me</h2>
             <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <p class="font-normal text-gray-300">
+                <p class="font-normal text-gray-300" th:text="${mentor.bio}">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quisquam,
                     quod, doloremque, quibusdam eius quae nisi dolore doloremque. Lorem ipsum dolor sit amet,
                     consectetur adipisicing elit. Aliquam, quisquam,
@@ -105,7 +121,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         DOB
                     </h5>
-                    <p class="font-normal text-gray-400">
+                    <p class="font-normal text-gray-400" th:text="${mentor.dob}">
                         2/12/2002
                     </p>
                 </div>
@@ -114,7 +130,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Education
                     </h5>
-                    <p class="font-normal text-gray-400">
+                    <p class="font-normal text-gray-400" th:text="${mentor.school}">
                         FPT University
                     </p>
                 </div>
@@ -123,7 +139,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Gender
                     </h5>
-                    <p class="font-normal text-gray-400">
+                    <p class="font-normal text-gray-400" th:text="${mentor.gender}">
                         Male
                     </p>
                 </div>
@@ -134,6 +150,33 @@
                     </h5>
                     <p class="font-normal text-gray-400">
                         Thi tran Tien Hai, Tien Hai, Thai Binh
+                    </p>
+                </div>
+                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
+                bg-gray-800 border-gray-700 hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                        Price
+                    </h5>
+                    <p class="font-normal text-gray-400" th:text="${mentor.price}">
+                        100.000
+                    </p>
+                </div>
+                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
+                bg-gray-800 border-gray-700 hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                        Member since
+                    </h5>
+                    <p class="font-normal text-gray-400" th:text="${mentor.created}">
+                        May 19, 2022
+                    </p>
+                </div>
+                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
+                bg-gray-800 border-gray-700 hover:bg-gray-700">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                        Phone number
+                    </h5>
+                    <p class="font-normal text-gray-400" th:text="${mentor.phone_number}">
+                        012 345 6789
                     </p>
                 </div>
             </div>
