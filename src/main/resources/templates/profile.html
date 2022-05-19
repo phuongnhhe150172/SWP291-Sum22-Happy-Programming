@@ -17,12 +17,12 @@
                 <img src="../static/styleindex/imgs/download.svg" alt="">
                 Happy Programming
             </div>
-            <ul class="flex items-center gap-4 font-semibold">
+            <div class="flex items-center gap-4 font-semibold">
                 <a href="" class="hover:text-gray-400">Mentors</a>
                 <a href="" class="hover:text-gray-400">Profile</a>
                 <a href="" class="hover:text-gray-400">Profile</a>
                 <a href="" class="hover:text-gray-400">Profile</a>
-            </ul>
+            </div>
         </div>
         <div class="">
             <img src="../static/styleindex/imgs/avatar1.jpg" alt="" class="w-8 h-8 rounded-full">
@@ -175,7 +175,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Phone number
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.phone_number}">
+                    <p class="font-normal text-gray-400" th:text="${mentor.getPhoneNumber}">
                         012 345 6789
                     </p>
                 </div>

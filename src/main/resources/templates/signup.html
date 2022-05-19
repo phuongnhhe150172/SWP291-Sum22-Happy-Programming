@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="font-['SF_Pro_Text']">
 <div class="flex">
     <div class="flex flex-col justify-center w-[50vw]">
         <img src="../static/a.png" class="" alt="">
@@ -32,7 +32,6 @@
                        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="No spam, we promise" required>
-                <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
             </div>
             <div class="py-5">
                 <label for="password" class="">Password</label>
@@ -50,6 +49,7 @@
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Just to make sure ;)" required>
             </div>
+            <p class="text-red-500" th:each="error : ${message}" th:text="${error}">Validation error</p>
             <div class="my-5">
                 <ul class="flex gap-4 items-center">
                     <li>
