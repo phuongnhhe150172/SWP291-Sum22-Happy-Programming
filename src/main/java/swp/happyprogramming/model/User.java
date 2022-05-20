@@ -1,5 +1,6 @@
 package swp.happyprogramming.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -32,4 +34,11 @@ public class User {
     private Date created;
     @Column(name = "modified")
     private Date modified;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_skills",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    @JsonManagedReference
+    private Set<Skill> skillSet;
 }
