@@ -28,14 +28,11 @@ public class SigninController {
     }
 
     @PostMapping("/signin")
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
-        ModelAndView mav = new ModelAndView("signup");
-        try {
-            userService.registerNewUserAccount(userDto);
-        } catch (UserAlreadyExistException ex) {
-            mav.addObject("message", "An account for that username/email already exists.");
-            return mav;
+    public ModelAndView signIn(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
+        if (errors.hasErrors()) {
+            return new ModelAndView("signin");
         }
-        return new ModelAndView("signin", "user", userDto);
+        userService.signIn(userDto);
+        return new ModelAndView("redirect:/");
     }
 }

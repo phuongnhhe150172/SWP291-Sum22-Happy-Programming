@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head th:object="${mentor}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${mentor.getFullName()}">Profile</title>
+    <title th:text="${fullName}">Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -14,7 +14,7 @@
     <div class="max-w-[1230px] flex justify-between items-center mx-auto">
         <div class="flex items-center gap-10">
             <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img th:src="@{/styleindex/imgs/download.svg}" alt="">
+                <img th:src="@{/styleindex/imgs/download.svg}" alt=""/>
                 Happy Programming
             </div>
             <div class="flex items-center gap-4 font-semibold">
@@ -66,20 +66,14 @@
         <img th:src="@{/styleindex/imgs/avatar1.jpg}"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto"
              alt="">
-        <h1 class="text-2xl font-bold my-6" th:text="${mentor.getFullName()}">Lorem</h1>
-        <!--        <button type="button"-->
-        <!--                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10-->
-        <!--                        focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white-->
-        <!--                        hover:bg-gray-700">-->
-        <!--            Edit profile-->
-        <!--        </button>-->
+        <h1 class="text-2xl font-bold my-6" th:text="${fullName}">Lorem</h1>
     </div>
     <div class="col-span-3 p-8">
         <div class="">
             <h2 class="my-4 text-xl">About me</h2>
             <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <p class="font-normal text-gray-300" th:text="${mentor.bio}">
+                <p class="font-normal text-gray-300" th:text="${bio}">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quisquam,
                     quod, doloremque, quibusdam eius quae nisi dolore doloremque. Lorem ipsum dolor sit amet,
                     consectetur adipisicing elit. Aliquam, quisquam,
@@ -122,7 +116,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         DOB
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.dob}">
+                    <p class="font-normal text-gray-400" th:text="${dob}">
                         2/12/2002
                     </p>
                 </div>
@@ -131,7 +125,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Education
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.school}">
+                    <p class="font-normal text-gray-400" th:text="${school}">
                         FPT University
                     </p>
                 </div>
@@ -140,7 +134,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Gender
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.gender == 0 ? 'Male':'Female'}">
+                    <p class="font-normal text-gray-400" th:text="${gender == 0 ? 'Male':'Female'}">
                         Male
                     </p>
                 </div>
@@ -158,7 +152,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Price
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.price}">
+                    <p class="font-normal text-gray-400" th:text="${price}">
                         100.000
                     </p>
                 </div>
@@ -167,7 +161,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Member since
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.created}">
+                    <p class="font-normal text-gray-400" th:text="${created}">
                         May 19, 2022
                     </p>
                 </div>
@@ -176,7 +170,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Phone number
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.getPhoneNumber}">
+                    <p class="font-normal text-gray-400" th:text="${phoneNumber}">
                         012 345 6789
                     </p>
                 </div>

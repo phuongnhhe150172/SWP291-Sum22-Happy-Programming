@@ -25,6 +25,8 @@ public class UserService implements IUserService {
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
         User savedUser = userRepository.save(user);
+        System.out.println(userDTO.getRole());
+        userRepository.addUserRole(savedUser.getId(), userDTO.getRole());
         UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
         profileRepository.save(profile);
@@ -32,5 +34,9 @@ public class UserService implements IUserService {
 
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email) != null;
+    }
+
+    public void signIn(UserDTO userDto) {
+
     }
 }

@@ -31,6 +31,7 @@ public class MentorProfileController {
     public String updateProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
+            System.out.println(mentorId);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/update";

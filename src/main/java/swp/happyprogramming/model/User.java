@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 
@@ -14,7 +15,6 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +35,11 @@ public class User {
     private Date created;
     @Column(name = "modified")
     private Date modified;
+
+    public User() {
+        this.created = Date.from(Instant.now());
+        this.modified = Date.from(Instant.now());
+    }
+
+
 }

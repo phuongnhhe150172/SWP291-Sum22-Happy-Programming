@@ -59,16 +59,16 @@
                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                        placeholder="•••••••••" required>
             </div>
-            <div class="grid grid-cols-2">
-                <div class="flex items-center mb-4">
-                    <input id="default-radio-1" type="radio" value="0" th:field="*{role}" name="default-radio"
+            <div class="grid grid-cols-2 mb-4">
+                <div class="flex items-center">
+                    <input id="default-radio-1" type="radio" value="1" th:field="*{role}" name="default-radio"
                            class="w-4 h-4 focus:ring-blue-600 focus:ring-2">
                     <label for="default-radio-1" class="ml-2 text-sm font-medium text-gray-300">
                         Mentor
                     </label>
                 </div>
                 <div class="flex items-center">
-                    <input checked="" id="default-radio-2" type="radio" value="1" th:field="*{role}"
+                    <input checked="" id="default-radio-2" type="radio" value="2" th:field="*{role}"
                            name="default-radio" class="w-4 h-4 focus:ring-blue-600 focus:ring-2">
                     <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-300">
                         Mentee
