@@ -16,18 +16,18 @@ import swp.happyprogramming.services.servicesimpl.UserService;
 import javax.validation.Valid;
 
 @Controller
-public class SignupController {
+public class SigninController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/signup")
-    public String signupPage(WebRequest request, Model model) {
-        UserDTO userDto = new UserDTO();
-        model.addAttribute("user", userDto);
-        return "signup";
+    @GetMapping("/signin")
+    public String signinPage(WebRequest request, Model model) {
+//        UserDTO userDto = new UserDTO();
+//        model.addAttribute("user", userDto);
+        return "signin";
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signin")
     public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
         ModelAndView mav = new ModelAndView("signup");
         try {

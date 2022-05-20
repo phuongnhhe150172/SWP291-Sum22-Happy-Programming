@@ -7,11 +7,11 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Skills")
+@Table(name = "Address")
 @Getter
 @Setter
 @ToString
-public class Skill {
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,4 +19,10 @@ public class Skill {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "ward_id")
+    private int wardID;
+
+    @Column(name = "profile_id")
+    private int profileID;
 }
