@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title th:text="${mentor.getFullName()}">Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-gray-900 text-white font-['SF_Pro_Text']">
 <nav class="w-full bg-gray-800 p-5">
     <div class="max-w-[1230px] flex justify-between items-center mx-auto">
         <div class="flex items-center gap-10">
             <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img src="../static/styleindex/imgs/download.svg" alt="">
+                <img th:src="@{/styleindex/imgs/download.svg}" alt="">
                 Happy Programming
             </div>
             <div class="flex items-center gap-4 font-semibold">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="">
-            <img src="../static/styleindex/imgs/avatar1.jpg" alt="" class="w-8 h-8 rounded-full">
+            <img th:src="@{/styleindex/imgs/avatar1.jpg}" alt="" class="w-8 h-8 rounded-full">
         </div>
     </div>
 </nav>
@@ -63,8 +63,10 @@
 </div>
 <div class="max-w-[1250px] mx-auto grid grid-cols-4" th:object="${mentor}">
     <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
-        <img src="../static/styleindex/imgs/avatar1.jpg" class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
-        <h1 class="text-2xl font-bold my-6">Lorem ipsum dolor</h1>
+        <img th:src="@{/styleindex/imgs/avatar1.jpg}"
+             class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto"
+             alt="">
+        <h1 class="text-2xl font-bold my-6" th:text="${mentor.getFullName()}">Lorem</h1>
         <!--        <button type="button"-->
         <!--                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10-->
         <!--                        focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white-->
@@ -86,7 +88,6 @@
                     quod, doloremque, quibusdam eius quae nisi dolore doloremque.Lorem ipsum dolor sit amet, consectetur
                     adipisicing elit. Aliquam, quisquam,
                     quod, doloremque, quibusdam eius quae nisi dolore doloremque.
-
                 </p>
             </div>
         </div>
@@ -139,7 +140,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Gender
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.gender}">
+                    <p class="font-normal text-gray-400" th:text="${mentor.gender == 0 ? 'Male':'Female'}">
                         Male
                     </p>
                 </div>

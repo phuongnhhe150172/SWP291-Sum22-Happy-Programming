@@ -32,4 +32,7 @@ public class UserDTO {
     @NotNull
     @NotEmpty
     private String email;
+
+    @NotNull
+    private int role;
 }

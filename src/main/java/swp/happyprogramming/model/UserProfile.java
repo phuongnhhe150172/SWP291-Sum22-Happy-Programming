@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class UserProfiles {
+public class UserProfile {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class UserProfiles {
     @Column(name = "modified")
     private Date modified;
 
-    public UserProfiles() {
+    public UserProfile() {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
     }

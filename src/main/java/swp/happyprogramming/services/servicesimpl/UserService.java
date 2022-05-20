@@ -7,7 +7,7 @@ import swp.happyprogramming.dao.IProfileRepository;
 import swp.happyprogramming.dao.IUserRepository;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.model.UserProfiles;
+import swp.happyprogramming.model.UserProfile;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IUserService;
 
@@ -25,7 +25,7 @@ public class UserService implements IUserService {
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
         User savedUser = userRepository.save(user);
-        UserProfiles profile = new UserProfiles();
+        UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
         profileRepository.save(profile);
     }

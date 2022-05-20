@@ -11,14 +11,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.services.servicesimpl.UserService;
+import swp.happyprogramming.services.IUserService;
 
 import javax.validation.Valid;
 
 @Controller
 public class SignupController {
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping("/signup")
     public String signupPage(WebRequest request, Model model) {

@@ -7,13 +7,10 @@ import swp.happyprogramming.dao.IProfileRepository;
 import swp.happyprogramming.dao.ISkillRepository;
 import swp.happyprogramming.dao.IUserRepository;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.model.Skill;
-import swp.happyprogramming.model.UserProfiles;
+import swp.happyprogramming.model.UserProfile;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IMentorService;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -27,15 +24,15 @@ public class MentorService implements IMentorService {
 
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfiles> optionalUserProfile = profileRepository.findById(id);
+        Optional<UserProfile> optionalUserProfile = profileRepository.findById(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfiles profile = optionalUserProfile.get();
+            UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
             ModelMapper mapper = new ModelMapper();
             MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
             mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
-            Collection<Skill> skills = skillRepository.searchSkills(id);
-            mentorDTO.setSkills(new ArrayList<>(skills));
+//            Collection<Skill> skills = skillRepository.searchSkills(id);
+//            mentorDTO.setSkills(new ArrayList<>(skills));
             return mentorDTO;
         } else {
             return null;

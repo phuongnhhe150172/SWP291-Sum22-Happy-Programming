@@ -28,13 +28,13 @@ public class MentorProfileController {
     }
 
     @GetMapping("/mentor/profile/update")
-    public String updateProfileMentor(Model model,@RequestParam(value = "id",required = false) String id){
-        try{
+    public String updateProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
+        try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            model.addAttribute("mentor",mentorDTO);
+            model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/update";
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return "redirect:index";
         }
     }
