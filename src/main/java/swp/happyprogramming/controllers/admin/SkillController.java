@@ -14,7 +14,7 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
-    @GetMapping("/listskill")
+    @GetMapping("/admin/listskill")
     public String getAllSkill(Model model){
         List<Skill> skillList = skillService.getAllSkill();
         model.addAttribute("skillList", skillList);
