@@ -10,11 +10,11 @@
 </head>
 
 <body class="font-['SF_Pro_Text']">
-<div class="flex">
-    <div class="flex flex-col justify-center w-[50vw]">
-        <img src="../static/a.png" class="" alt="">
+<div class="grid lg:grid-cols-2">
+    <div class="hidden lg:flex flex-col justify-center">
+        <img th:src="@{a.png}" class="" alt="">
     </div>
-    <div class="w-[50vw] bg-gray-800 text-white flex flex-col justify-center h-[100vh] p-12">
+    <div class="bg-gray-800 text-white flex flex-col justify-center h-[100vh] p-12">
         <form action="/signup" method="POST" class="" th:object="${user}">
             <div class="text-5xl font-bold text-center">Signup</div>
             <div class="grid grid-cols-2 gap-4">
@@ -68,7 +68,7 @@
                     </label>
                 </div>
                 <div class="flex items-center">
-                    <input checked="" id="default-radio-2" type="radio" value="2" th:field="*{role}"
+                    <input checked id="default-radio-2" type="radio" value="2" th:field="*{role}"
                            name="default-radio" class="w-4 h-4 focus:ring-blue-600 focus:ring-2">
                     <label for="default-radio-2" class="ml-2 text-sm font-medium text-gray-300">
                         Mentee
