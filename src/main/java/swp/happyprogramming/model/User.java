@@ -1,29 +1,16 @@
 package swp.happyprogramming.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-<<<<<<< HEAD:src/main/java/swp391_sum22/happyprogramming/model/User.java
 import java.util.Collection;
-=======
 import java.time.Instant;
->>>>>>> Develop:src/main/java/swp/happyprogramming/model/User.java
 import java.util.Date;
 
 
 @Entity
-<<<<<<< HEAD:src/main/java/swp391_sum22/happyprogramming/model/User.java
 @Table(name = "users")
 @Data
-=======
-@Table(name = "Users")
-@Getter
-@Setter
-@ToString
->>>>>>> Develop:src/main/java/swp/happyprogramming/model/User.java
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +32,6 @@ public class User {
     @Column(name = "modified")
     private Date modified;
 
-<<<<<<< HEAD:src/main/java/swp391_sum22/happyprogramming/model/User.java
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
@@ -54,12 +40,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-=======
+
     public User() {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
     }
-
->>>>>>> Develop:src/main/java/swp/happyprogramming/model/User.java
 
 }

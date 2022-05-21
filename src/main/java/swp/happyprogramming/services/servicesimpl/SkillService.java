@@ -2,7 +2,7 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dao.ISkillRepository;
+import swp.happyprogramming.repository.ISkillRepository;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.ISkillService;
 

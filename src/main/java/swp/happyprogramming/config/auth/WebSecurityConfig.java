@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.config.auth;
+package swp.happyprogramming.config.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

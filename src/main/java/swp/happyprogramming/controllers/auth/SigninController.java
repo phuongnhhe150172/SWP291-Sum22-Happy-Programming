@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.services.servicesimpl.UserService;
 
 import javax.validation.Valid;

@@ -1,4 +1,4 @@
-package swp.happyprogramming.dao;
+package swp.happyprogramming.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

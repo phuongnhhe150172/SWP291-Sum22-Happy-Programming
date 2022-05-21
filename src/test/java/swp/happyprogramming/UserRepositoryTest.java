@@ -11,7 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import swp391_sum22.happyprogramming.repository.IUserRepository;
 import swp391_sum22.happyprogramming.model.User;
 =======
-import swp.happyprogramming.dao.IUserRepository;
+import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.model.User;
 >>>>>>> Develop:src/test/java/swp/happyprogramming/UserRepositoryTest.java
 
