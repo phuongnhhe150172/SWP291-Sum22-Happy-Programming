@@ -25,7 +25,8 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUser(){
         User user = new User();
-        user.setFullName("Nguyen Hong Phuong");
+        user.setFirstName("Nguyen Hong");
+        user.setLastName("Phuong");
         user.setEmail("PhuongNHHE150172");
         user.setPassword("A1234567890");
         user.setCreated(Date.from(Instant.now()));
