@@ -3,11 +3,12 @@ package swp391_sum22.happyprogramming.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 @Data
 public class User {
     @Id
@@ -26,6 +27,14 @@ public class User {
     private Date created;
     @Column(name = "modified")
     private Date modified;
-    @Column(name = "profile_id")
-    private Long profile_id;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
 }

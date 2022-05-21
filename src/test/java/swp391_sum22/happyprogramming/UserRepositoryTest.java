@@ -1,12 +1,13 @@
 package swp391_sum22.happyprogramming;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
-import swp391_sum22.happyprogramming.dao.IUserRepository;
+import swp391_sum22.happyprogramming.repository.IUserRepository;
 import swp391_sum22.happyprogramming.model.User;
 
 import java.time.Instant;
@@ -25,12 +26,20 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUser(){
         User user = new User();
-        user.setFullName("Nguyen Hong Phuong");
-        user.setEmail("PhuongNHHE150172");
+        user.setFullName("Pham Thi Van Anh");
+        user.setEmail("AnhPTV@fpt.edu.vn");
         user.setPassword("A1234567890");
         user.setCreated(Date.from(Instant.now()));
         user.setModified(Date.from(Instant.now()));
 
         userRepository.save(user);
+    }
+
+    @Test
+    public void testFindUserByEmail(){
+        String email = "AnhPTV@fpt.edu.vn";
+        User user = userRepository.findByEmail(email);
+
+        Assertions.assertThat(user).isNotNull();
     }
 }
