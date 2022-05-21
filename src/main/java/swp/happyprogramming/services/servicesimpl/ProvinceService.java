@@ -4,14 +4,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dao.IProvinceRepository;
-import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.model.Province;
 import swp.happyprogramming.services.IProvinceService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

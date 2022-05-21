@@ -24,5 +24,6 @@ public class District {
     @Column(name = "type")
     private String type;
 
-
+    @Column(name = "province_id")
+    private long provinceId;
 }

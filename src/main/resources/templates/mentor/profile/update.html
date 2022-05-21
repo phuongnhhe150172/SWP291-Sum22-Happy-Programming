@@ -161,7 +161,7 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="province"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
-                    <div class="" id="province_id">
+                    <div class="" id="province-id">
                         <select id="province"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose province --</option>
@@ -173,7 +173,7 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="district"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
-                    <div class="" id="district_id">
+                    <div class="" id="district-id">
                         <select id="district"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose district --</option>
@@ -183,7 +183,7 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="ward"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
-                    <div class="" id="ward_id">
+                    <div class="" id="ward-id">
                         <select id="ward"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose ward --</option>
@@ -228,16 +228,16 @@
 
     $(document).ready(function () {
         $('#province').on('change', function () {
-            var province_id = $("#province").val();
+            var provinceId = $("#province").val();
             $("#error").html("");
             $.ajax({
-                url: "district.html",
+                url: "/mentor/profile/update/district",
                 data: {
-                    province_id: province_id
+                    provinceId: provinceId
                 },
                 method: "GET",
                 success: function (data) {
-                    $("#district_id").html(data);
+                    $("#district-id").html(data);
                 }
             });
         });

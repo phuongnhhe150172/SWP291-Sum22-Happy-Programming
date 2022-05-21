@@ -7,12 +7,11 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "province")
+@Table(name = "ward")
 @Getter
 @Setter
 @ToString
-public class Province {
-
+public class Ward {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,4 +22,7 @@ public class Province {
 
     @Column(name = "type")
     private String type;
+
+    @Column(name = "district_id")
+    private long districtId;
 }
