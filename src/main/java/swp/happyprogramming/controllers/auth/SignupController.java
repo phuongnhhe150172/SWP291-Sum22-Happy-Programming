@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import swp.happyprogramming.dto.UserDTO;
@@ -21,11 +20,6 @@ public class SignupController {
     @Autowired
     private IUserService userService;
 
-    public SignupController(UserService userService){
-        super();
-        this.userService = userService;
-    }
-
     @GetMapping("/signup")
     public String signupPage(WebRequest request, Model model) {
         UserDTO userDto = new UserDTO();
@@ -37,12 +31,7 @@ public class SignupController {
     public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
         ModelAndView mav = new ModelAndView("signup");
         try {
-<<<<<<< HEAD:src/main/java/swp391_sum22/happyprogramming/controllers/auth/SignupController.java
-
-            User registered = userService.registerNewUserAccount(userDto);
-=======
             userService.registerNewUserAccount(userDto);
->>>>>>> Develop:src/main/java/swp/happyprogramming/controllers/auth/SignupController.java
         } catch (UserAlreadyExistException ex) {
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;
@@ -50,8 +39,4 @@ public class SignupController {
         return new ModelAndView("signin", "user", userDto);
     }
 
-    @GetMapping("/login")
-    public String signinPage() {
-        return "login";
-    }
 }

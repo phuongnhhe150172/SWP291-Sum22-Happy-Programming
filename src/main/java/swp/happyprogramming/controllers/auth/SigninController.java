@@ -22,8 +22,6 @@ public class SigninController {
 
     @GetMapping("/signin")
     public String signinPage(WebRequest request, Model model) {
-//        UserDTO userDto = new UserDTO();
-//        model.addAttribute("user", userDto);
         return "signin";
     }
 
