@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<select id="ward"
+<select id="ward" th:name="wardId"
         class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
     <option selected> -- Choose ward -- </option>
     <option th:each="ward,state : ${listWard}" th:value="${ward.id}" th:utext="${ward.name}"></option>

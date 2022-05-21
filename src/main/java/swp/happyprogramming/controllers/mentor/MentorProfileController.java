@@ -3,9 +3,7 @@ package swp.happyprogramming.controllers.mentor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.MentorDTO;
@@ -17,6 +15,7 @@ import swp.happyprogramming.services.servicesimpl.ProvinceService;
 import swp.happyprogramming.services.servicesimpl.WardService;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MentorProfileController {
@@ -52,10 +51,22 @@ public class MentorProfileController {
             List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("listProvinces", listProvinces);
+            model.addAttribute("mentorId",mentorId);
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
+    }
+
+    @PostMapping("/mentor/profile/update")
+    public String updateProfileMentor(Model model,@ModelAttribute("mentor") MentorDTO mentor, @RequestParam Map<String,String> params){
+        try{
+            long mentorId = Integer.parseInt(params.get("mentorId"));
+            long wardId = Integer.parseInt(params.get("wardId"));
+            mentorService.updateMentor(mentorId,mentor);
+        }catch (NumberFormatException e){
+        }
+        return "mentor/profile/view";
     }
 
     @GetMapping("/mentor/profile/update/district")
