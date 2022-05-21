@@ -34,8 +34,6 @@ public class MentorService implements IMentorService {
             mentorDTO.setFirstName(user.getFirstName());
             mentorDTO.setLastName(user.getLastName());
             mentorDTO.setEmail(user.getEmail());
-//            Collection<Skill> skills = skillRepository.searchSkills(id);
-//            mentorDTO.setSkills(new ArrayList<>(skills));
             return mentorDTO;
         } else {
             return null;
