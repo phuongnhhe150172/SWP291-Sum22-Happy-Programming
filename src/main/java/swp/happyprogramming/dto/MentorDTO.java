@@ -1,5 +1,6 @@
 package swp.happyprogramming.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import swp.happyprogramming.model.Skill;
@@ -12,6 +13,9 @@ import java.util.Date;
 @Setter
 public class MentorDTO {
     private String fullName;
+    private String firstName;
+    private String lastName;
+    private String email;
     private ArrayList<Skill> skills;
     private int gender;
     private Date dob;

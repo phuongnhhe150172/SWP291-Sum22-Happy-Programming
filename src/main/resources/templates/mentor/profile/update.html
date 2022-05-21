@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -53,17 +53,17 @@
         </nav>
     </div>
 </div>
-<div class="max-w-[1250px] mx-auto grid grid-cols-4" th:object="${mentor}">
+<div class="max-w-[1250px] mx-auto grid grid-cols-4">
 
     <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
         <img src="../../../styleindex/imgs/avatar1.jpg"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
     </div>
 
-    <form class="col-span-3 p-8">
+    <form class="col-span-3 p-8" th:action="@{/update}" th:object="${mentor}" method="post">
         <div class="">
             <h2 class="my-4 text-xl">About me</h2>
-            <div class="" th:object="${mentor}">
+            <div class="">
                 <div class="grid xl:grid-cols-2 xl:gap-6">
                     <div class="relative z-0 w-full mb-6 group">
                         <div>
@@ -72,7 +72,8 @@
                             <input type="text" id="firstname" class="bg-gray-50 border text-sm rounded-lg
                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                                   th:field="*{firstName}" placeholder="John" required>
+                                   th:field="*{firstName}" placeholder="John1"
+                                   required>
                         </div>
                     </div>
                     <div class="relative z-0 w-full mb-6 group">
@@ -81,17 +82,17 @@
                             <input type="text" id="lastname" class="bg-gray-50 border text-sm rounded-lg
                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                             placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                                   th:field="*{lastName}" placeholder="Anderson" required>
+                                   th:field="*{lastName}" placeholder="Anderson1" required>
                         </div>
                     </div>
                 </div>
                 <div class="relative z-0 w-full mb-6 group">
                     <label for="email" class="block font-medium text-gray-300 text-sm mb-2">Email</label>
-                    <input type="text" id="email" name="email" th:field="*{email}"
+                    <input type="text" id="email" name="email"
                            class="bg-gray-50 border text-sm rounded-lg focus:ring-blue-500
                        focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="example@gmail.com" required>
+                           th:field="*{email}" placeholder="example@gmail.com" required>
                 </div>
             </div>
         </div>
@@ -99,7 +100,7 @@
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Bio</label>
             <textarea id="message" rows="4"
                       class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Tell us about yourself"></textarea>
+                      th:field="*{bio}" placeholder="Tell us about yourself"></textarea>
         </div>
         <div class="">
             <div class="w-full flex items-center justify-between">
@@ -160,19 +161,19 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="province"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
-                    <div class="" id="province_id">
+                    <div class="" id="province-id">
                         <select id="province"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose province --</option>
-                            <option value="1">Male</option>
-                            <option value="0">Female</option>
+                            <option th:each="province,state : ${listProvinces}" th:value="${province.id}"
+                                    th:utext="${province.name}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="district"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
-                    <div class="" id="district_id">
+                    <div class="" id="district-id">
                         <select id="district"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose district --</option>
@@ -182,7 +183,7 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <label for="ward"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
-                    <div class="" id="ward_id">
+                    <div class="" id="ward-id">
                         <select id="ward"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose ward --</option>
@@ -227,16 +228,16 @@
 
     $(document).ready(function () {
         $('#province').on('change', function () {
-            var province_id = $("#province").val();
+            var provinceId = $("#province").val();
             $("#error").html("");
             $.ajax({
-                url: "district.html",
+                url: "/mentor/profile/update/district",
                 data: {
-                    province_id: province_id
+                    provinceId: provinceId
                 },
                 method: "GET",
                 success: function (data) {
-                    $("#district_id").html(data);
+                    $("#district-id").html(data);
                 }
             });
         });

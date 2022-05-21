@@ -7,13 +7,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
-<<<<<<< HEAD:src/test/java/swp391_sum22/happyprogramming/UserRepositoryTest.java
-import swp391_sum22.happyprogramming.repository.IUserRepository;
-import swp391_sum22.happyprogramming.model.User;
-=======
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.model.User;
->>>>>>> Develop:src/test/java/swp/happyprogramming/UserRepositoryTest.java
 
 import java.time.Instant;
 import java.util.Date;
@@ -29,22 +24,21 @@ public class UserRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    public void testCreateUser(){
+    public void testCreateUser() {
         User user = new User();
-        user.setFullName("Pham Thi Van Anh");
-        user.setEmail("AnhPTV@fpt.edu.vn");
+        user.setFirstName("Nguyen Hong");
+        user.setLastName("Phuong");
+        user.setEmail("PhuongNHHE150172@gmail.com");
         user.setPassword("A1234567890");
         user.setCreated(Date.from(Instant.now()));
         user.setModified(Date.from(Instant.now()));
-
         userRepository.save(user);
     }
 
     @Test
-    public void testFindUserByEmail(){
-        String email = "AnhPTV@fpt.edu.vn";
+    public void testFindUserByEmail() {
+        String email = "PhuongNHHE150172@gmail.com";
         User user = userRepository.findByEmail(email);
-
         Assertions.assertThat(user).isNotNull();
     }
 }
