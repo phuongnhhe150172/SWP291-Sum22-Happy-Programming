@@ -31,8 +31,14 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUser(){
         User user = new User();
+<<<<<<< HEAD
         user.setFullName("Pham Thi Van Anh");
         user.setEmail("AnhPTV@fpt.edu.vn");
+=======
+        user.setFirstName("Nguyen Hong");
+        user.setLastName("Phuong");
+        user.setEmail("PhuongNHHE150172");
+>>>>>>> origin/nam
         user.setPassword("A1234567890");
         user.setCreated(Date.from(Instant.now()));
         user.setModified(Date.from(Instant.now()));

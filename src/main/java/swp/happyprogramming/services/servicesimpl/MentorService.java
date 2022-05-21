@@ -31,6 +31,9 @@ public class MentorService implements IMentorService {
             ModelMapper mapper = new ModelMapper();
             MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
             mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
+            mentorDTO.setFirstName(user.getFirstName());
+            mentorDTO.setLastName(user.getLastName());
+            mentorDTO.setEmail(user.getEmail());
 //            Collection<Skill> skills = skillRepository.searchSkills(id);
 //            mentorDTO.setSkills(new ArrayList<>(skills));
             return mentorDTO;
