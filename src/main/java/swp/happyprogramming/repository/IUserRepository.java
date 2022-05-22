@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
+    User findUserByEmail(String email);
 
     @Modifying
     @Transactional
