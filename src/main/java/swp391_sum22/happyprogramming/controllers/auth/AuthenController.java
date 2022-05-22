@@ -7,7 +7,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import swp391_sum22.happyprogramming.dto.UserDTO;
@@ -19,11 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
-public class SignupController {
+public class AuthenController {
     @Autowired
     private UserService userService;
 
-    public SignupController(UserService userService){
+    public AuthenController(UserService userService){
         super();
         this.userService = userService;
     }
