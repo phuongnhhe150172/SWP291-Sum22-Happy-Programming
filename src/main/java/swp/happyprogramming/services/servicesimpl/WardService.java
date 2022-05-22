@@ -3,7 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dao.IWardRepository;
+import swp.happyprogramming.repository.IWardRepository;
 import swp.happyprogramming.dto.WardDTO;
 import swp.happyprogramming.model.Ward;
 import swp.happyprogramming.services.IWardService;

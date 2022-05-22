@@ -3,7 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dao.IProvinceRepository;
+import swp.happyprogramming.repository.IProvinceRepository;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.model.Province;
 import swp.happyprogramming.services.IProvinceService;

@@ -8,21 +8,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.Role;
-import swp.happyprogramming.model.UserProfile;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.UserProfile;
+import swp.happyprogramming.repository.IProfileRepository;
+import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +35,6 @@ public class UserService implements IUserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private IProfileRepository profileRepository;
-    private BCryptPasswordEncoder passwordEncoder;
 
     public UserService(IUserRepository repository) {
         super();
@@ -84,7 +82,6 @@ public class UserService implements IUserService {
         return profileRepository.findByUserID(userID);
     }
 
-    public void signIn(UserDTO userDto) {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByEmail(username);
@@ -94,8 +91,8 @@ public class UserService implements IUserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    public void signIn(UserDTO userDto) {
+
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
