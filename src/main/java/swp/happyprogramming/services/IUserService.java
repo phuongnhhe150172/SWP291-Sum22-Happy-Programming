@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface IUserService extends UserDetailsService {
     void registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException;
 
-    void signIn(UserDTO userDto);
-
     Optional<User> findMentor(long id);
 
     Optional<UserProfile> findProfileByUserID(long userID);
