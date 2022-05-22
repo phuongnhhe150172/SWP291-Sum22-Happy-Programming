@@ -19,9 +19,17 @@ public class SigninController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping("/signin")
     public String signinPage(WebRequest request, Model model) {
-        return "login";
+        return "signin";
     }
 
+    @PostMapping("/signin")
+    public ModelAndView signIn(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
+        if (errors.hasErrors()) {
+            return new ModelAndView("signin");
+        }
+        userService.signIn(userDto);
+        return new ModelAndView("redirect:/");
+    }
 }
