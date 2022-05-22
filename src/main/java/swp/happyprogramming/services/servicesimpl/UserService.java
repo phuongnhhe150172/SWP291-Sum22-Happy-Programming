@@ -68,7 +68,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username.trim());
+        User user = repository.findUserByEmail(username.trim());
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
