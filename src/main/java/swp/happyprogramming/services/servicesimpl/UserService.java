@@ -91,6 +91,11 @@ public class UserService implements IUserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
     }
 
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
     public void signIn(UserDTO userDto) {
 
     }

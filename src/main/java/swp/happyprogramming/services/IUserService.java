@@ -20,4 +20,7 @@ public interface IUserService extends UserDetailsService {
     Optional<UserProfile> findProfileByUserID(long userID);
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    User findById(Long id);
+
 }
