@@ -5,31 +5,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with Ollie landing page.">
-    <meta name="author" content="Devcrud">
     <title>Home Page</title>
 
     <!-- font icons -->
-    <link rel="stylesheet" href="styleindex/vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../static/styleindex/vendors/themify-icons/css/themify-icons.css">
 
     <!-- owl carousel -->
-    <link rel="stylesheet" href="styleindex/vendors/owl-carousel/css/owl.carousel.css">
-    <link rel="stylesheet" href="styleindex/vendors/owl-carousel/css/owl.theme.default.css">
+    <link rel="stylesheet" href="../static/styleindex/vendors/owl-carousel/css/owl.carousel.css">
+    <link rel="stylesheet" href="../static/styleindex/vendors/owl-carousel/css/owl.theme.default.css">
 
     <!-- Bootstrap + Ollie main styles -->
-    <link rel="stylesheet" href="styleindex/css/ollie.css">
+    <!--    <link rel="stylesheet" href="../static/styleindex/css/ollie.css">-->
+    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home1">
+<body data-spy="scroll" data-target=".navbar" data-offset="40" class="bg-gray-900 text-white">
 
-<nav id="scrollspy" class="navbar navbar-light bg-light navbar-expand-lg fixed-top" data-spy="affix" data-offset-top="20">
-    <div class="container">
-        <a class="navbar-brand" href=""><img src="styleindex/imgs/brand.svg" alt="" class="brand-img"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav id="scrollspy" class="" data-spy="affix" data-offset-top="20">
+    <div class="flex relative mx-12 py-6 justify-center items-center">
+        <a class="flex items-center absolute left-0 gap-3 font-semibold text-2xl" href="">
+            <img src="..static/styleindex/imgs/brand.svg" alt="" class="w-12 h-12">
+            HappyProgramming
+        </a>
+        <!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+        <!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+        <!--            <span class="navbar-toggler-icon"></span>-->
+        <!--        </button>-->
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse place-self-center" id="navbarSupportedContent">
+            <ul class="flex items-center gap-8 text-xl text-gray-400 font-medium">
                 <li class="nav-item">
                     <a class="nav-link" href="">Home</a>
                 </li>
@@ -39,10 +43,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="">Skills</a>
                 </li>
-                <li class="nav-item ml-0 ml-lg-4">
-                    <a class="nav-link btn btn-primary" href="signup">Signup</a>
-                </li>
             </ul>
+        </div>
+        <div class="nav-item ml-0 ml-lg-4 absolute right-0">
+            <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
+                    font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
+                    focus:outline-none dark:focus:ring-blue-800" href="signup">Signup</a>
         </div>
     </div>
 </nav>
@@ -56,26 +62,17 @@
             Thymeleaf, Hibernate and MySQL</h1>
         Welcome <span sec:authentication="principal.username"> User</span>
     </div>
-
     <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="container">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1 class="carousel-title">We make<br> Programming easier</h1>
-                        <button class="btn btn-primary btn-rounded">Learn More</button>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1 class="carousel-title">We Make <br> Responsive Design</h1>
-                        <button class="btn btn-primary btn-rounded">Learn More</button>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1 class="carousel-title">We Make <br> Simple Design</h1>
-                        <button class="btn btn-primary btn-rounded">Learn More</button>
+                    <div class="carousel-caption flex items-center flex-col">
+                        <h1 class="text-7xl font-bold text-center mb-6">We make<br> Programming easier</h1>
+                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
+                        font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
+                        focus:outline-none dark:focus:ring-blue-800 my-4">
+                            Learn More
+                        </button>
                     </div>
                 </div>
             </div>

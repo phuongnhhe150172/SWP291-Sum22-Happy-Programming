@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+</head>
+
+<body class="bg-gray-900 text-white">
+<nav class="w-full bg-gray-800 p-5">
+    <div class="max-w-[1230px] flex justify-between items-center mx-auto">
+        <div class="flex items-center gap-10">
+            <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
+                <img src="../../../styleindex/imgs/download.svg" alt="">
+                Happy Programming
+            </div>
+            <ul class="flex items-center gap-4 font-semibold">
+                <a href="" class="hover:text-gray-400">Mentors</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+                <a href="" class="hover:text-gray-400">Profile</a>
+            </ul>
+        </div>
+        <div class="">
+            <img src="../../../styleindex/imgs/avatar1.jpg" alt=""
+                 class="w-8 h-8 rounded-full">
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-full border-b border-gray-600 mt-6">
+    <div class="max-w-[1250px] mx-auto grid grid-cols-4">
+        <div class="col-span-1"></div>
+        <nav class="pl-12 flex gap-4">
+            <div class="border-b-2 border-blue-600 py-2">
+                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex
+                   items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754
+                          18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5
+                          1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Overview
+                </a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="max-w-[1250px] mx-auto grid grid-cols-4">
+
+    <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
+        <img src="../../../styleindex/imgs/avatar1.jpg"
+             class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
+    </div>
+
+    <form class="col-span-3 p-8" th:action="@{/update}" th:object="${mentor}" method="post">
+        <div class="">
+            <h2 class="my-4 text-xl">About me</h2>
+            <div class="">
+                <div class="grid xl:grid-cols-2 xl:gap-6">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <div>
+                            <label for="firstname" class="block font-medium text-gray-300 text-sm mb-2">First
+                                Name</label>
+                            <input type="text" id="firstname" class="bg-gray-50 border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                                   th:field="*{firstName}" placeholder="John1"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <div>
+                            <label for="lastname" class="block font-medium text-gray-300 text-sm mb-2">Last Name</label>
+                            <input type="text" id="lastname" class="bg-gray-50 border text-sm rounded-lg
+                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                            placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                                   th:field="*{lastName}" placeholder="Anderson1" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <label for="email" class="block font-medium text-gray-300 text-sm mb-2">Email</label>
+                    <input type="text" id="email" name="email"
+                           class="bg-gray-50 border text-sm rounded-lg focus:ring-blue-500
+                       focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                       placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                           th:field="*{email}" placeholder="example@gmail.com" required>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Bio</label>
+            <textarea id="message" rows="4"
+                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      th:field="*{bio}" placeholder="Tell us about yourself"></textarea>
+        </div>
+        <div class="">
+            <div class="w-full flex items-center justify-between">
+                <h2 class="my-4 text-xl">Experience</h2>
+                <div class="flex items-center justify-between">
+                    <button type="button"
+                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
+                            id="button-add-experience"><i class='bx bx-plus'></i></button>
+                    <button type="button"
+                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
+                            id="button-minus-experience"><i class='bx bx-minus'></i></button>
+                </div>
+            </div>
+
+            <div class="experience-content grid grid-cols-2 gap-4">
+                <div class="block shadow-md">
+                        <textarea id="experience" rows="4"
+                                  class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Your experience..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <h2 class="mt-4 mb-6 text-xl">Additional information</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <input type="date" name="dob" id="dob"
+                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" " required/>
+                    <label for="dob"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DOB</label>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <label for="gender"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Gender</label>
+                    <select id="gender"
+                            class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option selected> -- Choose gender --</option>
+                        <option value="US">Male</option>
+                        <option value="CA">Female</option>
+                    </select>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <input type="text" name="phone" id="phone"
+                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" " required/>
+                    <label for="phone"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">phone</label>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <input type="text" name="education" id="education"
+                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" " required/>
+                    <label for="education"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Education</label>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <label for="province"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                    <div class="" id="province-id">
+                        <select id="province"
+                                class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option selected> -- Choose province --</option>
+                            <option th:each="province,state : ${listProvinces}" th:value="${province.id}"
+                                    th:utext="${province.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <label for="district"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
+                    <div class="" id="district-id">
+                        <select id="district"
+                                class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option selected> -- Choose district --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="relative z-0 w-full mb-6 group p-6">
+                    <label for="ward"
+                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
+                    <div class="" id="ward-id">
+                        <select id="ward"
+                                class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option selected> -- Choose ward --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="relative z-0 w-full mb-6 group px-6">
+                    <input type="text" name="price" id="price"
+                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                           placeholder=" " required/>
+                    <label for="price"
+                           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price</label>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center m-[5px]">
+            Edit
+        </button>
+        <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center m-[5px]">
+            Cancel
+        </button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#button-add-experience').on('click', function () {
+            $('.experience-content').append('<div class="block shadow-md"><textarea id="message" rows="4"class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"placeholder="Your experience..."></textarea></div>');
+        });
+    });
+
+    $(document).ready(function () {
+        $('#button-minus-experience').on('click', function () {
+            $('.experience-content').find("div:last").remove();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#province').on('change', function () {
+            var provinceId = $("#province").val();
+            $("#error").html("");
+            $.ajax({
+                url: "/mentor/profile/update/district",
+                data: {
+                    provinceId: provinceId
+                },
+                method: "GET",
+                success: function (data) {
+                    $("#district-id").html(data);
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
