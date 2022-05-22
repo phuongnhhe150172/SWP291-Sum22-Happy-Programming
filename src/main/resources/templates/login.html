@@ -21,13 +21,18 @@
                 <label for="email" class="">Email</label>
                 <input type="text" id="email" name="username"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="No spam, we promise" required>
+                       placeholder="Email" required>
             </div>
             <div class="py-5">
                 <label for="password" class="">Password</label>
                 <input type="password" id="password" name="password"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="Make sure to be strong, like you" required>
+                       placeholder="Password" required>
+            </div>
+            <div style="display: flex; justify-content: end;">
+                <div>
+                    <a href="/forgotPassword">Forgot password?</a>
+                </div>
             </div>
             <div class="my-5">
                 <ul class="flex gap-4 items-center">
@@ -37,6 +42,14 @@
                                 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700
                                  focus:outline-none dark:focus:ring-blue-800"
                                 type="submit" value="Sign in"/>
+                    </li>
+                    <li>
+                        <!-- error message -->
+                        <div th:if="${param.error}">
+                            <div class="alert alert-danger">Invalid username or
+                                password.
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>

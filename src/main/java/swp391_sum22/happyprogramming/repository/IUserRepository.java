@@ -7,5 +7,5 @@ import swp391_sum22.happyprogramming.model.User;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
     User findByEmail(String Email);
-    User findUserByEmail(String email)
+    User findUserByEmail(String email);
 }
