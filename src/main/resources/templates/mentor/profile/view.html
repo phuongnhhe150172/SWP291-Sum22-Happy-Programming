@@ -89,11 +89,14 @@
         <img src="../../../styleindex/imgs/avatar1.jpg"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
         <h1 class="text-2xl font-bold my-6" th:text="${mentor.fullName}"></h1>
-        <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10
+        <a class="w-full" th:href="@{/mentor/profile/update(id=${mentor.getId()})}">
+            <button type="button" class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
                                    focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white
                                    hover:bg-gray-700">
-            Edit profile
-        </button>
+                Edit profile
+            </button>
+        </a>
+
     </div>
 
     <div class="col-span-3 p-8">

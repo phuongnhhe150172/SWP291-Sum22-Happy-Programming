@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dao.*;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.model.Address;
-import swp.happyprogramming.model.UserProfile;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.model.*;
 import swp.happyprogramming.services.IMentorService;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -67,12 +66,13 @@ public class MentorService implements IMentorService {
         }
     }
 
-    public void updateMentor(Long id,MentorDTO mentorDTO){
+    public void updateMentor(Long id, MentorDTO mentorDTO, long wardId){
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
+
             user.setFirstName(mentorDTO.getFirstName());
             user.setLastName(mentorDTO.getLastName());
             user.setEmail(mentorDTO.getEmail());
@@ -85,6 +85,15 @@ public class MentorService implements IMentorService {
             profile.setSchool(mentorDTO.getSchool());
             profile.setPrice(mentorDTO.getPrice());
             profileRepository.save(profile);
+
+            Ward ward = wardRepository.findById(wardId).orElse(null);
+            District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
+            Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
+
+            Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wardId);
+            address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
+            address.setWardID(wardId);
+            addressRepository.save(address);
         }
     }
 }

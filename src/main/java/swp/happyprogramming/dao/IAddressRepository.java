@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface IAddressRepository extends JpaRepository<Address, Long> {
     Optional<Address> findByProfileID(long id);
 
+    @Query(value = "select a.id,a.`name`,a.profile_id,a.ward_id from `swp`.`address` as a",nativeQuery = true)
+    Address findByProfileIDAndWardID(long profileId,long wardId);
+
     @Query(value = "SELECT NAME FROM DISTRICT WHERE ID IN (SELECT DISTRICT_ID FROM WARD WHERE ID=?1)",
             nativeQuery = true)
     String findDistrictByWardID(long wardID);

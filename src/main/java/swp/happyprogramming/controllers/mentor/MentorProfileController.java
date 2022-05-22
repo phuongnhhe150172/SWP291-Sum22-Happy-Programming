@@ -73,12 +73,13 @@ public class MentorProfileController {
     }
 
     @PostMapping("/mentor/profile/update")
-    public String updateProfileMentor(Model model,@ModelAttribute("mentor") MentorDTO mentor, @RequestParam Map<String,String> params){
+    public String updateProfileMentor(Model model,@ModelAttribute("mentor") MentorDTO mentor,
+                                      @RequestParam Map<String,String> params){
         try{
             long mentorId = Integer.parseInt(params.get("mentorId"));
             long wardId = Integer.parseInt(params.get("wardId"));
-            mentorService.updateMentor(mentorId,mentor);
-//            return "redirect: mentor/profile/view?id=" + String.valueOf(mentorId);
+            mentorService.updateMentor(mentorId,mentor,wardId);
+
             return "redirect:view?id=" + String.valueOf(mentorId);
         }catch (NumberFormatException e){
             return "redirect:index";
