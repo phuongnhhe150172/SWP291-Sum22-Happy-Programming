@@ -10,8 +10,8 @@
 </head>
 
 <body>
-<div class="flex">
-    <div class="w-[50vw] bg-gray-800 text-white flex flex-col justify-center h-[100vh] p-12">
+<div class="grid lg:grid-cols-2">
+    <div class="bg-gray-800 text-white flex flex-col justify-center h-[100vh] p-12">
         <form th:action="@{/login}" method="POST">
             <div class="text-5xl font-bold text-center">Sign in</div>
             <div class="py-5">
@@ -42,7 +42,7 @@
         </form>
     </div>
     <div class="flex-col justify-center hidden lg:flex">
-        <img src="../static/a.png" class="" alt="">
+        <img src="../static/a.png" th:src="@{a.png}" class="" alt="">
     </div>
 </div>
 </body>

@@ -11,6 +11,7 @@ import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.dto.WardDTO;
+import swp.happyprogramming.services.*;
 import swp.happyprogramming.services.servicesimpl.DistrictService;
 import swp.happyprogramming.services.servicesimpl.MentorService;
 import swp.happyprogramming.services.servicesimpl.ProvinceService;
@@ -21,19 +22,19 @@ import java.util.List;
 @Controller
 public class MentorProfileController {
     @Autowired
-    private MentorService mentorService;
+    private IMentorService mentorService;
 
     @Autowired
-    private ProvinceService provinceService;
+    private IProvinceService provinceService;
 
     @Autowired
-    private DistrictService districtService;
+    private IDistrictService districtService;
 
     @Autowired
-    private WardService wardService;
+    private IWardService wardService;
 
     @GetMapping("/mentor/profile/{id}")
-    public String getProfile(WebRequest request, Model model, @PathVariable String id) {
+    public String getProfile(Model model, @PathVariable String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
@@ -75,7 +76,7 @@ public class MentorProfileController {
         try {
             long id = Integer.parseInt(districtId);
             List<WardDTO> listWard = wardService.findAllWard(id);
-            model.addAttribute("listWard",listWard);
+            model.addAttribute("listWard", listWard);
             return "mentor/profile/area/ward";
         } catch (NumberFormatException e) {
             return "redirect:index";

@@ -18,12 +18,7 @@ public class Role {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "created")
-    private Date created;
-    @Column(name = "modified")
-    private Date modified;
-
-    public Role (String name){
+    public Role(String name) {
         this.name = name;
     }
 

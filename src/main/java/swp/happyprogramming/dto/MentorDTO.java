@@ -3,6 +3,7 @@ package swp.happyprogramming.dto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.model.Skill;
 
 import java.time.Instant;
@@ -12,11 +13,11 @@ import java.util.Date;
 @Getter
 @Setter
 public class MentorDTO {
-    private String fullName;
     private String firstName;
     private String lastName;
     private String email;
     private ArrayList<Skill> skills;
+    private ArrayList<Experience> experiences;
     private int gender;
     private Date dob;
     private String phoneNumber;
@@ -32,5 +33,6 @@ public class MentorDTO {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
         this.skills = new ArrayList<>();
+        this.experiences = new ArrayList<>();
     }
 }
