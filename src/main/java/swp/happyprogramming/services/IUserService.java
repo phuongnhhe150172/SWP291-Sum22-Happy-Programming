@@ -1,5 +1,7 @@
 package swp.happyprogramming.services;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.User;
@@ -15,4 +17,5 @@ public interface IUserService {
     Optional<User> findMentor(long id);
 
     Optional<UserProfile> findProfileByUserID(long userID);
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }

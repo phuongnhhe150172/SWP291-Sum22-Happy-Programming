@@ -1,7 +1,7 @@
 package swp.happyprogramming.services.servicesimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import swp.happyprogramming.dao.IAddressRepository;
+import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.model.Address;
 import swp.happyprogramming.services.IAddressService;
 
