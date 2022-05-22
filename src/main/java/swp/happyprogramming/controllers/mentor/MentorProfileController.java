@@ -38,10 +38,13 @@ public class MentorProfileController {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            if (mentorDTO == null) {
+                return "redirect:index";
+            }
             model.addAttribute("mentor", mentorDTO);
             return "profile";
         } catch (NumberFormatException e) {
-            return "redirect:/index";
+            return "redirect:index";
         }
     }
 

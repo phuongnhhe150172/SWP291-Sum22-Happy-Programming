@@ -12,14 +12,19 @@ import java.util.Date;
 public class Role {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    public Role(String name) {
-        this.name = name;
+    public Role(int id) {
+        this.id = id;
+        if (id == 1) {
+            this.name = "mentor";
+        } else {
+            this.name = "mentee";
+        }
     }
 
     public Role() {
