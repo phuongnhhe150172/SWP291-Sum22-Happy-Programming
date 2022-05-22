@@ -17,7 +17,7 @@ public class DistrictService implements IDistrictService {
     @Autowired
     private IDistrictRepository districtRepository;
 
-    public List<DistrictDTO> findAllDistrict(Long provinceId){
+    public List<DistrictDTO> findAllDistrict(long provinceId){
         ModelMapper mapper = new ModelMapper();
         List<District> list = districtRepository.findAllByProvinceId(provinceId);
         return list.stream().map(value -> mapper.map(value,DistrictDTO.class)).collect(Collectors.toList());

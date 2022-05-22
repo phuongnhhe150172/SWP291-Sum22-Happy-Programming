@@ -2,6 +2,9 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dao.IProfileRepository;
 import swp.happyprogramming.dao.IUserRepository;
@@ -12,12 +15,17 @@ import swp.happyprogramming.model.UserProfile;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IUserService;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private IProfileRepository profileRepository;
 
@@ -25,8 +33,10 @@ public class UserService implements IUserService {
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
+        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
         User savedUser = userRepository.save(user);
         userRepository.addUserRole(savedUser.getId(), userDTO.getRole());
         UserProfile profile = new UserProfile();
@@ -57,5 +67,9 @@ public class UserService implements IUserService {
 
     public void signIn(UserDTO userDto) {
 
+    }
+
+    private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }

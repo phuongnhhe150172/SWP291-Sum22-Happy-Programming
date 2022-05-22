@@ -14,8 +14,8 @@ public class ExperienceService implements IExperienceService {
     private IExperienceRepository experienceRepository;
 
     @Override
-    public ArrayList<Experience> getAllExperienceByID(long id) {
-        return experienceRepository.findByUserId(id);
+    public ArrayList<Experience> getAllExperienceByProfileID(long id) {
+        return experienceRepository.findByProfileId(id);
     }
 
     @Override

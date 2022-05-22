@@ -37,7 +37,7 @@ public class MentorService implements IMentorService {
     public MentorDTO combineUserAndProfile(User user, UserProfile profile) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-        mentorDTO.setExperiences(experienceService.getAllExperienceByID(profile.getId()));
+        mentorDTO.setExperiences(experienceService.getAllExperienceByProfileID(profile.getId()));
         mentorDTO.setFirstName(user.getFirstName());
         mentorDTO.setLastName(user.getLastName());
         mentorDTO.setEmail(user.getEmail());
