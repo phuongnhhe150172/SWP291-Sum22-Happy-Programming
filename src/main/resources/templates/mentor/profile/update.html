@@ -130,7 +130,7 @@
                 <div class="relative z-0 w-full mb-6 group p-6">
                     <input type="date" id="dob" th:field="*{dob}"
                            class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            required/>
+                           required/>
                     <label for="dob"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DOB</label>
                 </div>
@@ -166,7 +166,7 @@
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected> -- Choose province --</option>
                             <option th:each="province,state : ${listProvinces}" th:value="${province.id}"
-                                    th:utext="${province.name}"></option>
+                                    th:utext="${province.name}" th:selected="${provinceId == province.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -174,9 +174,13 @@
                     <label for="district"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
                     <div class="" id="district-id">
-                        <select id="district"
-                                class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <option selected> -- Choose district --</option>
+                        <select id="district" th:name="districtId"
+                                th:value="${districtId}"
+                                class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option> -- Choose district --</option>
+                            <option th:if="${districtId != null}" th:each="district,state : ${listDistrict}" th:value="${district.id}"
+                                    th:utext="${district.name}"
+                                    th:selected="${districtId == district.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -184,9 +188,11 @@
                     <label for="ward"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
                     <div class="" id="ward-id">
-                        <select id="ward"
-                                class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <option selected> -- Choose ward --</option>
+                        <select id="ward" th:name="wardId" th:value="${wardId}"
+                                class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option> -- Choose ward --</option>
+                            <option th:if="${wardId != null}" th:each="ward,state : ${listWard}" th:value="${ward.id}"
+                                    th:utext="${ward.name}" th:selected="${wardId == ward.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -230,11 +236,13 @@
     $(document).ready(function () {
         $('#province').on('change', function () {
             var provinceId = $("#province").val();
+            var districtId = $("#district").val();
             $("#error").html("");
             $.ajax({
                 url: "/mentor/profile/update/district",
                 data: {
-                    provinceId: provinceId
+                    provinceId: provinceId,
+                    districtId: districtId
                 },
                 method: "GET",
                 success: function (data) {

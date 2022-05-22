@@ -13,6 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class MentorDTO {
+    private long id;
+    private long profileId;
     private String fullName;
     private String firstName;
     private String lastName;
@@ -22,11 +24,12 @@ public class MentorDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String phoneNumber;
-//    private String address;
+    private String address;
     private String bio;
     private String school;
 //    private String method;
     private float price;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
     private Date modified;
 

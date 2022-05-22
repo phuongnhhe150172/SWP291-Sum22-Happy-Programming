@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -88,7 +88,7 @@
     <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
         <img src="../../../styleindex/imgs/avatar1.jpg"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
-        <h1 class="text-2xl font-bold my-6">Lorem ipsum dolor</h1>
+        <h1 class="text-2xl font-bold my-6" th:text="${mentor.fullName}"></h1>
         <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10
                                    focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white
                                    hover:bg-gray-700">
@@ -105,9 +105,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Email
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        abc@gmail.com
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${mentor.email}"></p>
                 </div>
             </div>
         </div>
@@ -115,19 +113,7 @@
             <h2 class="my-4 text-xl">Bio</h2>
             <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <p class="font-normal text-gray-300">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque. Lorem ipsum dolor sit amet,
-                    consectetur adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.
-
-                </p>
+                <p class="font-normal text-gray-300" th:text="${mentor.bio}"></p>
             </div>
         </div>
 
@@ -178,63 +164,50 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         DOB
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        2/12/2002
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${#dates.format(mentor.dob,'dd-MM-yyyy')}"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Education
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        FPT University
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${mentor.school}"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Gender
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        Male
-                    </p>
+                    <p class="font-normal text-gray-400" th:if="${mentor.gender == 1}" th:text="Male"></p>
+                    <p class="font-normal text-gray-400" th:if="${mentor.gender == 0}" th:text="Female"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Address
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        Thi tran Tien Hai, Tien Hai, Thai Binh
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${mentor.address}"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Price
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        100.000
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${mentor.price}"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Member since
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        May 19, 2022
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${#dates.format(mentor.created,'dd-MM-yyyy')}"></p>
                 </div>
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Phone number
                     </h5>
-                    <p class="font-normal text-gray-400">
-                        012 345 6789
-                    </p>
+                    <p class="font-normal text-gray-400" th:text="${mentor.phoneNumber}"></p>
                 </div>
             </div>
         </div>
