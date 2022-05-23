@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -43,5 +44,10 @@ public class User {
     public User() {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
+        this.roles = new ArrayList<>();
+    }
+
+    public void setRoles(Role role) {
+        this.roles.add(role);
     }
 }

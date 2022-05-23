@@ -3,6 +3,7 @@ package swp.happyprogramming.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -23,6 +24,7 @@ public class UserProfile {
     @Column(name = "gender")
     private int gender;
     @Column(name = "dob")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     @Column(name = "phone_number")
     private String phoneNumber;

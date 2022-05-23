@@ -19,17 +19,17 @@ public class SigninController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/signin")
+    @GetMapping("/login")
     public String signinPage(WebRequest request, Model model) {
-        return "signin";
+        return "login";
     }
 
-    @PostMapping("/signin")
-    public ModelAndView signIn(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
-        if (errors.hasErrors()) {
-            return new ModelAndView("signin");
-        }
-        userService.signIn(userDto);
-        return new ModelAndView("redirect:/");
-    }
+//    @PostMapping("/login")
+//    public ModelAndView signIn(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
+//        if (errors.hasErrors()) {
+//            return new ModelAndView("login");
+//        }
+//        userService.signIn(userDto);
+//        return new ModelAndView("redirect:/");
+//    }
 }

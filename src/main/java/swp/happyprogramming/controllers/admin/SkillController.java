@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.servicesimpl.SkillService;
 
@@ -26,5 +29,15 @@ public class SkillController {
         model.addAttribute("skillList", skillList);
         return "showskill";
     }
+    @PostMapping("/admin/createskill")
+    public @ResponseBody
+    String createSkill(Model model, @RequestParam String skillname){
+        Skill skill = new Skill();
+
+        skill.setName(skillname);
+        skillService.save(skill);
+        return "Saved successfully!";
+    }
+
 
 }

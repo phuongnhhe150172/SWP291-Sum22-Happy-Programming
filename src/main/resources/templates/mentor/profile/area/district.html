@@ -13,10 +13,11 @@
 </head>
 
 <body>
-<select id="district"
+<select id="district" th:name="districtId"
         class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-    <option selected> -- Choose district -- </option>
-    <option th:each="district,state : ${listDistrict}" th:value="${district.id}" th:utext="${district.name}"></option>
+    <option selected> -- Choose district --</option>
+    <option th:each="district,state : ${listDistrict}" th:value="${district.id}" th:utext="${district.name}"
+            th:selected="${dis == district.id}"></option>
 </select>
 </body>
 
@@ -24,11 +25,13 @@
     $(document).ready(function () {
         $('#district').on('change', function () {
             var districtId = $("#district").val();
+            var wardId = $("#ward").val();
             $("#error").html("");
             $.ajax({
                 url: "/mentor/profile/update/ward",
                 data: {
-                    districtId: districtId
+                    districtId: districtId,
+                    wardId: wardId
                 },
                 method: "GET",
                 success: function (data) {
