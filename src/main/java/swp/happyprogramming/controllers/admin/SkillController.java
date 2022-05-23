@@ -33,6 +33,7 @@ public class SkillController {
     public @ResponseBody
     String createSkill(Model model, @RequestParam String skillname){
         Skill skill = new Skill();
+
         skill.setName(skillname);
         skillService.save(skill);
         return "Saved successfully!";
