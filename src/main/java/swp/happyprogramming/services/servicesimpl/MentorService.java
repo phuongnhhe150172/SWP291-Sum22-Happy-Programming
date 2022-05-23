@@ -3,27 +3,18 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.repository.IProfileRepository;
-import swp.happyprogramming.repository.ISkillRepository;
-import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.model.UserProfile;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.model.*;
+import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMentorService;
 import swp.happyprogramming.services.ISkillService;
 import swp.happyprogramming.services.IUserService;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class MentorService implements IMentorService {
-
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private ISkillService skillService;
     @Autowired
     private IProfileRepository profileRepository;
 
@@ -68,15 +59,10 @@ public class MentorService implements IMentorService {
             } else {
                 mentorDTO.setAddress(address.getName());
             }
-//            Collection<Skill> skills = skillRepository.searchSkills(id);
-//            mentorDTO.setSkills(new ArrayList<>(skills));
             return mentorDTO;
         } else {
             return null;
         }
-        UserProfile profile = optionalUserProfile.get();
-        User user = optionalUser.get();
-        return combineUserAndProfile(user, profile);
     }
 
     public MentorDTO combineUserAndProfile(User user, UserProfile profile) {
@@ -89,7 +75,7 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-    public void updateMentor(Long id, MentorDTO mentorDTO, long wardId){
+    public void updateMentor(long id, MentorDTO mentorDTO, long wardId) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {

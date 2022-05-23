@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IDistrictService {
     List<DistrictDTO> findAllDistrict(long id);
+
+    long getDistrictIdByWardId(long wardId);
 }

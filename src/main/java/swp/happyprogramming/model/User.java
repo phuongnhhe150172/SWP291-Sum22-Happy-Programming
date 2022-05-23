@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -32,14 +31,7 @@ public class User {
     @Column(name = "modified")
     private Date modified;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private ArrayList<Role> roles;
 
     public User() {
         this.created = Date.from(Instant.now());
