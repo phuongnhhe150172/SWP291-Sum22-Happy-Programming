@@ -1,241 +1,321 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
-    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <title>Document</title>
-</head>
+  </head>
 
-<body class="bg-gray-900 text-white">
-<nav class="w-full bg-gray-800 p-5">
-    <div class="max-w-[1230px] flex justify-between items-center mx-auto">
+  <body class="bg-gray-900 text-white">
+    <nav class="w-full bg-gray-800 p-5">
+      <div class="max-w-[1230px] flex justify-between items-center mx-auto">
         <div class="flex items-center gap-10">
-            <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img th:src="@{styleindex/imgs/download.svg}" alt="">
-                Happy Programming
-            </div>
-            <div class="flex items-center gap-4 font-semibold">
-                <a href="" class="hover:text-gray-400">Mentors</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-            </div>
+          <div
+            class="gap-3 flex items-center font-semibold text-lg text-blue-400"
+          >
+            <img src="@{styleindex/imgs/download.svg}" alt="" />
+            Happy Programming
+          </div>
+          <div class="flex items-center gap-4 font-semibold">
+            <a href="" class="hover:text-gray-400">Mentors</a>
+            <a href="" class="hover:text-gray-400">Profile</a>
+            <a href="" class="hover:text-gray-400">Profile</a>
+            <a href="" class="hover:text-gray-400">Profile</a>
+          </div>
         </div>
         <div class="">
-            <img src="../../../styleindex/imgs/avatar1.jpg" alt=""
-                 class="w-8 h-8 rounded-full">
+          <img
+            src="../../../styleindex/imgs/avatar1.jpg"
+            alt=""
+            class="w-8 h-8 rounded-full"
+          />
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="max-w-full border-b border-gray-600 mt-6">
-    <div class="max-w-[1250px] mx-auto grid grid-cols-4">
+    <div class="max-w-full border-b border-gray-600 mt-6">
+      <div class="max-w-[1250px] mx-auto grid grid-cols-4">
         <div class="col-span-1"></div>
         <nav class="pl-12 flex gap-4">
-            <div class="border-b-2 border-blue-600 py-2">
-                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex
-                   items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754
+          <div class="border-b-2 border-blue-600 py-2">
+            <a
+              href=""
+              class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754
                           18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5
-                          1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                    Overview
-                </a>
-            </div>
-            <div class="py-2">
-                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-                    </svg>
-                    Connect
-                </a>
-            </div>
-            <div class="py-2">
-                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-                    </svg>
-                    Request
-                </a>
-            </div>
-            <div class="py-2">
-                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-                    </svg>
-                    Feedback
-                </a>
-            </div>
+                          1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+              Overview
+            </a>
+          </div>
+          <div class="py-2">
+            <a
+              href=""
+              class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                />
+              </svg>
+              Connect
+            </a>
+          </div>
+          <div class="py-2">
+            <a
+              href=""
+              class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                />
+              </svg>
+              Request
+            </a>
+          </div>
+          <div class="py-2">
+            <a
+              href=""
+              class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                />
+              </svg>
+              Feedback
+            </a>
+          </div>
         </nav>
+      </div>
     </div>
-</div>
 
-<div class="max-w-[1250px] mx-auto grid grid-cols-4" th:object="">
-    <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
-        <img src="../../../styleindex/imgs/avatar1.jpg"
-             class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
-        <h1 class="text-2xl font-bold my-6">Lorem ipsum dolor</h1>
-        <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10
-                                   focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white
-                                   hover:bg-gray-700">
+    <div class="max-w-[1250px] mx-auto grid grid-cols-4">
+      <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
+        <img
+          src="../../../styleindex/imgs/avatar1.jpg"
+          class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto"
+          alt=""
+        />
+        <h1 class="text-2xl font-bold my-6" th:text="${mentor.fullName}"></h1>
+        <a
+          class="w-full"
+          th:href="@{/mentor/profile/update(id=${mentor.getId()})}"
+        >
+          <button
+            type="button"
+            class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700"
+          >
             Edit profile
-        </button>
-        <div class="text-gray-300">
-            <div class="flex items-center gap-4 my-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
-                </svg>
-                DOB: 30/4/1975
+          </button>
+        </a>
+      </div>
+
+      <div class="col-span-3 p-8">
+        <div class="">
+          <h2 class="my-4 text-xl">About me</h2>
+          <div class="grid grid-cols-1 gap-4">
+            <div
+              class="block p-3 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Email
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${mentor.email}"
+              ></p>
             </div>
-            <div class="flex items-center gap-4 my-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                </svg>
-                Education: FPT University
-            </div>
+          </div>
         </div>
+        <div class="">
+          <h2 class="my-4 text-xl">Bio</h2>
+          <div
+            class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+          >
+            <p class="font-normal text-gray-300" th:text="${mentor.bio}"></p>
+          </div>
+        </div>
+
+        <div class="">
+          <h2 class="my-4 text-xl">Skill</h2>
+          <div class="grid grid-cols-1 gap-4">
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Admin HSHB
+              </h5>
+              <p class="font-normal text-gray-400">
+                Admin HSHB Gen 3 và Gen 4.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <h2 class="my-4 text-xl">Experience</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Admin HSHB
+              </h5>
+              <p class="font-normal text-gray-400">
+                Admin HSHB Gen 3 và Gen 4.
+              </p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Admin HSHB
+              </h5>
+              <p class="font-normal text-gray-400">
+                Admin HSHB Gen 3 và Gen 4.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <h2 class="my-4 text-xl">Additional information</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                DOB
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${#dates.format(mentor.dob,'dd-MM-yyyy')}"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Education
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${mentor.school}"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Gender
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:if="${mentor.gender == 1}"
+                th:text="Male"
+              ></p>
+              <p
+                class="font-normal text-gray-400"
+                th:if="${mentor.gender == 0}"
+                th:text="Female"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Address
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${mentor.address}"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Price
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${mentor.price}"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Member since
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${#dates.format(mentor.created,'dd-MM-yyyy')}"
+              ></p>
+            </div>
+            <div
+              class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700"
+            >
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                Phone number
+              </h5>
+              <p
+                class="font-normal text-gray-400"
+                th:text="${mentor.phoneNumber}"
+              ></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="col-span-3 p-8">
-        <div class="">
-            <h2 class="my-4 text-xl">About me</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="block p-3 rounded-lg border border-gray-200 shadow-md
-                    bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Email
-                    </h5>
-                    <p class="font-normal text-gray-400" th:text="">
-                        abc@gmail.com
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="">
-            <h2 class="my-4 text-xl">Bio</h2>
-            <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <p class="font-normal text-gray-300" th:text="">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque. Lorem ipsum dolor sit amet,
-                    consectetur adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipisicing elit. Aliquam, quisquam,
-                    quod, doloremque, quibusdam eius quae nisi dolore doloremque.
-                </p>
-            </div>
-        </div>
-
-        <div class="">
-            <h2 class="my-4 text-xl">Skill</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Admin HSHB
-                    </h5>
-                    <p class="font-normal text-gray-400">
-                        Admin HSHB Gen 3 và Gen 4.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="">
-            <h2 class="my-4 text-xl">Experience</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Admin HSHB
-                    </h5>
-                    <p class="font-normal text-gray-400">
-                        Admin HSHB Gen 3 và Gen 4.
-                    </p>
-                </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Admin HSHB
-                    </h5>
-                    <p class="font-normal text-gray-400">
-                        Admin HSHB Gen 3 và Gen 4.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="">
-            <h2 class="my-4 text-xl">Additional information</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Gender
-                    </h5>
-                    <p class="font-normal text-gray-400" th:text="">
-                        Male
-                    </p>
-                </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Address
-                    </h5>
-                    <p class="font-normal text-gray-400">
-                        Thi tran Tien Hai, Tien Hai, Thai Binh
-                    </p>
-                </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Price
-                    </h5>
-                    <p class="font-normal text-gray-400" th:text="">
-                        100.000
-                    </p>
-                </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Member since
-                    </h5>
-                    <p class="font-normal text-gray-400" th:text="">
-                        May 19, 2022
-                    </p>
-                </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
-                        Phone number
-                    </h5>
-                    <p class="font-normal text-gray-400" th:text="">
-                        012 345 6789
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-
+  </body>
 </html>

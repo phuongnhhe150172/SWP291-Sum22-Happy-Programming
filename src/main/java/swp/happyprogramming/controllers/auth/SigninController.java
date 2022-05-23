@@ -24,4 +24,12 @@ public class SigninController {
         return "login";
     }
 
+//    @PostMapping("/login")
+//    public ModelAndView signIn(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
+//        if (errors.hasErrors()) {
+//            return new ModelAndView("login");
+//        }
+//        userService.signIn(userDto);
+//        return new ModelAndView("redirect:/");
+//    }
 }

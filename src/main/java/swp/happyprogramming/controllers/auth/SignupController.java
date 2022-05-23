@@ -36,7 +36,7 @@ public class SignupController {
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;
         }
-        return new ModelAndView("signin", "user", userDto);
+        return new ModelAndView("login", "user", userDto);
     }
 
 }

@@ -1,30 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with Ollie landing page.">
     <title>Home Page</title>
 
-    <!-- font icons -->
-    <link rel="stylesheet" href="../static/styleindex/vendors/themify-icons/css/themify-icons.css">
-
     <!-- owl carousel -->
     <link rel="stylesheet" href="../static/styleindex/vendors/owl-carousel/css/owl.carousel.css">
     <link rel="stylesheet" href="../static/styleindex/vendors/owl-carousel/css/owl.theme.default.css">
 
     <!-- Bootstrap + Ollie main styles -->
-    <!--    <link rel="stylesheet" href="../static/styleindex/css/ollie.css">-->
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" class="bg-gray-900 text-white">
 
-<nav id="scrollspy" class="" data-spy="affix" data-offset-top="20">
+<nav id="scrollspy" class="fixed top-0 w-[100vw]" data-spy="affix" data-offset-top="20">
     <div class="flex relative mx-12 py-6 justify-center items-center">
         <a class="flex items-center absolute left-0 gap-3 font-semibold text-2xl" href="">
-            <img src="..static/styleindex/imgs/brand.svg" alt="" class="w-12 h-12">
+            <img src="../static/styleindex/imgs/logo.svg" alt="" class="w-12 h-12">
             HappyProgramming
         </a>
         <!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
@@ -53,16 +48,13 @@
     </div>
 </nav>
 
-
-<header id="home" class="header">
+<div id="home" class="h-[100vh] flex flex-col">
     <div class="overlay"></div>
-
     <div class="container">
-        <h1>Registration and Login with Spring Boot, Spring Security,
-            Thymeleaf, Hibernate and MySQL</h1>
-        Welcome <span sec:authentication="principal.username"> User</span>
+        <h1></h1>
+        <!--        Welcome <span sec:authentication="principal.username"> User</span>-->
     </div>
-    <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+    <div id="header-carousel" class="mt-20 carousel slide carousel-fade grow flex items-center" data-ride="carousel">
         <div class="container">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -79,7 +71,7 @@
         </div>
     </div>
 
-    <div class="infos container mb-4 mb-md-2">
+    <div class="flex justify-between mb-4 mx-16">
         <div class="title">
             <h6 class="subtitle font-weight-normal">Are locking for</h6>
             <h5>Lorem inpsum</h5>
@@ -105,4 +97,4 @@
             </div>
         </div>
     </div>
-</header>
+</div>

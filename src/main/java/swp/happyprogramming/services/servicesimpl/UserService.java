@@ -17,17 +17,12 @@ import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
-
-    private IUserRepository repository;
 
     @Autowired
     private IUserRepository userRepository;
@@ -36,33 +31,27 @@ public class UserService implements IUserService {
     @Autowired
     private IProfileRepository profileRepository;
 
-    public UserService(IUserRepository repository) {
-        super();
-        this.repository = repository;
-    }
-
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+
         User savedUser = userRepository.save(user);
-        userRepository.addUserRole(savedUser.getId(), userDTO.getRole());
+
+        System.out.println(userDTO.getRole());
+
+        userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
+
         UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
         profileRepository.save(profile);
-        user.setCreated(Date.from(Instant.now()));
-        user.setModified(Date.from(Instant.now()));
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
-        repository.save(user);
     }
 
     private boolean emailExists(String email) {
-        return repository.findByEmail(email) != null;
+        return userRepository.findByEmail(email) != null;
     }
 
     public boolean checkMentor(long userID) {
@@ -84,11 +73,15 @@ public class UserService implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findUserByEmail(username.trim());
+        User user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
+    }
+
+    public void signIn(UserDTO userDto) {
+
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
