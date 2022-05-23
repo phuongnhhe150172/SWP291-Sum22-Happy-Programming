@@ -8,8 +8,6 @@ import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMentorService;
-import swp.happyprogramming.services.ISkillService;
-import swp.happyprogramming.services.IUserService;
 
 import java.util.Optional;
 

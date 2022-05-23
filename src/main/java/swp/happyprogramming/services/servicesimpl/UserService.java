@@ -41,7 +41,6 @@ public class UserService implements IUserService {
 
         User savedUser = userRepository.save(user);
 
-        System.out.println(userDTO.getRole());
 
         userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
 
@@ -78,10 +77,6 @@ public class UserService implements IUserService {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
-    }
-
-    public void signIn(UserDTO userDto) {
-
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {

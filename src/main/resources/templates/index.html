@@ -19,7 +19,8 @@
 <nav id="scrollspy" class="fixed top-0 w-[100vw]" data-spy="affix" data-offset-top="20">
     <div class="flex relative mx-12 py-6 justify-center items-center">
         <a class="flex items-center absolute left-0 gap-3 font-semibold text-2xl" href="">
-            <img src="../static/styleindex/imgs/logo.svg" alt="" class="w-12 h-12">
+            <img src="../static/styleindex/imgs/logo.svg" th:src="@{/styleindex/imgs/logo.svg}" alt=""
+                 class="w-12 h-12">
             HappyProgramming
         </a>
         <!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
@@ -52,7 +53,7 @@
     <div class="overlay"></div>
     <div class="container">
         <h1></h1>
-        <!--        Welcome <span sec:authentication="principal.username"> User</span>-->
+<!--                Welcome <span sec:authentication="principal.username"> User</span>-->
     </div>
     <div id="header-carousel" class="mt-20 carousel slide carousel-fade grow flex items-center" data-ride="carousel">
         <div class="container">

@@ -31,7 +31,7 @@ public class MentorProfileController {
     private IWardService wardService;
 
     @GetMapping("/mentor/profile/{id}")
-    public String getProfile(Model model, @PathVariable String id) {
+    public String viewProfilePublic(Model model, @PathVariable String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
@@ -123,7 +123,7 @@ public class MentorProfileController {
     }
 
     @GetMapping("/mentor/profile/view")
-    public String viewProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
+    public String viewMentorProfilePrivate(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
