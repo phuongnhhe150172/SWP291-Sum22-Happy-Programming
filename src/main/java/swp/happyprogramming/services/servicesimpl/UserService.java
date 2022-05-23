@@ -38,8 +38,13 @@ public class UserService implements IUserService {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
+
         User savedUser = userRepository.save(user);
+
+        System.out.println(userDTO.getRole());
+
         userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
+
         UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
         profileRepository.save(profile);
