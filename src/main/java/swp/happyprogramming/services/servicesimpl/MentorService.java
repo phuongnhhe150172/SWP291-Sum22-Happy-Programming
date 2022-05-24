@@ -11,6 +11,7 @@ import swp.happyprogramming.services.IMentorService;
 import swp.happyprogramming.services.ISkillService;
 import swp.happyprogramming.services.IUserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,9 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private IAddressRepository addressRepository;
+
+    @Autowired
+    private IExperienceRepository experienceRepository;
 
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -75,7 +79,7 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-    public void updateMentor(long id, MentorDTO mentorDTO, long wardId) {
+    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, List<String> experieceValue) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
@@ -103,6 +107,8 @@ public class MentorService implements IMentorService {
             address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
             address.setWardID(wardId);
             addressRepository.save(address);
+
+
         }
     }
 }

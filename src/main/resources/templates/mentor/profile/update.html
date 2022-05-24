@@ -116,8 +116,14 @@
             </div>
 
             <div class="experience-content grid grid-cols-2 gap-4">
+                <div class="block shadow-md" th:if="${listExperience != null}" th:each="experiece,state : ${listExperience}">
+                        <textarea th:text="${experiece.description}" th:value="${experiece.description}"
+                                  th:name="experieceValue" rows="4"
+                                  class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Your experience..."></textarea>
+                </div>
                 <div class="block shadow-md">
-                        <textarea id="experience" rows="4"
+                        <textarea th:name="experieceValue" rows="4"
                                   class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"
                                   placeholder="Your experience..."></textarea>
                 </div>
@@ -226,7 +232,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#button-add-experience').on('click', function () {
-            $('.experience-content').append('<div class="block shadow-md"><textarea id="message" rows="4"class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"placeholder="Your experience..."></textarea></div>');
+            $('.experience-content').append('<div class="block shadow-md"><textarea name="experieceValue"rows="4"class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"placeholder="Your experience..."></textarea></div>');
         });
     });
 

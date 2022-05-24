@@ -8,11 +8,10 @@ import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.dto.WardDTO;
-import swp.happyprogramming.services.IDistrictService;
-import swp.happyprogramming.services.IMentorService;
-import swp.happyprogramming.services.IProvinceService;
-import swp.happyprogramming.services.IWardService;
+import swp.happyprogramming.model.Experience;
+import swp.happyprogramming.services.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,9 @@ public class MentorProfileController {
 
     @Autowired
     private IWardService wardService;
+
+    @Autowired
+    private IExperienceService experienceService;
 
     @GetMapping("/mentor/profile/{id}")
     public String getProfile(Model model, @PathVariable String id) {
@@ -51,13 +53,15 @@ public class MentorProfileController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             long wardId = wardService.getWardIdByProfileId(mentorDTO.getProfileId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
             List<WardDTO> listWard = wardService.findAllWard(districtId);
+
+            ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("listProvinces", listProvinces);
@@ -67,6 +71,7 @@ public class MentorProfileController {
             model.addAttribute("provinceId", provinceId);
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("listWard", listWard);
+            model.addAttribute("listExperience",listExperience);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
@@ -76,11 +81,13 @@ public class MentorProfileController {
 
     @PostMapping("/mentor/profile/update")
     public String updateProfileMentor(@ModelAttribute("mentor") MentorDTO mentor,
-                                      @RequestParam Map<String, String> params) {
+                                      @RequestParam Map<String, Object> params,
+                                      @RequestParam("experieceValue") List<String> experieceValue) {
         try {
-            long mentorId = Integer.parseInt(params.get("mentorId"));
-            long wardId = Integer.parseInt(params.get("wardId"));
-            mentorService.updateMentor(mentorId, mentor, wardId);
+            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
+            long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
+
+            mentorService.updateMentor(mentorId, mentor, wardId, experieceValue);
 
             return "redirect:view?id=" + mentorId;
         } catch (NumberFormatException e) {
@@ -127,7 +134,10 @@ public class MentorProfileController {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
+
             model.addAttribute("mentor", mentorDTO);
+            model.addAttribute("listExperience",listExperience);
             return "mentor/profile/view";
         } catch (NumberFormatException e) {
             return "redirect:index";
