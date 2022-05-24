@@ -35,12 +35,15 @@ public class UserService implements IUserService {
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
+        saveUser(userDTO);
+    }
+
+    private void saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
 
         User savedUser = userRepository.save(user);
-
 
         userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
 

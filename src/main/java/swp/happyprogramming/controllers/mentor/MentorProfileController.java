@@ -51,26 +51,29 @@ public class MentorProfileController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
+
             long wardId = wardService.getWardIdByProfileId(mentorDTO.getProfileId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
             List<WardDTO> listWard = wardService.findAllWard(districtId);
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
 
             model.addAttribute("mentor", mentorDTO);
-            model.addAttribute("listProvinces", listProvinces);
             model.addAttribute("mentorId", mentorId);
+
             model.addAttribute("wardId", wardId);
             model.addAttribute("districtId", districtId);
             model.addAttribute("provinceId", provinceId);
-            model.addAttribute("listDistrict", listDistrict);
+
             model.addAttribute("listWard", listWard);
+            model.addAttribute("listDistrict", listDistrict);
+            model.addAttribute("listProvinces", listProvinces);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return "redirect:/index";
         }
     }
 

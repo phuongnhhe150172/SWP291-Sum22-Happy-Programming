@@ -25,4 +25,9 @@ public class Address {
 
     @Column(name = "profile_id")
     private long profileID;
+
+    public Address() {
+        this.name = "";
+        this.wardID = 1;
+    }
 }
