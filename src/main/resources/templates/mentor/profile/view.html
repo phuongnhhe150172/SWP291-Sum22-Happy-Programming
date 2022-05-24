@@ -19,7 +19,7 @@
         <div class="flex items-center gap-10">
             <div
                     class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img th:src="@{/static/styleindex/imgs/logo.svg}" src="../../static/styleindex/imgs/logo.svg" alt=""/>
+                <img th:src="@{/styleindex/imgs/logo.svg}" src="../../static/styleindex/imgs/logo.svg" alt=""/>
                 Happy Programming
             </div>
             <div class="flex items-center gap-4 font-semibold">
@@ -31,7 +31,7 @@
         </div>
         <div class="">
             <img
-                    src="/styleindex/imgs/avatar1.jpg"
+                    th:src="@{/styleindex/imgs/avatar1.jpg}"
                     alt=""
                     class="w-8 h-8 rounded-full"/>
         </div>
@@ -137,7 +137,7 @@
                           d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"/>
                 </svg>
                 DOB:
-                <p th:text="${mentor.dob}">30/4/1975</p>
+                <p th:text="${#dates.format(mentor.dob,'dd-MM-yyyy')}">30/4/1975</p>
             </div>
             <div class="flex items-center gap-4 my-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -236,7 +236,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Member since
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.created}">
+                    <p class="font-normal text-gray-400" th:text="${#dates.format(mentor.created,'dd-MM-yyyy')}">
                         May 19, 2022
                     </p>
                 </div>
