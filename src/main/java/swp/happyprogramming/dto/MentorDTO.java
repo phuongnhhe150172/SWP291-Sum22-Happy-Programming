@@ -22,7 +22,6 @@ public class MentorDTO {
     private String email;
     private ArrayList<Skill> skills;
     private ArrayList<Experience> experiences;
-//    private ArrayList<Skill> skills;
     private int gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
@@ -30,7 +29,6 @@ public class MentorDTO {
     private String address;
     private String bio;
     private String school;
-//    private String method;
     private float price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;

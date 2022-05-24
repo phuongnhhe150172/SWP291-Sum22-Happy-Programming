@@ -33,9 +33,7 @@ public class MentorService implements IMentorService {
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
-        if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) {
-            return null;
-        }
+        if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) return null;
         UserProfile profile = optionalUserProfile.get();
         User user = optionalUser.get();
         MentorDTO mentorDTO = combineUserAndProfile(user, profile);
@@ -46,7 +44,7 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-    public MentorDTO combineUserAndProfile(User user, UserProfile profile) {
+    private MentorDTO combineUserAndProfile(User user, UserProfile profile) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
 
@@ -71,7 +69,7 @@ public class MentorService implements IMentorService {
         }
     }
 
-    void updateUserAndProfile(User user, UserProfile profile, MentorDTO mentorDTO) {
+    private void updateUserAndProfile(User user, UserProfile profile, MentorDTO mentorDTO) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setEmail(mentorDTO.getEmail());
@@ -86,7 +84,7 @@ public class MentorService implements IMentorService {
         profileRepository.save(profile);
     }
 
-    void updateAddress(long wardID, long profileID) {
+    private void updateAddress(long wardID, long profileID) {
         Ward ward = wardRepository.findById(wardID).orElse(new Ward());
         District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
