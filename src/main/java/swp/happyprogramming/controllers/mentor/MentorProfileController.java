@@ -134,10 +134,8 @@ public class MentorProfileController {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
 
             model.addAttribute("mentor", mentorDTO);
-            model.addAttribute("listExperience",listExperience);
             return "mentor/profile/view";
         } catch (NumberFormatException e) {
             return "redirect:index";

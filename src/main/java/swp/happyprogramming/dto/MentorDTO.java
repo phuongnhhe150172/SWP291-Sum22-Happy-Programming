@@ -21,7 +21,7 @@ public class MentorDTO {
     private String lastName;
     private String email;
     private ArrayList<Skill> skills;
-    private ArrayList<Experience> experiences;
+    private ArrayList<ExperienceDTO> experiences;
 //    private ArrayList<Skill> skills;
     private int gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

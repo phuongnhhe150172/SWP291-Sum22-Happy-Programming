@@ -3,6 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.ExperienceDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
@@ -53,35 +54,33 @@ public class MentorService implements IMentorService {
             UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
             Address address = addressRepository.findByProfileID(profile.getId()).orElse(null);
-
-            ModelMapper mapper = new ModelMapper();
-            MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-
-            mentorDTO.setId(user.getId());
-            mentorDTO.setProfileId(profile.getId());
-            mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
-            mentorDTO.setFirstName(user.getFirstName());
-            mentorDTO.setLastName(user.getLastName());
-            mentorDTO.setEmail(user.getEmail());
-
-            if (address == null) {
-                mentorDTO.setAddress("");
-            } else {
-                mentorDTO.setAddress(address.getName());
-            }
+            ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
+            //set data to mentorDTO
+            MentorDTO mentorDTO = combineUserAndProfile(user,profile,listExperience,address);
             return mentorDTO;
         } else {
             return null;
         }
     }
 
-    public MentorDTO combineUserAndProfile(User user, UserProfile profile) {
+    private MentorDTO combineUserAndProfile(User user, UserProfile profile,ArrayList<Experience> listExperience,Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-        mentorDTO.setExperiences(experienceService.getAllExperienceByProfileID(profile.getId()));
+        List<ExperienceDTO> listExperienceDTO = listExperience.stream().map(value -> mapper.map(value, ExperienceDTO.class)).collect(Collectors.toList());
+
+        mentorDTO.setId(user.getId());
+        mentorDTO.setProfileId(profile.getId());
+        mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
         mentorDTO.setFirstName(user.getFirstName());
         mentorDTO.setLastName(user.getLastName());
         mentorDTO.setEmail(user.getEmail());
+        mentorDTO.setExperiences((ArrayList<ExperienceDTO>) listExperienceDTO);
+
+        if (address == null) {
+            mentorDTO.setAddress("");
+        } else {
+            mentorDTO.setAddress(address.getName());
+        }
         return mentorDTO;
     }
 
@@ -143,7 +142,8 @@ public class MentorService implements IMentorService {
         List<MentorExperience> listMentorExperience = listExperience.stream()
                 .map(value -> new MentorExperience(profile.getId(), value.getId())).collect(Collectors.toList());
 
-        mentorExperienceRepository.deleteAll(listMentorExperience);
+        listMentorExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(value.getMentorId(),value.getExperienceId()));
+//        mentorExperienceRepository.deleteAll(listMentorExperience);
         experienceRepository.deleteAllById(listIdExperience);
     }
 
@@ -155,6 +155,8 @@ public class MentorService implements IMentorService {
         ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
         List<MentorExperience> listMentorExperienceWillSave = listExperienceSaved.stream()
                 .map(value -> new MentorExperience(profile.getId(), value.getId())).collect(Collectors.toList());
-        mentorExperienceRepository.saveAll(listMentorExperienceWillSave);
+        listMentorExperienceWillSave.forEach(value ->
+                profileRepository.insertByMentorIdAndExperienceId(value.getMentorId(),value.getExperienceId()));
+//        mentorExperienceRepository.saveAll(listMentorExperienceWillSave);
     }
 }

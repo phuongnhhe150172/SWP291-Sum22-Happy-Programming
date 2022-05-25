@@ -198,7 +198,7 @@
         <div class="">
             <h2 class="my-4 text-xl">Experience</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div th:each="experience,state : ${listExperience}"
+                <div th:each="experience,state : ${mentor.experiences}"
                      class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <p class="font-normal text-gray-200" th:text="${experience.description}">
                         Admin HSHB Gen 3 và Gen 4.
