@@ -21,8 +21,13 @@ public class Address {
     private String name;
 
     @Column(name = "ward_id")
-    private int wardID;
+    private long wardID;
 
     @Column(name = "profile_id")
-    private int profileID;
+    private long profileID;
+
+    public Address() {
+        this.name = "";
+        this.wardID = 1;
+    }
 }

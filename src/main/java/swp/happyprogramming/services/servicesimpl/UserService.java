@@ -35,11 +35,18 @@ public class UserService implements IUserService {
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
+        saveUser(userDTO);
+    }
+
+    private void saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
+
         User savedUser = userRepository.save(user);
+
         userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
+
         UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
         profileRepository.save(profile);
@@ -73,10 +80,6 @@ public class UserService implements IUserService {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
-    }
-
-    public void signIn(UserDTO userDto) {
-
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
