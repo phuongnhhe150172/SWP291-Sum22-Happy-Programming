@@ -9,7 +9,6 @@ import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.dto.WardDTO;
-import swp.happyprogramming.services.*;
 import swp.happyprogramming.services.servicesimpl.DistrictService;
 import swp.happyprogramming.services.servicesimpl.MentorService;
 import swp.happyprogramming.services.servicesimpl.ProvinceService;
@@ -21,29 +20,26 @@ import java.util.Map;
 @Controller
 public class MentorProfileController {
     @Autowired
-    private IMentorService mentorService;
+    private MentorService mentorService;
 
     @Autowired
-    private IProvinceService provinceService;
+    private ProvinceService provinceService;
 
     @Autowired
-    private IDistrictService districtService;
+    private DistrictService districtService;
 
     @Autowired
-    private IWardService wardService;
+    private WardService wardService;
 
     @GetMapping("/mentor/profile/{id}")
-    public String getProfile(Model model, @PathVariable String id) {
+    public String getProfile(WebRequest request, Model model, @PathVariable String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            if (mentorDTO == null) {
-                return "redirect:index";
-            }
             model.addAttribute("mentor", mentorDTO);
             return "profile";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return "redirect:/index";
         }
     }
 

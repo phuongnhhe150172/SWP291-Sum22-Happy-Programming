@@ -4,36 +4,131 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import swp.happyprogramming.dto.WardDTO;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.model.UserProfile;
 import swp.happyprogramming.model.Ward;
-import swp.happyprogramming.services.servicesimpl.UserService;
-import swp.happyprogramming.services.servicesimpl.WardService;
+import swp.happyprogramming.services.servicesimpl.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MenteeController {
+
     @Autowired
-    private UserService userService;
+    private MenteeService menteeService;
+
+    @Autowired
+    private ProvinceService provinceService;
+
+    @Autowired
+    private DistrictService districtService;
 
     @Autowired
     private WardService wardService;
 
-    @GetMapping("/updateUser/{id}")
-    public String updateUser(@Param(value = "id") long id, Model model){
-       User user = userService.findById(id);
-       model.addAttribute("firstName", user.getFirstName());
-       model.addAttribute("lastName", user.getLastName());
+    @GetMapping("/mentee/profile/{id}")
+    public String getProfile(WebRequest request, Model model, @PathVariable String id) {
+        try {
+            long menteeId = Integer.parseInt(id);
+            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+            model.addAttribute("mentee", menteeDTO);
+            return "profile";
+        } catch (NumberFormatException e) {
+            return "redirect:/index";
+        }
+    }
 
-       UserProfile userProfile = userService.findProfileByUserID(id).get();
-       model.addAttribute("gender", userProfile.getGender());
-       model.addAttribute("dob",userProfile.getDob());
-       model.addAttribute("phoneNumber", userProfile.getPhoneNumber());
+    @GetMapping("/mentee/profile/update")
+    public String updateProfileMentee(Model model, @RequestParam(value = "id", required = false) String id) {
+        try {
+            long menteeId = Integer.parseInt(id);
 
-       return "/mentee/UpdateMenteeProfile";
+            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
+            long wardId = wardService.getWardIdByProfileId(menteeDTO.getProfileId());
+            long districtId = districtService.getDistrictIdByWardId(wardId);
+            long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
+
+            List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
+            List<WardDTO> listWard = wardService.findAllWard(districtId);
+
+            model.addAttribute("mentee", menteeDTO);
+            model.addAttribute("listProvinces", listProvinces);
+            model.addAttribute("mentorId",menteeId);
+            model.addAttribute("wardId",wardId);
+            model.addAttribute("districtId",districtId);
+            model.addAttribute("provinceId",provinceId);
+            model.addAttribute("listDistrict", listDistrict);
+            model.addAttribute("listWard",listWard);
+
+            return "mentee/profile/update";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
+
+    @PostMapping("/mentee/profile/update")
+    public String updateProfileMentee(Model model,@ModelAttribute("mentee") MenteeDTO mentee,
+                                      @RequestParam Map<String,String> params){
+        try{
+            long menteeId = Integer.parseInt(params.get("menteeId"));
+            long wardId = Integer.parseInt(params.get("wardId"));
+            menteeService.updateMentee(menteeId,mentee,wardId);
+
+            return "redirect:view?id=" + String.valueOf(menteeId);
+        }catch (NumberFormatException e){
+            return "redirect:index";
+        }
+    }
+
+    @GetMapping("/mentee/profile/update/district")
+    public String updateDistrictByProvinceId(Model model, @RequestParam(value = "provinceId", required = false) String provinceId,
+                                             @RequestParam(value = "districtId", required = false) String districtId) {
+        try {
+            long province = Integer.parseInt(provinceId);
+            long district = Integer.parseInt(districtId);
+
+            List<DistrictDTO> listDistrict = districtService.findAllDistrict(province);
+            model.addAttribute("listDistrict", listDistrict);
+            model.addAttribute("dis",district);
+
+            return "mentee/profile/area/district";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
+
+    @GetMapping("/mentee/profile/update/ward")
+    public String updateWardByDistrictId(Model model, @RequestParam(value = "districtId", required = false) String districtId,
+                                         @RequestParam(value = "wardId", required = false) String wardId) {
+        try {
+            long district = Integer.parseInt(districtId);
+            long ward = Integer.parseInt(wardId);
+
+            List<WardDTO> listWard = wardService.findAllWard(district);
+            model.addAttribute("listWard",listWard);
+            model.addAttribute("war",ward);
+
+            return "mentee/profile/area/ward";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
+
+    @GetMapping("/mentee/profile/view")
+    public String viewProfileMentee(Model model, @RequestParam(value = "id", required = false) String id) {
+        try {
+            long menteeId = Integer.parseInt(id);
+            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+            model.addAttribute("mentee", menteeDTO);
+            return "mentee/profile/view";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
     }
 
 }

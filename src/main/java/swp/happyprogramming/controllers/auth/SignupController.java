@@ -39,8 +39,4 @@ public class SignupController {
         return new ModelAndView("login", "user", userDto);
     }
 
-    @GetMapping("/login")
-    public String signinPage() {
-        return "login";
-    }
 }
