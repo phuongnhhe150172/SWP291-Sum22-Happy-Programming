@@ -44,9 +44,6 @@ public class MentorService implements IMentorService {
     @Autowired
     private IExperienceRepository experienceRepository;
 
-    @Autowired
-    private IMentorExperienceRepository mentorExperienceRepository;
-
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
@@ -139,11 +136,8 @@ public class MentorService implements IMentorService {
     private void deleteExperienceAndMentorExperience(UserProfile profile){
         ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
         List<Long> listIdExperience = listExperience.stream().map(value -> value.getId()).collect(Collectors.toList());
-        List<MentorExperience> listMentorExperience = listExperience.stream()
-                .map(value -> new MentorExperience(profile.getId(), value.getId())).collect(Collectors.toList());
 
-        listMentorExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(value.getMentorId(),value.getExperienceId()));
-//        mentorExperienceRepository.deleteAll(listMentorExperience);
+        listExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(profile.getId(),value.getId()));
         experienceRepository.deleteAllById(listIdExperience);
     }
 
@@ -153,10 +147,8 @@ public class MentorService implements IMentorService {
 
         experienceRepository.saveAll(listExperienceWillSave);
         ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
-        List<MentorExperience> listMentorExperienceWillSave = listExperienceSaved.stream()
-                .map(value -> new MentorExperience(profile.getId(), value.getId())).collect(Collectors.toList());
-        listMentorExperienceWillSave.forEach(value ->
-                profileRepository.insertByMentorIdAndExperienceId(value.getMentorId(),value.getExperienceId()));
-//        mentorExperienceRepository.saveAll(listMentorExperienceWillSave);
+
+        listExperienceSaved.forEach(value ->
+                profileRepository.insertByMentorIdAndExperienceId(profile.getId(),value.getId()));
     }
 }
