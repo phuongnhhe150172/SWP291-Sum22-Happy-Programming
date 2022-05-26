@@ -27,7 +27,10 @@ public class MentorDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String phoneNumber;
-    private String address;
+    private String ward;
+    private String district;
+    private String province;
+    private String street;
     private String bio;
     private String school;
 //    private String method;

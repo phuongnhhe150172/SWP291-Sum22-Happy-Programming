@@ -64,6 +64,9 @@ public class MentorService implements IMentorService {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
         List<ExperienceDTO> listExperienceDTO = listExperience.stream().map(value -> mapper.map(value, ExperienceDTO.class)).collect(Collectors.toList());
+        Ward ward = wardRepository.findById(address.getWardID()).orElse(null);
+        District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
+        Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
 
         mentorDTO.setId(user.getId());
         mentorDTO.setProfileId(profile.getId());
@@ -72,11 +75,14 @@ public class MentorService implements IMentorService {
         mentorDTO.setLastName(user.getLastName());
         mentorDTO.setEmail(user.getEmail());
         mentorDTO.setExperiences((ArrayList<ExperienceDTO>) listExperienceDTO);
+        mentorDTO.setWard(ward.getName());
+        mentorDTO.setDistrict(district.getName());
+        mentorDTO.setProvince(province.getName());
 
         if (address == null) {
-            mentorDTO.setAddress("");
+            mentorDTO.setStreet("");
         } else {
-            mentorDTO.setAddress(address.getName());
+            mentorDTO.setStreet(address.getName());
         }
         return mentorDTO;
     }
@@ -95,7 +101,7 @@ public class MentorService implements IMentorService {
             updateUserProfile(profile,mentorDTO);
 
             //update to table address
-            updateAddress(wardId,profile);
+            updateAddress(mentorDTO,wardId,profile);
 
             //delete
             deleteExperienceAndMentorExperience(profile);
@@ -122,13 +128,13 @@ public class MentorService implements IMentorService {
         profileRepository.save(profile);
     }
 
-    private void updateAddress(long wardId,UserProfile profile){
+    private void updateAddress(MentorDTO mentorDTO,long wardId,UserProfile profile){
         Ward ward = wardRepository.findById(wardId).orElse(null);
         District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
 
         Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wardId);
-        address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
+        address.setName(mentorDTO.getStreet());
         address.setWardID(ward.getId());
         addressRepository.save(address);
     }
