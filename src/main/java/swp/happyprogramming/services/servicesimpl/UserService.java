@@ -84,8 +84,7 @@ public class UserService implements IUserService {
 
     @Override
     public int countUsersByRolesLike(String role) {
-        int totalNunberOfMentors = userRepository.countUsersByRolesLike("ROLE_MENTOR");
-        return totalNunberOfMentors;
+        return userRepository.countUsersByRolesLike("ROLE_MENTOR");
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
