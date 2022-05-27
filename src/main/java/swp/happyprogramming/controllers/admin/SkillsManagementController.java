@@ -13,7 +13,7 @@ import swp.happyprogramming.services.servicesimpl.SkillService;
 import java.util.List;
 
 @Controller
-public class SkillController {
+public class SkillsManagementController {
     @Autowired
     private SkillService skillService;
 

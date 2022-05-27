@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import swp.happyprogramming.services.IUserService;
 
 @Controller
+@RequestMapping("/admin")
 public class DashboardController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("")
+    @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model){
         int totalNumberOfMentors = userService.countUsersByRolesLike("ROLE_MENTOR");
         int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
