@@ -18,4 +18,6 @@ public interface IUserService extends UserDetailsService {
     Optional<UserProfile> findProfileByUserID(long userID);
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    int countUsersByRolesLike(String role);
 }

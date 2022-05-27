@@ -21,13 +21,22 @@ public class Role {
     public Role(int id) {
         this.id = id;
         if (id == 1) {
-            this.name = "mentor";
+            this.name = "ROLE_MENTOR";
         } else {
-            this.name = "mentee";
+            this.name = "ROLE_MENTEE";
         }
     }
 
     public Role() {
 
     }
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"))
+    Collection<User> users;
 }

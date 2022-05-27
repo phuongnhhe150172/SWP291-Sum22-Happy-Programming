@@ -44,4 +44,10 @@ public class UserRepositoryTest {
         User user = userRepository.findByEmail(email);
         Assertions.assertThat(user).isNotNull();
     }
+
+    @Test
+    public void testCountUserByRole(){
+        String role = "ROLE_MENTOR";
+        int total = userRepository.countUsersByRolesLike(role);
+    }
 }

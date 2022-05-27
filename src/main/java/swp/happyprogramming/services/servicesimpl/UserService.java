@@ -82,6 +82,12 @@ public class UserService implements IUserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
     }
 
+    @Override
+    public int countUsersByRolesLike(String role) {
+        int totalNunberOfMentors = userRepository.countUsersByRolesLike("ROLE_MENTOR");
+        return totalNunberOfMentors;
+    }
+
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
