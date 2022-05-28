@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import swp.happyprogramming.dto.DistrictDTO;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.ProvinceDTO;
-import swp.happyprogramming.dto.WardDTO;
+import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Experience;
+import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +30,9 @@ public class MentorProfileController {
 
     @Autowired
     private IExperienceService experienceService;
+
+    @Autowired
+    private ISkillService skillService;
 
     @GetMapping("/mentor/profile/{id}")
     public String getProfile(Model model, @PathVariable String id) {
@@ -62,6 +64,8 @@ public class MentorProfileController {
             List<WardDTO> listWard = wardService.findAllWard(districtId);
 
             ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
+            List<Skill> listSkill = skillService.getAllSkill();
+            Map<Skill,Integer> mapSkill = mentorService.findMapSkill(listSkill,mentorDTO.getSkills());
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("listProvinces", listProvinces);
@@ -72,6 +76,7 @@ public class MentorProfileController {
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("listWard", listWard);
             model.addAttribute("listExperience",listExperience);
+            model.addAttribute("mapSkill",mapSkill);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
@@ -82,12 +87,13 @@ public class MentorProfileController {
     @PostMapping("/mentor/profile/update")
     public String updateProfileMentor(@ModelAttribute("mentor") MentorDTO mentor,
                                       @RequestParam Map<String, Object> params,
-                                      @RequestParam("experieceValue") List<String> experieceValue) {
+                                      @RequestParam(value = "experieceValue" , required = false) List<String> experieceValue,
+                                      @RequestParam(value = "skillValue" , required = false) List<String> skillValue) {
         try {
             long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
 
-            mentorService.updateMentor(mentorId, mentor, wardId, experieceValue);
+            mentorService.updateMentor(mentorId, mentor, wardId, experieceValue,skillValue);
 
             return "redirect:view?id=" + mentorId;
         } catch (NumberFormatException e) {

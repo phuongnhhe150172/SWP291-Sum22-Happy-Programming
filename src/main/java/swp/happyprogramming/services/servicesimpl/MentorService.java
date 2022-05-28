@@ -5,17 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.ExperienceDTO;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.dto.SkillDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMentorService;
-import swp.happyprogramming.services.ISkillService;
-import swp.happyprogramming.services.IUserService;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +40,9 @@ public class MentorService implements IMentorService {
     @Autowired
     private IExperienceRepository experienceRepository;
 
+    @Autowired
+    private ISkillRepository skillRepository;
+
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
@@ -52,18 +51,21 @@ public class MentorService implements IMentorService {
             User user = optionalUser.get();
             Address address = addressRepository.findByProfileID(profile.getId()).orElse(null);
             ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
+            ArrayList<Skill> listSkill = skillRepository.findAllByUserId(user.getId());
             //set data to mentorDTO
-            MentorDTO mentorDTO = combineUserAndProfile(user,profile,listExperience,address);
+            MentorDTO mentorDTO = combineUserAndProfile(user,profile,listSkill,listExperience,address);
             return mentorDTO;
         } else {
             return null;
         }
     }
 
-    private MentorDTO combineUserAndProfile(User user, UserProfile profile,ArrayList<Experience> listExperience,Address address) {
+    private MentorDTO combineUserAndProfile(User user, UserProfile profile,ArrayList<Skill> listSkill,
+                                            ArrayList<Experience> listExperience,Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
         List<ExperienceDTO> listExperienceDTO = listExperience.stream().map(value -> mapper.map(value, ExperienceDTO.class)).collect(Collectors.toList());
+        List<SkillDTO> listSkillDTO = listSkill.stream().map(value -> mapper.map(value, SkillDTO.class)).collect(Collectors.toList());
         Ward ward = wardRepository.findById(address.getWardID()).orElse(null);
         District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
@@ -75,6 +77,7 @@ public class MentorService implements IMentorService {
         mentorDTO.setLastName(user.getLastName());
         mentorDTO.setEmail(user.getEmail());
         mentorDTO.setExperiences((ArrayList<ExperienceDTO>) listExperienceDTO);
+        mentorDTO.setSkills((ArrayList<SkillDTO>) listSkillDTO);
         mentorDTO.setWard(ward.getName());
         mentorDTO.setDistrict(district.getName());
         mentorDTO.setProvince(province.getName());
@@ -87,7 +90,7 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, List<String> experieceValue) {
+    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
@@ -103,12 +106,38 @@ public class MentorService implements IMentorService {
             //update to table address
             updateAddress(mentorDTO,wardId,profile);
 
-            //delete
+            //delete experience with mentor
             deleteExperienceAndMentorExperience(profile);
 
-            //save
-            saveExperienceAndMentorExperience(profile,experieceValue);
+            //save experience with mentor
+            saveExperienceAndMentorExperience(profile,experienceValue);
+
+            //delete skill with user
+            deleteUserSkills(user);
+
+            //save skill with user
+            if(skillValue != null){
+                saveUserSkills(user,skillValue);
+            }
+
         }
+    }
+
+    public Map<Skill,Integer> findMapSkill(List<Skill> listSkill, ArrayList<SkillDTO> listSkillDTO){
+        Map<Skill,Integer> mapSkill = new HashMap<>();
+        for (Skill skill:listSkill) {
+            boolean flag = false;
+            for (SkillDTO sk:listSkillDTO) {
+                if(sk.getId() == skill.getId()){
+                    mapSkill.put(skill,1);
+                    flag = true;
+                }
+            }
+            if(!flag){
+                mapSkill.put(skill,0);
+            }
+        }
+        return mapSkill;
     }
 
     private void updateUser(User user,MentorDTO mentorDTO){
@@ -156,5 +185,16 @@ public class MentorService implements IMentorService {
 
         listExperienceSaved.forEach(value ->
                 profileRepository.insertByMentorIdAndExperienceId(profile.getId(),value.getId()));
+    }
+
+    private void deleteUserSkills(User user){
+        ArrayList<Skill> listSkill = skillRepository.findAllByUserId(user.getId());
+
+        listSkill.forEach(value -> userRepository.deleteByUserIdAndSkillId(user.getId(),value.getId()));
+    }
+
+    private void saveUserSkills(User user,List<String> skillValue){
+        skillValue.forEach(value ->
+                userRepository.addSkillUser(user.getId(),Long.parseLong(value)));
     }
 }

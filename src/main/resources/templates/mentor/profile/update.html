@@ -125,6 +125,54 @@
             </div>
         </div>
 
+<!--        <div class="">-->
+<!--            <div class="w-full flex items-center justify-between">-->
+<!--                <h2 class="my-4 text-xl">Skills</h2>-->
+<!--                <div class="flex items-center justify-between">-->
+<!--                    <select id="skill"-->
+<!--                            class="m-2 bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-6 pr-9 py-2.5 hidden">-->
+<!--                        <option value="-1"> &#45;&#45; Choose Skills &#45;&#45; </option>-->
+<!--                        <option th:each="skill,state : ${listSkill}" th:text="${skill.name}" th:value="${skill.id}">Male</option>-->
+<!--                    </select>-->
+<!--                    <button type="button"-->
+<!--                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"-->
+<!--                            id="button-add-skill"><i class='bx bx-plus'></i></button>-->
+<!--                    <button type="button"-->
+<!--                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2 hidden"-->
+<!--                            id="button-remove-skill"><i class='bx bx-x'></i></button>-->
+<!--                    <button type="button"-->
+<!--                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"-->
+<!--                            id="button-minus-skill"><i class='bx bx-minus'></i></button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="">-->
+<!--                <div class="skill-container block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">-->
+<!--                    <div th:each="skill,state : ${mentor.skills}" th:text="${skill.id}"-->
+<!--                            type="button"-->
+<!--                            class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-gray-700">Math-->
+<!--                        <input type="hidden" th:name="skillValue" th:value="${skill.id}">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="">
+            <h2 class="my-4 text-xl">Skills</h2>
+
+            <div class="">
+                <div class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 flex flex-wrap">
+                    <div class="flex items-center m-2" th:each="skill,state : ${mapSkill.keySet()}">
+                        <input th:attr="id=${'inline-checkbox' + skill.id}" type="checkbox"
+                               th:value="${skill.id}" th:name="skillValue" th:checked="${mapSkill.get(skill) == 1}"
+                               class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label th:attr="for=${'inline-checkbox' + skill.id}" th:text="${skill.name}"
+                               class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Inline 1</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="">
             <h2 class="mt-4 mb-6 text-xl">Additional information</h2>
             <div class="grid grid-cols-2 gap-4">
@@ -245,6 +293,39 @@
     $(document).ready(function () {
         $('#button-minus-experience').on('click', function () {
             $('.experience-content').find("div:last").remove();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#button-add-skill').on('click', function () {
+            $("#skill").show();
+            $("#button-remove-skill").show();
+            $("#button-add-skill").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#button-remove-skill').on('click', function () {
+            $("#skill").hide();
+            $("#button-add-skill").show();
+            $("#button-remove-skill").hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#skill').on('change', function () {
+            var skillId = $("#skill").val();
+            var skillText = $("#skill").find("option:selected").text();
+            if (skillId != -1) {
+                $(".skill-container").append('<button type="button"class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-gray-700">'+ skillText +'<input type="hidden" name="skillValue" value="'+skillId+'"></button>');
+            }
+
+        });
+    });
+
+    $(document).ready(function () {
+        $('#button-minus-skill').on('click', function () {
+            $(".skill-container").find("button:last").remove();
         });
     });
 
