@@ -20,7 +20,8 @@ public class DashboardController {
 
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
+        model.addAttribute("totalNumberOfRequests", 123);
 
-        return "DashboardAdmin";
+        return "admin/dashboard";
     }
 }
