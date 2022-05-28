@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,7 @@
         </div>
         <ul class="space-y-2">
             <li>
-                <a href="#"
+                <a href="/dashboard"
                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/request"
                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/mentor"
                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -47,18 +47,18 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/mentee"
                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                               clip-rule="evenodd"></path>
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Mentee</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Mentees</span>
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/skill"
                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -85,16 +85,16 @@
             </div>
             <div class="flex">
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white">142</h5>
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentors}"></h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentors</p>
                 </div>
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white">272</h5>
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentees}"></h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentees</p>
                 </div>
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white">272</h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentees</p>
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white"  th:text="${totalNumberOfRequests}">272</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of Requests</p>
                 </div>
             </div>
         </div>
