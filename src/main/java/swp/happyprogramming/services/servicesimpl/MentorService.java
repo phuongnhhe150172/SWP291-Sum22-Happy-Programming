@@ -6,12 +6,15 @@ import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.ExperienceDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.SkillDTO;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
-import swp.happyprogramming.services.IExperienceService;
+import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.services.IMentorService;
 
 import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +24,6 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private IExperienceService experienceService;
 
     @Autowired
     private IProvinceRepository provinceRepository;
@@ -196,5 +196,39 @@ public class MentorService implements IMentorService {
     private void saveUserSkills(User user,List<String> skillValue){
         skillValue.forEach(value ->
                 userRepository.addSkillUser(user.getId(),Long.parseLong(value)));
+    }
+
+    private void updateUserAndProfile(User user, UserProfile profile, MentorDTO mentorDTO) {
+        user.setFirstName(mentorDTO.getFirstName());
+        user.setLastName(mentorDTO.getLastName());
+        user.setEmail(mentorDTO.getEmail());
+        userRepository.save(user);
+
+        profile.setGender(mentorDTO.getGender());
+        profile.setDob(mentorDTO.getDob());
+        profile.setPhoneNumber(mentorDTO.getPhoneNumber());
+        profile.setBio(mentorDTO.getBio());
+        profile.setSchool(mentorDTO.getSchool());
+        profile.setPrice(mentorDTO.getPrice());
+        profileRepository.save(profile);
+    }
+
+    private void updateAddress(long wardID, long profileID) {
+        Ward ward = wardRepository.findById(wardID).orElse(new Ward());
+        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
+        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
+
+        Address address = addressRepository.findByProfileIDAndWardID(profileID, wardID);
+        address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
+        address.setWardID(wardID);
+        addressRepository.save(address);
+    }
+
+    @Override
+    public List<MentorDTO> getMentors() {
+        return userRepository.findUsersByRole("ROLE_MENTOR")
+                .stream()
+                .map(user -> findMentor(user.getId()))
+                .collect(Collectors.toList());
     }
 }

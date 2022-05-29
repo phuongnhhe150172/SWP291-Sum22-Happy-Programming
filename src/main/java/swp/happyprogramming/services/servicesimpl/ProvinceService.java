@@ -21,14 +21,14 @@ public class ProvinceService implements IProvinceService {
     @Autowired
     private IDistrictRepository districtRepository;
 
-    public List<ProvinceDTO> findAllProvinces(){
+    public List<ProvinceDTO> findAllProvinces() {
         ModelMapper mapper = new ModelMapper();
         List<Province> list = provinceRepository.findAll();
         return list.stream().map(value -> mapper.map(value, ProvinceDTO.class)).collect(Collectors.toList());
     }
 
-    public long getProvinceIdByDistrictId(long districtId){
-        District district = districtRepository.findById(districtId).orElse(null);
+    public long getProvinceIdByDistrictId(long districtId) {
+        District district = districtRepository.findById(districtId).orElse(new District());
         return district.getProvinceId();
     }
 }

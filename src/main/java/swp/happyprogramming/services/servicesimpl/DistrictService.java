@@ -29,7 +29,7 @@ public class DistrictService implements IDistrictService {
     }
 
     public long getDistrictIdByWardId(long wardId){
-        Ward ward = wardRepository.findById(wardId).orElse(null);
+        Ward ward = wardRepository.findById(wardId).orElse(new Ward());
         return ward.getDistrictId();
     }
 }

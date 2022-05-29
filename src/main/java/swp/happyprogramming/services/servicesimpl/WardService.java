@@ -21,14 +21,14 @@ public class WardService implements IWardService {
     @Autowired
     private IAddressRepository addressRepository;
 
-    public List<WardDTO> findAllWard(long districtId){
+    public List<WardDTO> findAllWard(long districtId) {
         ModelMapper mapper = new ModelMapper();
         List<Ward> list = wardRepository.findAllByDistrictId(districtId);
-        return list.stream().map(value -> mapper.map(value,WardDTO.class)).collect(Collectors.toList());
+        return list.stream().map(value -> mapper.map(value, WardDTO.class)).collect(Collectors.toList());
     }
 
-    public long getWardIdByProfileId(long profileId){
-        Address address = addressRepository.findByProfileID(profileId).orElse(null);
+    public long getWardIdByProfileId(long profileId) {
+        Address address = addressRepository.findByProfileID(profileId).orElse(new Address());
         return address.getWardID();
     }
 }

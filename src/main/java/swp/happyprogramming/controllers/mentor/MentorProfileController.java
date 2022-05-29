@@ -35,17 +35,15 @@ public class MentorProfileController {
     private ISkillService skillService;
 
     @GetMapping("/mentor/profile/{id}")
-    public String getProfile(Model model, @PathVariable String id) {
+    public String viewProfilePublic(Model model, @PathVariable String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            if (mentorDTO == null) {
-                return "redirect:index";
-            }
+            if (mentorDTO == null) return "redirect:index";
             model.addAttribute("mentor", mentorDTO);
             return "profile";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return "redirect:/index";
         }
     }
 
@@ -62,25 +60,26 @@ public class MentorProfileController {
             List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
             List<WardDTO> listWard = wardService.findAllWard(districtId);
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
 
             ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
             List<Skill> listSkill = skillService.getAllSkill();
             Map<Skill,Integer> mapSkill = mentorService.findMapSkill(listSkill,mentorDTO.getSkills());
 
             model.addAttribute("mentor", mentorDTO);
-            model.addAttribute("listProvinces", listProvinces);
             model.addAttribute("mentorId", mentorId);
+
             model.addAttribute("wardId", wardId);
             model.addAttribute("districtId", districtId);
             model.addAttribute("provinceId", provinceId);
-            model.addAttribute("listDistrict", listDistrict);
+
             model.addAttribute("listWard", listWard);
             model.addAttribute("listExperience",listExperience);
             model.addAttribute("mapSkill",mapSkill);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return "redirect:/index";
         }
     }
 
@@ -136,7 +135,7 @@ public class MentorProfileController {
     }
 
     @GetMapping("/mentor/profile/view")
-    public String viewProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
+    public String viewMentorProfilePrivate(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
