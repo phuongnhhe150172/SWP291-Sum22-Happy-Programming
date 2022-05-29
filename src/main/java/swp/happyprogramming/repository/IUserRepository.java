@@ -30,4 +30,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "delete from user_skills where user_id = ?1 and skill_id = ?2",nativeQuery = true)
     void deleteByUserIdAndSkillId(long userId,long skillId);
+
+    @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
+    int countUsersByRolesLike(String role);
+
+    @Query(value = "select * from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
+    List<User> findUsersByRole(String role);
 }

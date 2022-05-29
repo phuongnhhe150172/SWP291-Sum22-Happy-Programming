@@ -60,7 +60,6 @@ public class MentorProfileController {
             List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
             List<WardDTO> listWard = wardService.findAllWard(districtId);
-            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
 
             ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
             List<Skill> listSkill = skillService.getAllSkill();
@@ -73,6 +72,8 @@ public class MentorProfileController {
             model.addAttribute("districtId", districtId);
             model.addAttribute("provinceId", provinceId);
 
+            model.addAttribute("listProvinces",listProvinces);
+            model.addAttribute("listDistrict",listDistrict);
             model.addAttribute("listWard", listWard);
             model.addAttribute("listExperience",listExperience);
             model.addAttribute("mapSkill",mapSkill);
@@ -91,8 +92,9 @@ public class MentorProfileController {
         try {
             long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
+            long wa = Integer.parseInt(String.valueOf(params.get("wa")));
 
-            mentorService.updateMentor(mentorId, mentor, wardId, experieceValue,skillValue);
+            mentorService.updateMentor(mentorId, mentor, wardId, wa , experieceValue,skillValue);
 
             return "redirect:view?id=" + mentorId;
         } catch (NumberFormatException e) {

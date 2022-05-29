@@ -90,7 +90,7 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
+    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, long wa , List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
@@ -104,7 +104,7 @@ public class MentorService implements IMentorService {
             updateUserProfile(profile,mentorDTO);
 
             //update to table address
-            updateAddress(mentorDTO,wardId,profile);
+            updateAddress(mentorDTO,wardId,wa,profile);
 
             //delete experience with mentor
             deleteExperienceAndMentorExperience(profile);
@@ -157,14 +157,10 @@ public class MentorService implements IMentorService {
         profileRepository.save(profile);
     }
 
-    private void updateAddress(MentorDTO mentorDTO,long wardId,UserProfile profile){
-        Ward ward = wardRepository.findById(wardId).orElse(null);
-        District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
-        Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
-
-        Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wardId);
+    private void updateAddress(MentorDTO mentorDTO,long wardId,long wa,UserProfile profile){
+        Address address = addressRepository.findByProfileIDAndWardID(profile.getId(),wa);
         address.setName(mentorDTO.getStreet());
-        address.setWardID(ward.getId());
+        address.setWardID(wardId);
         addressRepository.save(address);
     }
 
@@ -196,32 +192,6 @@ public class MentorService implements IMentorService {
     private void saveUserSkills(User user,List<String> skillValue){
         skillValue.forEach(value ->
                 userRepository.addSkillUser(user.getId(),Long.parseLong(value)));
-    }
-
-    private void updateUserAndProfile(User user, UserProfile profile, MentorDTO mentorDTO) {
-        user.setFirstName(mentorDTO.getFirstName());
-        user.setLastName(mentorDTO.getLastName());
-        user.setEmail(mentorDTO.getEmail());
-        userRepository.save(user);
-
-        profile.setGender(mentorDTO.getGender());
-        profile.setDob(mentorDTO.getDob());
-        profile.setPhoneNumber(mentorDTO.getPhoneNumber());
-        profile.setBio(mentorDTO.getBio());
-        profile.setSchool(mentorDTO.getSchool());
-        profile.setPrice(mentorDTO.getPrice());
-        profileRepository.save(profile);
-    }
-
-    private void updateAddress(long wardID, long profileID) {
-        Ward ward = wardRepository.findById(wardID).orElse(new Ward());
-        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
-        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
-
-        Address address = addressRepository.findByProfileIDAndWardID(profileID, wardID);
-        address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
-        address.setWardID(wardID);
-        addressRepository.save(address);
     }
 
     @Override
