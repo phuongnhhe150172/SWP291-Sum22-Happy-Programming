@@ -69,11 +69,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<UserProfile> findProfileByUserID(long userID) {
-        return profileRepository.findByUserID(userID);
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user == null) {

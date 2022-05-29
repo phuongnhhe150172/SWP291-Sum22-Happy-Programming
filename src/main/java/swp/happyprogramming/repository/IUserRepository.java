@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
@@ -22,4 +23,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
+
+    @Query(value = "select * from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
+    List<User> findUsersByRole(String role);
 }
