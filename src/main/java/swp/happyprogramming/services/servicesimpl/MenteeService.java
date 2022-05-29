@@ -8,11 +8,14 @@ import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IExperienceService;
+import swp.happyprogramming.services.IMenteeService;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class MenteeService {
+public class MenteeService implements IMenteeService {
 
     @Autowired
     private IProfileRepository profileRepository;
@@ -60,6 +63,14 @@ public class MenteeService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<MenteeDTO> getAllMentees() {
+        return userRepository.findUsersByRole("ROLE_MENTEE")
+                .stream()
+                .map(user -> findMentee(user.getId()))
+                .collect(Collectors.toList());
     }
 
     public void updateMentee(Long id, MenteeDTO menteeDTO, long wardId){
