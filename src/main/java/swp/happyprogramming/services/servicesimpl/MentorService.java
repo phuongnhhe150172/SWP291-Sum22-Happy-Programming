@@ -3,13 +3,15 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMentorService;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MentorService implements IMentorService {
@@ -94,5 +96,13 @@ public class MentorService implements IMentorService {
         address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
         address.setWardID(wardID);
         addressRepository.save(address);
+    }
+
+    @Override
+    public List<MentorDTO> getMentors() {
+        return userRepository.findUsersByRole("ROLE_MENTOR")
+                .stream()
+                .map(user -> findMentor(user.getId()))
+                .collect(Collectors.toList());
     }
 }
