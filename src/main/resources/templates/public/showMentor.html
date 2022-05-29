@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Mentors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    div.online-indicator {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+
+        background-color: #0fcc45;
+        border-radius: 50%;
+
+        position: relative;
+    }
+
+    span.blink {
+        display: block;
+        width: 15px;
+        height: 15px;
+
+        background-color: #0fcc45;
+        opacity: 0.7;
+        border-radius: 50%;
+
+        animation: blink 1s linear infinite;
+    }
+
+    h2.online-text {
+        display: inline;
+
+        font-family: 'Rubik', sans-serif;
+        font-weight: 400;
+        text-shadow: 0px 3px 6px rgba(150, 150, 150, 0.2);
+
+        position: relative;
+        cursor: pointer;
+    }
+
+    /*Animations*/
+
+    @keyframes blink {
+        100% {
+            transform: scale(2, 2);
+            opacity: 0;
+        }
+    }
+</style>
+
+<body class="bg-gray-900 text-white font-['SF_Pro_Text']">
+    <nav class="w-full bg-gray-800 p-5">
+        <div class="max-w-[1230px] flex justify-between items-center mx-auto">
+            <div class="flex items-center gap-10">
+                <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
+                    <img th:src="@{/styleindex/imgs/logo.svg}" src="../../static/styleindex/imgs/logo.svg" alt="" />
+                    Happy Programming
+                </div>
+                <div class="flex items-center gap-6 font-semibold">
+                    <a href="" class="hover:text-gray-400">Home</a>
+                    <a href="" class="hover:text-gray-400">Skills</a>
+                </div>
+            </div>
+            <div class="">
+                <img th:src="@{/styleindex/imgs/avatar1.jpg}" src="../../static/styleindex/imgs/avatar1.jpg" alt=""
+                     class="w-8 h-8 rounded-full">
+            </div>
+        </div>
+    </nav>
+
+    <div class="grid grid-cols-4 gap-6 m-10" >
+        <th:block th:each="mentor: ${mentorList}">
+            <div class="max-w-sm bg-gray-800 rounded-lg border border-zinc-900 shadow-md">
+                <div class="flex justify-end px-4 pt-4">
+                    <div class="online-indicator">
+                        <span class="blink"></span>
+                    </div>
+                    <h2 class="online-text">Online</h2>
+                </div>
+
+
+                <div class="flex flex-col items-center pb-10">
+                    <img class="mb-3 w-24 h-24 rounded-full shadow-lg" th:src="@{/styleindex/imgs/avatar2.jpg}"  src="../../static/styleindex/imgs/avatar2.jpg"
+                         alt="Bonnie image" />
+                    <h5 class="mb-1 text-xl font-medium text-white" th:text="${mentor.getFirstName()+mentor.getLastName()}"> </h5>
+                    <div>
+                        <th:block th:each="skill: ${mentor.getSkills()}">
+                            <span class="text-sm text-white-200 border-2 rounded-md border-indigo-600 p-1" th:text="${skill.getName()}"></span>
+                        </th:block>
+                    </div>
+                    <div class="flex mt-4 space-x-3 lg:mt-6">
+                        <a href="#"
+                           class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">Send request</a>
+                        <a th:href="@{/category/edit/{id}(id=${mentor.getId()})}"
+                           class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">Profile</a>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
+    </div>
+
+
+</body>
