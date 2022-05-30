@@ -96,7 +96,7 @@ public class MenteeController {
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("dis",district);
 
-            return "mentee/profile/area/district";
+            return "components/area/district";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
@@ -113,7 +113,7 @@ public class MenteeController {
             model.addAttribute("listWard",listWard);
             model.addAttribute("war",ward);
 
-            return "mentee/profile/area/ward";
+            return "components/area/ward";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }

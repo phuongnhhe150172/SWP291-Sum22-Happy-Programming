@@ -113,7 +113,7 @@ public class MentorProfileController {
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("dis", district);
 
-            return "mentor/profile/area/district";
+            return "components/area/district";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
@@ -130,7 +130,7 @@ public class MentorProfileController {
             model.addAttribute("listWard", listWard);
             model.addAttribute("war", ward);
 
-            return "mentor/profile/area/ward";
+            return "components/area/ward";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
