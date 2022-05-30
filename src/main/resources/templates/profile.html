@@ -8,13 +8,12 @@
     <title th:text="${fullName}">Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-gray-900 text-white font-['SF_Pro_Text']">
 <nav class="w-full bg-gray-800 p-5">
     <div class="max-w-[1230px] flex justify-between items-center mx-auto">
         <div class="flex items-center gap-10">
             <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img th:src="@{/styleindex/imgs/logo.svg}" src="../static/styleindex/imgs/logo.svg" alt=""/>
+                <img th:src="@{/imgs/logo.svg}" src="../static/imgs/logo.svg" alt=""/>
                 Happy Programming
             </div>
             <div class="flex items-center gap-4 font-semibold">
@@ -23,7 +22,7 @@
             </div>
         </div>
         <div class="">
-            <img th:src="@{/styleindex/imgs/avatar1.jpg}" src="../static/styleindex/imgs/avatar3.jpg" alt=""
+            <img th:src="@{/imgs/avatar1.jpg}" src="../static/imgs/avatar3.jpg" alt=""
                  class="w-8 h-8 rounded-full">
         </div>
     </div>
@@ -82,7 +81,7 @@
 </div>
 <div class="max-w-[1250px] mx-auto grid lg:grid-cols-[20rem_1fr]" th:object="${mentor}">
     <div class="mt-[-2rem] px-4 flex flex-col">
-        <img th:src="@{/styleindex/imgs/avatar1.jpg}" src="../static/styleindex/imgs/avatar2.jpg"
+        <img th:src="@{/imgs/avatar1.jpg}" src="../static/imgs/avatar2.jpg"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto"
              alt="">
         <h1 class="text-2xl font-bold my-6" th:text="${fullName}">John Smith</h1>
@@ -155,14 +154,12 @@
         <div class="">
             <h2 class="my-4 text-xl">Experience</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
+                <div class="block p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <p class="font-normal text-gray-200">
                         Admin HSHB Gen 3 và Gen 4.
                     </p>
                 </div>
-                <div class="block p-6 rounded-lg border border-gray-200 shadow-md
-                bg-gray-800 border-gray-700 hover:bg-gray-700">
+                <div class="block p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
                     <p class="font-normal text-gray-200">
                         Admin HSHB Gen 3 và Gen 4.
                     </p>
@@ -173,8 +170,7 @@
             <h2 class="my-4 text-xl">Skills</h2>
             <div class="">
                 <div class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
-                    <div type="button"
-                         class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 bg-gray-700">
+                    <div class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2 bg-gray-700">
                         Math
                     </div>
                 </div>
