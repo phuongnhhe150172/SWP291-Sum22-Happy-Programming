@@ -20,4 +20,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT COUNT(*) FROM USER_ROLES WHERE USER_ID = ?1 AND ROLE_ID=1", nativeQuery = true)
     int checkMentor(long userID);
 
+    User findByResetPasswordToken(String token);
+
 }

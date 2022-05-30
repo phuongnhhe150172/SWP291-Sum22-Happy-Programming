@@ -92,4 +92,26 @@ public class UserService implements IUserService {
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token);
+        return user;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+        String Password = password.encode(newPassword);
+        user.setPassword(Password);
+        userRepository.save(user);
+    }
 }

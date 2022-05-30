@@ -32,6 +32,17 @@ public class User {
     @Column(name = "modified")
     private Date modified;
 
+    @Column(name = "password_token")
+    private String resetPasswordToken;
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",

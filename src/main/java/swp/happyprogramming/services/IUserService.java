@@ -23,4 +23,8 @@ public interface IUserService extends UserDetailsService {
 
     User findById(Long id);
 
+    void updateResetPasswordToken(String token, String email);
+    User getByResetPasswordToken(String token);
+    void updatePassword(User user, String newPassword);
+
 }
