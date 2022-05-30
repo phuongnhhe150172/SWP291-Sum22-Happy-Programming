@@ -35,6 +35,7 @@ public class MentorDTO {
     private float price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modified;
 
     public MentorDTO() {

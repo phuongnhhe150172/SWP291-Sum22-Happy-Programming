@@ -82,6 +82,11 @@ public class UserService implements IUserService {
         return userRepository.countUsersByRolesLike("ROLE_MENTOR");
     }
 
+    @Override
+    public int statusRequest(long mentorId, long menteeId) {
+        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId,menteeId).orElse(-1);
+    }
+
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }

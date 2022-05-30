@@ -124,6 +124,7 @@ public class MenteeController {
         try {
             long menteeId = Integer.parseInt(id);
             MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+
             model.addAttribute("mentee", menteeDTO);
             return "mentee/profile/view";
         } catch (NumberFormatException e) {

@@ -100,12 +100,27 @@
         </div>
     </div>
     <div class="mx-8 mb-2 w-48">
-        <a class="w-full my-[10px]" th:href="@{/mentee/profile/update(id=${mentee.id})}">
+        <div th:if="${status == -1}"
+                class="w-full my-[10px]">
             <button type="button"
                     class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                Edit profile
+                Connect
             </button>
-        </a>
+        </div>
+        <div th:if="${status == 1}"
+             class="w-full my-[10px]">
+            <button type="button"
+                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-green-600 text-white border-gray-600 cursor-default">
+                Connected
+            </button>
+        </div>
+        <div th:if="${status == 0}"
+             class="w-full my-[10px]">
+            <button type="button"
+                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 cursor-default">
+                Waiting
+            </button>
+        </div>
     </div>
     <div class="px-8 flex gap-6 my-2">
         <div class="flex items-center gap-2 text-gray-400">
@@ -140,12 +155,12 @@
                 Ha Noi</p>
         </div>
     </div>
-<!--    <div class="px-8 py-4">-->
-<!--        <div th:each="skill,state : ${mentor.skills}" th:text="${skill.name}"-->
-<!--             class="inline text-gray-400 font-medium rounded-lg text-sm px-3 py-2 mr-2 bg-gray-800/90">-->
-<!--            Java-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="px-8 py-4">-->
+    <!--        <div th:each="skill,state : ${mentor.skills}" th:text="${skill.name}"-->
+    <!--             class="inline text-gray-400 font-medium rounded-lg text-sm px-3 py-2 mr-2 bg-gray-800/90">-->
+    <!--            Java-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="px-8 py-4">
         <div
                 class="inline-block text-gray-400 border border-gray-700 font-medium rounded-lg text-sm px-12 py-2 mr-2 bg-gray-800">
@@ -153,20 +168,20 @@
 
         </div>
     </div>
-<!--    <hr class="border-t border-gray-700">-->
-<!--    <div class="p-8">-->
-<!--        <div class="">-->
-<!--            <h2 class="my-4 font-medium text-xl">Experiences</h2>-->
-<!--            <div class="flex gap-4">-->
-<!--                <div th:each="experience,state : ${mentor.experiences}"-->
-<!--                     class="block max-w-lg p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">-->
-<!--                    <p class="font-normal text-gray-200" th:text="${experience.description}">-->
-<!--                        Admin HSHB Gen 3.-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <hr class="border-t border-gray-700">-->
+    <!--    <div class="p-8">-->
+    <!--        <div class="">-->
+    <!--            <h2 class="my-4 font-medium text-xl">Experiences</h2>-->
+    <!--            <div class="flex gap-4">-->
+    <!--                <div th:each="experience,state : ${mentor.experiences}"-->
+    <!--                     class="block max-w-lg p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">-->
+    <!--                    <p class="font-normal text-gray-200" th:text="${experience.description}">-->
+    <!--                        Admin HSHB Gen 3.-->
+    <!--                    </p>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="max-w-full border-b border-gray-600 mt-6">
         <div class="max-w-[1250px] mx-auto grid grid-cols-4">
             <nav class="pl-8 flex gap-4">

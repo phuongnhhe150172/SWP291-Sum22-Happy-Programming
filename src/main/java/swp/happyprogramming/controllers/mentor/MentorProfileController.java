@@ -17,7 +17,13 @@ import java.util.Map;
 @Controller
 public class MentorProfileController {
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private IMentorService mentorService;
+
+    @Autowired
+    private IMenteeService menteeService;
 
     @Autowired
     private IProvinceService provinceService;
@@ -162,6 +168,25 @@ public class MentorProfileController {
 
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
+
+    @GetMapping("/mentor/view")
+    public String viewMenteeProfile(Model model,@RequestParam(value = "idOr", required = false) String idOr,
+                                    @RequestParam(value = "idEe", required = false) String idEe){
+        try {
+            long mentorId = Integer.parseInt(idOr);
+            long menteeId = Integer.parseInt(idEe);
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+            Integer status = userService.statusRequest(mentorDTO.getId(),menteeDTO.getId());
+
+            model.addAttribute("mentor", mentorDTO);
+            model.addAttribute("mentee",menteeDTO);
+            model.addAttribute("status",status);
+            return "mentor/view/menteeProfile";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
