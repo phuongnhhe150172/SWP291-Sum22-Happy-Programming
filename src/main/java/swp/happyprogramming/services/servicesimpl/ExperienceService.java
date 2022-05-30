@@ -2,7 +2,7 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dao.IExperienceRepository;
+import swp.happyprogramming.repository.IExperienceRepository;
 import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.services.IExperienceService;
 
