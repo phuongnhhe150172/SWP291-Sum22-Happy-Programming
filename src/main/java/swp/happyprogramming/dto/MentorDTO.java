@@ -20,13 +20,16 @@ public class MentorDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private ArrayList<Skill> skills;
-    private ArrayList<Experience> experiences;
+    private ArrayList<SkillDTO> skills;
+    private ArrayList<ExperienceDTO> experiences;
     private int gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String phoneNumber;
-    private String address;
+    private String ward;
+    private String district;
+    private String province;
+    private String street;
     private String bio;
     private String school;
     private float price;

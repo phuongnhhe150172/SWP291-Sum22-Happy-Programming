@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface IDistrictRepository extends JpaRepository<District,Long> {
-    public List<District> findAllByProvinceId(Long provinceId);
+    public List<District> findAllByProvinceId(long provinceId);
 }
