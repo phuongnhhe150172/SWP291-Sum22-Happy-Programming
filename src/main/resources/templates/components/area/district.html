@@ -19,7 +19,6 @@
     <option th:each="district,state : ${listDistrict}" th:value="${district.id}" th:utext="${district.name}"
             th:selected="${dis == district.id}"></option>
 </select>
-</body>
 
 <script>
     $(document).ready(function () {
@@ -35,12 +34,14 @@
                 },
                 method: "GET",
                 success: function (data) {
-                    console.log(2);
                     $("#ward-id").html(data);
                 }
             });
         });
     });
 </script>
+</body>
+
+
 
 </html>
