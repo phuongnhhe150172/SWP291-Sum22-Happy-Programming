@@ -106,9 +106,18 @@ public class MentorProfileController {
     public String updateDistrictByProvinceId(Model model, @RequestParam(value = "provinceId", required = false) String provinceId,
                                              @RequestParam(value = "districtId", required = false) String districtId) {
         try {
-            long province = Integer.parseInt(provinceId);
-            long district = Integer.parseInt(districtId);
-
+            long province;
+            long district;
+            if(provinceId == null){
+                province = -1;
+            }else{
+                province = Integer.parseInt(provinceId);
+            }
+            if(districtId == null){
+                district = -1;
+            }else{
+                district = Integer.parseInt(districtId);
+            }
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(province);
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("dis", district);
@@ -123,9 +132,18 @@ public class MentorProfileController {
     public String updateWardByDistrictId(Model model, @RequestParam(value = "districtId", required = false) String districtId,
                                          @RequestParam(value = "wardId", required = false) String wardId) {
         try {
-            long district = Integer.parseInt(districtId);
-            long ward = Integer.parseInt(wardId);
-
+            long district;
+            long ward;
+            if(districtId == null){
+                district = -1;
+            }else{
+                district = Integer.parseInt(districtId);
+            }
+            if(wardId == null){
+                ward = -1;
+            }else{
+                ward = Integer.parseInt(wardId);
+            }
             List<WardDTO> listWard = wardService.findAllWard(district);
             model.addAttribute("listWard", listWard);
             model.addAttribute("war", ward);

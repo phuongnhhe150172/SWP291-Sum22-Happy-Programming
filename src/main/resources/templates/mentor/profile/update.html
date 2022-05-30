@@ -349,6 +349,26 @@
             });
         });
     });
+
+    $(document).ready(function () {
+        $('#district').on('change', function () {
+            var districtId = $("#district").val();
+            var wardId = $("#ward").val();
+            $("#error").html("");
+            $.ajax({
+                url: "/mentor/profile/update/ward",
+                data: {
+                    districtId: districtId,
+                    wardId: wardId
+                },
+                method: "GET",
+                success: function (data) {
+                    console.log(1);
+                    $("#ward-id").html(data);
+                }
+            });
+        });
+    });
 </script>
 </body>
 
