@@ -15,7 +15,7 @@ public interface IMentorService {
 
     void updateMentor(long mentorId, MentorDTO mentor, long wardId, long wa , List<String> experieceValue, List<String> skillValue);
 
-    Map<Skill,Integer> findMapSkill(List<Skill> listSkill, ArrayList<SkillDTO> listSkillDTO);
+    Map<Skill,Integer> findMapSkill(List<Skill> listSkill, List<SkillDTO> listSkillDTO);
 
     List<MentorDTO> getMentors();
 }
