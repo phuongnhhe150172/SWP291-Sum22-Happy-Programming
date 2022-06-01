@@ -26,11 +26,8 @@ CREATE TABLE `address` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `ward_id` int DEFAULT NULL,
-  `profile_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `profileidaddress_idx` (`profile_id`),
   KEY `wardidaddress_idx` (`ward_id`),
-  CONSTRAINT `profileidaddress` FOREIGN KEY (`profile_id`) REFERENCES `user_profiles` (`id`),
   CONSTRAINT `wardidaddress` FOREIGN KEY (`ward_id`) REFERENCES `ward` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,6 +39,59 @@ CREATE TABLE `address` (
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `answers`
+--
+
+DROP TABLE IF EXISTS `answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `answers` (
+  `id` int NOT NULL,
+  `question_id` int DEFAULT NULL,
+  `answer` varchar(45) DEFAULT NULL,
+  `is_correct` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `questionidanswer_idx` (`question_id`),
+  CONSTRAINT `questionidanswer` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `answers`
+--
+
+LOCK TABLES `answers` WRITE;
+/*!40000 ALTER TABLE `answers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `answers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `attachments`
+--
+
+DROP TABLE IF EXISTS `attachments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `attachments` (
+  `id` int NOT NULL,
+  `message_id` int DEFAULT NULL,
+  `file_url` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `messidattch_idx` (`message_id`),
+  CONSTRAINT `messidattch` FOREIGN KEY (`message_id`) REFERENCES `chat_messages` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `attachments`
+--
+
+LOCK TABLES `attachments` WRITE;
+/*!40000 ALTER TABLE `attachments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attachments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -74,6 +124,35 @@ LOCK TABLES `bookmark` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `chat_messages`
+--
+
+DROP TABLE IF EXISTS `chat_messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chat_messages` (
+  `sender_id` int NOT NULL,
+  `conn_id` int NOT NULL,
+  `chat_content` varchar(1000) DEFAULT NULL,
+  `id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `senderidmess_idx` (`sender_id`),
+  KEY `connidmess_idx` (`conn_id`),
+  CONSTRAINT `connidmess` FOREIGN KEY (`conn_id`) REFERENCES `connections` (`id`),
+  CONSTRAINT `senderidmess` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chat_messages`
+--
+
+LOCK TABLES `chat_messages` WRITE;
+/*!40000 ALTER TABLE `chat_messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat_messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `connections`
 --
 
@@ -81,11 +160,12 @@ DROP TABLE IF EXISTS `connections`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `connections` (
+  `id` int NOT NULL,
   `mentor_id` int NOT NULL,
   `mentee_id` int NOT NULL,
   `date_created` datetime DEFAULT NULL,
   `skill_id` int DEFAULT NULL,
-  PRIMARY KEY (`mentor_id`,`mentee_id`),
+  PRIMARY KEY (`id`),
   KEY `mentor_idx` (`mentor_id`),
   KEY `skillconn_idx` (`skill_id`),
   KEY `mentorconn_idx` (`mentee_id`),
@@ -345,6 +425,113 @@ INSERT INTO `province` VALUES (1,'Thành phố Hà Nội','Thành phố Trung ư
 UNLOCK TABLES;
 
 --
+-- Table structure for table `questions`
+--
+
+DROP TABLE IF EXISTS `questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `questions` (
+  `id` int NOT NULL,
+  `question` varchar(1000) DEFAULT NULL,
+  `quiz_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `quizidquestion_idx` (`quiz_id`),
+  CONSTRAINT `quizidquestion` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questions`
+--
+
+LOCK TABLES `questions` WRITE;
+/*!40000 ALTER TABLE `questions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quiz_results`
+--
+
+DROP TABLE IF EXISTS `quiz_results`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `quiz_results` (
+  `id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `quiz_id` int DEFAULT NULL,
+  `score` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `useridquizres_idx` (`user_id`),
+  KEY `quizidquizres_idx` (`quiz_id`),
+  CONSTRAINT `quizidquizres` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
+  CONSTRAINT `useridquizres` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `quiz_results`
+--
+
+LOCK TABLES `quiz_results` WRITE;
+/*!40000 ALTER TABLE `quiz_results` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quiz_results` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quiz_skill`
+--
+
+DROP TABLE IF EXISTS `quiz_skill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `quiz_skill` (
+  `quiz_id` int NOT NULL,
+  `skill_id` int NOT NULL,
+  PRIMARY KEY (`quiz_id`,`skill_id`),
+  KEY `skillidquizskill_idx` (`skill_id`),
+  CONSTRAINT `quizidquizskill` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
+  CONSTRAINT `skillidquizskill` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `quiz_skill`
+--
+
+LOCK TABLES `quiz_skill` WRITE;
+/*!40000 ALTER TABLE `quiz_skill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quiz_skill` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quizzes`
+--
+
+DROP TABLE IF EXISTS `quizzes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `quizzes` (
+  `id` int NOT NULL,
+  `name` varchar(450) DEFAULT NULL,
+  `mentor_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `mentoridquiz_idx` (`mentor_id`),
+  CONSTRAINT `mentoridquiz` FOREIGN KEY (`mentor_id`) REFERENCES `user_profiles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `quizzes`
+--
+
+LOCK TABLES `quizzes` WRITE;
+/*!40000 ALTER TABLE `quizzes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quizzes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `request`
 --
 
@@ -468,8 +655,11 @@ CREATE TABLE `user_profiles` (
   `price` float DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
+  `address_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
+  KEY `addressiduserprofile_idx` (`address_id`),
+  CONSTRAINT `addressiduserprofile` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -480,7 +670,7 @@ CREATE TABLE `user_profiles` (
 
 LOCK TABLES `user_profiles` WRITE;
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (12,12,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 11:56:25','2022-05-20 11:56:25'),(13,19,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 21:25:21','2022-05-20 21:25:21');
+INSERT INTO `user_profiles` VALUES (12,12,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 11:56:25','2022-05-20 11:56:25',NULL),(13,19,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 21:25:21','2022-05-20 21:25:21',NULL);
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -606,4 +796,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-22 17:53:47
+-- Dump completed on 2022-06-01 14:54:49
