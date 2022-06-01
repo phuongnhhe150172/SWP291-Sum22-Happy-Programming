@@ -6,6 +6,7 @@ import swp.happyprogramming.repository.ISkillRepository;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.ISkillService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,5 +24,11 @@ public class SkillService implements ISkillService {
         skillRepository.save(skill);
         return skill;
     }
+
+    @Override
+    public ArrayList<Skill> getAllSkillByUserId(long userId) {
+        return skillRepository.findAllByUserId(userId);
+    }
+
 
 }

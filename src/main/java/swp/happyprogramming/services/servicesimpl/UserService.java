@@ -69,17 +69,17 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<UserProfile> findProfileByUserID(long userID) {
-        return profileRepository.findByUserID(userID);
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
+    }
+
+    @Override
+    public int countUsersByRolesLike(String role) {
+        return userRepository.countUsersByRolesLike("ROLE_MENTOR");
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
