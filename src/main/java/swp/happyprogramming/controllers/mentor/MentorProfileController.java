@@ -69,7 +69,7 @@ public class MentorProfileController {
 
             ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
             List<Skill> listSkill = skillService.getAllSkill();
-            Map<Skill,Integer> mapSkill = mentorService.findMapSkill(listSkill,mentorDTO.getSkills());
+            Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentorDTO.getSkills());
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("mentorId", mentorId);
@@ -78,11 +78,11 @@ public class MentorProfileController {
             model.addAttribute("districtId", districtId);
             model.addAttribute("provinceId", provinceId);
 
-            model.addAttribute("listProvinces",listProvinces);
-            model.addAttribute("listDistrict",listDistrict);
+            model.addAttribute("listProvinces", listProvinces);
+            model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("listWard", listWard);
-            model.addAttribute("listExperience",listExperience);
-            model.addAttribute("mapSkill",mapSkill);
+            model.addAttribute("listExperience", listExperience);
+            model.addAttribute("mapSkill", mapSkill);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
@@ -93,14 +93,14 @@ public class MentorProfileController {
     @PostMapping("/mentor/profile/update")
     public String updateProfileMentor(@ModelAttribute("mentor") MentorDTO mentor,
                                       @RequestParam Map<String, Object> params,
-                                      @RequestParam(value = "experieceValue" , required = false) List<String> experieceValue,
-                                      @RequestParam(value = "skillValue" , required = false) List<String> skillValue) {
+                                      @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                                      @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
         try {
             long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
             long wa = Integer.parseInt(String.valueOf(params.get("wa")));
 
-            mentorService.updateMentor(mentorId, mentor, wardId, wa , experieceValue,skillValue);
+            mentorService.updateMentor(mentorId, mentor, wardId, wa, experieceValue, skillValue);
 
             return "redirect:view?id=" + mentorId;
         } catch (NumberFormatException e) {
@@ -112,18 +112,9 @@ public class MentorProfileController {
     public String updateDistrictByProvinceId(Model model, @RequestParam(value = "provinceId", required = false) String provinceId,
                                              @RequestParam(value = "districtId", required = false) String districtId) {
         try {
-            long province;
-            long district;
-            if(provinceId == null){
-                province = -1;
-            }else{
-                province = Integer.parseInt(provinceId);
-            }
-            if(districtId == null){
-                district = -1;
-            }else{
-                district = Integer.parseInt(districtId);
-            }
+            long province = Integer.parseInt(provinceId);
+            long district = Integer.parseInt(districtId);
+
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(province);
             model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("dis", district);
@@ -138,18 +129,9 @@ public class MentorProfileController {
     public String updateWardByDistrictId(Model model, @RequestParam(value = "districtId", required = false) String districtId,
                                          @RequestParam(value = "wardId", required = false) String wardId) {
         try {
-            long district;
-            long ward;
-            if(districtId == null){
-                district = -1;
-            }else{
-                district = Integer.parseInt(districtId);
-            }
-            if(wardId == null){
-                ward = -1;
-            }else{
-                ward = Integer.parseInt(wardId);
-            }
+            long district = Integer.parseInt(districtId);
+            long ward = Integer.parseInt(wardId);
+
             List<WardDTO> listWard = wardService.findAllWard(district);
             model.addAttribute("listWard", listWard);
             model.addAttribute("war", ward);
@@ -168,25 +150,6 @@ public class MentorProfileController {
 
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";
-        } catch (NumberFormatException e) {
-            return "redirect:index";
-        }
-    }
-
-    @GetMapping("/mentor/view")
-    public String viewMenteeProfile(Model model,@RequestParam(value = "idOr", required = false) String idOr,
-                                    @RequestParam(value = "idEe", required = false) String idEe){
-        try {
-            long mentorId = Integer.parseInt(idOr);
-            long menteeId = Integer.parseInt(idEe);
-            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
-            Integer status = userService.statusRequest(mentorDTO.getId(),menteeDTO.getId());
-
-            model.addAttribute("mentor", mentorDTO);
-            model.addAttribute("mentee",menteeDTO);
-            model.addAttribute("status",status);
-            return "mentor/view/menteeProfile";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
