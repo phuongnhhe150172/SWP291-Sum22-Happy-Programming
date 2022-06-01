@@ -17,7 +17,13 @@ import java.util.Map;
 @Controller
 public class MentorProfileController {
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private IMentorService mentorService;
+
+    @Autowired
+    private IMenteeService menteeService;
 
     @Autowired
     private IProvinceService provinceService;
@@ -63,7 +69,7 @@ public class MentorProfileController {
 
             ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
             List<Skill> listSkill = skillService.getAllSkill();
-            Map<Skill,Integer> mapSkill = mentorService.findMapSkill(listSkill,mentorDTO.getSkills());
+            Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentorDTO.getSkills());
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("mentorId", mentorId);
@@ -72,11 +78,11 @@ public class MentorProfileController {
             model.addAttribute("districtId", districtId);
             model.addAttribute("provinceId", provinceId);
 
-            model.addAttribute("listProvinces",listProvinces);
-            model.addAttribute("listDistrict",listDistrict);
+            model.addAttribute("listProvinces", listProvinces);
+            model.addAttribute("listDistrict", listDistrict);
             model.addAttribute("listWard", listWard);
-            model.addAttribute("listExperience",listExperience);
-            model.addAttribute("mapSkill",mapSkill);
+            model.addAttribute("listExperience", listExperience);
+            model.addAttribute("mapSkill", mapSkill);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
@@ -87,14 +93,14 @@ public class MentorProfileController {
     @PostMapping("/mentor/profile/update")
     public String updateProfileMentor(@ModelAttribute("mentor") MentorDTO mentor,
                                       @RequestParam Map<String, Object> params,
-                                      @RequestParam(value = "experieceValue" , required = false) List<String> experieceValue,
-                                      @RequestParam(value = "skillValue" , required = false) List<String> skillValue) {
+                                      @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                                      @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
         try {
             long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
             long wa = Integer.parseInt(String.valueOf(params.get("wa")));
 
-            mentorService.updateMentor(mentorId, mentor, wardId, wa , experieceValue,skillValue);
+            mentorService.updateMentor(mentorId, mentor, wardId, wa, experieceValue, skillValue);
 
             return "redirect:view?id=" + mentorId;
         } catch (NumberFormatException e) {
