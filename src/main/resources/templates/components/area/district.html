@@ -15,11 +15,10 @@
 <body>
 <select id="district" th:name="districtId"
         class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-    <option selected> -- Choose district --</option>
+    <option th:value="-1"> -- Choose district --</option>
     <option th:each="district,state : ${listDistrict}" th:value="${district.id}" th:utext="${district.name}"
             th:selected="${dis == district.id}"></option>
 </select>
-</body>
 
 <script>
     $(document).ready(function () {
@@ -28,7 +27,7 @@
             var wardId = $("#ward").val();
             $("#error").html("");
             $.ajax({
-                url: "/mentee/profile/update/ward",
+                url: "/mentor/profile/update/ward",
                 data: {
                     districtId: districtId,
                     wardId: wardId
@@ -41,5 +40,8 @@
         });
     });
 </script>
+</body>
+
+
 
 </html>
