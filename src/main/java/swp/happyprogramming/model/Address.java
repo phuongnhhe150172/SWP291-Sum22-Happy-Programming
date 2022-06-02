@@ -23,9 +23,6 @@ public class Address {
     @Column(name = "ward_id")
     private long wardID;
 
-    @Column(name = "profile_id")
-    private long profileID;
-
     public Address() {
         this.name = "";
         this.wardID = 1;

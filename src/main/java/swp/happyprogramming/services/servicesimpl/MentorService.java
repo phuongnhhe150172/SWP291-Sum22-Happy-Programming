@@ -45,7 +45,7 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByProfileID(profile.getId()).orElse(new Address());
+            Address address = addressRepository.findByAddressId(profile.getAddressId());
             ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByUserId(user.getId());
             //set data to mentorDTO
@@ -149,7 +149,7 @@ public class MentorService implements IMentorService {
     }
 
     private void updateAddress(MentorDTO mentorDTO, long wardId, long wa, UserProfile profile) {
-        Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wa);
+        Address address = addressRepository.findByAddressId(profile.getAddressId());
         address.setName(mentorDTO.getStreet());
         address.setWardID(wardId);
         addressRepository.save(address);

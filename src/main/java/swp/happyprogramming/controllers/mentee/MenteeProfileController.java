@@ -45,7 +45,7 @@ public class MenteeProfileController {
 
             MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
             List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
-            long wardId = wardService.getWardIdByProfileId(menteeDTO.getProfileId());
+            long wardId = wardService.getWardIdByAddressId(menteeDTO.getAddressId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 
