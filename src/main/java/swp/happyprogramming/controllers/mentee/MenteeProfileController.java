@@ -1,22 +1,18 @@
 package swp.happyprogramming.controllers.mentee;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import swp.happyprogramming.dto.*;
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.model.UserProfile;
-import swp.happyprogramming.model.Ward;
 import swp.happyprogramming.services.servicesimpl.*;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MenteeController {
+public class MenteeProfileController {
 
     @Autowired
     private MenteeService menteeService;
