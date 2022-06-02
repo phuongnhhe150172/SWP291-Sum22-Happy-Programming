@@ -4,38 +4,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
-import swp.happyprogramming.dto.DistrictDTO;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.ProvinceDTO;
-import swp.happyprogramming.dto.WardDTO;
-import swp.happyprogramming.services.servicesimpl.DistrictService;
-import swp.happyprogramming.services.servicesimpl.MentorService;
-import swp.happyprogramming.services.servicesimpl.ProvinceService;
-import swp.happyprogramming.services.servicesimpl.WardService;
+import swp.happyprogramming.dto.*;
+import swp.happyprogramming.model.Experience;
+import swp.happyprogramming.model.Skill;
+import swp.happyprogramming.services.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class MentorProfileController {
     @Autowired
-    private MentorService mentorService;
+    private IUserService userService;
 
     @Autowired
-    private ProvinceService provinceService;
+    private IMentorService mentorService;
 
     @Autowired
-    private DistrictService districtService;
+    private IMenteeService menteeService;
 
     @Autowired
-    private WardService wardService;
+    private IProvinceService provinceService;
+
+    @Autowired
+    private IDistrictService districtService;
+
+    @Autowired
+    private IWardService wardService;
+
+    @Autowired
+    private IExperienceService experienceService;
+
+    @Autowired
+    private ISkillService skillService;
 
     @GetMapping("/mentor/profile/{id}")
-    public String getProfile(WebRequest request, Model model, @PathVariable String id) {
+    public String viewProfilePublic(Model model, @PathVariable String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            if (mentorDTO == null) return "redirect:index";
             model.addAttribute("mentor", mentorDTO);
             return "profile";
         } catch (NumberFormatException e) {
@@ -49,39 +59,51 @@ public class MentorProfileController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             long wardId = wardService.getWardIdByProfileId(mentorDTO.getProfileId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
             List<WardDTO> listWard = wardService.findAllWard(districtId);
 
+            ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
+            List<Skill> listSkill = skillService.getAllSkill();
+            Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentorDTO.getSkills());
+
             model.addAttribute("mentor", mentorDTO);
+            model.addAttribute("mentorId", mentorId);
+
+            model.addAttribute("wardId", wardId);
+            model.addAttribute("districtId", districtId);
+            model.addAttribute("provinceId", provinceId);
+
             model.addAttribute("listProvinces", listProvinces);
-            model.addAttribute("mentorId",mentorId);
-            model.addAttribute("wardId",wardId);
-            model.addAttribute("districtId",districtId);
-            model.addAttribute("provinceId",provinceId);
             model.addAttribute("listDistrict", listDistrict);
-            model.addAttribute("listWard",listWard);
+            model.addAttribute("listWard", listWard);
+            model.addAttribute("listExperience", listExperience);
+            model.addAttribute("mapSkill", mapSkill);
 
             return "mentor/profile/update";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return "redirect:/index";
         }
     }
 
     @PostMapping("/mentor/profile/update")
-    public String updateProfileMentor(Model model,@ModelAttribute("mentor") MentorDTO mentor,
-                                      @RequestParam Map<String,String> params){
-        try{
-            long mentorId = Integer.parseInt(params.get("mentorId"));
-            long wardId = Integer.parseInt(params.get("wardId"));
-            mentorService.updateMentor(mentorId,mentor,wardId);
+    public String updateProfileMentor(@ModelAttribute("mentor") MentorDTO mentor,
+                                      @RequestParam Map<String, Object> params,
+                                      @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                                      @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
+        try {
+            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
+            long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
+            long wa = Integer.parseInt(String.valueOf(params.get("wa")));
 
-            return "redirect:view?id=" + String.valueOf(mentorId);
-        }catch (NumberFormatException e){
+            mentorService.updateMentor(mentorId, mentor, wardId, wa, experieceValue, skillValue);
+
+            return "redirect:view?id=" + mentorId;
+        } catch (NumberFormatException e) {
             return "redirect:index";
         }
     }
@@ -95,9 +117,9 @@ public class MentorProfileController {
 
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(province);
             model.addAttribute("listDistrict", listDistrict);
-            model.addAttribute("dis",district);
+            model.addAttribute("dis", district);
 
-            return "mentor/profile/area/district";
+            return "components/area/district";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
@@ -111,20 +133,21 @@ public class MentorProfileController {
             long ward = Integer.parseInt(wardId);
 
             List<WardDTO> listWard = wardService.findAllWard(district);
-            model.addAttribute("listWard",listWard);
-            model.addAttribute("war",ward);
+            model.addAttribute("listWard", listWard);
+            model.addAttribute("war", ward);
 
-            return "mentor/profile/area/ward";
+            return "components/area/ward";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
     }
 
     @GetMapping("/mentor/profile/view")
-    public String viewProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
+    public String viewMentorProfilePrivate(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";
         } catch (NumberFormatException e) {
