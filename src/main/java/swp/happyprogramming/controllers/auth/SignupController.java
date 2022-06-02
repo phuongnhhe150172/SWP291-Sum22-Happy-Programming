@@ -24,7 +24,7 @@ public class SignupController {
     public String signupPage(WebRequest request, Model model) {
         UserDTO userDto = new UserDTO();
         model.addAttribute("user", userDto);
-        return "signup";
+        return "public/signup";
     }
 
     @PostMapping("/signup")
