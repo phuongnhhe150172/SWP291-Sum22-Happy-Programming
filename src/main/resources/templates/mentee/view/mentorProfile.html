@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:object="${mentee}">
+<head th:object="${mentor}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${mentee.firstName}">Profile</title>
+    <title th:text="${mentor.firstName}">Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
@@ -88,24 +88,43 @@
     </div>
 </aside>
 
-<div class="ml-64" th:object="${mentee}">
+<div class="ml-64" th:object="${mentor}">
     <div class="p-8 flex gap-6 justify-start items-center">
         <img th:src="@{/imgs/avatar1.jpg}" src="../static/imgs/avatar2.jpg"
              class="w-48 h-48 rounded-full border-2 border-gray-400" alt="">
         <div class="">
             <h1 class="text-2xl font-bold my-3" th:text="*{fullName}">John Smith</h1>
             <p class="text-gray-500"
-               th:text="'Age 25 · ' + ${mentee.gender == 1 ? 'Male' : 'Female'} + ' · Melbourne'">
+               th:text="'Age 25 · ' + ${mentor.gender == 1 ? 'Male' : 'Female'} + ' · Melbourne'">
                 Age 25 · Male · Melbourne</p>
         </div>
     </div>
     <div class="mx-8 mb-2 w-48">
-        <a class="w-full my-[10px]" th:href="@{/mentee/profile/update(id=${mentee.id})}">
+        <div th:if="${status == -1}"
+             class="w-full my-[10px]">
             <button type="button"
                     class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                Edit profile
+                Connect
             </button>
-        </a>
+        </div>
+    </div>
+    <div class="mx-8 mb-2 w-48">
+        <div th:if="${status == 1}"
+             class="w-full my-[10px]">
+            <button type="button"
+                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-green-600 text-white border-gray-600 cursor-default">
+                Connected
+            </button>
+        </div>
+    </div>
+    <div class="mx-8 mb-2 w-48">
+        <div th:if="${status == 0}"
+             class="w-full my-[10px]">
+            <button type="button"
+                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-white border-gray-600 cursor-default">
+                Waiting...
+            </button>
+        </div>
     </div>
     <div class="px-8 flex gap-6 my-2">
         <div class="flex items-center gap-2 text-gray-400">
@@ -114,7 +133,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            <p th:text="'Joined ' + ${#dates.format(mentee.created,'dd/MM/yyyy')}">Joined 19/05/2022</p>
+            <p th:text="'Joined ' + ${#dates.format(mentor.created,'dd/MM/yyyy')}">Joined 19/05/2022</p>
         </div>
         <div class="flex items-center gap-2 text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -127,6 +146,14 @@
             </svg>
             <p th:text="*{school}">FPT University</p>
         </div>
+        <div class="flex items-center gap-2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <p th:text="${mentor.price} + ' vnd / hr'">100.000 vnd / hr</p>
+        </div>
     </div>
     <div class="px-8 flex gap-6 my-2">
         <div class="flex items-center gap-2 text-gray-400">
@@ -136,52 +163,35 @@
                       d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <p th:text="${mentee.street} + ','+ ${mentee.ward} + ',' + ${mentee.district} + ',' + ${mentee.province}">
+            <p th:text="${mentor.street} + ','+ ${mentor.ward} + ',' + ${mentor.district} + ',' + ${mentor.province}">
                 Ha Noi</p>
         </div>
     </div>
-<!--    <div class="px-8 py-4">-->
-<!--        <div th:each="skill,state : ${mentor.skills}" th:text="${skill.name}"-->
-<!--             class="inline text-gray-400 font-medium rounded-lg text-sm px-3 py-2 mr-2 bg-gray-800/90">-->
-<!--            Java-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="px-8 py-4">
+        <div th:each="skill,state : ${mentor.skills}" th:text="${skill.name}"
+             class="inline text-gray-400 font-medium rounded-lg text-sm px-3 py-2 mr-2 bg-gray-800/90">
+            Java
+        </div>
+    </div>
     <div class="px-8 py-4">
         <div
                 class="inline-block text-gray-400 border border-gray-700 font-medium rounded-lg text-sm px-12 py-2 mr-2 bg-gray-800">
-            <p th:text="${mentee.phoneNumber}">0123 456 789</p>
+            <p th:text="${mentor.phoneNumber}">0123 456 789</p>
 
         </div>
     </div>
-<!--    <hr class="border-t border-gray-700">-->
-<!--    <div class="p-8">-->
-<!--        <div class="">-->
-<!--            <h2 class="my-4 font-medium text-xl">Experiences</h2>-->
-<!--            <div class="flex gap-4">-->
-<!--                <div th:each="experience,state : ${mentor.experiences}"-->
-<!--                     class="block max-w-lg p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">-->
-<!--                    <p class="font-normal text-gray-200" th:text="${experience.description}">-->
-<!--                        Admin HSHB Gen 3.-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <div class="max-w-full border-b border-gray-600 mt-6">
-        <div class="max-w-[1250px] mx-auto grid grid-cols-4">
-            <nav class="pl-8 flex gap-4">
-                <div class="border-b-2 border-blue-600 py-2">
-                    <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex
-                       items-center gap-2 text-blue-600">
-                        Overview
-                    </a>
+    <hr class="border-t border-gray-700">
+    <div class="p-8">
+        <div class="">
+            <h2 class="my-4 font-medium text-xl">Experiences</h2>
+            <div class="flex gap-4">
+                <div th:each="experience,state : ${mentor.experiences}"
+                     class="block max-w-lg p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
+                    <p class="font-normal text-gray-200" th:text="${experience.description}">
+                        Admin HSHB Gen 3.
+                    </p>
                 </div>
-                <div class="py-2">
-                    <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex items-center gap-2">
-                        Request
-                    </a>
-                </div>
-            </nav>
+            </div>
         </div>
     </div>
     <div class="p-8">
@@ -189,7 +199,7 @@
             <h2 class="my-4 text-xl">About me</h2>
             <div class="block p-6 rounded-lg border shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <p class="font-normal text-gray-300" th:text="${mentee.bio}"></p>
+                <p class="font-normal text-gray-300" th:text="${mentor.bio}"></p>
             </div>
         </div>
     </div>

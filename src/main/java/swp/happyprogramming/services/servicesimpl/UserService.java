@@ -85,9 +85,12 @@ public class UserService implements IUserService {
         return userRepository.countUsersByRolesLike("ROLE_MENTOR");
     }
 
-    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-        return authorities;
+    @Override
+    public int statusRequest(long mentorId, long menteeId) {
+        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId,menteeId).orElse(-1);
+    }
+
+    private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }

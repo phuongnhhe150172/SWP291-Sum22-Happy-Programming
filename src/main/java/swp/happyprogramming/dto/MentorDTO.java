@@ -26,6 +26,7 @@ public class MentorDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String phoneNumber;
+    private long addressId;
     private String ward;
     private String district;
     private String province;
@@ -35,6 +36,7 @@ public class MentorDTO {
     private float price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modified;
 
     public MentorDTO() {
