@@ -11,8 +11,8 @@ public class AddressService implements IAddressService {
     @Autowired
     private IAddressRepository addressRepository;
 
-    public String getAddress(int profileID) {
-        Address address = addressRepository.findByProfileID(profileID).orElse(null);
+    public String getAddress(long addressID) {
+        Address address = addressRepository.findByAddressId(addressID);
         if (address == null) {
             return "";
         } else {

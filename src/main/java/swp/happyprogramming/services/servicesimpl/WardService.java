@@ -27,8 +27,8 @@ public class WardService implements IWardService {
         return list.stream().map(value -> mapper.map(value, WardDTO.class)).collect(Collectors.toList());
     }
 
-    public long getWardIdByProfileId(long profileId) {
-        Address address = addressRepository.findByProfileID(profileId).orElse(new Address());
+    public long getWardIdByProfileId(long addressId) {
+        Address address = addressRepository.findByAddressId(addressId);
         return address.getWardID();
     }
 }

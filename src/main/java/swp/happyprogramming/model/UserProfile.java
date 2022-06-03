@@ -40,6 +40,8 @@ public class UserProfile {
     private Date created;
     @Column(name = "modified")
     private Date modified;
+    @Column(name = "address_id")
+    private  long addressId;
 
     public UserProfile() {
         this.created = Date.from(Instant.now());

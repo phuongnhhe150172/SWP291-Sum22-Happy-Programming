@@ -23,6 +23,7 @@ public class MenteeDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     private String phoneNumber;
+    private String addressId;
     private String ward;
     private String district;
     private String province;

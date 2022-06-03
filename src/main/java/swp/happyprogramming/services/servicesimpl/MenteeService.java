@@ -12,9 +12,7 @@ import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMenteeService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +36,11 @@ public class MenteeService implements IMenteeService {
     @Autowired
     private IAddressRepository addressRepository;
 
+    @Autowired
+    private IExperienceRepository experienceRepository;
+
+    @Autowired
+    private ISkillRepository skillRepository;
 
     public MenteeDTO findMentee(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -45,28 +48,28 @@ public class MenteeService implements IMenteeService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByProfileID(profile.getId()).orElse(null);
-
-            MenteeDTO menteeDTO = combineUserAndProfile(user,profile,address);
-            return menteeDTO;
+            Address address = addressRepository.findByAddressId(profile.getAddressId());
+            //set data to menteeDTO
+            return combineUserAndProfile(user, profile, address);
         } else {
             return null;
         }
     }
 
-    private MenteeDTO combineUserAndProfile(User user, UserProfile profile,Address address) {
+    @Override
+    public List<MenteeDTO> getAllMentees() {
+        return null;
+    }
+
+    private MenteeDTO combineUserAndProfile(User user, UserProfile profile, Address address) {
         ModelMapper mapper = new ModelMapper();
         MenteeDTO menteeDTO = mapper.map(profile, MenteeDTO.class);
-        Ward ward = wardRepository.findById(address.getWardID()).orElse(null);
+        Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
         District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
-
-        menteeDTO.setId(user.getId());
+        mapper.map(user, menteeDTO);
         menteeDTO.setProfileId(profile.getId());
         menteeDTO.setFullName(user.getFirstName() + " " + user.getLastName());
-        menteeDTO.setFirstName(user.getFirstName());
-        menteeDTO.setLastName(user.getLastName());
-        menteeDTO.setEmail(user.getEmail());
         menteeDTO.setWard(ward.getName());
         menteeDTO.setDistrict(district.getName());
         menteeDTO.setProvince(province.getName());
@@ -79,12 +82,41 @@ public class MenteeService implements IMenteeService {
         return menteeDTO;
     }
 
-    @Override
-    public List<MenteeDTO> getAllMentees() {
-        return userRepository.findUsersByRole("ROLE_MENTEE")
-                .stream()
-                .map(user -> findMentee(user.getId()))
-                .collect(Collectors.toList());
+    public void updateMentee(long id, MenteeDTO menteeDTO, long wardId, long wa) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
+        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
+            UserProfile profile = optionalUserProfile.get();
+            User user = optionalUser.get();
+
+            //update to table user
+            updateUser(user, menteeDTO);
+
+            //update to table user_profile
+            updateUserProfile(profile, menteeDTO);
+
+            //update to table address
+            updateAddress(menteeDTO, wardId, wa, profile);
+
+
+        }
+    }
+
+    public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<SkillDTO> listSkillDTO) {
+        Map<Skill, Integer> mapSkill = new HashMap<>();
+        for (Skill skill : listSkill) {
+            boolean flag = false;
+            for (SkillDTO sk : listSkillDTO) {
+                if (sk.getId() == skill.getId()) {
+                    mapSkill.put(skill, 1);
+                    flag = true;
+                }
+            }
+            if (!flag) {
+                mapSkill.put(skill, 0);
+            }
+        }
+        return mapSkill;
     }
 
     private void updateUser(User user, MenteeDTO menteeDTO) {
@@ -104,59 +136,48 @@ public class MenteeService implements IMenteeService {
     }
 
     private void updateAddress(MenteeDTO menteeDTO, long wardId, long wa, UserProfile profile) {
-        Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wa);
+        Address address = addressRepository.findByAddressId(profile.getAddressId());
         address.setName(menteeDTO.getStreet());
         address.setWardID(wardId);
         addressRepository.save(address);
     }
 
-    @Override
-    public void updateMentee(long id, MenteeDTO menteeDTO, long wardId, long wa) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
-        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
-            User user = optionalUser.get();
+    private void deleteExperienceAndMentorExperience(UserProfile profile) {
+        ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
+        List<Long> listIdExperience = listExperience.stream().map(value -> value.getId()).collect(Collectors.toList());
 
-            //update to table user
-            updateUser(user, menteeDTO);
-
-            //update to table user_profile
-            updateUserProfile(profile, menteeDTO);
-
-            //update to table address
-            updateAddress(menteeDTO, wardId, wa, profile);
-
-        }
+        listExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(profile.getId(), value.getId()));
+        experienceRepository.deleteAllById(listIdExperience);
     }
 
-    public void updateMentee(Long id, MenteeDTO menteeDTO, long wardId){
-        Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
-        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
-            User user = optionalUser.get();
+    private void saveExperienceAndMentorExperience(UserProfile profile, List<String> experieceValue) {
+        List<Experience> listExperienceWillSave = experieceValue.stream()
+                .map(Experience::new).collect(Collectors.toList());
 
-            user.setFirstName(menteeDTO.getFirstName());
-            user.setLastName(menteeDTO.getLastName());
-            user.setEmail(menteeDTO.getEmail());
-            userRepository.save(user);
+        experienceRepository.saveAll(listExperienceWillSave);
+        ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
 
-            profile.setGender(menteeDTO.getGender());
-            profile.setDob(menteeDTO.getDob());
-            profile.setPhoneNumber(menteeDTO.getPhoneNumber());
-            profile.setBio(menteeDTO.getBio());
-            profile.setSchool(menteeDTO.getSchool());
-            profileRepository.save(profile);
+        listExperienceSaved.forEach(value ->
+                profileRepository.insertByMentorIdAndExperienceId(profile.getId(), value.getId()));
+    }
 
-            Ward ward = wardRepository.findById(wardId).orElse(null);
-            District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
-            Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
+    private void deleteUserSkills(User user) {
+        ArrayList<Skill> listSkill = skillRepository.findAllByUserId(user.getId());
 
-            Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wardId);
-            address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
-            address.setWardID(wardId);
-            addressRepository.save(address);
-        }
+        listSkill.forEach(value -> userRepository.deleteByUserIdAndSkillId(user.getId(), value.getId()));
+    }
+
+    private void saveUserSkills(User user, List<String> skillValue) {
+        skillValue
+                .forEach(value -> userRepository.addSkillUser(user.getId(), Long.parseLong(value)));
+    }
+
+    @Override
+    public List<MenteeDTO> getMentees() {
+        return userRepository
+                .findUsersByRole("ROLE_MENTEE")
+                .stream()
+                .map(user -> findMentee(user.getId()))
+                .collect(Collectors.toList());
     }
 }

@@ -12,4 +12,5 @@ public interface IMenteeService {
 
     void updateMentee(long menteeId, MenteeDTO mentee, long wardId, long wa);
 
+    List<MenteeDTO> getMentees();
 }
