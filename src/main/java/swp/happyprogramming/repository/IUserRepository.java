@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.User;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +25,13 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user_skills (user_id,skill_id) values (?1,?2)",nativeQuery = true)
-    void addSkillUser(long userId,long skillId);
+    @Query(value = "INSERT INTO user_skills (user_id,skill_id) values (?1,?2)", nativeQuery = true)
+    void addSkillUser(long userId, long skillId);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from user_skills where user_id = ?1 and skill_id = ?2",nativeQuery = true)
-    void deleteByUserIdAndSkillId(long userId,long skillId);
+    @Query(value = "delete from user_skills where user_id = ?1 and skill_id = ?2", nativeQuery = true)
+    void deleteByUserIdAndSkillId(long userId, long skillId);
 
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
@@ -38,6 +39,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from users where id in (select id from user_roles where role_id in (select id from roles where `name` = ?1))", nativeQuery = true)
     List<User> findUsersByRole(String role);
 
-    @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2",nativeQuery = true)
+    @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
+
+    @Query(value = "select * from users where id in (select mentor_id from connections where mentee_id = (select id from users where email=?1) union select mentee_id from connections where mentor_id = (select id from users where email=?1))",
+            nativeQuery = true)
+    ArrayList<User> findConnectionsByEmail(String email);
 }

@@ -53,28 +53,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/mentor/**").hasAnyAuthority("ROLE_MENTOR")
-                    .antMatchers("/mentee/**").hasAnyAuthority("ROLE_MENTEE")
-                    .antMatchers(
-                            "/signup**",
-                            "/**",
-                            "/home**",
-                            "/admin/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
-                    .and()
+                .antMatchers("/mentor/**").hasAnyAuthority("ROLE_MENTOR")
+                .antMatchers("/mentee/**").hasAnyAuthority("ROLE_MENTEE")
+                .antMatchers(
+                        "/signup**",
+                        "/**",
+                        "/home**",
+                        "/admin/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                    .loginPage("/login").loginProcessingUrl("/login")
-                    .usernameParameter("username").passwordParameter("password")
-                    .defaultSuccessUrl("/home")
-                    .permitAll()
-                    .and()
+                .loginPage("/login").loginProcessingUrl("/login")
+                .usernameParameter("username").passwordParameter("password")
+                .defaultSuccessUrl("/home")
+                .permitAll()
+                .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login?logout")
-                    .deleteCookies("my-remember-me-cookie")
-                    .permitAll()
-                    .and()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .deleteCookies("my-remember-me-cookie")
+                .permitAll()
+                .and()
 //                .rememberMe()
 //                    .rememberMeCookieName("my-remember-me-cookie")
 //                    .tokenRepository(persistentTokenRepository())
@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling();
     }
 
-    PersistentTokenRepository persistentTokenRepository(){
+    PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
         tokenRepositoryImpl.setDataSource(dataSource);
         return tokenRepositoryImpl;

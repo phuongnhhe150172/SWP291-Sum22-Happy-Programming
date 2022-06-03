@@ -3,24 +3,27 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.model.UserProfile;
+import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +32,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private IAddressRepository addressRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
@@ -50,25 +55,17 @@ public class UserService implements IUserService {
 
         userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
 
+        Address address = new Address();
+        Address savedAddress = addressRepository.save(address);
+
         UserProfile profile = new UserProfile();
         profile.setUserID(savedUser.getId());
+        profile.setAddressId(savedAddress.getId());
         profileRepository.save(profile);
     }
 
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email) != null;
-    }
-
-    public boolean checkMentor(long userID) {
-        return userRepository.checkMentor(userID) > 0;
-    }
-
-    public Optional<User> findMentor(long userID) {
-        Optional<User> optionalUser = userRepository.findById(userID);
-        if (optionalUser.isPresent() && checkMentor(userID)) {
-            return optionalUser;
-        }
-        return Optional.empty();
     }
 
     @Override
@@ -87,10 +84,18 @@ public class UserService implements IUserService {
 
     @Override
     public int statusRequest(long mentorId, long menteeId) {
-        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId,menteeId).orElse(-1);
+        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(-1);
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    public List<ConnectionDTO> getConnectionsByEmail(String email) {
+        ArrayList<User> users = userRepository.findConnectionsByEmail(email);
+        ModelMapper mapper = new ModelMapper();
+        return users.stream()
+                .map(user -> mapper.map(user, ConnectionDTO.class))
+                .collect(Collectors.toList());
     }
 }

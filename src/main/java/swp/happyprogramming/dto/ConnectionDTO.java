@@ -12,4 +12,5 @@ import lombok.Setter;
 public class ConnectionDTO {
     private int id;
     private String name;
+//    will need to add avatar in the future
 }
