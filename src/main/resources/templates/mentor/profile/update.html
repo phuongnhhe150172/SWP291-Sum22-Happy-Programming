@@ -12,50 +12,73 @@
 </head>
 
 <body class="bg-gray-900 text-white">
-<nav class="w-full bg-gray-800 p-5">
-    <div class="max-w-[1230px] flex justify-between items-center mx-auto">
-        <div class="flex items-center gap-10">
-            <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                <img src="../../../static/imgs/logo.svg" alt="">
-                Happy Programming
-            </div>
-            <div class="flex items-center gap-4 font-semibold">
-                <a href="" class="hover:text-gray-400">Mentors</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-                <a href="" class="hover:text-gray-400">Profile</a>
-            </div>
+<aside class="w-64 fixed top-0 min-h-[100vh]" aria-label="Sidebar">
+    <div class="h-[100vh] overflow-y-auto py-4 px-3 bg-gray-800">
+        <div class="text-xl font-semibold my-7 px-2">
+            <h1><a href="">Happy Programming</a></h1>
         </div>
-        <div class="">
-            <img src="../../../static/imgs/avatar1.jpg" alt=""
-                 class="w-8 h-8 rounded-full">
-        </div>
-    </div>
-</nav>
-
-<div class="max-w-full border-b border-gray-600 mt-6">
-    <div class="max-w-[1250px] mx-auto grid grid-cols-4">
-        <div class="col-span-1"></div>
-        <nav class="pl-12 flex gap-4">
-            <div class="border-b-2 border-blue-600 py-2">
-                <a href="" class="text-sm px-2 py-1 hover:bg-gray-800/90 rounded-md flex
-                   items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754
-                          18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5
-                          1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                    Overview
+        <div class="flex items-center gap-3 rounded-lg bg-gray-700 p-3 my-4">
+            <img th:src="@{/imgs/avatar1.jpg}" alt="" class="w-10 h-10 rounded-full">
+            <div class="">
+                <a href="">
+                    <h3 class="font-medium">Anna Amelius</h3>
                 </a>
             </div>
-        </nav>
+        </div>
+        <ul class="space-y-2">
+            <li>
+                <a href="/dashboard"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                    </svg>
+                    <span class="ml-3">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/request"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Requests</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mentor"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Connect</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mentee"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Feedback</span>
+                </a>
+            </li>
+        </ul>
     </div>
-</div>
-<div class="max-w-[1250px] mx-auto grid grid-cols-4">
+</aside>
 
-    <div class="col-span-1 grow min-h-[100vh] mt-[-2rem] px-4 flex flex-col">
-        <img src="../../../static/imgs/avatar1.jpg"
+<div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
+
+    <div class="col-span-1 grow min-h-[100vh] mt-[2rem] px-4 flex flex-col">
+        <img th:src="@{/imgs/avatar1.jpg}"
              class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="">
     </div>
 
