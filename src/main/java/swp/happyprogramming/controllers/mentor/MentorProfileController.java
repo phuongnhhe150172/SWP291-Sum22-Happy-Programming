@@ -59,7 +59,7 @@ public class MentorProfileController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            long wardId = wardService.getWardIdByProfileId(mentorDTO.getProfileId());
+            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddressId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 

@@ -45,7 +45,7 @@ public class MenteeService implements IMenteeService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             UserProfile profile = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByProfileID(profile.getId()).orElse(null);
+            Address address = addressRepository.findByAddressId(profile.getAddressId());
 
             MenteeDTO menteeDTO = combineUserAndProfile(user,profile,address);
             return menteeDTO;
@@ -110,7 +110,7 @@ public class MenteeService implements IMenteeService {
             District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
             Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
 
-            Address address = addressRepository.findByProfileIDAndWardID(profile.getId(), wardId);
+            Address address = addressRepository.findByAddressId(profile.getAddressId());
             address.setName(ward.getName() + "," + district.getName() + "," + province.getName());
             address.setWardID(wardId);
             addressRepository.save(address);

@@ -3,6 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,11 +18,13 @@ import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService implements IUserService {
 
     @Autowired
