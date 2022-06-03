@@ -53,8 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/mentor/**").hasAnyAuthority("ROLE_MENTOR")
-                    .antMatchers("/mentee/**").hasAnyAuthority("ROLE_MENTEE")
+                    .antMatchers("/mentor/**").permitAll()
+                    .antMatchers("/mentee/**").permitAll()
                     .antMatchers(
                             "/signup**",
                             "/**",
