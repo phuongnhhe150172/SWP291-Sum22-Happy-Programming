@@ -29,7 +29,7 @@ public class User {
     private String password;
 
     @Column(name = "gender")
-    private int gender;
+    private Integer gender;
     @Column(name = "dob")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
@@ -40,13 +40,13 @@ public class User {
     @Column(name = "school")
     private String school;
     @Column(name = "is_online")
-    private int isOnline;
+    private Integer isOnline;
     @Column(name = "is_offline")
-    private int isOffline;
+    private Integer isOffline;
     @Column(name = "price")
-    private float price;
+    private Double price;
     @Column(name = "address_id")
-    private long addressId;
+    private Long addressId;
 
     @Column(name = "created")
     private Date created;

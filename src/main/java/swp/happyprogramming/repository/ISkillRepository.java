@@ -14,7 +14,7 @@ public interface ISkillRepository extends JpaRepository<Skill, Long> {
             nativeQuery = true)
     Collection<Skill> searchSkills(long id);
 
-    @Query(value = "SELECT * FROM SKILLS WHERE ID IN (SELECT skill_id FROM USER_SKILLS WHERE USER_ID = ?1)",
+    @Query(value = "SELECT * FROM SKILLS WHERE ID IN (SELECT skill_id FROM USER_SKILLS WHERE mentor_id = ?1)",
             nativeQuery = true)
-    ArrayList<Skill> findAllByUserId(long userId);
+    ArrayList<Skill> findAllByMentorId(long userId);
 }

@@ -21,9 +21,7 @@ import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,18 +48,15 @@ public class UserService implements IUserService {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
-
-        User savedUser = userRepository.save(user);
-
-        userRepository.addRoleUser(savedUser.getId(), userDTO.getRole());
-
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
-
-        Mentor profile = new Mentor();
-        profile.setUserID(savedUser.getId());
         user.setAddressId(savedAddress.getId());
-        profileRepository.save(profile);
+        user.setRoles(new Role(1));
+        User savedUser = userRepository.save(user);
+//        userRepository.addRoleUser(savedUser.getId(), 1);
+        Mentor mentor = new Mentor();
+        mentor.setUserID(savedUser.getId());
+        profileRepository.save(mentor);
     }
 
     private boolean emailExists(String email) {

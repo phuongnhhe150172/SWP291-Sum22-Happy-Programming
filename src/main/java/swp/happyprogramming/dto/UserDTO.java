@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.validator.auth.PasswordMatches;
 import swp.happyprogramming.validator.auth.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -24,7 +22,6 @@ public class UserDTO {
     private String fullName;
     private String firstName;
     private String lastName;
-    private String email;
     private int gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
@@ -42,15 +39,16 @@ public class UserDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modified;
 
-//    @NotNull
-//    @NotEmpty
-//    private String password;
-//    private String matchingPassword;
+    @NotNull
+    @NotEmpty
+    private String password;
+    private String matchingPassword;
 
-//    @ValidEmail
-//    @NotNull
-//    @NotEmpty
-//    private String email;
+    @ValidEmail
+    @NotNull
+    @NotEmpty
+    private String email;
+
     @NotNull
     private int role;
     public UserDTO() {
