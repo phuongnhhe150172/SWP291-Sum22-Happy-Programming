@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import swp.happyprogramming.sercurity.SimpleAuthenticationSuccessHandler;
 import swp.happyprogramming.services.IUserService;
 
 import javax.sql.DataSource;
@@ -21,14 +22,14 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private SimpleAuthenticationSuccessHandler successHandler;
+
     private IUserService userService;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    public WebSecurityConfig(@Lazy IUserService userService) {
+    public WebSecurityConfig(@Lazy IUserService userService, @Lazy SimpleAuthenticationSuccessHandler successHandler) {
         super();
+        this.successHandler = successHandler;
         this.userService = userService;
     }
 
@@ -53,39 +54,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/mentor/**").hasAnyAuthority("ROLE_MENTOR")
-                .antMatchers("/mentee/**").hasAnyAuthority("ROLE_MENTEE")
-                .antMatchers(
-                        "/signup**",
-                        "/**",
-                        "/home**",
-                        "/admin/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-                .and()
+                    .antMatchers("/home").permitAll()
+                    .antMatchers("/").hasRole("MENTEE")
+                    .antMatchers("/").hasRole("MENTOR")
+                    .antMatchers("/signup", "/login").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
                 .formLogin()
-                .loginPage("/login").loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("/home")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .deleteCookies("my-remember-me-cookie")
-                .permitAll()
-                .and()
-//                .rememberMe()
-//                    .rememberMeCookieName("my-remember-me-cookie")
-//                    .tokenRepository(persistentTokenRepository())
-//                    .tokenValiditySeconds(24 * 60 * 60)
-//                    .and()
-                .exceptionHandling();
-    }
-
-    PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-        tokenRepositoryImpl.setDataSource(dataSource);
-        return tokenRepositoryImpl;
+                    .loginPage("/login").loginProcessingUrl("/login")
+                    .usernameParameter("username").passwordParameter("password")
+                    .successHandler(successHandler)
+                    .failureForwardUrl("/login?error")
+                    .permitAll()
+                    .and()
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutUrl("/home")
+                        .invalidateHttpSession(true)
+                ).exceptionHandling()
+                .accessDeniedPage("/404")
+        ;
     }
 }

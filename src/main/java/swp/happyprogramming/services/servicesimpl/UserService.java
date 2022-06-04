@@ -98,4 +98,9 @@ public class UserService implements IUserService {
                 .map(user -> mapper.map(user, ConnectionDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

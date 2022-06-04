@@ -32,6 +32,9 @@
                 </li>
             </ul>
         </div>
+        <div class="">
+            Welcome <span th:text="${session.userInformation.firstName}"> User</span>
+        </div>
         <div class="nav-item ml-0 ml-lg-4 absolute right-0">
             <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
                     font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
@@ -42,10 +45,6 @@
 
 <div id="home" class="h-[100vh] flex flex-col">
     <div class="overlay"></div>
-    <div class="container">
-        <h1></h1>
-                Welcome <span sec:authentication="principal.username"> User</span>
-    </div>
     <div id="header-carousel" class="mt-20 carousel slide carousel-fade grow flex items-center" data-ride="carousel">
         <div class="container">
             <div class="">

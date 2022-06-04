@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.model.User;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface IUserService extends UserDetailsService {
     int statusRequest(long mentorId,long menteeId);
 
     List<ConnectionDTO> getConnectionsByEmail(String email);
+
+
+    User findByEmail(String email);
 }
