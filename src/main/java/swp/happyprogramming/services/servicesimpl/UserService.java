@@ -60,7 +60,7 @@ public class UserService implements IUserService {
 
         Mentor profile = new Mentor();
         profile.setUserID(savedUser.getId());
-        profile.setAddressId(savedAddress.getId());
+        user.setAddressId(savedAddress.getId());
         profileRepository.save(profile);
     }
 
