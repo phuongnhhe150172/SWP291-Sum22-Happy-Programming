@@ -45,7 +45,7 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByAddressId(profile.getAddressId());
+            Address address = addressRepository.findByAddressId(user.getAddressId());
             ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByUserId(user.getId());
             //set data to mentorDTO
@@ -95,7 +95,7 @@ public class MentorService implements IMentorService {
             updateUserProfile(profile, mentorDTO);
 
             //update to table address
-            updateAddress(mentorDTO, wardId, wa, profile);
+            updateAddress(mentorDTO, wardId, wa, user);
 
             //delete experience with mentor
             deleteExperienceAndMentorExperience(profile);
@@ -135,21 +135,22 @@ public class MentorService implements IMentorService {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setEmail(mentorDTO.getEmail());
+        user.setGender(mentorDTO.getGender());
+        user.setDob(mentorDTO.getDob());
+        user.setPhoneNumber(mentorDTO.getPhoneNumber());
+        user.setBio(mentorDTO.getBio());
+        user.setSchool(mentorDTO.getSchool());
+        user.setPrice(mentorDTO.getPrice());
         userRepository.save(user);
     }
 
     private void updateUserProfile(Mentor profile, MentorDTO mentorDTO) {
-        profile.setGender(mentorDTO.getGender());
-        profile.setDob(mentorDTO.getDob());
-        profile.setPhoneNumber(mentorDTO.getPhoneNumber());
-        profile.setBio(mentorDTO.getBio());
-        profile.setSchool(mentorDTO.getSchool());
-        profile.setPrice(mentorDTO.getPrice());
+
         profileRepository.save(profile);
     }
 
-    private void updateAddress(MentorDTO mentorDTO, long wardId, long wa, Mentor profile) {
-        Address address = addressRepository.findByAddressId(profile.getAddressId());
+    private void updateAddress(MentorDTO mentorDTO, long wardId, long wa, User user) {
+        Address address = addressRepository.findByAddressId(user.getAddressId());
         address.setName(mentorDTO.getStreet());
         address.setWardID(wardId);
         addressRepository.save(address);
