@@ -35,7 +35,7 @@ public class MenteeDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modified;
 
-    public void MentorDTO() {
+    public MenteeDTO() {
         this.modified = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
     }

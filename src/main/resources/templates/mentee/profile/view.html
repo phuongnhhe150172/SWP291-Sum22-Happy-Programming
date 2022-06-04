@@ -16,10 +16,10 @@
             <h1><a href="">Happy Programming</a></h1>
         </div>
         <div class="flex items-center gap-3 rounded-lg bg-gray-700 p-3 my-4">
-            <img th:src="@{/imgs/avatar1.jpg}" alt="" class="w-10 h-10 rounded-full">
+            <img th:src="@{/imgs/avatar1.jpg}" alt="" class="w-10 h-10 rounded-full"/>
             <div class="">
                 <a href="">
-                    <h3 class="font-medium">Anna Amelius</h3>
+                    <h3 class="font-medium" th:text="${mentee.firstName}">Anna Amelius</h3>
                 </a>
             </div>
         </div>
@@ -108,14 +108,14 @@
                       d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <p th:text="${mentee.street} + ','+ ${mentee.ward} + ',' + ${mentee.district} + ',' + ${mentee.province}">
+            <p th:text="${mentee.street} + ', '+ ${mentee.ward} + ', ' + ${mentee.district} + ', ' + ${mentee.province}">
                 Ha Noi</p>
         </div>
     </div>
     <div class="px-8 py-4">
         <div
                 class="inline-block text-gray-400 border border-gray-700 font-medium rounded-lg text-sm px-12 py-2 mr-2 bg-gray-800">
-            <p th:text="${mentee.phoneNumber}">0123 456 789</p>
+            <p th:text="${mentee.phoneNumber + ' '}">0123 456 789</p>
         </div>
     </div>
     <div class="p-8">
@@ -124,9 +124,22 @@
             <div class="block p-6 rounded-lg border shadow-md
                 bg-gray-800 border-gray-700 hover:bg-gray-700">
                 <p class="font-normal text-gray-300" th:text="${mentee.bio}">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dignissim dui sed dapibus finibus. Sed pellentesque eu leo at elementum. Etiam posuere justo eget lacus posuere, in posuere lacus vehicula. Donec malesuada dolor quam, eget egestas purus sagittis dictum. Mauris lacinia metus nunc, ut tincidunt elit convallis sed. Sed id diam a massa auctor iaculis ut a velit. Nullam fermentum tincidunt elit eget mollis. Etiam elementum egestas convallis. Donec sed orci vel odio tristique condimentum vitae ac nunc. Suspendisse vel nibh tristique, bibendum tortor id, ornare mi. Duis dictum consequat efficitur. Phasellus quis eros quis lorem pharetra venenatis.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dignissim dui sed dapibus finibus.
+                    Sed pellentesque eu leo at elementum. Etiam posuere justo eget lacus posuere, in posuere lacus
+                    vehicula. Donec malesuada dolor quam, eget egestas purus sagittis dictum. Mauris lacinia metus nunc,
+                    ut tincidunt elit convallis sed. Sed id diam a massa auctor iaculis ut a velit. Nullam fermentum
+                    tincidunt elit eget mollis. Etiam elementum egestas convallis. Donec sed orci vel odio tristique
+                    condimentum vitae ac nunc. Suspendisse vel nibh tristique, bibendum tortor id, ornare mi. Duis
+                    dictum consequat efficitur. Phasellus quis eros quis lorem pharetra venenatis.
 
-                    Integer justo purus, commodo nec ex vitae, ultrices hendrerit nisl. Donec placerat eu mauris non viverra. In ut nisl et arcu faucibus scelerisque sed ac leo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus maximus elementum metus, sed suscipit mi varius in. Fusce egestas laoreet nisi, eu scelerisque magna vehicula in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam et nibh rhoncus, dignissim urna et, tempor augue. Quisque justo diam, rhoncus eu pulvinar eu, varius quis ligula. Integer laoreet velit at vulputate tincidunt. Nam maximus odio id arcu hendrerit posuere. Pellentesque id ante volutpat, tempor est sit amet, facilisis quam.
+                    Integer justo purus, commodo nec ex vitae, ultrices hendrerit nisl. Donec placerat eu mauris non
+                    viverra. In ut nisl et arcu faucibus scelerisque sed ac leo. Orci varius natoque penatibus et magnis
+                    dis parturient montes, nascetur ridiculus mus. Vivamus maximus elementum metus, sed suscipit mi
+                    varius in. Fusce egestas laoreet nisi, eu scelerisque magna vehicula in. Orci varius natoque
+                    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam et nibh rhoncus, dignissim
+                    urna et, tempor augue. Quisque justo diam, rhoncus eu pulvinar eu, varius quis ligula. Integer
+                    laoreet velit at vulputate tincidunt. Nam maximus odio id arcu hendrerit posuere. Pellentesque id
+                    ante volutpat, tempor est sit amet, facilisis quam.
                 </p>
             </div>
         </div>

@@ -1,6 +1,7 @@
 package swp.happyprogramming.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -26,6 +27,26 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+
+    @Column(name = "gender")
+    private int gender;
+    @Column(name = "dob")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    @Column(name = "bio")
+    private String bio;
+    @Column(name = "school")
+    private String school;
+    @Column(name = "is_online")
+    private int isOnline;
+    @Column(name = "is_offline")
+    private int isOffline;
+    @Column(name = "price")
+    private float price;
+    @Column(name = "address_id")
+    private long addressId;
 
     @Column(name = "created")
     private Date created;

@@ -14,7 +14,7 @@ import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.model.UserProfile;
+import swp.happyprogramming.model.Mentor;
 import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
@@ -58,7 +58,7 @@ public class UserService implements IUserService {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
 
-        UserProfile profile = new UserProfile();
+        Mentor profile = new Mentor();
         profile.setUserID(savedUser.getId());
         profile.setAddressId(savedAddress.getId());
         profileRepository.save(profile);
@@ -88,14 +88,19 @@ public class UserService implements IUserService {
     }
 
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 
     public List<ConnectionDTO> getConnectionsByEmail(String email) {
         ArrayList<User> users = userRepository.findConnectionsByEmail(email);
-        ModelMapper mapper = new ModelMapper();
         return users.stream()
-                .map(user -> mapper.map(user, ConnectionDTO.class))
+                .map(user -> new ConnectionDTO(
+                                user.getId(),
+                                user.getFirstName() + " " + user.getLastName()
+                        )
+                )
                 .collect(Collectors.toList());
     }
 

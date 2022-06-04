@@ -32,7 +32,7 @@ public class MenteeProfileController {
             long menteeId = Integer.parseInt(id);
             MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
             model.addAttribute("mentee", menteeDTO);
-            return "profile";
+            return "mentee/profile/view";
         } catch (NumberFormatException e) {
             return "redirect:/index";
         }

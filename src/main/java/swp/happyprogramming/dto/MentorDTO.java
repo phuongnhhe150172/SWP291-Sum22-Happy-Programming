@@ -1,11 +1,8 @@
 package swp.happyprogramming.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import swp.happyprogramming.model.Experience;
 import org.springframework.format.annotation.DateTimeFormat;
-import swp.happyprogramming.model.Skill;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConnectionDTO {
-    private int id;
+    private long id;
     private String name;
 //    will need to add avatar in the future
 }
