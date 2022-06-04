@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.services.IUserService;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public class ConnectionController {
     private IUserService userService;
 
     @GetMapping("/connections")
-    public String getUserConnections(Model model, Principal principal) {
+    public String getUserConnections(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -30,7 +29,11 @@ public class ConnectionController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
-        String email = principal.getName();
+        String email = authentication.getName();
+        if (email.equalsIgnoreCase("anonymousUser")) {
+            return "redirect:/login";
+        }
+
         List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
         model.addAttribute("connections", connections);
         if (roles.contains("ROLE_MENTOR")) {

@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/signup**",
                         "/**",
-                        "/home**",
+                        "/home/**",
                         "/admin/**"
                 ).permitAll()
                 .anyRequest().authenticated()
