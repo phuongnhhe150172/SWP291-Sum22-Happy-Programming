@@ -41,9 +41,9 @@ public class MentorService implements IMentorService {
 
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
+            Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
             Address address = addressRepository.findByAddressId(profile.getAddressId());
             ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
@@ -55,7 +55,7 @@ public class MentorService implements IMentorService {
         }
     }
 
-    private MentorDTO combineUserAndProfile(User user, UserProfile profile, ArrayList<Skill> listSkill,
+    private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
                                             ArrayList<Experience> listExperience, Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
@@ -83,9 +83,9 @@ public class MentorService implements IMentorService {
 
     public void updateMentor(long id, MentorDTO mentorDTO, long wardId, long wa, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
+            Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
 
             //update to table user
@@ -138,7 +138,7 @@ public class MentorService implements IMentorService {
         userRepository.save(user);
     }
 
-    private void updateUserProfile(UserProfile profile, MentorDTO mentorDTO) {
+    private void updateUserProfile(Mentor profile, MentorDTO mentorDTO) {
         profile.setGender(mentorDTO.getGender());
         profile.setDob(mentorDTO.getDob());
         profile.setPhoneNumber(mentorDTO.getPhoneNumber());
@@ -148,14 +148,14 @@ public class MentorService implements IMentorService {
         profileRepository.save(profile);
     }
 
-    private void updateAddress(MentorDTO mentorDTO, long wardId, long wa, UserProfile profile) {
+    private void updateAddress(MentorDTO mentorDTO, long wardId, long wa, Mentor profile) {
         Address address = addressRepository.findByAddressId(profile.getAddressId());
         address.setName(mentorDTO.getStreet());
         address.setWardID(wardId);
         addressRepository.save(address);
     }
 
-    private void deleteExperienceAndMentorExperience(UserProfile profile) {
+    private void deleteExperienceAndMentorExperience(Mentor profile) {
         ArrayList<Experience> listExperience = experienceRepository.findByProfileId(profile.getId());
         List<Long> listIdExperience = listExperience.stream().map(value -> value.getId()).collect(Collectors.toList());
 
@@ -163,7 +163,7 @@ public class MentorService implements IMentorService {
         experienceRepository.deleteAllById(listIdExperience);
     }
 
-    private void saveExperienceAndMentorExperience(UserProfile profile, List<String> experieceValue) {
+    private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {
         List<Experience> listExperienceWillSave = experieceValue.stream()
                 .map(Experience::new).collect(Collectors.toList());
 

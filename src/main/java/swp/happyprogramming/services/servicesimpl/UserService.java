@@ -14,7 +14,7 @@ import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.model.UserProfile;
+import swp.happyprogramming.model.Mentor;
 import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
@@ -58,7 +58,7 @@ public class UserService implements IUserService {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
 
-        UserProfile profile = new UserProfile();
+        Mentor profile = new Mentor();
         profile.setUserID(savedUser.getId());
         profile.setAddressId(savedAddress.getId());
         profileRepository.save(profile);

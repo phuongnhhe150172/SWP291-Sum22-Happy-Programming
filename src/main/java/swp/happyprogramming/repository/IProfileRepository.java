@@ -4,14 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import swp.happyprogramming.model.UserProfile;
+import swp.happyprogramming.model.Mentor;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface IProfileRepository extends JpaRepository<UserProfile, Long> {
-    Optional<UserProfile> findByUserID(long userID);
+public interface IProfileRepository extends JpaRepository<Mentor, Long> {
+    Optional<Mentor> findByUserID(long userID);
 
     @Modifying
     @Transactional

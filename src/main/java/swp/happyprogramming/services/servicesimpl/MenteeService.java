@@ -3,16 +3,11 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.ExperienceDTO;
 import swp.happyprogramming.dto.MenteeDTO;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.SkillDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
-import swp.happyprogramming.services.IExperienceService;
 import swp.happyprogramming.services.IMenteeService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,9 +36,9 @@ public class MenteeService implements IMenteeService {
 
     public MenteeDTO findMentee(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
+            Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
             Address address = addressRepository.findByAddressId(profile.getAddressId());
 
@@ -54,7 +49,7 @@ public class MenteeService implements IMenteeService {
         }
     }
 
-    private MenteeDTO combineUserAndProfile(User user, UserProfile profile,Address address) {
+    private MenteeDTO combineUserAndProfile(User user, Mentor profile, Address address) {
         ModelMapper mapper = new ModelMapper();
         MenteeDTO menteeDTO = mapper.map(profile, MenteeDTO.class);
         Ward ward = wardRepository.findById(address.getWardID()).orElse(null);
@@ -89,9 +84,9 @@ public class MenteeService implements IMenteeService {
 
     public void updateMentee(Long id, MenteeDTO menteeDTO, long wardId){
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<UserProfile> optionalUserProfile = profileRepository.findByUserID(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            UserProfile profile = optionalUserProfile.get();
+            Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
 
             user.setFirstName(menteeDTO.getFirstName());
