@@ -42,8 +42,7 @@ public class MenteeService implements IMenteeService {
             User user = optionalUser.get();
             Address address = addressRepository.findByAddressId(user.getAddressId());
 
-            MenteeDTO menteeDTO = combineUserAndProfile(user,profile,address);
-            return menteeDTO;
+            return combineUserAndProfile(user,profile,address);
         } else {
             return null;
         }
@@ -92,6 +91,11 @@ public class MenteeService implements IMenteeService {
             user.setFirstName(menteeDTO.getFirstName());
             user.setLastName(menteeDTO.getLastName());
             user.setEmail(menteeDTO.getEmail());
+            user.setGender(menteeDTO.getGender());
+            user.setDob(menteeDTO.getDob());
+            user.setPhoneNumber(menteeDTO.getPhoneNumber());
+            user.setBio(menteeDTO.getBio());
+            user.setSchool(menteeDTO.getSchool());
             userRepository.save(user);
 
             user.setGender(menteeDTO.getGender());

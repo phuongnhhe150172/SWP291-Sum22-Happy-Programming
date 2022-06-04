@@ -40,6 +40,25 @@ public class MentorProfileController {
     @Autowired
     private ISkillService skillService;
 
+    @GetMapping("/mentee/view")
+    public String viewMentorProfile(Model model, @RequestParam(value = "idOr", required = false) String idOr,
+                                    @RequestParam(value = "idEe", required = false) String idEe) {
+        try {
+            long mentorId = Integer.parseInt(idOr);
+            long menteeId = Integer.parseInt(idEe);
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+            Integer status = userService.statusRequest(mentorDTO.getId(), menteeDTO.getId());
+
+            model.addAttribute("mentor", mentorDTO);
+            model.addAttribute("mentee", menteeDTO);
+            model.addAttribute("status", status);
+            return "mentee/view/mentorProfile";
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
+
     @GetMapping("/mentor/profile/{id}")
     public String viewProfilePublic(Model model, @PathVariable String id) {
         try {
@@ -47,7 +66,7 @@ public class MentorProfileController {
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
             if (mentorDTO == null) return "redirect:index";
             model.addAttribute("mentor", mentorDTO);
-            return "profile";
+            return "mentor/profile/view";
         } catch (NumberFormatException e) {
             return "redirect:/index";
         }

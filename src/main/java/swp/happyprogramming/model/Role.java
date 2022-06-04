@@ -28,7 +28,7 @@ public class Role {
     }
 
     public Role() {
-
+//        empty constructor
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

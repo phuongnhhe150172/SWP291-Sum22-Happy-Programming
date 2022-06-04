@@ -10,7 +10,7 @@ public interface IExperienceRepository extends JpaRepository<Experience, Long> {
     @Query(
             value = "SELECT e.id,e.description FROM `happyprogramming`.experience as e WHERE id in (SELECT experience_id FROM `happyprogramming`.mentor_experience WHERE mentor_id = ?1)",
             nativeQuery = true)
-    ArrayList<Experience> findByProfileId(long id);
+    ArrayList<Experience> findByMentorId(long id);
 
     @Query(
             value = "Select * from happyprogramming.experience as e order by e.id desc limit ?1",nativeQuery = true

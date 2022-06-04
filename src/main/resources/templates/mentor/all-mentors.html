@@ -109,11 +109,11 @@
             <table class="w-full text-sm text-left text-gray-400">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                 <tr>
-                    <th class="px-6 py-4"> Name</th>
-                    <th class="px-6 py-4"> phone</th>
-                    <th class="px-6 py-4"> Email</th>
-                    <th class="px-6 py-4"> Address</th>
-                    <th scope="col" class="px-6 py-3">
+                    <th class="px-4 py-4"> Name</th>
+                    <th class="px-4 py-4"> phone</th>
+                    <th class="px-4 py-4"> Email</th>
+                    <th class="px-4 py-4"> Address</th>
+                    <th scope="col" class="px-4 py-3">
                         <span class="sr-only">Action</span>
                     </th>
                 </tr>
@@ -121,22 +121,22 @@
                 <tbody>
                 <th:block th:each="mentor: ${mentors}">
                     <tr class="border-b bg-gray-800 border-gray-700">
-                        <td class="px-6 py-4 flex items-center gap-3 text-white font-medium ">
+                        <td class="px-4 py-4 flex items-center gap-3 text-white font-medium ">
                             <img class="w-12 h-12 rounded-full" src="../../static/imgs/avatar2.jpg"
                                  alt="Bonnie image" th:src="@{/imgs/avatar1.jpg}"/>
                             <a href="" th:text="${mentor.fullName}">Nguyen Hong Phuong</a>
                         </td>
-                        <td class="px-6 py-4" th:text="${mentor.phoneNumber}">
+                        <td class="px-4 py-4" th:text="${mentor.phoneNumber}">
                             0987654321
                         </td>
-                        <td class="px-6 py-4" th:text="${mentor.email}">
+                        <td class="px-4 py-4" th:text="${mentor.email}">
                             test@example.com.vn
                         </td>
-                        <td class="px-6 py-4 max-w-[300px]"
+                        <td class="px-4 py-4 max-w-[300px]"
                             th:text="${mentor.street+', '+mentor.ward+', '+mentor.district+', '+mentor.province }">
                             Hoa Lac, Thach That, Hanoi
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-4 py-4">
                             <a href="#" class="mr-4 text-green-500 hover:underline">
                                 Edit
                             </a>
