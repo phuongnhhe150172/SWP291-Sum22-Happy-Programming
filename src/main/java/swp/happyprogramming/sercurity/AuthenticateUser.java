@@ -23,21 +23,16 @@ public class AuthenticateUser extends org.springframework.security.core.userdeta
         this.user = user;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
 
-    private static Collection<? extends GrantedAuthority> getAuthorities(User user){
+    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
         Set<String> roleAndPermissions = new HashSet<>();
         List<Role> roles = (List<Role>) user.getRoles();
-
-        for (Role role : roles)
-        {
-            roleAndPermissions.add(role.getName());
-        }
+        roles.forEach(role -> roleAndPermissions.add(role.getName()));
         String[] roleNames = new String[roleAndPermissions.size()];
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roleAndPermissions.toArray(roleNames));
-        return authorities;
+        return AuthorityUtils.createAuthorityList(roleAndPermissions.toArray(roleNames));
     }
 }

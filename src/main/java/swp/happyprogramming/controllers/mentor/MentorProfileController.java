@@ -47,7 +47,7 @@ public class MentorProfileController {
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
             if (mentorDTO == null) return "redirect:index";
             model.addAttribute("mentor", mentorDTO);
-            return "profile";
+            return "mentor/profile/view";
         } catch (NumberFormatException e) {
             return "redirect:/index";
         }
