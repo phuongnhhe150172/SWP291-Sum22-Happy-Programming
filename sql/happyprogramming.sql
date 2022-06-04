@@ -265,6 +265,34 @@ LOCK TABLES `login_histories` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mentor`
+--
+
+DROP TABLE IF EXISTS `mentor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mentor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mentor`
+--
+
+LOCK TABLES `mentor` WRITE;
+/*!40000 ALTER TABLE `mentor` DISABLE KEYS */;
+INSERT INTO `mentor` VALUES (12,12,'2022-05-20 11:56:25','2022-05-20 11:56:25'),(13,19,'2022-05-20 21:25:21','2022-05-20 21:25:21'),(14,20,'2022-05-25 11:29:48','2022-05-25 11:29:48'),(15,21,'2022-05-29 23:35:38','2022-05-29 23:35:38'),(16,22,'2022-06-03 22:30:29','2022-06-03 22:30:29'),(17,23,'2022-06-03 22:49:06','2022-06-03 22:49:06');
+/*!40000 ALTER TABLE `mentor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mentor_experience`
 --
 
@@ -278,7 +306,7 @@ CREATE TABLE `mentor_experience` (
   KEY `mentorex_idx` (`mentor_id`),
   KEY `exidex_idx` (`experience_id`),
   CONSTRAINT `exidex` FOREIGN KEY (`experience_id`) REFERENCES `experience` (`id`),
-  CONSTRAINT `mentorex` FOREIGN KEY (`mentor_id`) REFERENCES `user_profiles` (`id`)
+  CONSTRAINT `mentorex` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -303,7 +331,7 @@ CREATE TABLE `mentorregister` (
   `mentor_id` int NOT NULL AUTO_INCREMENT,
   `accepted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`mentor_id`),
-  CONSTRAINT `mentor_id` FOREIGN KEY (`mentor_id`) REFERENCES `user_profiles` (`id`)
+  CONSTRAINT `mentor_id` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -507,34 +535,6 @@ LOCK TABLES `user_like_posts` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_profiles`
---
-
-DROP TABLE IF EXISTS `user_profiles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_profiles` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_profiles`
---
-
-LOCK TABLES `user_profiles` WRITE;
-/*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (12,12,'2022-05-20 11:56:25','2022-05-20 11:56:25'),(13,19,'2022-05-20 21:25:21','2022-05-20 21:25:21'),(14,20,'2022-05-25 11:29:48','2022-05-25 11:29:48'),(15,21,'2022-05-29 23:35:38','2022-05-29 23:35:38'),(16,22,'2022-06-03 22:30:29','2022-06-03 22:30:29'),(17,23,'2022-06-03 22:49:06','2022-06-03 22:49:06');
-/*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_roles`
 --
 
@@ -570,13 +570,12 @@ DROP TABLE IF EXISTS `user_skills`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_skills` (
-  `user_id` int NOT NULL,
+  `mentor_id` int NOT NULL,
   `skill_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`skill_id`),
   KEY `skillidref_idx` (`skill_id`),
-  KEY `useridskill_idx` (`user_id`),
-  CONSTRAINT `skillidref` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`),
-  CONSTRAINT `useridskill` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `useridskill_idx` (`mentor_id`),
+  CONSTRAINT `mentoriduserskills` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`),
+  CONSTRAINT `skillidref` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -586,7 +585,6 @@ CREATE TABLE `user_skills` (
 
 LOCK TABLES `user_skills` WRITE;
 /*!40000 ALTER TABLE `user_skills` DISABLE KEYS */;
-INSERT INTO `user_skills` VALUES (12,1),(12,3),(19,3);
 /*!40000 ALTER TABLE `user_skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -627,7 +625,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -668,4 +666,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-04 15:21:32
+-- Dump completed on 2022-06-04 16:16:07
