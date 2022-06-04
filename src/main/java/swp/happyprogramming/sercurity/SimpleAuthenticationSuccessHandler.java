@@ -51,7 +51,7 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 try {
                     String sessionRole = "MENTEE";
                     session.setAttribute("role",sessionRole);
-                    session.setAttribute("userInformation",user);
+                    session.setAttribute("userInformation",userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
                     // TODO Auto-generated catch block

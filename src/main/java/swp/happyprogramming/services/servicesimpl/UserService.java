@@ -28,8 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserService implements IUserService {
-    @Autowired
-    private HttpSession session;
+    ModelMapper mapper = new ModelMapper();
 
     @Autowired
     private IUserRepository userRepository;
@@ -108,9 +107,39 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO findUser(){
-        UserDTO user =(UserDTO) session.getAttribute("userInformation");
-        user.setFullName(user.getFirstName() + user.getLastName());
-        return user;
+    public UserDTO findUser(UserDTO userDTO){
+        userDTO.setFullName(userDTO.getFirstName() + userDTO.getLastName());
+        Address address = addressRepository.findByAddressId(userDTO.getAddressId());
+        userDTO.setStreet(address.getName());
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO updateUserProfile(UserDTO userDTO,UserDTO user, long wardId){
+        User use = mapper.map(user, User.class);
+
+        updateUser(use,userDTO);
+
+        updateAddress(userDTO,wardId,use);
+        return mapper.map(use,UserDTO.class);
+    }
+
+    private void updateUser(User user, UserDTO userDTO) {
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setBio(userDTO.getBio());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setDob(userDTO.getDob());
+        user.setPrice(userDTO.getPrice());
+        user.setGender(userDTO.getGender());
+        user.setSchool(userDTO.getSchool());
+        userRepository.save(user);
+    }
+
+    private void updateAddress(UserDTO userDTO, long wardId, User user) {
+        Address address = addressRepository.findByAddressId(user.getAddressId());
+        address.setName(userDTO.getStreet());
+        address.setWardID(wardId);
+        addressRepository.save(address);
     }
 }

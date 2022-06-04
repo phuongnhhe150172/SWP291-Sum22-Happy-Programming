@@ -22,4 +22,6 @@ public class MentorsManagementController {
         model.addAttribute("mentors", mentors);
         return "admin/all-mentors";
     }
+
+
 }
