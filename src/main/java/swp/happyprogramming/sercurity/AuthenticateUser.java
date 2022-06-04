@@ -27,7 +27,6 @@ public class AuthenticateUser extends org.springframework.security.core.userdeta
         return user;
     }
 
-
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
         Set<String> roleAndPermissions = new HashSet<>();
         List<Role> roles = (List<Role>) user.getRoles();

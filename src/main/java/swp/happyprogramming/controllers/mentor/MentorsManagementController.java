@@ -1,4 +1,4 @@
-package swp.happyprogramming.controllers.admin;
+package swp.happyprogramming.controllers.mentor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

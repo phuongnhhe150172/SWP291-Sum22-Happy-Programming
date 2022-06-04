@@ -26,6 +26,7 @@ public class MenteeProfileController {
     @Autowired
     private WardService wardService;
 
+
     @GetMapping("/mentee/profile/{id}")
     public String getProfile(WebRequest request, Model model, @PathVariable String id) {
         try {
@@ -37,6 +38,24 @@ public class MenteeProfileController {
             return "redirect:/index";
         }
     }
+//    @GetMapping("/mentor/view")
+//    public String viewMenteeProfile(Model model, @RequestParam(value = "idOr", required = false) String idOr,
+//                                    @RequestParam(value = "idEe", required = false) String idEe) {
+//        try {
+//            long mentorId = Integer.parseInt(idOr);
+//            long menteeId = Integer.parseInt(idEe);
+//            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+//            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+//            Integer status = userService.statusRequest(mentorDTO.getId(), menteeDTO.getId());
+//
+//            model.addAttribute("mentor", mentorDTO);
+//            model.addAttribute("mentee", menteeDTO);
+//            model.addAttribute("status", status);
+//            return "mentor/view/menteeProfile";
+//        } catch (NumberFormatException e) {
+//            return "redirect:index";
+//        }
+//    }
 
     @GetMapping("/mentee/profile/update")
     public String updateProfileMentee(Model model, @RequestParam(value = "id", required = false) String id) {
