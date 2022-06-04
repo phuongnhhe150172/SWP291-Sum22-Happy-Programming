@@ -20,6 +20,7 @@ import swp.happyprogramming.repository.IProfileRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserService implements IUserService {
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private IUserRepository userRepository;
@@ -51,7 +54,7 @@ public class UserService implements IUserService {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         user.setAddressId(savedAddress.getId());
-        user.setRoles(new Role(1));
+        user.setRoles(new Role(2));
         User savedUser = userRepository.save(user);
 //        userRepository.addRoleUser(savedUser.getId(), 1);
         Mentor mentor = new Mentor();
@@ -102,5 +105,12 @@ public class UserService implements IUserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserDTO findUser(){
+        UserDTO user =(UserDTO) session.getAttribute("userInformation");
+        user.setFullName(user.getFirstName() + user.getLastName());
+        return user;
     }
 }

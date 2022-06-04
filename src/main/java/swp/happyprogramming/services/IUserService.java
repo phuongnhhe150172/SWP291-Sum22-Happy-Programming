@@ -21,6 +21,7 @@ public interface IUserService extends UserDetailsService {
 
     List<ConnectionDTO> getConnectionsByEmail(String email);
 
-
     User findByEmail(String email);
+
+    UserDTO findUser();
 }
