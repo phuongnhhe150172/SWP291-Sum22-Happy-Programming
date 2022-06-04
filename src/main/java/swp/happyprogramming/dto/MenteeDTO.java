@@ -10,33 +10,33 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class MenteeDTO {
+public class MenteeDTO extends UserDTO{
 
-    private long id;
-    private long profileId;
-    private String fullName;
-    private String firstName;
-    private String lastName;
-    private String email;
+//    private long id;
+//    private long profileId;
+//    private String fullName;
+//    private String firstName;
+//    private String lastName;
+//    private String email;
 
-    private int gender;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dob;
-    private String phoneNumber;
-    private long addressId;
-    private String ward;
-    private String district;
-    private String province;
-    private String street;
-    private String bio;
-    private String school;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date created;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date modified;
+//    private int gender;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date dob;
+//    private String phoneNumber;
+//    private long addressId;
+//    private String ward;
+//    private String district;
+//    private String province;
+//    private String street;
+//    private String bio;
+//    private String school;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date created;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date modified;
 
     public MenteeDTO() {
-        this.modified = Date.from(Instant.now());
-        this.modified = Date.from(Instant.now());
+//        this.modified = Date.from(Instant.now());
+//        this.modified = Date.from(Instant.now());
     }
 }
