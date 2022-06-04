@@ -9,7 +9,7 @@ import swp.happyprogramming.services.IUserService;
 
 @Controller
 @RequestMapping("/admin")
-public class DashboardController {
+public class AdminController {
     @Autowired
     private IUserService userService;
 
