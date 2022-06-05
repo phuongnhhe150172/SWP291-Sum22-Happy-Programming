@@ -20,7 +20,7 @@
              class="w-64 h-64 rounded-full border-2 border-gray-400 mx-auto" alt="">
     </div>
 
-    <form class="col-span-3 p-8" th:action="@{/update}" th:object="${mentor}" method="post">
+    <form class="col-span-3 p-8" th:action="@{/update/cv}" th:object="${mentor}" method="post">
         <div class="">
             <input type="hidden" name="id" th:value="*{id}" th:field="*{id}">
             <input type="hidden" name="addressId" th:value="*{addressId}" th:field="*{addressId}">
@@ -194,7 +194,8 @@
 
 
         </div>
-        <!--        <input type="hidden" th:value="${mentorId}" th:name="mentorId">-->
+                <input type="hidden" th:value="${mentorId}" th:name="mentorId">
+                <input type="hidden" th:value="${mentor.profileId}" th:name="profileId">
         <!--        <input type="hidden" th:name="wa" th:value="${wardId}">-->
         <button type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center m-[5px]">

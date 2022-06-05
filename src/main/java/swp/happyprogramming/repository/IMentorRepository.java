@@ -24,4 +24,14 @@ public interface IMentorRepository extends JpaRepository<Mentor,Long> {
     @Transactional
     @Query(value = "Insert into mentor_experience(mentor_id,experience_id) values (?1,?2)",nativeQuery = true)
     void insertByMentorIdAndExperienceId(long mentorId,long experienceId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO user_skills (mentor_id,skill_id) values (?1,?2)", nativeQuery = true)
+    void addSkillUser(long userId, long skillId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from user_skills where mentor_id = ?1 and skill_id = ?2", nativeQuery = true)
+    void deleteByUserIdAndSkillId(long userId, long skillId);
 }

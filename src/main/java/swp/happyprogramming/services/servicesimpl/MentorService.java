@@ -8,6 +8,7 @@ import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,9 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private ISkillRepository skillRepository;
+
+    @Autowired
+    private IMentorRepository mentorRepository;
 
     // READ SECTION
     public MentorDTO findMentor(long id) {
@@ -84,7 +88,7 @@ public class MentorService implements IMentorService {
     }
 
     //    UPDATE SECTION
-    public void updateMentor(long id, MentorDTO mentorDTO, long wardId, long wa, List<String> experienceValue, List<String> skillValue) {
+    public void updateMentor(long id,long profileId, MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
@@ -101,14 +105,16 @@ public class MentorService implements IMentorService {
             deleteExperienceAndMentorExperience(profile);
 
             //save experience with mentor
-            saveExperienceAndMentorExperience(profile, experienceValue);
+            if(experienceValue != null){
+                saveExperienceAndMentorExperience(profile, experienceValue);
+            }
 
             //delete skill with user
-            deleteUserSkills(user);
+            deleteUserSkills(profileId);
 
             //save skill with user
             if (skillValue != null) {
-                saveUserSkills(user, skillValue);
+                saveUserSkills(profileId, skillValue);
             }
 
         }
@@ -125,21 +131,27 @@ public class MentorService implements IMentorService {
         return mapSkill;
     }
 
-    private void saveUserSkills(User user, List<String> skillValue) {
+    private void saveUserSkills(long profileId, List<String> skillValue) {
         skillValue
-                .forEach(value -> userRepository.addSkillUser(user.getId(), Long.parseLong(value)));
+                .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
     }
 
     private void updateUser(User user, MentorDTO mentorDTO) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
-        user.setEmail(mentorDTO.getEmail());
+        user.setSchool(mentorDTO.getSchool());
+        user.setGender(mentorDTO.getGender());
+        user.setPrice(mentorDTO.getPrice());
+        user.setDob(mentorDTO.getDob());
+        user.setPhoneNumber(mentorDTO.getPhoneNumber());
+        user.setModified(Date.from(Instant.now()));
+        user.setBio(mentorDTO.getBio());
         userRepository.save(user);
     }
 
     private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {
         List<Experience> listExperienceWillSave = experieceValue.stream()
-                .map(Experience::new).collect(Collectors.toList());
+                .map(value -> new Experience(value)).collect(Collectors.toList());
 
         experienceRepository.saveAll(listExperienceWillSave);
         ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
@@ -165,10 +177,10 @@ public class MentorService implements IMentorService {
     }
 
 
-    private void deleteUserSkills(User user) {
-        ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(user.getId());
+    private void deleteUserSkills(long profileId) {
+        ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(profileId);
 
-        listSkill.forEach(value -> userRepository.deleteByUserIdAndSkillId(user.getId(), value.getId()));
+        listSkill.forEach(value -> mentorRepository.deleteByUserIdAndSkillId(profileId, value.getId()));
     }
 
 

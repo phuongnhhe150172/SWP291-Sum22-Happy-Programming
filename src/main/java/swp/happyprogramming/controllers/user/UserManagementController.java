@@ -197,4 +197,22 @@ public class UserManagementController {
             return "redirect:/index";
         }
     }
+
+    @PostMapping("/update/cv")
+    public String updateMentorCv(@ModelAttribute("mentor") MentorDTO mentor,
+                                      @RequestParam Map<String, Object> params,
+                                      @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                                      @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
+        try {
+            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
+            long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
+            long profileId = Integer.parseInt(String.valueOf(params.get("profileId")));
+
+            mentorService.updateMentor(mentorId, profileId, mentor, wardId, experieceValue, skillValue);
+
+            return "redirect:cv?id=" + mentorId;
+        } catch (NumberFormatException e) {
+            return "redirect:index";
+        }
+    }
 }
