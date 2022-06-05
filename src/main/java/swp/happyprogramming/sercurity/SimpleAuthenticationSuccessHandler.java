@@ -50,6 +50,7 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 try {
                     String sessionRole = "MENTOR_AND_MENTEE";
                     session.setAttribute("role", sessionRole);
+                    session.setAttribute("id",userDTO.getId());
                     session.setAttribute("userInformation", userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
@@ -59,6 +60,7 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 try {
                     String sessionRole = "MENTEE";
                     session.setAttribute("role", sessionRole);
+                    session.setAttribute("id",userDTO.getId());
                     session.setAttribute("userInformation", userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
