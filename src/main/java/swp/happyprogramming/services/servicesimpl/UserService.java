@@ -12,17 +12,16 @@ import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.Address;
+import swp.happyprogramming.model.Mentor;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.model.Mentor;
-import swp.happyprogramming.repository.IAddressRepository;
-import swp.happyprogramming.repository.IProfileRepository;
-import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IUserService;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,14 +47,12 @@ public class UserService implements IUserService {
 
     private void saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         user.setAddressId(savedAddress.getId());
         user.setRoles(new Role(2));
         User savedUser = userRepository.save(user);
-//        userRepository.addRoleUser(savedUser.getId(), 1);
         Mentor mentor = new Mentor();
         mentor.setUserID(savedUser.getId());
         profileRepository.save(mentor);

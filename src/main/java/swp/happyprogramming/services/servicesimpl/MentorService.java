@@ -3,9 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.ExperienceDTO;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.SkillDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -59,16 +57,14 @@ public class MentorService implements IMentorService {
                                             ArrayList<Experience> listExperience, Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-        List<ExperienceDTO> listExperienceDTO = listExperience.stream().map(value -> mapper.map(value, ExperienceDTO.class)).collect(Collectors.toList());
-        List<SkillDTO> listSkillDTO = listSkill.stream().map(value -> mapper.map(value, SkillDTO.class)).collect(Collectors.toList());
         Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
         District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
-        mentorDTO.setExperiences((ArrayList<ExperienceDTO>) listExperienceDTO);
-        mentorDTO.setSkills((ArrayList<SkillDTO>) listSkillDTO);
+        mentorDTO.setExperiences((ArrayList<Experience>) listExperience);
+        mentorDTO.setSkills((ArrayList<Skill>) listSkill);
         mentorDTO.setWard(ward.getName());
         mentorDTO.setDistrict(district.getName());
         mentorDTO.setProvince(province.getName());
@@ -111,20 +107,14 @@ public class MentorService implements IMentorService {
         }
     }
 
-    public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<SkillDTO> listSkillDTO) {
+    public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<Skill> mentorSkill) {
         Map<Skill, Integer> mapSkill = new HashMap<>();
-        for (Skill skill : listSkill) {
-            boolean flag = false;
-            for (SkillDTO sk : listSkillDTO) {
-                if (sk.getId() == skill.getId()) {
-                    mapSkill.put(skill, 1);
-                    flag = true;
-                }
-            }
-            if (!flag) {
-                mapSkill.put(skill, 0);
-            }
-        }
+
+        mentorSkill.forEach(skill -> {
+            int count = listSkill.contains(skill) ? 1 : 0;
+            mapSkill.put(skill, count);
+        });
+
         return mapSkill;
     }
 

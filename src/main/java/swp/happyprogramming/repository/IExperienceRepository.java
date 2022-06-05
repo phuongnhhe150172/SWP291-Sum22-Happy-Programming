@@ -12,8 +12,7 @@ public interface IExperienceRepository extends JpaRepository<Experience, Long> {
             nativeQuery = true)
     ArrayList<Experience> findByMentorId(long id);
 
-    @Query(
-            value = "Select * from happyprogramming.experience as e order by e.id desc limit ?1",nativeQuery = true
-    )
+    @Query(value = "Select * from happyprogramming.experience as e order by e.id desc limit ?1",
+            nativeQuery = true)
     ArrayList<Experience> findExperienceLast(int number);
 }

@@ -103,7 +103,7 @@ public class MentorProfileController {
             model.addAttribute("listExperience", listExperience);
             model.addAttribute("mapSkill", mapSkill);
 
-            return "mentor/profile/update";
+            return "mentor/update";
         } catch (NumberFormatException e) {
             return "redirect:/index";
         }
