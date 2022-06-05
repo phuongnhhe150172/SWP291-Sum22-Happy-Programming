@@ -56,9 +56,11 @@ public class UserManagementController {
         } else {
             user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
         }
+        String role =(String) session.getAttribute("role");
         String address = addressService.getAddress(user.getAddressId());
         model.addAttribute("user", user);
         model.addAttribute("address", address);
+        model.addAttribute("role",role);
         return "user/user-profile";
     }
 
