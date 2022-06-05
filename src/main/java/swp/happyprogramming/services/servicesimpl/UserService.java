@@ -36,8 +36,6 @@ public class UserService implements IUserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
-    private IRoleRepository roleRepository;
-    @Autowired
     private IMentorRepository mentorRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
@@ -53,8 +51,8 @@ public class UserService implements IUserService {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         user.setAddressId(savedAddress.getId());
+        user.addRole(new Role(2));
         User savedUser = userRepository.save(user);
-        userRepository.addRoleUser(savedUser.getId(), 2);
         Mentor mentor = new Mentor();
         mentor.setUserID(savedUser.getId());
         mentorRepository.save(mentor);
@@ -73,7 +71,7 @@ public class UserService implements IUserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                mapRoleToAuthorities(roleRepository.getRolesByUserId(user.getId()))
+                mapRoleToAuthorities(user.getRoles())
         );
     }
 
@@ -115,6 +113,7 @@ public class UserService implements IUserService {
         userDTO.setStreet(address.getName());
         return userDTO;
     }
+
     @Override
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
@@ -129,7 +128,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
+        User currentUser = userRepository.getById(userDTO.getId());
         User user = mapper.map(userDTO, User.class);
+        user.setEmail(currentUser.getEmail());
+        user.setId(currentUser.getId());
+        user.setPassword(currentUser.getPassword());
+        user.setAddressId(currentUser.getAddressId());
+        user.setRoles(currentUser.getRoles());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
         return mapper.map(user, UserDTO.class);

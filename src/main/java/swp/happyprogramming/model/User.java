@@ -53,11 +53,20 @@ public class User {
     @Column(name = "modified")
     private Date modified;
 
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     public User() {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
+        this.roles = new ArrayList<>();
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
 }
