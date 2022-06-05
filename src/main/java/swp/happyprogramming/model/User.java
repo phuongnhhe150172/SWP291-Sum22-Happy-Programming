@@ -74,4 +74,10 @@ public class User {
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Mentor> mentors;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Post> posts;
 }

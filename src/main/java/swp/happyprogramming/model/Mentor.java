@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -30,4 +31,8 @@ public class Mentor {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
     }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

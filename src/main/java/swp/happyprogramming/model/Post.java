@@ -15,8 +15,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "mentee_id")
-    private long menteeId;
+//    @Column(name = "mentee_id")
+//    private long menteeId;
 
     @Column(name = "description")
     private String description;
@@ -40,4 +40,8 @@ public class Post {
         created = Date.from(Instant.now());
         modified = Date.from(Instant.now());
     }
+
+    @ManyToOne
+    @JoinColumn(name = "mentee_id")
+    private User user;
 }
