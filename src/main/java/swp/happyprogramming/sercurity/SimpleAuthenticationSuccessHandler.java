@@ -10,7 +10,9 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.User;
+import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.ServletException;
@@ -39,6 +41,9 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
         String email = authentication.getName();
         User user = userService.findByEmail(email);
         UserDTO userDTO = mapper.map(user, UserDTO.class);
+        //set address street
+        Address address = addressRepository.findByAddressId(user.getAddressId());
+        userDTO.setStreet(address.getName());
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         authorities.forEach(authority -> {
             if (authority.getAuthority().equals("ROLE_MENTOR")) {
