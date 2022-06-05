@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -38,39 +37,39 @@ public class MentorService implements IMentorService {
     @Autowired
     private ISkillRepository skillRepository;
 
-    ModelMapper mapper = new ModelMapper();
-
     // READ SECTION
-    public MentorDTO findMentor(UserDTO userDTO) {
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(userDTO.getId());
-        if (optionalUserProfile.isPresent()) {
+    public MentorDTO findMentor(long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
+        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
-            Address address = addressRepository.findByAddressId(userDTO.getAddressId());
+            User user = optionalUser.get();
+            Address address = addressRepository.findByAddressId(user.getAddressId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
-            listExperience.forEach(value -> System.out.println(value));
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
             //set data to mentorDTO
-            return combineUserAndProfile(userDTO, mentor, listSkill, listExperience, address);
+            return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
         } else {
             return null;
         }
     }
 
-    private MentorDTO combineUserAndProfile(UserDTO user, Mentor mentor, ArrayList<Skill> listSkill,
+    private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
                                             ArrayList<Experience> listExperience, Address address) {
-        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
-//        Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
-//        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
-//        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
+        ModelMapper mapper = new ModelMapper();
+        MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
+        Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
+        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
+        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
         mapper.map(user, mentorDTO);
-        mentorDTO.setProfileId(mentor.getId());
+        mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
-//        mentorDTO.setWard(ward.getName());
-//        mentorDTO.setDistrict(district.getName());
-//        mentorDTO.setProvince(province.getName());
+        mentorDTO.setWard(ward.getName());
+        mentorDTO.setDistrict(district.getName());
+        mentorDTO.setProvince(province.getName());
         // The street name is set to "" by default
-//        mentorDTO.setStreet(address.getName());
+        mentorDTO.setStreet(address.getName());
         return mentorDTO;
     }
 
@@ -80,8 +79,7 @@ public class MentorService implements IMentorService {
         return userRepository
                 .findUsersByRole("ROLE_MENTOR")
                 .stream()
-                .map(user -> mapper.map(user,UserDTO.class))
-                .map(user -> findMentor(user))
+                .map(user -> findMentor(user.getId()))
                 .collect(Collectors.toList());
     }
 

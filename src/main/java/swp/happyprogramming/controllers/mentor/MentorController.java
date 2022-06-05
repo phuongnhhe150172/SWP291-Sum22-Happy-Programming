@@ -12,7 +12,6 @@ import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +45,9 @@ public class MentorController {
 
     @GetMapping("/mentor/profile/{id}")
     public String viewProfilePublic(Model model, @PathVariable String id) {
-        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
-            MentorDTO mentorDTO = mentorService.findMentor(user);
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
             if (mentorDTO == null) return "redirect:index";
             model.addAttribute("user", mentorDTO);
             return "user/user-profile";
@@ -60,11 +58,10 @@ public class MentorController {
 
     @GetMapping("/mentor/profile/update")
     public String updateProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
-        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
 
-            MentorDTO mentorDTO = mentorService.findMentor(user);
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
             long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddressId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
@@ -149,10 +146,9 @@ public class MentorController {
 
     @GetMapping("/mentor/profile/view")
     public String viewMentorProfilePrivate(Model model, @RequestParam(value = "id", required = false) String id) {
-        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
-            MentorDTO mentorDTO = mentorService.findMentor(user);
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
 
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";

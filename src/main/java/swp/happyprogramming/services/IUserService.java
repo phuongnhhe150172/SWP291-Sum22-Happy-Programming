@@ -23,5 +23,7 @@ public interface IUserService extends UserDetailsService {
 
     User findByEmail(String email);
 
+    UserDTO findUser(UserDTO userDTO);
+
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 }
