@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.DistrictDTO;
-import swp.happyprogramming.dto.ProvinceDTO;
-import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.dto.WardDTO;
+import swp.happyprogramming.dto.*;
 import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.*;
 
@@ -38,12 +35,15 @@ public class UserManagementController {
     @Autowired
     private IAddressService addressService;
 
+    @Autowired
+    private IMentorService mentorService;
+
     @GetMapping("/profile")
     public String showUserProfile(Model model, @RequestParam(value = "id", required = false) String id) {
         if (id != null) {
             long userId = Integer.parseInt(id);
         } else {
-            UserDTO user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
+            UserDTO user = (UserDTO) session.getAttribute("userInformation");
 
             String address = addressService.getAddress(user.getAddressId());
 
@@ -56,7 +56,7 @@ public class UserManagementController {
 
     @GetMapping("/update")
     public String updateUserProfile(Model model) {
-        UserDTO user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
+        UserDTO user = (UserDTO) session.getAttribute("userInformation");
 
         long wardId = wardService.getWardIdByAddressId(user.getAddressId());
         long districtId = districtService.getDistrictIdByWardId(wardId);
@@ -88,6 +88,21 @@ public class UserManagementController {
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
+    }
 
+    @GetMapping("/profile/cv")
+    public String showMentorCv(Model model, @RequestParam(value = "id", required = false) String id) {
+        if (id != null) {
+            long userId = Integer.parseInt(id);
+        } else {
+            UserDTO userSession = (UserDTO) session.getAttribute("userInformation");
+            MentorDTO user = mentorService.findMentor(userSession);
+
+            String address = addressService.getAddress(user.getAddressId());
+
+            model.addAttribute("user", user);
+            model.addAttribute("address", address);
+        }
+        return "user/user-cv";
     }
 }

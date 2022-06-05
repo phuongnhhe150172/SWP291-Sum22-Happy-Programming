@@ -9,6 +9,7 @@ import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.Map;
 
 @Controller
 public class MentorProfileController {
+    @Autowired
+    private HttpSession session;
+
     @Autowired
     private IUserService userService;
 
@@ -43,10 +47,11 @@ public class MentorProfileController {
     @GetMapping("/mentee/view")
     public String viewMentorProfile(Model model, @RequestParam(value = "idOr", required = false) String idOr,
                                     @RequestParam(value = "idEe", required = false) String idEe) {
+        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(idOr);
             long menteeId = Integer.parseInt(idEe);
-            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MentorDTO mentorDTO = mentorService.findMentor(user);
             MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
             Integer status = userService.statusRequest(mentorDTO.getId(), menteeDTO.getId());
 
@@ -61,9 +66,10 @@ public class MentorProfileController {
 
     @GetMapping("/mentor/profile/{id}")
     public String viewProfilePublic(Model model, @PathVariable String id) {
+        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
-            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MentorDTO mentorDTO = mentorService.findMentor(user);
             if (mentorDTO == null) return "redirect:index";
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";
@@ -74,10 +80,11 @@ public class MentorProfileController {
 
     @GetMapping("/mentor/profile/update")
     public String updateProfileMentor(Model model, @RequestParam(value = "id", required = false) String id) {
+        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
 
-            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MentorDTO mentorDTO = mentorService.findMentor(user);
             long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddressId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
@@ -163,9 +170,10 @@ public class MentorProfileController {
 
     @GetMapping("/mentor/profile/view")
     public String viewMentorProfilePrivate(Model model, @RequestParam(value = "id", required = false) String id) {
+        UserDTO user = (UserDTO) session.getAttribute("userInformation");
         try {
             long mentorId = Integer.parseInt(id);
-            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            MentorDTO mentorDTO = mentorService.findMentor(user);
 
             model.addAttribute("mentor", mentorDTO);
             return "mentor/profile/view";

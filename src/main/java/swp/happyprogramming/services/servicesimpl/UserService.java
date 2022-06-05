@@ -112,13 +112,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO findUser(UserDTO userDTO) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddressId());
-        userDTO.setStreet(address.getName());
-        return userDTO;
-    }
-
-    @Override
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User user = mapper.map(userDTO, User.class);
         userRepository.save(user);
