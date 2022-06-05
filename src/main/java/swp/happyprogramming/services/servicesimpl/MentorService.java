@@ -117,8 +117,8 @@ public class MentorService implements IMentorService {
     public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<Skill> mentorSkill) {
         Map<Skill, Integer> mapSkill = new HashMap<>();
 
-        mentorSkill.forEach(skill -> {
-            int count = listSkill.contains(skill) ? 1 : 0;
+        listSkill.forEach(skill -> {
+            int count = mentorSkill.contains(skill) ? 1 : 0;
             mapSkill.put(skill, count);
         });
 

@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.*;
+import swp.happyprogramming.model.Experience;
+import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +39,12 @@ public class UserManagementController {
     private IAddressService addressService;
     @Autowired
     private IMentorService mentorService;
+
+    @Autowired
+    private IExperienceService experienceService;
+
+    @Autowired
+    private ISkillService skillService;
 
     @GetMapping("/profile")
     public String showUserProfile(Model model,
@@ -142,10 +151,50 @@ public class UserManagementController {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentor = mentorService.findMentor(mentorId);
+            String address = addressService.getAddress(mentor.getAddressId());
+
+            model.addAttribute("address", address);
             model.addAttribute("mentor", mentor);
             return "user/mentorcv";
         } catch (NumberFormatException e) {
             return "redirect:index";
+        }
+    }
+
+    @GetMapping("/update/cv")
+    public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id){
+        try {
+            long mentorId = Integer.parseInt(id);
+
+            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddressId());
+            long districtId = districtService.getDistrictIdByWardId(wardId);
+            long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
+
+            List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
+            List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
+            List<WardDTO> listWard = wardService.findAllWard(districtId);
+
+            ArrayList<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentorDTO.getProfileId());
+            List<Skill> listSkill = skillService.getAllSkill();
+            Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentorDTO.getSkills());
+
+            model.addAttribute("mentor", mentorDTO);
+            model.addAttribute("mentorId", mentorId);
+
+            model.addAttribute("wardId", wardId);
+            model.addAttribute("districtId", districtId);
+            model.addAttribute("provinceId", provinceId);
+
+            model.addAttribute("listProvinces", listProvinces);
+            model.addAttribute("listDistrict", listDistrict);
+            model.addAttribute("listWard", listWard);
+            model.addAttribute("listExperience", listExperience);
+            model.addAttribute("mapSkill", mapSkill);
+
+            return "user/updatecv";
+        } catch (NumberFormatException e) {
+            return "redirect:/index";
         }
     }
 }
