@@ -1,7 +1,6 @@
 package swp.happyprogramming.services;
 
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.SkillDTO;
 import swp.happyprogramming.model.Skill;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface IMentorService {
 
     void updateMentor(long mentorId, MentorDTO mentor, long wardId, long wa , List<String> experieceValue, List<String> skillValue);
 
-    Map<Skill,Integer> findMapSkill(List<Skill> listSkill, List<SkillDTO> listSkillDTO);
+    Map<Skill,Integer> findMapSkill(List<Skill> listSkill, List<Skill> listSkillDTO);
 
     List<MentorDTO> getMentors();
 }

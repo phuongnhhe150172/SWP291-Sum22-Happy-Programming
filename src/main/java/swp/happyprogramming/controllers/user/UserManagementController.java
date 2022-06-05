@@ -1,6 +1,5 @@
 package swp.happyprogramming.controllers.user;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.*;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.dto.DistrictDTO;
+import swp.happyprogramming.dto.ProvinceDTO;
+import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.dto.WardDTO;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
@@ -32,12 +33,6 @@ public class UserManagementController {
 
     @Autowired
     private IWardService wardService;
-
-    @Autowired
-    private IExperienceService experienceService;
-
-    @Autowired
-    private ISkillService skillService;
 
     @GetMapping("/user-profile")
     public String showUserProfile(Model model, @RequestParam(value = "id", required = false) String id) {
