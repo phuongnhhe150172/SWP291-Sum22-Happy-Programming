@@ -42,7 +42,7 @@ public class MenteeService implements IMenteeService {
             User user = optionalUser.get();
             Address address = addressRepository.findByAddressId(user.getAddressId());
 
-            return combineUserAndProfile(user,profile,address);
+            return combineUserAndProfile(user, profile, address);
         } else {
             return null;
         }
@@ -81,11 +81,10 @@ public class MenteeService implements IMenteeService {
                 .collect(Collectors.toList());
     }
 
-    public void updateMentee(Long id, MenteeDTO menteeDTO, long wardId){
+    public void updateMentee(Long id, MenteeDTO menteeDTO, long wardId) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
 
             user.setFirstName(menteeDTO.getFirstName());
@@ -97,13 +96,6 @@ public class MenteeService implements IMenteeService {
             user.setBio(menteeDTO.getBio());
             user.setSchool(menteeDTO.getSchool());
             userRepository.save(user);
-
-            user.setGender(menteeDTO.getGender());
-            user.setDob(menteeDTO.getDob());
-            user.setPhoneNumber(menteeDTO.getPhoneNumber());
-            user.setBio(menteeDTO.getBio());
-            user.setSchool(menteeDTO.getSchool());
-            profileRepository.save(profile);
 
             Ward ward = wardRepository.findById(wardId).orElse(null);
             District district = districtRepository.findById(ward.getDistrictId()).orElse(null);

@@ -25,4 +25,8 @@ public class Ward {
 
     @Column(name = "district_id")
     private long districtId;
+
+    public Ward() {
+        this.id = 1;
+    }
 }

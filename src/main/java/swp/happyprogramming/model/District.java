@@ -26,4 +26,8 @@ public class District {
 
     @Column(name = "province_id")
     private long provinceId;
+
+    public District() {
+        this.id = 1;
+    }
 }

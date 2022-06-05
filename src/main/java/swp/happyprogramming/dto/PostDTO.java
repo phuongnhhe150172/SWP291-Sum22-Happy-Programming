@@ -16,6 +16,7 @@ import java.util.Date;
 public class PostDTO {
     private long id;
     private long menteeId;
+    private String userName;
     private String description;
     private float price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

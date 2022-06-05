@@ -23,4 +23,8 @@ public class Province {
 
     @Column(name = "type")
     private String type;
+
+    public Province() {
+        this.id = 1;
+    }
 }

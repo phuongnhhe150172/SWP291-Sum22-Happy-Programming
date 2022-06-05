@@ -37,6 +37,7 @@ public class MentorService implements IMentorService {
     @Autowired
     private ISkillRepository skillRepository;
 
+    // READ SECTION
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
@@ -58,25 +59,32 @@ public class MentorService implements IMentorService {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
         Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
-        District district = districtRepository.findById(ward.getDistrictId()).orElse(null);
-        Province province = provinceRepository.findById(district.getProvinceId()).orElse(null);
+        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
+        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
-        mentorDTO.setExperiences((ArrayList<Experience>) listExperience);
-        mentorDTO.setSkills((ArrayList<Skill>) listSkill);
+        mentorDTO.setExperiences(listExperience);
+        mentorDTO.setSkills(listSkill);
         mentorDTO.setWard(ward.getName());
         mentorDTO.setDistrict(district.getName());
         mentorDTO.setProvince(province.getName());
-
-        if (address == null) {
-            mentorDTO.setStreet("");
-        } else {
-            mentorDTO.setStreet(address.getName());
-        }
+        // The street name is set to "" by default
+        mentorDTO.setStreet(address.getName());
         return mentorDTO;
     }
 
+
+    @Override
+    public List<MentorDTO> getMentors() {
+        return userRepository
+                .findUsersByRole("ROLE_MENTOR")
+                .stream()
+                .map(user -> findMentor(user.getId()))
+                .collect(Collectors.toList());
+    }
+
+    //    UPDATE SECTION
     public void updateMentor(long id, MentorDTO mentorDTO, long wardId, long wa, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
@@ -118,26 +126,16 @@ public class MentorService implements IMentorService {
         return mapSkill;
     }
 
+    private void saveUserSkills(User user, List<String> skillValue) {
+        skillValue
+                .forEach(value -> userRepository.addSkillUser(user.getId(), Long.parseLong(value)));
+    }
+
     private void updateUser(User user, MentorDTO mentorDTO) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setEmail(mentorDTO.getEmail());
         userRepository.save(user);
-    }
-
-    private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
-        Address address = addressRepository.findByAddressId(user.getAddressId());
-        address.setName(mentorDTO.getStreet());
-        address.setWardID(wardId);
-        addressRepository.save(address);
-    }
-
-    private void deleteExperienceAndMentorExperience(Mentor profile) {
-        ArrayList<Experience> listExperience = experienceRepository.findByMentorId(profile.getId());
-        List<Long> listIdExperience = listExperience.stream().map(value -> value.getId()).collect(Collectors.toList());
-
-        listExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(profile.getId(), value.getId()));
-        experienceRepository.deleteAllById(listIdExperience);
     }
 
     private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {
@@ -151,23 +149,28 @@ public class MentorService implements IMentorService {
                 profileRepository.insertByMentorIdAndExperienceId(profile.getId(), value.getId()));
     }
 
+    private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
+        Address address = addressRepository.findByAddressId(user.getAddressId());
+        address.setName(mentorDTO.getStreet());
+        address.setWardID(wardId);
+        addressRepository.save(address);
+    }
+
+    //    DELETE SECTION
+    private void deleteExperienceAndMentorExperience(Mentor profile) {
+        ArrayList<Experience> listExperience = experienceRepository.findByMentorId(profile.getId());
+        List<Long> listIdExperience = listExperience.stream().map(Experience::getId).collect(Collectors.toList());
+
+        listExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(profile.getId(), value.getId()));
+        experienceRepository.deleteAllById(listIdExperience);
+    }
+
+
     private void deleteUserSkills(User user) {
         ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(user.getId());
 
         listSkill.forEach(value -> userRepository.deleteByUserIdAndSkillId(user.getId(), value.getId()));
     }
 
-    private void saveUserSkills(User user, List<String> skillValue) {
-        skillValue
-                .forEach(value -> userRepository.addSkillUser(user.getId(), Long.parseLong(value)));
-    }
 
-    @Override
-    public List<MentorDTO> getMentors() {
-        return userRepository
-                .findUsersByRole("ROLE_MENTOR")
-                .stream()
-                .map(user -> findMentor(user.getId()))
-                .collect(Collectors.toList());
-    }
 }
