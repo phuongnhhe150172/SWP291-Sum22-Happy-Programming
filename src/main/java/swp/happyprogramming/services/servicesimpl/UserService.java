@@ -2,10 +2,8 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -114,6 +112,17 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findUser(UserDTO userDTO) {
         Address address = addressRepository.findByAddressId(userDTO.getAddressId());
+        userDTO.setStreet(address.getName());
+        return userDTO;
+    }
+    @Override
+    public UserDTO findUser(long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        UserDTO userDTO = mapper.map(user, UserDTO.class);
+        Address address = addressRepository.findByAddressId(user.getAddressId());
         userDTO.setStreet(address.getName());
         return userDTO;
     }
