@@ -57,7 +57,7 @@ public class MenteeService implements IMenteeService {
 
         menteeDTO.setId(user.getId());
         menteeDTO.setProfileId(profile.getId());
-        menteeDTO.setFullName(user.getFirstName() + " " + user.getLastName());
+//        menteeDTO.setFullName(user.getFirstName() + " " + user.getLastName());
         menteeDTO.setFirstName(user.getFirstName());
         menteeDTO.setLastName(user.getLastName());
         menteeDTO.setEmail(user.getEmail());

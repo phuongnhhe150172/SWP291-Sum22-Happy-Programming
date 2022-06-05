@@ -19,7 +19,6 @@ import java.util.Date;
 public class UserDTO {
     private long id;
     private long profileId;
-    private String fullName;
     private String firstName;
     private String lastName;
     private int gender;

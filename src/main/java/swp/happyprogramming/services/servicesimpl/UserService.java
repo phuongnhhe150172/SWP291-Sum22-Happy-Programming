@@ -2,8 +2,10 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,7 +38,9 @@ public class UserService implements IUserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
-    private IProfileRepository profileRepository;
+    private IRoleRepository roleRepository;
+    @Autowired
+    private IMentorRepository mentorRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
         if (emailExists(userDTO.getEmail())) {
@@ -51,11 +55,11 @@ public class UserService implements IUserService {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         user.setAddressId(savedAddress.getId());
-        user.setRoles(new Role(2));
         User savedUser = userRepository.save(user);
+        userRepository.addRoleUser(savedUser.getId(), 2);
         Mentor mentor = new Mentor();
         mentor.setUserID(savedUser.getId());
-        profileRepository.save(mentor);
+        mentorRepository.save(mentor);
     }
 
     private boolean emailExists(String email) {
@@ -68,7 +72,11 @@ public class UserService implements IUserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRoleToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                mapRoleToAuthorities(roleRepository.getRolesByUserId(user.getId()))
+        );
     }
 
     @Override
@@ -105,36 +113,21 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO findUser(UserDTO userDTO) {
-        userDTO.setFullName(userDTO.getFirstName() + userDTO.getLastName());
         Address address = addressRepository.findByAddressId(userDTO.getAddressId());
         userDTO.setStreet(address.getName());
         return userDTO;
     }
 
     @Override
-    public UserDTO updateUserProfile(UserDTO userDTO, UserDTO user, long wardId) {
-        User use = mapper.map(user, User.class);
-
-        updateUser(use, userDTO);
-
-        updateAddress(userDTO, wardId, use);
-        return mapper.map(use, UserDTO.class);
-    }
-
-    private void updateUser(User user, UserDTO userDTO) {
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setBio(userDTO.getBio());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setDob(userDTO.getDob());
-        user.setPrice(userDTO.getPrice());
-        user.setGender(userDTO.getGender());
-        user.setSchool(userDTO.getSchool());
+    public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
+        User user = mapper.map(userDTO, User.class);
         userRepository.save(user);
+        updateAddress(userDTO, wardId);
+        return mapper.map(user, UserDTO.class);
     }
 
-    private void updateAddress(UserDTO userDTO, long wardId, User user) {
-        Address address = addressRepository.findByAddressId(user.getAddressId());
+    private void updateAddress(UserDTO userDTO, long wardId) {
+        Address address = addressRepository.findByAddressId(userDTO.getAddressId());
         address.setName(userDTO.getStreet());
         address.setWardID(wardId);
         addressRepository.save(address);

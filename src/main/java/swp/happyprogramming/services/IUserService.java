@@ -25,5 +25,5 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO findUser(UserDTO userDTO);
 
-    UserDTO updateUserProfile(UserDTO userDTO,UserDTO user, long wardId);
+    UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 }

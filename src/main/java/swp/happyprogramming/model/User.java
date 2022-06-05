@@ -53,22 +53,11 @@ public class User {
     @Column(name = "modified")
     private Date modified;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+
 
     public User() {
         this.created = Date.from(Instant.now());
         this.modified = Date.from(Instant.now());
-        this.roles = new ArrayList<>();
     }
 
-    public void setRoles(Role role) {
-        this.roles.add(role);
-    }
 }

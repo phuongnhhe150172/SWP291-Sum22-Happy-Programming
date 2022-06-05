@@ -63,7 +63,6 @@ public class MentorService implements IMentorService {
         Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
-        mentorDTO.setFullName(user.getFirstName() + " " + user.getLastName());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
         mentorDTO.setWard(ward.getName());

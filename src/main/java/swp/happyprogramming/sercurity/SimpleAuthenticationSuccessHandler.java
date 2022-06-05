@@ -24,48 +24,48 @@ import java.util.Collection;
 public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @Autowired private IUserService userService;
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private IAddressRepository addressRepository;
 
     ModelMapper mapper = new ModelMapper();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        HttpSession session =request.getSession();
+        HttpSession session = request.getSession();
         authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         authorities.forEach(authority -> {
-            if(authority.getAuthority().equals("ROLE_MENTOR")){
-                try{
+            if (authority.getAuthority().equals("ROLE_MENTOR")) {
+                try {
                     String sessionRole = "MENTOR_AND_MENTEE";
                     session.setAttribute("role", sessionRole);
                     session.setAttribute("userInformation", userDTO);
-                    redirectStrategy.sendRedirect(request,response,"/home");
-                } catch (Exception e){
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }else if(authority.getAuthority().equals("ROLE_MENTEE")){
-                try {
-                    String sessionRole = "MENTEE";
-                    session.setAttribute("role",sessionRole);
-                    session.setAttribute("userInformation",userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }
-            else if (authority.getAuthority().contains("ROLE_ADMIN")) {
+            } else if (authority.getAuthority().equals("ROLE_MENTEE")) {
+                try {
+                    String sessionRole = "MENTEE";
+                    session.setAttribute("role", sessionRole);
+                    session.setAttribute("userInformation", userDTO);
+                    redirectStrategy.sendRedirect(request, response, "/home");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (authority.getAuthority().contains("ROLE_ADMIN")) {
                 try {
                     redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }  else {
+            } else {
                 throw new IllegalStateException();
             }
         });

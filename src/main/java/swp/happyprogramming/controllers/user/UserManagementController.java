@@ -11,6 +11,7 @@ import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.dto.WardDTO;
+import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
@@ -34,20 +35,26 @@ public class UserManagementController {
     @Autowired
     private IWardService wardService;
 
-    @GetMapping("/user-profile")
+    @Autowired
+    private IAddressService addressService;
+
+    @GetMapping("/profile")
     public String showUserProfile(Model model, @RequestParam(value = "id", required = false) String id) {
         if (id != null) {
             long userId = Integer.parseInt(id);
-        }
-        else {
+        } else {
             UserDTO user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
+
+            String address = addressService.getAddress(user.getAddressId());
+
             model.addAttribute("user", user);
+            model.addAttribute("address", address);
         }
         return "user/user-profile";
     }
 
 
-    @GetMapping("/update-profile")
+    @GetMapping("/update")
     public String updateUserProfile(Model model) {
         UserDTO user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
 
@@ -69,17 +76,15 @@ public class UserManagementController {
         return "user/update-profile";
     }
 
-    @PostMapping("/update-profile")
+    @PostMapping("/update")
     public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
                                     @RequestParam Map<String, Object> params) {
-        UserDTO user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
         try {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
-
-            UserDTO useDTO = userService.updateUserProfile(userDTO, user, wardId);
-            session.setAttribute("userInformation",useDTO);
-
-            return "redirect:user-profile";
+            userService.updateUserProfile(userDTO, wardId);
+            // Update session
+            session.setAttribute("userInformation", userDTO);
+            return "redirect:profile";
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
