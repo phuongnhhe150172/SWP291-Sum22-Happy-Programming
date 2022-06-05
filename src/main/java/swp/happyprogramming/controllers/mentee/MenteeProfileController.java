@@ -26,12 +26,6 @@ public class MenteeProfileController {
     @Autowired
     private WardService wardService;
 
-    @GetMapping("/mentees")
-    public String mentees(Model model) {
-        List<MenteeDTO> mentees = menteeService.getAllMentees();
-        model.addAttribute("mentees", mentees);
-        return "mentee/all-mentees";
-    }
 
     @GetMapping("/mentee/profile/{id}")
     public String getProfile(WebRequest request, Model model, @PathVariable String id) {
@@ -44,6 +38,24 @@ public class MenteeProfileController {
             return "redirect:/index";
         }
     }
+//    @GetMapping("/mentor/view")
+//    public String viewMenteeProfile(Model model, @RequestParam(value = "idOr", required = false) String idOr,
+//                                    @RequestParam(value = "idEe", required = false) String idEe) {
+//        try {
+//            long mentorId = Integer.parseInt(idOr);
+//            long menteeId = Integer.parseInt(idEe);
+//            MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+//            MenteeDTO menteeDTO = menteeService.findMentee(menteeId);
+//            Integer status = userService.statusRequest(mentorDTO.getId(), menteeDTO.getId());
+//
+//            model.addAttribute("mentor", mentorDTO);
+//            model.addAttribute("mentee", menteeDTO);
+//            model.addAttribute("status", status);
+//            return "mentor/view/menteeProfile";
+//        } catch (NumberFormatException e) {
+//            return "redirect:index";
+//        }
+//    }
 
     @GetMapping("/mentee/profile/update")
     public String updateProfileMentee(Model model, @RequestParam(value = "id", required = false) String id) {
@@ -82,7 +94,7 @@ public class MenteeProfileController {
             long wardId = Integer.parseInt(params.get("wardId"));
             menteeService.updateMentee(menteeId,mentee,wardId);
 
-            return "redirect:view?id=" + menteeId;
+            return "redirect:view?id=" + String.valueOf(menteeId);
         }catch (NumberFormatException e){
             return "redirect:index";
         }

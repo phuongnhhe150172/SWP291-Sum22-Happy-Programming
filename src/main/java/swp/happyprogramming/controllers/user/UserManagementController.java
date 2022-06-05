@@ -11,6 +11,7 @@ import swp.happyprogramming.dto.DistrictDTO;
 import swp.happyprogramming.dto.ProvinceDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.dto.WardDTO;
+import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class UserController {
+public class UserManagementController {
     @Autowired
     private HttpSession session;
 
