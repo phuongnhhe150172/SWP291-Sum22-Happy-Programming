@@ -88,9 +88,9 @@ public class MentorService implements IMentorService {
     }
 
     //    UPDATE SECTION
-    public void updateMentor(long id,long profileId, MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
+    public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
+        Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(mentorDTO.getId());
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
@@ -110,11 +110,11 @@ public class MentorService implements IMentorService {
             }
 
             //delete skill with user
-            deleteUserSkills(profileId);
+            deleteUserSkills(mentorDTO.getProfileId());
 
             //save skill with user
             if (skillValue != null) {
-                saveUserSkills(profileId, skillValue);
+                saveUserSkills(mentorDTO.getProfileId(), skillValue);
             }
 
         }

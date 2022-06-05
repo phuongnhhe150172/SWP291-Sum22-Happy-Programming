@@ -204,13 +204,13 @@ public class UserManagementController {
                                       @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
                                       @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
         try {
-            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
+//            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
-            long profileId = Integer.parseInt(String.valueOf(params.get("profileId")));
+//            long profileId = Integer.parseInt(String.valueOf(params.get("profileId")));
 
-            mentorService.updateMentor(mentorId, profileId, mentor, wardId, experieceValue, skillValue);
+            mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
 
-            return "redirect:cv?id=" + mentorId;
+            return "redirect:../cv?id=" + mentor.getId();
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
