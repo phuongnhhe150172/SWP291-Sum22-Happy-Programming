@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.model.Address;
-import swp.happyprogramming.model.Mentor;
-import swp.happyprogramming.model.Role;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IUserService;
 
@@ -50,7 +47,7 @@ public class UserService implements IUserService {
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
-        user.setAddressId(savedAddress.getId());
+        user.getAddress().setId(savedAddress.getId());
         user.addRole(new Role(2));
         User savedUser = userRepository.save(user);
         Mentor mentor = new Mentor();
@@ -104,12 +101,15 @@ public class UserService implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+        Address address = addressRepository.findByAddressId(user.getAddress().getId());
+        user.setAddress(address);
+        return user;
     }
 
     @Override
     public UserDTO findUser(UserDTO userDTO) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddressId());
+        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
         userDTO.setStreet(address.getName());
         return userDTO;
     }
@@ -121,7 +121,7 @@ public class UserService implements IUserService {
             return null;
         }
         UserDTO userDTO = mapper.map(user, UserDTO.class);
-        Address address = addressRepository.findByAddressId(user.getAddressId());
+        Address address = addressRepository.findByAddressId(user.getAddress().getId());
         userDTO.setStreet(address.getName());
         return userDTO;
     }
@@ -133,17 +133,24 @@ public class UserService implements IUserService {
         user.setEmail(currentUser.getEmail());
         user.setId(currentUser.getId());
         user.setPassword(currentUser.getPassword());
-        user.setAddressId(currentUser.getAddressId());
+        user.getAddress().setId(currentUser.getAddress().getId());
         user.setRoles(currentUser.getRoles());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
         return mapper.map(user, UserDTO.class);
     }
 
+    @Override
+    public UserDTO showAllUsers() {
+        return mapper.map((User) userRepository.findAll(), UserDTO.class);
+    }
+
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddressId());
+        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
         address.setName(userDTO.getStreet());
-        address.setWardID(wardId);
+        Ward ward = new Ward();
+        ward.setId(wardId);
+        address.setWard(ward);
         addressRepository.save(address);
     }
 }

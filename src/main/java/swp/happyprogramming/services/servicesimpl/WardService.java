@@ -29,6 +29,6 @@ public class WardService implements IWardService {
 
     public long getWardIdByAddressId(long addressId) {
         Address address = addressRepository.findByAddressId(addressId);
-        return address.getWardID();
+        return address.getWard().getId();
     }
 }

@@ -1,10 +1,13 @@
 package swp.happyprogramming.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -31,12 +34,8 @@ public class Role {
 //        empty constructor
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"))
-    Collection<User> users;
+    @ManyToMany(mappedBy = "roles")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<User> users ;
 }

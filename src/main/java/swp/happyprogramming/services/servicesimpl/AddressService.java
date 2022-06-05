@@ -27,9 +27,9 @@ public class AddressService implements IAddressService {
 
     public String getAddress(long addressId) {
         Address address = addressRepository.findByAddressId(addressId);
-        Ward ward = wardRepository.findWardById(address.getWardID());
-        District district = districtRepository.findDistrictById(ward.getDistrictId());
-        Province province = provinceRepository.findProvinceById(district.getProvinceId());
+        Ward ward = wardRepository.findWardById(address.getWard().getId());
+        District district = districtRepository.findDistrictById(ward.getDistrict().getId());
+        Province province = provinceRepository.findProvinceById(district.getProvince().getId());
         return address.getName() + ", " + ward.getName() + ", " + district.getName() + ", " + province.getName();
     }
 }

@@ -18,8 +18,8 @@ public class Mentor {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "user_id")
-    private long userID;
+//    @Column(name = "user_id")
+//    private long userID;
     @Column(name = "created")
     private Date created;
     @Column(name = "modified")

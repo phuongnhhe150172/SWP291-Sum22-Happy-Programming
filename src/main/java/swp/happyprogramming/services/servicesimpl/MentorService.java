@@ -48,7 +48,7 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByAddressId(user.getAddressId());
+            Address address = addressRepository.findByAddressId(user.getAddress().getId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
             //set data to mentorDTO
@@ -62,9 +62,9 @@ public class MentorService implements IMentorService {
                                             ArrayList<Experience> listExperience, Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-        Ward ward = wardRepository.findById(address.getWardID()).orElse(new Ward());
-        District district = districtRepository.findById(ward.getDistrictId()).orElse(new District());
-        Province province = provinceRepository.findById(district.getProvinceId()).orElse(new Province());
+        Ward ward = wardRepository.findById(address.getWard().getId()).orElse(new Ward());
+        District district = districtRepository.findById(ward.getDistrict().getId()).orElse(new District());
+        Province province = provinceRepository.findById(district.getProvince().getId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
@@ -161,9 +161,9 @@ public class MentorService implements IMentorService {
     }
 
     private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
-        Address address = addressRepository.findByAddressId(user.getAddressId());
+        Address address = addressRepository.findByAddressId(user.getAddress().getId());
         address.setName(mentorDTO.getStreet());
-        address.setWardID(wardId);
+        address.getWard().setId(wardId);
         addressRepository.save(address);
     }
 

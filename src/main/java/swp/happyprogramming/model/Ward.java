@@ -1,10 +1,12 @@
 package swp.happyprogramming.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "ward")
@@ -23,10 +25,17 @@ public class Ward {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "district_id")
-    private long districtId;
+//    @Column(name = "district_id", insertable = false, updatable = false)
+//    private long districtId;
 
     public Ward() {
         this.id = 1;
     }
+
+    @OneToMany(mappedBy = "ward")
+    private Collection<Address> addresses;
+
+    @ManyToOne
+    @JoinColumn(name = "district_id")
+    private District district;
 }

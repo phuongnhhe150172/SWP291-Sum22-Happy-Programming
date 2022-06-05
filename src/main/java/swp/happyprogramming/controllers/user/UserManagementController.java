@@ -57,7 +57,7 @@ public class UserManagementController {
             user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
         }
         String role =(String) session.getAttribute("role");
-        String address = addressService.getAddress(user.getAddressId());
+        String address = addressService.getAddress(user.getAddress().getId());
         model.addAttribute("user", user);
         model.addAttribute("address", address);
         model.addAttribute("role",role);
@@ -73,7 +73,7 @@ public class UserManagementController {
         } else {
             user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
         }
-        long wardId = wardService.getWardIdByAddressId(user.getAddressId());
+        long wardId = wardService.getWardIdByAddressId(user.getAddress().getId());
         long districtId = districtService.getDistrictIdByWardId(wardId);
         long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 
@@ -153,7 +153,7 @@ public class UserManagementController {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentor = mentorService.findMentor(mentorId);
-            String address = addressService.getAddress(mentor.getAddressId());
+            String address = addressService.getAddress(mentor.getAddress().getId());
 
             model.addAttribute("address", address);
             model.addAttribute("mentor", mentor);
@@ -169,7 +169,7 @@ public class UserManagementController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddressId());
+            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddress().getId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 

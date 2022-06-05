@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -45,13 +46,14 @@ public class User {
     private Integer isOffline;
     @Column(name = "price")
     private Double price;
-    @Column(name = "address_id")
-    private Long addressId;
+//    @Column(name = "address_id", insertable = false, updatable = false)
+//    private Long addressId;
 
     @Column(name = "created")
     private Date created;
     @Column(name = "modified")
     private Date modified;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -69,4 +71,7 @@ public class User {
         this.roles.add(role);
     }
 
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 }

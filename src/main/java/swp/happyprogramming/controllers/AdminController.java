@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.services.IUserService;
 
 @Controller
@@ -23,5 +24,12 @@ public class AdminController {
         model.addAttribute("totalNumberOfRequests", 123);
 
         return "admin/dashboard";
+    }
+
+    @GetMapping("/all-user")
+    public String showAllUsers(Model model){
+        UserDTO user = userService.showAllUsers();
+
+        return "";
     }
 }

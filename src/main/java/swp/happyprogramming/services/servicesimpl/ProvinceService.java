@@ -29,6 +29,6 @@ public class ProvinceService implements IProvinceService {
 
     public long getProvinceIdByDistrictId(long districtId) {
         District district = districtRepository.findById(districtId).orElse(new District());
-        return district.getProvinceId();
+        return district.getProvince().getId();
     }
 }
