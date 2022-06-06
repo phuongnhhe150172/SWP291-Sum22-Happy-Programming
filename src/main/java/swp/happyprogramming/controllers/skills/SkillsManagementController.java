@@ -18,11 +18,11 @@ public class SkillsManagementController {
     @Autowired
     private ISkillService skillService;
 
-    @GetMapping("/admin/listskill")
+    @GetMapping("/admin/allskill")
     public String getAllSkill(Model model){
         List<Skill> skillList = skillService.getAllSkill();
         model.addAttribute("skillList", skillList);
-        return "admin/all-skills";
+        return "skills/all-skills";
     }
 
     @GetMapping("/admin/createskill")
