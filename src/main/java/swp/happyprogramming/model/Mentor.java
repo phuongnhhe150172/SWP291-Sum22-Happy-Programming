@@ -6,7 +6,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +19,6 @@ public class Mentor {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    @Column(name = "user_id")
-//    private long userID;
     @Column(name = "created")
     private Date created;
     @Column(name = "modified")

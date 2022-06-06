@@ -26,9 +26,6 @@ public class District {
     @Column(name = "type")
     private String type;
 
-//    @Column(name = "province_id", insertable = false, updatable = false)
-//    private long provinceId;
-
     public District() {
         this.id = 1;
     }
