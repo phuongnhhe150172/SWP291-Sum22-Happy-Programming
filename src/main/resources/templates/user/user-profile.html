@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${user.firstName} + ${user.lastName}">Profile</title>
+    <title th:text="${user.firstName} + ' ' + ${user.lastName}">Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -19,7 +19,7 @@
         <div class="">
             <h1 class="text-2xl font-bold my-3" th:text="*{firstName + ' ' + lastName}">John Smith</h1>
             <p class="text-gray-500"
-               th:text="'Age 25 · ' + ${user.gender == 1 ? 'Male' : 'Female'}">
+               th:text="'Age '+ ${#dates.createNow().getYear() - user.dob.getYear()} +' · ' + ${user.gender == 1 ? 'Male' : 'Female'}">
                 Age 25 · Male</p>
         </div>
     </div>
