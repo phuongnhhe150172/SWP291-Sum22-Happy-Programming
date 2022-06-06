@@ -154,11 +154,6 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public UserDTO showAllMentees() {
-        return null;
-    }
-
 //    @Override
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
