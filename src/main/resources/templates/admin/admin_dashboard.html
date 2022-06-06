@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Programming - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-white flex bg-gray-900">
+<!--Left-sidebar-->
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+<!--End-Left-sidebar-->
+<div class="bg-gray-900 grow flex">
+    <div class="grow p-4 space-y-8">
+        <div class="">
+            <h1 class="font-semibold text-5xl my-10 px-3">Have a nice day, team!</h1>
+        </div>
+        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-red-900/30 via-gray-800 to-gray-800">
+            <div class="flex items-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <h1 class="font-medium text-2xl px-3">Summary</h1>
+            </div>
+            <div class="flex">
+                <div class="px-6 grow text-center">
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentors}"></h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentors</p>
+                </div>
+                <div class="px-6 grow text-center">
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentees}"></h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentees</p>
+                </div>
+                <div class="px-6 grow text-center">
+                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white"  th:text="${totalNumberOfRequests}">272</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of Requests</p>
+                </div>
+            </div>
+        </div>
+        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-gray-800 via-gray-800 to-blue-900/30">
+            <div class="flex items-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                </svg>
+                <h1 class="font-medium text-2xl px-3">Numbers</h1>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+    <div class="xl:w-96 border-l border-gray-600">
+
+    </div>
+</div>
+</body>
+</html>

@@ -23,12 +23,12 @@ public class AdminController {
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
         model.addAttribute("totalNumberOfRequests", 123);
 
-        return "admin_dashboard";
+        return "admin/admin_dashboard";
     }
 
-    @GetMapping("/all-user")
+    @GetMapping("/mentees")
     public String showAllUsers(Model model){
-        UserDTO user = userService.showAllUsers();
-        return "";
+        UserDTO user = userService.showAllMentees();
+        return "admin";
     }
 }
