@@ -73,9 +73,9 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<Mentor> mentors;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<Post> posts;
 }

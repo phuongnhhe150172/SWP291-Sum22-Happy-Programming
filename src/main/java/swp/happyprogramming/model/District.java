@@ -30,7 +30,7 @@ public class District {
         this.id = 1;
     }
 
-    @OneToMany(mappedBy = "district")
+    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
     private Collection<Ward> wards;
 
     @ManyToOne

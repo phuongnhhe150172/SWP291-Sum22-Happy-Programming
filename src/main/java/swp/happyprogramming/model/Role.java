@@ -33,7 +33,7 @@ public class Role {
     public Role() {
     }
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<User> users ;

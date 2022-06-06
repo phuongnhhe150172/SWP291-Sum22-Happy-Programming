@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.services.IUserService;
 
+import java.util.Collection;
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -28,7 +31,8 @@ public class AdminController {
 
     @GetMapping("/mentees")
     public String showAllUsers(Model model){
-        UserDTO user = userService.showAllMentees();
-        return "admin";
+        List<UserDTO> mentees =  userService.findAllMentees();
+        model.addAttribute("mentees", mentees);
+        return "admin/all-mentees";
     }
 }

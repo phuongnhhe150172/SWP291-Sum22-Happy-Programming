@@ -8,8 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.AddressDTO;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.dto.WardDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
@@ -155,14 +157,9 @@ public class UserService implements IUserService {
     @Override
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
-        List<UserDTO> menteesDTO = mentees.stream()
+        return mentees.stream()
                 .map(mentee -> new UserDTO())
-                .collect(Collectors.toList()
-                );
-        for (UserDTO userDTO: menteesDTO){
-            userDTO.setAddress(addressRepository.getById(userDTO.getAddress().getId()));
-        }
-        return menteesDTO;
+                .collect(Collectors.toList());
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
