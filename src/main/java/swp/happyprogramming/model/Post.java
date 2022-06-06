@@ -15,9 +15,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(name = "mentee_id")
-//    private long menteeId;
-
     @Column(name = "description")
     private String description;
     

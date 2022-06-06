@@ -31,7 +31,6 @@ public class Role {
     }
 
     public Role() {
-//        empty constructor
     }
 
     @ManyToMany(mappedBy = "roles")

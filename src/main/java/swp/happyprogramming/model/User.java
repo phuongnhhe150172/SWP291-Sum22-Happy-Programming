@@ -46,8 +46,6 @@ public class User {
     private Integer isOffline;
     @Column(name = "price")
     private Double price;
-//    @Column(name = "address_id", insertable = false, updatable = false)
-//    private Long addressId;
 
     @Column(name = "created")
     private Date created;

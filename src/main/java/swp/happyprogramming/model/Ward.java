@@ -25,9 +25,6 @@ public class Ward {
     @Column(name = "type")
     private String type;
 
-//    @Column(name = "district_id", insertable = false, updatable = false)
-//    private long districtId;
-
     public Ward() {
         this.id = 1;
     }
