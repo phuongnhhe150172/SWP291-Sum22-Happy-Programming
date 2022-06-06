@@ -26,7 +26,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
 
-    @Query(value = "select * from users where id in (select id from user_roles where role_id in (select id from roles where `name` = ?1))", nativeQuery = true)
+    @Query(value = "select * from users where id in (select user_id from user_roles where role_id in (select id from roles where `name` = ?1))", nativeQuery = true)
     List<User> findUsersByRole(String role);
 
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
