@@ -47,7 +47,7 @@ public class UserService implements IUserService {
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
-        user.getAddress().setId(savedAddress.getId());
+        user.setAddress(savedAddress);
         user.addRole(new Role(2));
         User savedUser = userRepository.save(user);
         Mentor mentor = new Mentor();
@@ -141,11 +141,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO showAllUsers() {
-        return mapper.map(userRepository.findAll(), UserDTO.class);
-    }
-
-    @Override
     public List<ConnectionDTO> getRequestsByEmail(String email) {
         ArrayList<User> users = userRepository.findRequestsByEmail(email);
         return users.stream()
@@ -155,6 +150,19 @@ public class UserService implements IUserService {
                         )
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDTO> findAllMentees() {
+        List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
+        List<UserDTO> menteesDTO = mentees.stream()
+                .map(mentee -> new UserDTO())
+                .collect(Collectors.toList()
+                );
+        for (UserDTO userDTO: menteesDTO){
+            userDTO.setAddress(addressRepository.getById(userDTO.getAddress().getId()));
+        }
+        return menteesDTO;
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
