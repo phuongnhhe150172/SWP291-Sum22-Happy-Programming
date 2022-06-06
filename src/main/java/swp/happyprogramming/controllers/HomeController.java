@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
     @GetMapping("/home")
-    public String getHomePage(){
-        return "home/index";
+    public String getHomePage() {
+        return "redirect:/profile";
     }
 }

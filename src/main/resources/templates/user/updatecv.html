@@ -214,7 +214,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#button-add-experience').on('click', function () {
-            $('.experience-content').append('<div class="block shadow-md"><textarea name="experieceValue"rows="4"class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"placeholder="Your experience..."></textarea></div>');
+            $('.experience-content').append('<div class="block shadow-md"><textarea name="experieceValue" rows="4" class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500"placeholder="Your experience..."></textarea></div>');
         });
     });
 
@@ -245,7 +245,7 @@
             var skillId = $("#skill").val();
             var skillText = $("#skill").find("option:selected").text();
             if (skillId != -1) {
-                $(".skill-container").append('<button type="button"class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-gray-700">'+ skillText +'<input type="hidden" name="skillValue" value="'+skillId+'"></button>');
+                $(".skill-container").append('<button type="button" class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-gray-700">'+ skillText +'<input type="hidden" name="skillValue" value="'+skillId+'"></button>');
             }
 
         });

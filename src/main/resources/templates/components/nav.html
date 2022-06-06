@@ -16,8 +16,11 @@
         <div class="flex items-center gap-3 rounded-lg bg-gray-700 p-3 my-4">
             <img src="../../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
             <div class="">
-                <a href="">
-                    <h3 class="font-medium">Anna Amelius</h3>
+                <a href="/profile">
+                    <h3 class="font-medium"
+                        th:text="${session.userInformation.getFirstName() + ' ' + session.userInformation.getLastName()}">
+                        Anna Amelius
+                    </h3>
                 </a>
             </div>
         </div>
