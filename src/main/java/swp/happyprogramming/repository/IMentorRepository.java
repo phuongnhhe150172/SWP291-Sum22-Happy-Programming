@@ -13,8 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface IMentorRepository extends JpaRepository<Mentor,Long> {
-    Optional<Mentor> findByUserID(long userID);
-
     @Modifying
     @Transactional
     @Query(value = "delete from mentor_experience where mentor_id = ?1 and experience_id = ?2",nativeQuery = true)

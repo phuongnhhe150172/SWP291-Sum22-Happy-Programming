@@ -11,16 +11,17 @@ import java.util.Optional;
 
 @Repository
 public interface IProfileRepository extends JpaRepository<Mentor, Long> {
+    @Query(value = "select * from mentor where user_id=?1", nativeQuery = true)
     Optional<Mentor> findByUserID(long userID);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from mentor_experience where mentor_id = ?1 and experience_id = ?2",nativeQuery = true)
-    void deleteByMentorIdAndExperienceId(long mentorId,long experienceId);
+    @Query(value = "delete from mentor_experience where mentor_id = ?1 and experience_id = ?2", nativeQuery = true)
+    void deleteByMentorIdAndExperienceId(long mentorId, long experienceId);
 
     @Modifying
     @Transactional
-    @Query(value = "Insert into mentor_experience(mentor_id,experience_id) values (?1,?2)",nativeQuery = true)
-    void insertByMentorIdAndExperienceId(long mentorId,long experienceId);
+    @Query(value = "Insert into mentor_experience(mentor_id,experience_id) values (?1,?2)", nativeQuery = true)
+    void insertByMentorIdAndExperienceId(long mentorId, long experienceId);
 
 }
