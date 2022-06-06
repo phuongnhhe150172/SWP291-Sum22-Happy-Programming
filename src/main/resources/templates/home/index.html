@@ -11,14 +11,10 @@
 <nav id="scrollspy" class="fixed top-0 w-[100vw]" data-spy="affix" data-offset-top="20">
     <div class="flex relative mx-12 py-6 justify-center items-center">
         <a class="flex items-center absolute left-0 gap-3 font-semibold text-2xl" href="">
-            <img src="imgs/logo.svg" th:src="@{imgs/logo.svg}" alt=""
+            <img src="/imgs/logo.svg" th:src="@{/imgs/logo.svg}" alt=""
                  class="w-12 h-12">
             HappyProgramming
         </a>
-        <!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
-        <!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-        <!--            <span class="navbar-toggler-icon"></span>-->
-        <!--        </button>-->
         <div class="collapse place-self-center" id="navbarSupportedContent">
             <ul class="flex items-center gap-8 text-xl text-gray-400 font-medium">
                 <li class="nav-item">
@@ -27,16 +23,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/mentor/viewall">Mentors</a>
                 </li>
+                <li class="float-right">
+                    <div class="" th:if="${session.userInformation != null}">
+                        Welcome <span th:text="${session.userInformation.lastName}"></span>
+                    </div>
+                </li>
             </ul>
         </div>
-<!--        <div class="">-->
-<!--            Welcome <span th:text="${session.userInformation.firstName}"> User</span>-->
-<!--        </div>-->
 
-        <div class="nav-item ml-0 ml-lg-4 absolute right-0">
-            <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
-                    font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
-                    focus:outline-none dark:focus:ring-blue-800" href="/logout">Logout</a>
+
+        <div th:if="${session.userInformation == null}">
+            <div class="nav-item ml-0 ml-lg-4 absolute right-0" >
+                <a class="text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-blue-600 hover:bg-blue-700
+                    focus:ring-blue-800" href="/login">Login</a>
+            </div>
+        </div>
+        <!-- ELSE -->
+        <div th:unless="${session.userInformation == null}">
+            <div class="nav-item ml-0 ml-lg-4 absolute right-0" >
+                <a class="text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-blue-600 hover:bg-blue-700
+                   focus:ring-blue-800" href="/logout">Logout</a>
+            </div>
         </div>
     </div>
 </nav>
