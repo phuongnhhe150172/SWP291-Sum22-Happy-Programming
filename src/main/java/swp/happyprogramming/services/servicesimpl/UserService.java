@@ -51,7 +51,7 @@ public class UserService implements IUserService {
         user.addRole(new Role(2));
         User savedUser = userRepository.save(user);
         Mentor mentor = new Mentor();
-        mentor.setUserID(savedUser.getId());
+        mentor.setUser(savedUser);
         mentorRepository.save(mentor);
     }
 

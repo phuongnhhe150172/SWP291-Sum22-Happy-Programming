@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface IProfileRepository extends JpaRepository<Mentor, Long> {
-    Optional<Mentor> findByUserID(long userID);
+    Optional<Mentor> findByUserId(long userID);
 
     @Modifying
     @Transactional

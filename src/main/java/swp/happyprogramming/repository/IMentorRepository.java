@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface IMentorRepository extends JpaRepository<Mentor,Long> {
-    Optional<Mentor> findByUserID(long userID);
+    Optional<Mentor> findByUserId(long userID);
 
     @Modifying
     @Transactional

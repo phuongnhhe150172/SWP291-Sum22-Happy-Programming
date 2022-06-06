@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "mentor")
@@ -19,8 +20,8 @@ public class Mentor {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "user_id")
-    private long userID;
+//    @Column(name = "user_id")
+//    private long userID;
     @Column(name = "created")
     private Date created;
     @Column(name = "modified")
@@ -35,4 +36,17 @@ public class Mentor {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_skills",
+            joinColumns = @JoinColumn(name = "mentor_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private Collection<Skill> skills;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "mentor_experience",
+            joinColumns = @JoinColumn(name = "mentor_id"),
+            inverseJoinColumns = @JoinColumn(name = "experience_id"))
+    private  Collection<Experience> experiences;
+
 }
