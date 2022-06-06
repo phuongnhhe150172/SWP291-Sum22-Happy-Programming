@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.services.IUserService;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller

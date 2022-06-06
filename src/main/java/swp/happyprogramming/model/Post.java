@@ -17,9 +17,6 @@ public class Post {
 
     @Column(name = "description")
     private String description;
-    
-    @Column(name = "method_id")
-    private long methodId;
 
     @Column(name = "price")
     private float price;
@@ -41,4 +38,8 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "mentee_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "method_id")
+    private Method method;
 }

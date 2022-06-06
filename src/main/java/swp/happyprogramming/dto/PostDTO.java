@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import swp.happyprogramming.model.Method;
+import swp.happyprogramming.model.User;
 
 import java.time.Instant;
 import java.util.Date;
@@ -15,8 +17,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class PostDTO {
     private long id;
-    private long menteeId;
-    private String userName;
+    private User user;
+    private Method method;
     private String description;
     private float price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

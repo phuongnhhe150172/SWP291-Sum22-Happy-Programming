@@ -54,13 +54,17 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
         } else {
-            user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
+            Object sessionUser = session.getAttribute("userInformation");
+            if (sessionUser == null) {
+                return "redirect:/login";
+            }
+            user = userService.findUser((UserDTO) sessionUser);
         }
-        String role =(String) session.getAttribute("role");
+        String role = (String) session.getAttribute("role");
         String address = addressService.getAddress(user.getAddress().getId());
         model.addAttribute("user", user);
         model.addAttribute("address", address);
-        model.addAttribute("role",role);
+        model.addAttribute("role", role);
         return "user/user-profile";
     }
 
@@ -164,7 +168,7 @@ public class UserManagementController {
     }
 
     @GetMapping("/update/cv")
-    public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id){
+    public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
 
@@ -202,9 +206,9 @@ public class UserManagementController {
 
     @PostMapping("/update/cv")
     public String updateMentorCv(@ModelAttribute("mentor") MentorDTO mentor,
-                                      @RequestParam Map<String, Object> params,
-                                      @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
-                                      @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
+                                 @RequestParam Map<String, Object> params,
+                                 @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                                 @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
         try {
 //            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
