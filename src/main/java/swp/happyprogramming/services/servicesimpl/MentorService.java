@@ -162,8 +162,9 @@ public class MentorService implements IMentorService {
 
     private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
         Address address = addressRepository.findByAddressId(user.getAddress().getId());
+        Ward ward = wardRepository.findById(wardId).orElseGet(null);
         address.setName(mentorDTO.getStreet());
-        address.getWard().setId(wardId);
+        address.setWard(ward);
         addressRepository.save(address);
     }
 
