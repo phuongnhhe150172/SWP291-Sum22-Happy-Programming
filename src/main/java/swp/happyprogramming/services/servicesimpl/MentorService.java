@@ -44,7 +44,7 @@ public class MentorService implements IMentorService {
     // READ SECTION
     public MentorDTO findMentor(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(id);
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserId(id);
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
             User user = optionalUser.get();
@@ -90,7 +90,7 @@ public class MentorService implements IMentorService {
     //    UPDATE SECTION
     public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserID(mentorDTO.getId());
+        Optional<Mentor> optionalUserProfile = profileRepository.findByUserId(mentorDTO.getId());
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor profile = optionalUserProfile.get();
             User user = optionalUser.get();
@@ -162,8 +162,9 @@ public class MentorService implements IMentorService {
 
     private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
         Address address = addressRepository.findByAddressId(user.getAddress().getId());
+        Ward ward = wardRepository.findById(wardId).orElseGet(null);
         address.setName(mentorDTO.getStreet());
-        address.getWard().setId(wardId);
+        address.setWard(ward);
         addressRepository.save(address);
     }
 
