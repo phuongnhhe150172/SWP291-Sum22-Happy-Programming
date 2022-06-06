@@ -30,4 +30,6 @@ public interface IUserService extends UserDetailsService {
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
     UserDTO showAllUsers();
+
+    List<ConnectionDTO> getRequestsByEmail(String email);
 }

@@ -4,13 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,4 +35,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from users where id in (select user1 from connections where user2 = (select id from users where email=?1) union select user2 from connections where user1 = (select id from users where email=?1))",
             nativeQuery = true)
     ArrayList<User> findConnectionsByEmail(String email);
+
+    @Query(value = "select * from users where id in (select mentor_id from request where mentee_id = (select id from users where email=?1) union select mentee_id from request where mentor_id = (select id from users where email=?1))",
+            nativeQuery = true)
+    ArrayList<User> findRequestsByEmail(String email);
 }

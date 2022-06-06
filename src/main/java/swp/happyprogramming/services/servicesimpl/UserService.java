@@ -51,7 +51,7 @@ public class UserService implements IUserService {
         user.addRole(new Role(2));
         User savedUser = userRepository.save(user);
         Mentor mentor = new Mentor();
-        mentor.setUserID(savedUser.getId());
+        mentor.setUser(savedUser);
         mentorRepository.save(mentor);
     }
 
@@ -142,7 +142,19 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO showAllUsers() {
-        return mapper.map((User) userRepository.findAll(), UserDTO.class);
+        return mapper.map(userRepository.findAll(), UserDTO.class);
+    }
+
+    @Override
+    public List<ConnectionDTO> getRequestsByEmail(String email) {
+        ArrayList<User> users = userRepository.findRequestsByEmail(email);
+        return users.stream()
+                .map(user -> new ConnectionDTO(
+                                user.getId(),
+                                user.getFirstName() + " " + user.getLastName()
+                        )
+                )
+                .collect(Collectors.toList());
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
