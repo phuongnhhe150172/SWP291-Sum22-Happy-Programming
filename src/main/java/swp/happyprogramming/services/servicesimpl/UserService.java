@@ -156,6 +156,11 @@ public class UserService implements IUserService {
         return userDTOS;
     }
 
+    @Override
+    public void removeMentee(long menteeId) {
+        userRepository.deleteById(menteeId);
+    }
+
     private void updateAddress(UserDTO userDTO, long wardId) {
         Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
         address.setName(userDTO.getAddress().getName());

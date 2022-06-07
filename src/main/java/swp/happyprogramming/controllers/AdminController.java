@@ -3,6 +3,7 @@ package swp.happyprogramming.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,10 +37,16 @@ public class AdminController {
         return "admin/all-mentees";
     }
 
-    @GetMapping("/mentee")
+    @GetMapping("/mentee/{id}")
     public String showMentee(Model model, @RequestParam(value = "id", required = false) long menteeId){
         UserDTO mentee = userService.findUser(menteeId);
         model.addAttribute("mentee", mentee);
         return "admin/view-mentee";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteMentee(@RequestParam(value = "id", required = false) long menteeId){
+        userService.removeMentee(menteeId);
+        return "redirect:/admin/mentees";
     }
 }
