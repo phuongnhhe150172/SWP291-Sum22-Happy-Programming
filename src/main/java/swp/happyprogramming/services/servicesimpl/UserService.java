@@ -154,12 +154,15 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
+    @Override
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
-        return mentees.stream()
-                .map(mentee -> new UserDTO())
-                .collect(Collectors.toList());
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User mentee:mentees){
+            UserDTO userDTO = mapper.map(mentee, UserDTO.class);
+            userDTOS.add(userDTO);
+        }
+        return userDTOS;
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
