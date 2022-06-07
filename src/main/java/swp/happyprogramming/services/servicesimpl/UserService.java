@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.AddressDTO;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.dto.WardDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
-import swp.happyprogramming.repository.*;
+import swp.happyprogramming.repository.IAddressRepository;
+import swp.happyprogramming.repository.IMentorRepository;
+import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.transaction.Transactional;
