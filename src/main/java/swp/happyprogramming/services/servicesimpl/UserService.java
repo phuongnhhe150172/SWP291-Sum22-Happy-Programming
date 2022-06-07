@@ -110,20 +110,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO findUser(UserDTO userDTO) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
-        userDTO.setStreet(address.getName());
-        return userDTO;
-    }
-
-    @Override
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             return null;
         }
         UserDTO userDTO = mapper.map(user, UserDTO.class);
-        userDTO.setStreet(userDTO.getAddress().getName());
         return userDTO;
     }
 
@@ -163,7 +155,7 @@ public class UserService implements IUserService {
 
     private void updateAddress(UserDTO userDTO, long wardId) {
         Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
-        address.setName(userDTO.getStreet());
+        address.setName(userDTO.getAddress().getName());
         Ward ward = new Ward();
         ward.setId(wardId);
         address.setWard(ward);

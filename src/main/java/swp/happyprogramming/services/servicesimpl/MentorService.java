@@ -48,32 +48,32 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
             User user = optionalUser.get();
-            Address address = addressRepository.findByAddressId(user.getAddress().getId());
+//            Address address = addressRepository.findByAddressId(user.getAddress().getId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
             //set data to mentorDTO
-            return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
+            return combineUserAndProfile(user, mentor, listSkill, listExperience);
         } else {
             return null;
         }
     }
 
     private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
-                                            ArrayList<Experience> listExperience, Address address) {
+                                            ArrayList<Experience> listExperience) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-        Ward ward = wardRepository.findById(address.getWard().getId()).orElse(new Ward());
-        District district = districtRepository.findById(ward.getDistrict().getId()).orElse(new District());
-        Province province = provinceRepository.findById(district.getProvince().getId()).orElse(new Province());
+//        Ward ward = wardRepository.findById(user.getAddress().getWard().getId()).orElse(new Ward());
+//        District district = districtRepository.findById(ward.getDistrict().getId()).orElse(new District());
+//        Province province = provinceRepository.findById(district.getProvince().getId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
-        mentorDTO.setWard(ward.getName());
-        mentorDTO.setDistrict(district.getName());
-        mentorDTO.setProvince(province.getName());
+//        mentorDTO.setWard(ward.getName());
+//        mentorDTO.setDistrict(district.getName());
+//        mentorDTO.setProvince(province.getName());
         // The street name is set to "" by default
-        mentorDTO.setStreet(address.getName());
+//        mentorDTO.setStreet(address.getName());
         return mentorDTO;
     }
 
@@ -163,7 +163,7 @@ public class MentorService implements IMentorService {
     private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
         Address address = addressRepository.findByAddressId(user.getAddress().getId());
         Ward ward = wardRepository.findById(wardId).orElseGet(null);
-        address.setName(mentorDTO.getStreet());
+        address.setName(mentorDTO.getAddress().getName());
         address.setWard(ward);
         addressRepository.save(address);
     }

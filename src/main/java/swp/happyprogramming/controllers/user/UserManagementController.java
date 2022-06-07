@@ -57,7 +57,7 @@ public class UserManagementController {
             if (sessionUser == null) {
                 return "redirect:/login";
             }
-            user = userService.findUser((UserDTO) sessionUser);
+            user = (UserDTO) sessionUser;
         }
         String role = (String) session.getAttribute("role");
         String address = addressService.getAddress(user.getAddress().getId());
@@ -74,7 +74,7 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
         } else {
-            user = userService.findUser((UserDTO) session.getAttribute("userInformation"));
+            user = (UserDTO) session.getAttribute("userInformation");
         }
         long wardId = wardService.getWardIdByAddressId(user.getAddress().getId());
         long districtId = districtService.getDistrictIdByWardId(wardId);
@@ -209,9 +209,7 @@ public class UserManagementController {
                                  @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
                                  @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
         try {
-//            long mentorId = Integer.parseInt(String.valueOf(params.get("mentorId")));
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
-//            long profileId = Integer.parseInt(String.valueOf(params.get("profileId")));
 
             mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
 

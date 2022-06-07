@@ -22,9 +22,6 @@
     <form class="col-span-3 p-8" th:action="@{/update/cv}" th:object="${mentor}" method="post">
         <div class="">
             <input type="hidden" name="id" th:value="*{id}" th:field="*{id}">
-            <!--            <input type="hidden" name="addressId" th:value="*{address.id}" th:field="*{addressId}">-->
-            <!--            <input type="hidden" name="email" th:value="*{email}" th:field="*{email}">-->
-            <!--            <input type="hidden" name="password" th:value="*{password}" th:field="*{password}">-->
             <h2 class="my-4 text-xl">About me</h2>
             <div class="">
                 <div class="grid xl:grid-cols-2 xl:gap-6">
@@ -64,10 +61,14 @@
                 <div class="flex items-center justify-between">
                     <button type="button"
                             class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
-                            id="button-add-experience"><i class='bx bx-plus'></i></button>
+                            id="button-add-experience"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg></button>
                     <button type="button"
                             class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
-                            id="button-minus-experience"><i class='bx bx-minus'></i></button>
+                            id="button-minus-experience"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                    </svg></button>
                 </div>
             </div>
 
@@ -176,7 +177,7 @@
                 <div class="relative z-0 w-full mb-6 group px-6">
                     <input type="text" name="street" id="street"
                            class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           th:field="*{street}" placeholder=" " required/>
+                           th:field="*{address.name}" placeholder=" " required/>
                     <label for="street"
                            class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
                 </div>

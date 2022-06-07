@@ -27,10 +27,9 @@ public class UserDTO {
     private Date dob;
     private String phoneNumber;
     private Address address;
-    private String ward;
-    private String district;
-    private String province;
-    private String street;
+//    private String ward;
+//    private String district;
+//    private String province;
     private String bio;
     private String school;
     private Double price;

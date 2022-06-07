@@ -23,8 +23,6 @@ public interface IUserService extends UserDetailsService {
 
     User findByEmail(String email);
 
-    UserDTO findUser(UserDTO userDTO);
-
     UserDTO findUser(long id);
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
@@ -32,6 +30,4 @@ public interface IUserService extends UserDetailsService {
     List<ConnectionDTO> getRequestsByEmail(String email);
 
     List<UserDTO> findAllMentees();
-
-    UserDTO showAllMentees();
 }
