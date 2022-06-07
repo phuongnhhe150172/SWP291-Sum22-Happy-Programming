@@ -32,4 +32,6 @@ public interface IUserService extends UserDetailsService {
     List<ConnectionDTO> getRequestsByEmail(String email);
 
     List<UserDTO> findAllMentees();
+
+    UserDTO showAllMentees();
 }
