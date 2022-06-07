@@ -30,8 +30,8 @@ public class AdminController {
 
     @GetMapping("/mentees")
     public String showAllUsers(Model model){
-        List<UserDTO> user = userService.findAllMentees();
-        model.addAttribute("users", user);
-        return "admin";
+        List<UserDTO> mentees =  userService.findAllMentees();
+        model.addAttribute("mentees", mentees);
+        return "admin/all-mentees";
     }
 }

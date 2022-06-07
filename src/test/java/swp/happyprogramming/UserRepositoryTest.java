@@ -7,10 +7,12 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.model.User;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 
 @DataJpaTest
@@ -40,14 +42,18 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByEmail() {
-        String email = "PhuongNHHE150172@gmail.com";
+        String email = "test@example.com.vn";
         User user = userRepository.findByEmail(email);
-        Assertions.assertThat(user).isNotNull();
+        System.out.println(user.getAddress().getWard().getDistrict().getName());
     }
 
     @Test
     public void testCountUserByRole(){
         String role = "ROLE_MENTOR";
         int total = userRepository.countUsersByRolesLike(role);
+    }
+
+    @Test
+    public void testShowAllMentees(){
     }
 }

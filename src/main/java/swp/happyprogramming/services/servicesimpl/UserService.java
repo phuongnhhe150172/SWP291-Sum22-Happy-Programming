@@ -12,7 +12,9 @@ import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
-import swp.happyprogramming.repository.*;
+import swp.happyprogramming.repository.IAddressRepository;
+import swp.happyprogramming.repository.IMentorRepository;
+import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.transaction.Transactional;
@@ -151,22 +153,12 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public UserDTO showAllMentees() {
-        return null;
-    }
-
 //    @Override
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
-        List<UserDTO> menteesDTO = mentees.stream()
+        return mentees.stream()
                 .map(mentee -> new UserDTO())
-                .collect(Collectors.toList()
-                );
-        for (UserDTO userDTO: menteesDTO){
-            userDTO.setAddress(addressRepository.getById(userDTO.getAddress().getId()));
-        }
-        return menteesDTO;
+                .collect(Collectors.toList());
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {

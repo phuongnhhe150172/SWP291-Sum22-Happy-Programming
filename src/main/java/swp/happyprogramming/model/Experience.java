@@ -24,7 +24,7 @@ public class Experience {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "experiences")
+    @ManyToMany(mappedBy = "experiences", cascade = CascadeType.ALL)
     private Collection<Mentor> mentors;
 
 }

@@ -30,6 +30,6 @@ public class Province {
         this.id = 1;
     }
 
-    @OneToMany(mappedBy = "province")
+    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
     private Collection<District> districts;
 }
