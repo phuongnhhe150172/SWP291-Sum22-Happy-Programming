@@ -123,8 +123,7 @@ public class UserService implements IUserService {
             return null;
         }
         UserDTO userDTO = mapper.map(user, UserDTO.class);
-        Address address = addressRepository.findByAddressId(user.getAddress().getId());
-        userDTO.setStreet(address.getName());
+        userDTO.setStreet(userDTO.getAddress().getName());
         return userDTO;
     }
 
