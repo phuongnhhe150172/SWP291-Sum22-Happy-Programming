@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.services.IUserService;
 
@@ -29,9 +30,16 @@ public class AdminController {
     }
 
     @GetMapping("/mentees")
-    public String showAllUsers(Model model){
+    public String showAllMentees(Model model){
         List<UserDTO> mentees =  userService.findAllMentees();
         model.addAttribute("mentees", mentees);
         return "admin/all-mentees";
+    }
+
+    @GetMapping("/mentee")
+    public String showMentee(Model model, @RequestParam(value = "id", required = false) long menteeId){
+        UserDTO mentee = userService.findUser(menteeId);
+        model.addAttribute("mentee", mentee);
+        return "admin/view-mentee";
     }
 }
