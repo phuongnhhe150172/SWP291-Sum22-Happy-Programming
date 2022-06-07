@@ -28,15 +28,15 @@
                 </thead>
                 <tbody>
                 <tr class="border-b bg-gray-800 border-gray-700" th:each="mentee: ${mentees}">
-                    <td class="px-6 py-4 flex items-center gap-3" th:utext="*{mentee.firstName + mentee.lastName}">
+                    <td class="px-6 py-4 flex items-center gap-3" th:utext="${mentee.firstName + mentee.lastName}">
                         <img class="w-12 h-12 rounded-full" src="../../static/imgs/avatar2.jpg"
                              alt="Bonnie image"/>
                     </td>
-                    <td class="px-6 py-4" th:text="*{mentee.phoneNumber}">
+                    <td class="px-6 py-4" th:utext="${mentee.phoneNumber}">
                     </td>
-                    <td class="px-6 py-4" th:text="*{mentee.email}">
+                    <td class="px-6 py-4" th:utext="${mentee.email}">
                     </td>
-                    <td class="px-6 py-4" th:utext="*{mentee.address}">
+                    <td class="px-6 py-4" th:utext="${mentee.address.name}">
                     </td>
                     <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
                         <a href="#" class="text-green-500 hover:text-gray-500">
