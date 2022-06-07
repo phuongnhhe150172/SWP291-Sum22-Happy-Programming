@@ -21,6 +21,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -158,6 +159,8 @@ public class UserService implements IUserService {
 
     @Override
     public void removeMentee(long menteeId) {
+        User user = userRepository.getById(menteeId);
+        addressRepository.deleteById(user.getAddress().getId());
         userRepository.deleteById(menteeId);
     }
 

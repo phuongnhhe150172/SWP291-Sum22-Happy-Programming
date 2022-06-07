@@ -37,14 +37,14 @@ public class AdminController {
         return "admin/all-mentees";
     }
 
-    @GetMapping("/mentee/{id}")
+    @GetMapping("/mentee")
     public String showMentee(Model model, @RequestParam(value = "id", required = false) long menteeId){
         UserDTO mentee = userService.findUser(menteeId);
         model.addAttribute("mentee", mentee);
         return "admin/view-mentee";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete")
     public String deleteMentee(@RequestParam(value = "id", required = false) long menteeId){
         userService.removeMentee(menteeId);
         return "redirect:/admin/mentees";
