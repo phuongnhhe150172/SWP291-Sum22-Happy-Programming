@@ -11,12 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-<<<<<<< HEAD:src/main/java/swp/happyprogramming/controllers/auth/AuthenController.java
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.services.servicesimpl.UserService;
-=======
+
 import swp.happyprogramming.services.IUserService;
->>>>>>> Develop:src/main/java/swp/happyprogramming/controllers/auth/SignupController.java
 
 import javax.validation.Valid;
 
