@@ -1,8 +1,8 @@
-package swp391_sum22.happyprogramming.repository;
+package swp.happyprogramming.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import swp391_sum22.happyprogramming.model.User;
+import swp.happyprogramming.model.User;
 
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {

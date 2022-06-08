@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.model;
+package swp.happyprogramming.model;
 
 import lombok.*;
 

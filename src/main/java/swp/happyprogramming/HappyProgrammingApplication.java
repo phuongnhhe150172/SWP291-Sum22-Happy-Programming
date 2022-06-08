@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming;
+package swp.happyprogramming;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

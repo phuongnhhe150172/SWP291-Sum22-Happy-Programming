@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.config.auth;
+package swp.happyprogramming.config.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import swp391_sum22.happyprogramming.services.IUserService;
+import swp.happyprogramming.services.IUserService;
 
 @Configuration
 @EnableWebSecurity

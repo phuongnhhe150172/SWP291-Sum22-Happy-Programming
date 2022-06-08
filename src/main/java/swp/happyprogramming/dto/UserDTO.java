@@ -1,11 +1,11 @@
-package swp391_sum22.happyprogramming.dto;
+package swp.happyprogramming.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import swp391_sum22.happyprogramming.validator.auth.PasswordMatches;
-import swp391_sum22.happyprogramming.validator.auth.ValidEmail;
+import swp.happyprogramming.validator.auth.PasswordMatches;
+import swp.happyprogramming.validator.auth.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

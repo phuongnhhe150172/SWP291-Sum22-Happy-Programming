@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.services.servicesimpl;
+package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import swp391_sum22.happyprogramming.repository.IUserRepository;
-import swp391_sum22.happyprogramming.dto.UserDTO;
-import swp391_sum22.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp391_sum22.happyprogramming.model.Role;
-import swp391_sum22.happyprogramming.model.User;
-import swp391_sum22.happyprogramming.services.IUserService;
+import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.model.Role;
+import swp.happyprogramming.model.User;
+import swp.happyprogramming.services.IUserService;
 
 import java.time.Instant;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.controllers.auth;
+package swp.happyprogramming.controllers.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-import swp391_sum22.happyprogramming.dto.UserDTO;
-import swp391_sum22.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp391_sum22.happyprogramming.model.User;
-import swp391_sum22.happyprogramming.services.servicesimpl.UserService;
+import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.model.User;
+import swp.happyprogramming.services.servicesimpl.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

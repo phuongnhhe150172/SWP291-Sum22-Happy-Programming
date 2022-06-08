@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.controllers;
+package swp.happyprogramming.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

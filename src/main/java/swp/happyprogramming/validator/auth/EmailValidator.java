@@ -1,4 +1,4 @@
-package swp391_sum22.happyprogramming.validator.auth;
+package swp.happyprogramming.validator.auth;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
