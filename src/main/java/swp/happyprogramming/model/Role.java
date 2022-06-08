@@ -1,10 +1,13 @@
 package swp.happyprogramming.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -12,22 +15,26 @@ import java.util.Date;
 public class Role {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "created")
-    private Date created;
-    @Column(name = "modified")
-    private Date modified;
-
-    public Role (String name){
-        this.name = name;
+    public Role(int id) {
+        this.id = id;
+        if (id == 1) {
+            this.name = "ROLE_MENTOR";
+        } else {
+            this.name = "ROLE_MENTEE";
+        }
     }
 
     public Role() {
-
     }
+
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<User> users ;
 }
