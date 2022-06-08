@@ -21,7 +21,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,8 +115,7 @@ public class UserService implements IUserService {
         if (user == null) {
             return null;
         }
-        UserDTO userDTO = mapper.map(user, UserDTO.class);
-        return userDTO;
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
