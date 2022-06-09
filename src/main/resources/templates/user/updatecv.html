@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-gray-900 text-white font-['Open_Sans']">
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
 
@@ -102,40 +102,68 @@
         <div class="">
             <h2 class="mt-4 mb-6 text-xl">Additional information</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div class="relative z-0 w-full mb-6 group p-6">
-                    <input type="date" id="dob" th:field="*{dob}"
-                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           required/>
-                    <label for="dob"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DOB</label>
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="dob" class="block font-medium text-gray-300 text-sm mb-2">DOB</label>
+                        <input type="date" id="dob" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                               th:field="*{dob}" required>
+                    </div>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
+<!--                <div class="relative z-0 w-full mb-6 group p-6">-->
+<!--                    <input type="date" id="dob" th:field="*{dob}"-->
+<!--                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"-->
+<!--                           required/>-->
+<!--                    <label for="dob"-->
+<!--                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">DOB</label>-->
+<!--                </div>-->
+                <div class="relative z-0 w-full mb-6 group">
                     <label for="gender"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Gender</label>
+                           class="block font-medium text-sm text-gray-300 mb-2">Gender</label>
                     <select id="gender" th:field="*{gender}"
-                            class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+                            block w-full p-2.5">
                         <option th:value="-1"> -- Choose gender --</option>
                         <option th:value="1" th:text="Male"></option>
                         <option th:value="0" th:text="Female"></option>
                     </select>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
-                    <input type="text" name="phone" id="phone"
-                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           th:field="*{phoneNumber}" placeholder="" required/>
-                    <label for="phone"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">phone</label>
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="phone" class="block font-medium text-gray-300 text-sm mb-2">Phone</label>
+                        <input type="text" id="phone" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                               th:field="*{phoneNumber}" required>
+                    </div>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
-                    <input type="text" name="education" id="education"
-                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           th:field="*{school}" placeholder=" " required/>
-                    <label for="education"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Education</label>
+<!--                <div class="relative z-0 w-full mb-6 group p-6">-->
+<!--                    <input type="text" name="phone" id="phone"-->
+<!--                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"-->
+<!--                           th:field="*{phoneNumber}" placeholder="" required/>-->
+<!--                    <label for="phone"-->
+<!--                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">phone</label>-->
+<!--                </div>-->
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="education" class="block font-medium text-gray-300 text-sm mb-2">Education</label>
+                        <input type="text" id="education" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                               th:field="*{school}" required>
+                    </div>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
+<!--                <div class="relative z-0 w-full mb-6 group p-6">-->
+<!--                    <input type="text" name="education" id="education"-->
+<!--                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"-->
+<!--                           th:field="*{school}" placeholder=" " required/>-->
+<!--                    <label for="education"-->
+<!--                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Education</label>-->
+<!--                </div>-->
+                <div class="relative z-0 w-full mb-6 group">
                     <label for="province"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                           class="block font-medium text-sm text-gray-300 mb-2">Province</label>
                     <div class="" id="province-id">
                         <select id="province" th:name="provinceId"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -145,9 +173,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
+                <div class="relative z-0 w-full mb-6 group">
                     <label for="district"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
+                           class="block font-medium text-sm text-gray-300 mb-2">District</label>
                     <div class="" id="district-id">
                         <select id="district" th:name="districtId"
                                 th:value="${districtId}"
@@ -160,9 +188,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="relative z-0 w-full mb-6 group p-6">
+                <div class="relative z-0 w-full mb-6 group">
                     <label for="ward"
-                           class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
+                           class="block font-medium text-sm text-gray-300 mb-2">Ward</label>
                     <div class="" id="ward-id">
                         <select id="ward" th:name="wardId" th:value="${wardId}"
                                 class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -174,22 +202,26 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-4">
-                <div class="relative z-0 w-full mb-6 group px-6">
-                    <input type="text" name="street" id="street"
-                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           th:field="*{address.name}" placeholder=" " required/>
-                    <label for="street"
-                           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="street" class="block font-medium text-gray-300 text-sm mb-2">Street</label>
+                        <input type="text" id="street" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                               th:field="*{address.name}" required>
+                    </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4">
-                <div class="relative z-0 w-full mb-6 group px-6">
-                    <input type="text" name="price" id="price"
-                           class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                           th:field="*{price}" placeholder=" " required/>
-                    <label for="price"
-                           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price</label>
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="price" class="block font-medium text-gray-300 text-sm mb-2">Price</label>
+                        <input type="text" id="price" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                               th:field="*{price}" required>
+                    </div>
                 </div>
             </div>
 
