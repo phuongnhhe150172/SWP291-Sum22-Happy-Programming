@@ -23,14 +23,28 @@
                 Age 25 · Male</p>
         </div>
     </div>
-    <div class="mx-8 mb-6 w-48">
-        <a class="w-full my-[10px]" th:href="@{/update(id=${user.id})}">
+    <th:block th:if="${session.id == user.id}">
+        <div class="mx-8 mb-6 w-48">
+            <a class="w-full my-[10px]" th:href="@{/update(id=${user.id})}">
+                <button type="button"
+                        class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
+                        focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white
+                        hover:bg-gray-700">
+                    Edit profile
+                </button>
+            </a>
+        </div>
+    </th:block>
+    <th:block th:unless="${session.id == user.id}">
+        <div class="mx-8 mb-6 w-48">
             <button type="button"
-                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                Edit profile
+                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
+                    focus:ring-2 focus:ring-gray-700 bg-green-600 text-white border-gray-600 cursor-default">
+                Connected
             </button>
-        </a>
-    </div>
+        </div>
+    </th:block>
+
     <div class="px-8 flex gap-6 my-2 text-gray-400">
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
