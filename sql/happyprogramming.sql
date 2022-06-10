@@ -29,7 +29,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`id`),
   KEY `wardidaddress_idx` (`ward_id`),
   CONSTRAINT `wardidaddress` FOREIGN KEY (`ward_id`) REFERENCES `ward` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (1,'Đường Vương Thúc Mẫu',1834),(2,'abc',1),(3,'mnb',4),(4,'uio',6),(5,'',1),(6,'',1);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,17 +135,14 @@ DROP TABLE IF EXISTS `connections`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `connections` (
   `id` int NOT NULL,
-  `mentor_id` int NOT NULL,
-  `mentee_id` int NOT NULL,
+  `user1` int NOT NULL,
+  `user2` int NOT NULL,
   `date_created` datetime DEFAULT NULL,
-  `skill_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `mentor_idx` (`mentor_id`),
-  KEY `skillconn_idx` (`skill_id`),
-  KEY `mentorconn_idx` (`mentee_id`),
-  CONSTRAINT `menteeconn` FOREIGN KEY (`mentor_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `mentorconn` FOREIGN KEY (`mentee_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `skillconn` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`)
+  KEY `mentor_idx` (`user1`),
+  KEY `mentorconn_idx` (`user2`),
+  CONSTRAINT `menteeconn` FOREIGN KEY (`user1`) REFERENCES `users` (`id`),
+  CONSTRAINT `mentorconn` FOREIGN KEY (`user2`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -154,6 +152,7 @@ CREATE TABLE `connections` (
 
 LOCK TABLES `connections` WRITE;
 /*!40000 ALTER TABLE `connections` DISABLE KEYS */;
+INSERT INTO `connections` VALUES (1,23,22,'2022-06-03 00:00:00');
 /*!40000 ALTER TABLE `connections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +195,7 @@ CREATE TABLE `experience` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,6 +204,7 @@ CREATE TABLE `experience` (
 
 LOCK TABLES `experience` WRITE;
 /*!40000 ALTER TABLE `experience` DISABLE KEYS */;
+INSERT INTO `experience` VALUES (1,'python'),(2,'kỳ 1'),(3,'kỳ 2'),(4,'kỳ 3');
 /*!40000 ALTER TABLE `experience` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,6 +265,34 @@ LOCK TABLES `login_histories` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mentor`
+--
+
+DROP TABLE IF EXISTS `mentor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mentor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mentor`
+--
+
+LOCK TABLES `mentor` WRITE;
+/*!40000 ALTER TABLE `mentor` DISABLE KEYS */;
+INSERT INTO `mentor` VALUES (12,12,'2022-05-20 11:56:25','2022-05-20 11:56:25'),(13,19,'2022-05-20 21:25:21','2022-05-20 21:25:21'),(14,20,'2022-05-25 11:29:48','2022-05-25 11:29:48'),(15,21,'2022-05-29 23:35:38','2022-05-29 23:35:38'),(16,22,'2022-06-03 22:30:29','2022-06-03 22:30:29'),(17,23,'2022-06-03 22:49:06','2022-06-03 22:49:06');
+/*!40000 ALTER TABLE `mentor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mentor_experience`
 --
 
@@ -278,7 +306,7 @@ CREATE TABLE `mentor_experience` (
   KEY `mentorex_idx` (`mentor_id`),
   KEY `exidex_idx` (`experience_id`),
   CONSTRAINT `exidex` FOREIGN KEY (`experience_id`) REFERENCES `experience` (`id`),
-  CONSTRAINT `mentorex` FOREIGN KEY (`mentor_id`) REFERENCES `user_profiles` (`id`)
+  CONSTRAINT `mentorex` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -288,6 +316,7 @@ CREATE TABLE `mentor_experience` (
 
 LOCK TABLES `mentor_experience` WRITE;
 /*!40000 ALTER TABLE `mentor_experience` DISABLE KEYS */;
+INSERT INTO `mentor_experience` VALUES (12,2),(12,3),(12,4),(13,1);
 /*!40000 ALTER TABLE `mentor_experience` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -302,7 +331,7 @@ CREATE TABLE `mentorregister` (
   `mentor_id` int NOT NULL AUTO_INCREMENT,
   `accepted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`mentor_id`),
-  CONSTRAINT `mentor_id` FOREIGN KEY (`mentor_id`) REFERENCES `user_profiles` (`id`)
+  CONSTRAINT `mentor_id` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -408,12 +437,14 @@ CREATE TABLE `request` (
   `mentor_id` int DEFAULT NULL,
   `mentee_id` int DEFAULT NULL,
   `status` tinyint DEFAULT NULL,
+  `skill_id` int DEFAULT NULL,
+  `budget` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `mentorrequest_idx` (`mentor_id`),
   KEY `menteerequest_idx` (`mentee_id`),
   CONSTRAINT `menteerequest` FOREIGN KEY (`mentee_id`) REFERENCES `users` (`id`),
   CONSTRAINT `mentorrequest` FOREIGN KEY (`mentor_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -422,6 +453,7 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
+INSERT INTO `request` VALUES (1,12,20,1,NULL,NULL),(2,19,21,0,NULL,NULL);
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,7 +477,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'mentor'),(2,'mentee');
+INSERT INTO `roles` VALUES (1,'ROLE_MENTOR'),(2,'ROLE_MENTEE');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -460,7 +492,7 @@ CREATE TABLE `skills` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,6 +501,7 @@ CREATE TABLE `skills` (
 
 LOCK TABLES `skills` WRITE;
 /*!40000 ALTER TABLE `skills` DISABLE KEYS */;
+INSERT INTO `skills` VALUES (1,'python'),(2,'java'),(3,'C');
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,44 +535,6 @@ LOCK TABLES `user_like_posts` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_profiles`
---
-
-DROP TABLE IF EXISTS `user_profiles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_profiles` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `gender` tinyint DEFAULT NULL,
-  `dob` datetime DEFAULT NULL,
-  `phone_number` varchar(15) DEFAULT NULL,
-  `bio` text,
-  `school` varchar(500) DEFAULT NULL,
-  `method_id` tinyint DEFAULT NULL,
-  `price` float DEFAULT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  `address_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `addressiduserprofile_idx` (`address_id`),
-  CONSTRAINT `addressiduserprofile` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_profiles`
---
-
-LOCK TABLES `user_profiles` WRITE;
-/*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (12,12,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 11:56:25','2022-05-20 11:56:25',NULL),(13,19,0,NULL,NULL,NULL,NULL,0,0,'2022-05-20 21:25:21','2022-05-20 21:25:21',NULL);
-/*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_roles`
 --
 
@@ -563,7 +558,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (12,1),(19,1);
+INSERT INTO `user_roles` VALUES (12,1),(19,1),(22,2),(23,1);
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -575,13 +570,12 @@ DROP TABLE IF EXISTS `user_skills`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_skills` (
-  `user_id` int NOT NULL,
+  `mentor_id` int NOT NULL,
   `skill_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`skill_id`),
   KEY `skillidref_idx` (`skill_id`),
-  KEY `useridskill_idx` (`user_id`),
-  CONSTRAINT `skillidref` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`),
-  CONSTRAINT `useridskill` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `useridskill_idx` (`mentor_id`),
+  CONSTRAINT `mentoriduserskills` FOREIGN KEY (`mentor_id`) REFERENCES `mentor` (`id`),
+  CONSTRAINT `skillidref` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -609,9 +603,20 @@ CREATE TABLE `users` (
   `password` varchar(100) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
+  `gender` tinyint DEFAULT NULL,
+  `dob` datetime DEFAULT NULL,
+  `phone_number` varchar(10) DEFAULT NULL,
+  `bio` text,
+  `school` varchar(450) DEFAULT NULL,
+  `is_online` tinyint DEFAULT NULL,
+  `is_offline` tinyint DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `address_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `addressiduser_idx` (`address_id`),
+  CONSTRAINT `addressiduser` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -620,7 +625,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24'),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21');
+INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -661,4 +666,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-02 15:36:46
+-- Dump completed on 2022-06-04 16:16:07

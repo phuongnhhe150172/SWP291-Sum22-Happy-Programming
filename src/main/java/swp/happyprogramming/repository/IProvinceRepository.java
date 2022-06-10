@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Province;
 
 @Repository
-public interface IProvinceRepository extends JpaRepository<Province,Long> {
+public interface IProvinceRepository extends JpaRepository<Province, Long> {
 
+    Province findProvinceById(long provinceId);
 }

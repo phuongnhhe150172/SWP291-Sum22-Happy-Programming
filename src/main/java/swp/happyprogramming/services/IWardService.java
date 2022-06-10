@@ -7,5 +7,5 @@ import java.util.List;
 public interface IWardService {
     List<WardDTO> findAllWard(long id);
 
-    long getWardIdByProfileId(long profileId);
+    long getWardIdByAddressId(long addressId);
 }

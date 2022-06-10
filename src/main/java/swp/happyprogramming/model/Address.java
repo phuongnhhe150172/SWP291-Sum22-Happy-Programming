@@ -1,5 +1,6 @@
 package swp.happyprogramming.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,14 +21,11 @@ public class Address {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "ward_id")
-    private long wardID;
-
-    @Column(name = "profile_id")
-    private long profileID;
-
     public Address() {
         this.name = "";
-        this.wardID = 1;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "ward_id")
+    private Ward ward;
 }

@@ -27,7 +27,7 @@ public class SkillService implements ISkillService {
 
     @Override
     public ArrayList<Skill> getAllSkillByUserId(long userId) {
-        return skillRepository.findAllByUserId(userId);
+        return skillRepository.findAllByMentorId(userId);
     }
 
 

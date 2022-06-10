@@ -1,10 +1,12 @@
 package swp.happyprogramming.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "district")
@@ -24,6 +26,14 @@ public class District {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "province_id")
-    private long provinceId;
+    public District() {
+        this.id = 1;
+    }
+
+    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
+    private Collection<Ward> wards;
+
+    @ManyToOne
+    @JoinColumn(name = "province_id")
+    private Province province;
 }
