@@ -129,6 +129,7 @@ public class UserService implements IUserService {
         user.setPassword(currentUser.getPassword());
         user.getAddress().setId(currentUser.getAddress().getId());
         user.setRoles(currentUser.getRoles());
+        user.setCreated(currentUser.getCreated());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
         return mapper.map(user, UserDTO.class);

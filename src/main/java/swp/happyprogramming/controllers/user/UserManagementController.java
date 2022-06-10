@@ -106,9 +106,9 @@ public class UserManagementController {
                                     @RequestParam Map<String, Object> params) {
         try {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
-            userService.updateUserProfile(userDTO, wardId);
+            UserDTO user = userService.updateUserProfile(userDTO, wardId);
             // Update session
-            session.setAttribute("userInformation", userDTO);
+            session.setAttribute("userInformation", user);
             return "redirect:profile";
         } catch (NumberFormatException e) {
             return "redirect:index";

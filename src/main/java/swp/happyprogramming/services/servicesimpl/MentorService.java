@@ -96,7 +96,7 @@ public class MentorService implements IMentorService {
             User user = optionalUser.get();
 
             //update to table user
-            updateUser(user, mentorDTO);
+            updateUser(user, mentorDTO,profile);
 
             //update to table address
             updateAddress(mentorDTO, wardId, user);
@@ -136,7 +136,7 @@ public class MentorService implements IMentorService {
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
     }
 
-    private void updateUser(User user, MentorDTO mentorDTO) {
+    private void updateUser(User user, MentorDTO mentorDTO,Mentor profile) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setSchool(mentorDTO.getSchool());
@@ -147,6 +147,8 @@ public class MentorService implements IMentorService {
         user.setModified(Date.from(Instant.now()));
         user.setBio(mentorDTO.getBio());
         userRepository.save(user);
+        profile.setModified(mentorDTO.getModified());
+        mentorRepository.save(profile);
     }
 
     private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {
