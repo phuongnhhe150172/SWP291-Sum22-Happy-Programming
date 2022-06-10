@@ -61,14 +61,16 @@ public class AdminController {
 
     @GetMapping("/create-skill")
     public String createSkill(){
-        return "create-skill";
+        return "admin/create-skill";
     }
 
 
     @PostMapping("/create-skill")
     public String createSkill(@RequestParam String skillName){
+        System.out.println("+++++++++++++++++++++++++++");
         Skill skill = new Skill();
         skill.setName(skillName);
+        System.out.println(skillName);
         skillService.save(skill);
         return "redirect:/admin/skills";
     }
