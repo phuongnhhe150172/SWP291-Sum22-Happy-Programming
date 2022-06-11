@@ -20,4 +20,11 @@ public class MentorManagementController {
         model.addAttribute("mentorList", mentorList);
         return "public/showMentor";
     }
+
+    @GetMapping("/mentor/search")
+    public String searchMentor(Model model) {
+        List<MentorDTO> mentorList = mentorService.getMentors();
+        model.addAttribute("mentorList", mentorList);
+        return "mentor/search";
+    }
 }
