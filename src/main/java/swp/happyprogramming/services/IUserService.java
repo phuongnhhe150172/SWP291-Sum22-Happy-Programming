@@ -3,11 +3,13 @@ package swp.happyprogramming.services;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.User;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public interface IUserService extends UserDetailsService {
@@ -32,4 +34,6 @@ public interface IUserService extends UserDetailsService {
     List<UserDTO> findAllMentees();
 
     void removeMentee(long menteeId);
+
+    void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image);
 }

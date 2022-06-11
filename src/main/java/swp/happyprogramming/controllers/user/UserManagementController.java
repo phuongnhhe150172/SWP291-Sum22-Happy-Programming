@@ -7,18 +7,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class UserManagementController {
+    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
+
     @Autowired
     private HttpSession session;
 
@@ -217,5 +225,12 @@ public class UserManagementController {
         } catch (NumberFormatException e) {
             return "redirect:index";
         }
+    }
+
+    @PostMapping("/uploadimg")
+    public String updateImage(@RequestParam("image") MultipartFile image){
+        Long id =(Long) session.getAttribute("id");
+        userService.updateImage(id,CURRENT_FOLDER,image);
+        return "redirect:profile";
     }
 }

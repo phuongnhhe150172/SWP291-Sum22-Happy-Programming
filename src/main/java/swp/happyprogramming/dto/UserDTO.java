@@ -27,6 +27,7 @@ public class UserDTO {
     private Date dob;
     private String phoneNumber;
     private Address address;
+    private String image;
     //    private String ward;
 //    private String district;
 //    private String province;

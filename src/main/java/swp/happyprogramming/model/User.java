@@ -46,6 +46,8 @@ public class User {
     private Integer isOffline;
     @Column(name = "price")
     private Double price;
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "created")
     private Date created;

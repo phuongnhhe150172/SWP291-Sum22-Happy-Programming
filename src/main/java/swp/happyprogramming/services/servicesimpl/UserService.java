@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
@@ -18,6 +19,11 @@ import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -172,5 +178,22 @@ public class UserService implements IUserService {
         ward.setId(wardId);
         address.setWard(ward);
         addressRepository.save(address);
+    }
+
+    @Override
+    public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image){
+        Path imagesPath = Paths.get("src/main/resources/static/imgs");
+        String imageName = "image" + id.toString() + ".jpg";
+        Path imagePath = Paths.get(imageName);
+        Path file = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePath);
+        try (OutputStream os = Files.newOutputStream(file)) {
+            os.write(image.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        User user = userRepository.findById(id).orElse(null);
+        String imageUrl = "/imgs/" + imagesPath.resolve(imagePath).toString().substring(31);
+        user.setImage(imageUrl);
+        userRepository.save(user);
     }
 }
