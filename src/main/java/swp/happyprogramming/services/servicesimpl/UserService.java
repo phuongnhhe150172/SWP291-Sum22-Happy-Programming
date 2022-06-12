@@ -27,7 +27,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,6 +50,10 @@ public class UserService implements IUserService {
         saveUser(userDTO);
     }
 
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
     private void saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
@@ -62,10 +65,6 @@ public class UserService implements IUserService {
         Mentor mentor = new Mentor();
         mentor.setUser(savedUser);
         mentorRepository.save(mentor);
-    }
-
-    private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
     }
 
     @Override
@@ -122,8 +121,7 @@ public class UserService implements IUserService {
         if (user == null) {
             return null;
         }
-        UserDTO userDTO = mapper.map(user, UserDTO.class);
-        return userDTO;
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
@@ -196,6 +194,29 @@ public class UserService implements IUserService {
         User user = userRepository.findById(id).orElse(null);
         String imageUrl = "/imgs/" + imageName;
         user.setImage(imageUrl);
+        userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token);
+        return user;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+        String Password = password.encode(newPassword);
+        user.setPassword(Password);
         userRepository.save(user);
     }
 }

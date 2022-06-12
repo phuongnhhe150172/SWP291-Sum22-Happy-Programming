@@ -15,21 +15,22 @@
         <form th:action="@{/login}" method="POST">
             <div class="text-5xl font-bold text-center">Sign in</div>
             <div class="py-5">
-                <label for="email" class="">Email</label>
+                <p class="my-3">Email</p>
+                <label for="email" class="sr-only">Email</label>
                 <input type="text" id="email" name="username"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="john.smith@example.com" required>
             </div>
             <div class="py-5">
-                <label for="password" class="">Password</label>
+                <div class="flex justify-between my-3">
+                    <p>Password</p>
+                    <a href="signup" class="text-blue-500">Forgot password ?</a>
+                </div>
+                <label for="password" class="sr-only">Password
+                </label>
                 <input type="password" id="password" name="password"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="•••••••••" required>
-            </div>
-            <div class="px-2">
-                <label>
-                    <input type="checkbox" name="remember-me"> Remember Me
-                </label>
             </div>
             <div class="my-5 flex items-center justify-between">
                 <div class="flex gap-4 items-center">
@@ -38,10 +39,12 @@
                             font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700
                             focus:outline-none dark:focus:ring-blue-800"
                             type="submit" value="Sign in"/>
-                    <a href="signup">Sign up</a>
+                </div>
+                <div class="mx-2">
+                    <a href="signup" class="border border-gray-700 hover:bg-gray-700 px-5 py-2.5 rounded-lg text-medium">Sign up</a>
                 </div>
                 <div class="">
-                    <a href="signup" class="text-gray-300">Forgot password</a>
+                        <a th:href="@{/forgot_password}">Forgot password?</a>
                 </div>
             </div>
         </form>

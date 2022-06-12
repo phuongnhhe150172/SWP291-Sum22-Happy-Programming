@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/home").permitAll()
                     .antMatchers("/").hasAnyAuthority("ROLE_MENTEE")
                     .antMatchers("/").hasAnyAuthority("ROLE_MENTOR")
+                    .antMatchers("/admin**").hasAnyAuthority("ROME_ADMIN")
                     .antMatchers("/signup", "/login", "/*").permitAll()
                     .anyRequest().authenticated()
                     .and()

@@ -3,13 +3,10 @@ package swp.happyprogramming.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.RequestDTO;
+import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.services.IRequestService;
+import swp.happyprogramming.model.Skill;
+import swp.happyprogramming.services.ISkillService;
 import swp.happyprogramming.services.IUserService;
 
 import java.util.List;
@@ -21,7 +18,7 @@ public class AdminController {
     private IUserService userService;
 
     @Autowired
-    private IRequestService requestService;
+    private ISkillService skillService;
 
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model){
@@ -55,5 +52,26 @@ public class AdminController {
         return "redirect:/admin/mentees";
     }
 
+    @GetMapping("/skills")
+    public String getAllSkill(Model model){
+        List<Skill> skillList = skillService.getAllSkill();
+        model.addAttribute("skills", skillList);
+        return "admin/all-skills";
+    }
 
+    @GetMapping("/create-skill")
+    public String createSkill(){
+        return "admin/create-skill";
+    }
+
+
+    @PostMapping("/create-skill")
+    public String createSkill(@RequestParam String skillName){
+        System.out.println("+++++++++++++++++++++++++++");
+        Skill skill = new Skill();
+        skill.setName(skillName);
+        System.out.println(skillName);
+        skillService.save(skill);
+        return "redirect:/admin/skills";
+    }
 }
