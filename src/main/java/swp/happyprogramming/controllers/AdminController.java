@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
 
 import java.util.List;
@@ -17,6 +19,9 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IRequestService requestService;
 
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model){
@@ -49,4 +54,6 @@ public class AdminController {
         userService.removeMentee(menteeId);
         return "redirect:/admin/mentees";
     }
+
+
 }
