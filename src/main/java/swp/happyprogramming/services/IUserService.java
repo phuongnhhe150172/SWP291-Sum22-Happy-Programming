@@ -32,6 +32,4 @@ public interface IUserService extends UserDetailsService {
     List<UserDTO> findAllMentees();
 
     void removeMentee(long menteeId);
-
-    User findByEmail(String email);
 }

@@ -44,9 +44,8 @@ public class UserService implements IUserService {
         saveUser(userDTO);
     }
 
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 
     private void saveUser(UserDTO userDTO) {
@@ -60,10 +59,6 @@ public class UserService implements IUserService {
         Mentor mentor = new Mentor();
         mentor.setUser(savedUser);
         mentorRepository.save(mentor);
-    }
-
-    private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
     }
 
     @Override
