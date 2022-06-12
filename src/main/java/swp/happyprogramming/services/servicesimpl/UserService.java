@@ -44,6 +44,11 @@ public class UserService implements IUserService {
         saveUser(userDTO);
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     private void saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
@@ -169,5 +174,27 @@ public class UserService implements IUserService {
         ward.setId(wardId);
         address.setWard(ward);
         addressRepository.save(address);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token);
+        return user;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+        String Password = password.encode(newPassword);
+        user.setPassword(Password);
+        userRepository.save(user);
     }
 }
