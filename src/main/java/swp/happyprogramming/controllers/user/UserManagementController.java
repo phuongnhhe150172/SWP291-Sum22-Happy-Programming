@@ -67,6 +67,7 @@ public class UserManagementController {
             }
             user = (UserDTO) sessionUser;
         }
+        System.out.println(user.getImage());
         String role = (String) session.getAttribute("role");
         String address = addressService.getAddress(user.getAddress().getId());
         model.addAttribute("user", user);
@@ -227,10 +228,12 @@ public class UserManagementController {
         }
     }
 
-    @PostMapping("/uploadimg")
+    @PostMapping("/uploading")
     public String updateImage(@RequestParam("image") MultipartFile image){
         Long id =(Long) session.getAttribute("id");
         userService.updateImage(id,CURRENT_FOLDER,image);
+        UserDTO user = userService.findUser(id);
+        session.setAttribute("userInformation", user);
         return "redirect:profile";
     }
 }
