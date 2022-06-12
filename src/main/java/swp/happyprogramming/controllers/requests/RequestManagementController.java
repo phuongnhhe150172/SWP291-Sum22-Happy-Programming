@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
@@ -39,12 +40,20 @@ public class RequestManagementController {
         return "requests";
     }
 
-    //List all request sent to mentors
+    //Display all request sent (mentee)
     @GetMapping("/request/sent/{id}")
     public String getRequestSent(@PathVariable int id, Model model){
-        List<Request> list = requestService.getRequestSent(id);
+        List<RequestDTO> list = requestService.getRequestSent(id);
         model.addAttribute("requestList", list);
         return "requests/request_sent";
+    }
+
+    //Display all requests (admin)
+    @GetMapping("/admin/requests")
+    public String showAllRequests(Model model){
+        List<RequestDTO> requests = requestService.getAllRequest();
+        model.addAttribute("requests",requests);
+        return "requests/all-requests";
     }
 
 }

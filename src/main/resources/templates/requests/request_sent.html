@@ -13,7 +13,11 @@
 <!--      <p th:text="*{name}">Anna Amelius</p>-->
 <!--    </a>-->
     <div class="flex items-center gap-4">
-      <p th:text="${request.mentorId}"></p>
+      <p th:text="${request.mentorName}"></p>
+      <p th:text="${request.menteeName}"></p>
+      <p th:text="${request.skillName}"></p>
+      <p th:text="${request.budget}"></p>
+      <p th:text="${request.id}"></p>
       <a href="" class="bg-blue-600 px-4 py-2 rounded-lg">Accept</a>
       <a href="" class="bg-red-600 px-4 py-2 rounded-lg">Delete</a>
     </div>

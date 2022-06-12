@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.repository.IRequestRepository;
 import swp.happyprogramming.services.IRequestService;
@@ -28,9 +29,8 @@ public class RequestServiceTest {
     @Test
     public void testGetRequestSent(){
         long id = 20;
-        List<Request> list = requestService.getRequestSent(id); //error because of null in budget, skillID column in database
+        List<RequestDTO> list = requestService.getRequestSent(id); //error because of null in budget, skillID column in database
         Assertions.assertThat(list).isNotNull();
         System.out.println(list.size());
-        System.out.println(list.get(0).getMentorId());
     }
 }
