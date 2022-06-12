@@ -12,7 +12,7 @@
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
 <div class="" th:replace="components/nav.html :: aside"></div>
 
-<div class="ml-64" th:object="${user}">
+<div class="ml-64 min-h-[100vh]" th:object="${user}">
     <div class="p-8 flex gap-6 justify-start items-center">
         <img th:src="@{/imgs/avatar1.jpg}"
              class="w-48 h-48 rounded-full border-2 border-gray-400" alt="">
