@@ -10,9 +10,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.ServletException;
