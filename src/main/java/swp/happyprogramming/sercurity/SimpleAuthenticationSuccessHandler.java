@@ -29,9 +29,6 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private IAddressRepository addressRepository;
-
     ModelMapper mapper = new ModelMapper();
 
     @Override
@@ -65,6 +62,8 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 }
             } else if (authority.getAuthority().contains("ROLE_ADMIN")) {
                 try {
+                    String sessionRole = "ADMIN";
+                    session.setAttribute("role", sessionRole);
                     redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
                 } catch (Exception e) {
                     e.printStackTrace();
