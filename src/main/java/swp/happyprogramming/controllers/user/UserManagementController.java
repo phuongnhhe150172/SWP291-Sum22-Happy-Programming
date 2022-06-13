@@ -94,13 +94,6 @@ public class UserManagementController {
         return "user/update-profile";
     }
 
-    @GetMapping("/mentors")
-    public String allMentors(Model model) {
-        List<MentorDTO> mentors = mentorService.getMentors();
-        model.addAttribute("mentors", mentors);
-        return "mentor/all-mentors";
-    }
-
     @PostMapping("/update")
     public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
                                     @RequestParam Map<String, Object> params) {
