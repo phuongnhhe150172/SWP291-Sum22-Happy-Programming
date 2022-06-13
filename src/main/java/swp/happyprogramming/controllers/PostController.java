@@ -17,8 +17,8 @@ public class PostController {
 
     @GetMapping("/posts")
     public String getPosts(Model model) {
-        ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
-        model.addAttribute("posts", posts);
+        ArrayList<Post> postsList = (ArrayList<Post>) postService.getAllPosts();
+        model.addAttribute("posts", postsList);
         return "post/view/all";
     }
 }
