@@ -5,11 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Address;
 
-import java.util.Optional;
-
 @Repository
 public interface IAddressRepository extends JpaRepository<Address, Long> {
-    @Query(value = "select a.id,a.`name`,a.ward_id from address as a where a.id = ?1",nativeQuery = true)
+    @Query(value = "select * from address as a where a.id = ?1",nativeQuery = true)
     Address findByAddressId(long addressId);
 
     @Query(value = "SELECT NAME FROM DISTRICT WHERE ID IN (SELECT DISTRICT_ID FROM WARD WHERE ID=?1)",

@@ -10,18 +10,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import swp.happyprogramming.sercurity.SimpleAuthenticationSuccessHandler;
 import swp.happyprogramming.services.IUserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private SimpleAuthenticationSuccessHandler successHandler;
+
     private IUserService userService;
 
     @Autowired
-    public WebSecurityConfig(@Lazy IUserService userService) {
+    public WebSecurityConfig(@Lazy IUserService userService, @Lazy SimpleAuthenticationSuccessHandler successHandler) {
         super();
+        this.successHandler = successHandler;
         this.userService = userService;
     }
 
@@ -45,26 +48,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(
-                        "/signup**",
-                        "/",
-                        "/home**",
-                        "/mentor/**",
-                        "/admin/**",
-                        "/mentee/**",
-                        "/forgot_password/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("/home")
-                .permitAll()
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?  logout")
-                .permitAll();
+        http.authorizeRequests()
+                    .antMatchers("/home").permitAll()
+                    .antMatchers("/").hasAnyAuthority("ROLE_MENTEE")
+                    .antMatchers("/").hasAnyAuthority("ROLE_MENTOR")
+                    .antMatchers("/admin**").hasAnyAuthority("ROME_ADMIN")
+                    .antMatchers("/signup", "/login", "/*").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                .formLogin()
+                    .loginPage("/login").loginProcessingUrl("/login")
+                    .usernameParameter("username").passwordParameter("password")
+                    .successHandler(successHandler)
+                    .failureForwardUrl("/login?error=true")
+                    .permitAll()
+                    .and()
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutUrl("/home")
+                        .invalidateHttpSession(true)
+                ).exceptionHandling()
+                .accessDeniedPage("/404")
+        ;
     }
 }

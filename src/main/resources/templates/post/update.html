@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <title>Document</title>
+</head>
+
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+<aside class="w-64 fixed top-0 min-h-[100vh]" aria-label="Sidebar">
+    <div class="h-[100vh] overflow-y-auto py-4 px-3 bg-gray-800">
+        <div class="text-xl font-semibold my-7 px-2">
+            <h1><a href="">Happy Programming</a></h1>
+        </div>
+        <div class="flex items-center gap-3 rounded-lg bg-gray-700 p-3 my-4">
+            <img th:src="@{/imgs/avatar1.jpg}" alt="" class="w-10 h-10 rounded-full">
+            <div class="">
+                <a href="">
+                    <h3 class="font-medium">Anna Amelius</h3>
+                </a>
+            </div>
+        </div>
+        <ul class="space-y-2">
+            <li>
+                <a href="/dashboard"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                    </svg>
+                    <span class="ml-3">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/request"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Requests</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mentor"
+                   class="flex items-center p-2 text-base font-normal rounded-lg text-white hover:bg-gray-700">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Connect</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+
+<div class="ml-[16rem] max-w-[1400px]">
+    <div class="w-[80vw]">
+        <form class="block w-[90%] min-h-[100vh] mx-auto p-4" th:action="@{/post/update}" th:method="post" th:object="${post}">
+            <div class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
+                <div class="flex items-center justify-between m-2">
+                    <div class="flex items-center">
+                        <div class="m-2">
+                            <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                                 th:src="@{/imgs/avatar1.jpg}"
+                                 alt="Bordered avatar">
+                        </div>
+
+                        <div class="flex flex-col items-left m-2">
+                            <p class="font-bold text-md" th:text="${user.firstName} + ${user.lastName}">Hoàng Văn Nam</p>
+                            <div class="">
+                                <select id="" th:field="*{status}"
+                                        class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
+                                    <option value="1">Completed</option>
+                                    <option value="0">Canceled</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
+                    <label for="editor" class="sr-only">Publish post</label>
+                    <textarea id="editor" rows="8" th:field="*{description}"
+                              class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                              placeholder="Write an article..." required>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos aperiam, exercitationemnemo quae consequatur doloremque sunt illum quidem atque blanditiis, consequuntur dolorumillo, libero iste cumque harum reprehenderit voluptatum totam.</textarea>
+                </div>
+                <div class="">
+                    <div class="">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" id="price" th:field="*{price}"
+                                   class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                   placeholder=" " required/>
+                            <label for="price"
+                                   class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform
+                                   -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600
+                                   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75
+                                   peer-focus:-translate-y-6">Price</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h2 class="my-4 text-xl">Method</h2>
+                        <div class="flex items-center my-2" th:each="method,state : ${listMethod}">
+                            <input th:attr="id=${'inline-checkbox' + method.id}" th:checked="${post.method.id == method.id}"
+                                   th:value="${method.id}" th:name="method"
+                                   type="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label th:attr="for=${'inline-checkbox' + method.id}" th:text="${method.name}"
+                                   class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Online</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" th:name="id" th:value="*{id}">
+                <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2 mx-2 mb-2 mt-4 w-full dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Save
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

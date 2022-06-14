@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "ward")
@@ -23,6 +24,14 @@ public class Ward {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "district_id")
-    private long districtId;
+    public Ward() {
+        this.id = 1;
+    }
+
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
+    private Collection<Address> addresses;
+
+    @ManyToOne
+    @JoinColumn(name = "district_id")
+    private District district;
 }

@@ -3,6 +3,7 @@ package swp.happyprogramming.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "experience")
@@ -22,4 +23,8 @@ public class Experience {
     @NonNull
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(mappedBy = "experiences", cascade = CascadeType.ALL)
+    private Collection<Mentor> mentors;
+
 }

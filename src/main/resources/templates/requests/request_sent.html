@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Sent</title>
+</head>
+<body>
+<div class="ml-64 p-6 grow grid xl:grid-cols-2 gap-4" th:each="request: ${requestList}">
+  <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800 border border-gray-700"
+       th:object="${request}">
+<!--    <a th:href="@{/profile(id=request.id)}" class="flex items-center gap-4">-->
+<!--      <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">-->
+<!--      <p th:text="*{name}">Anna Amelius</p>-->
+<!--    </a>-->
+    <div class="flex items-center gap-4">
+      <p th:text="${request.mentorId}"></p>
+      <a href="" class="bg-blue-600 px-4 py-2 rounded-lg">Accept</a>
+      <a href="" class="bg-red-600 px-4 py-2 rounded-lg">Delete</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

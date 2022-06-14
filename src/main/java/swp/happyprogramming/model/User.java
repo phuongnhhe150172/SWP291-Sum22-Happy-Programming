@@ -1,6 +1,7 @@
 package swp.happyprogramming.model;
 
-import lombok.*;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -26,6 +27,24 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+
+    @Column(name = "gender")
+    private Integer gender;
+    @Column(name = "dob")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    @Column(name = "bio")
+    private String bio;
+    @Column(name = "school")
+    private String school;
+    @Column(name = "is_online")
+    private Integer isOnline;
+    @Column(name = "is_offline")
+    private Integer isOffline;
+    @Column(name = "price")
+    private Double price;
 
     @Column(name = "created")
     private Date created;
@@ -58,7 +77,17 @@ public class User {
         this.roles = new ArrayList<>();
     }
 
-    public void setRoles(Role role) {
+    public void addRole(Role role) {
         this.roles.add(role);
     }
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Mentor> mentors;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Post> posts;
 }

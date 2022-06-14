@@ -20,11 +20,11 @@ public class Address {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "ward_id")
-    private long wardID;
-
     public Address() {
         this.name = "";
-        this.wardID = 1;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "ward_id")
+    private Ward ward;
 }
