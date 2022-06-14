@@ -41,7 +41,7 @@ public class ChangePasswordController {
         String newPassword = request.getParameter("newPass");
         String confirmPassword = request.getParameter("confirmPass");
         System.out.println(getPrincipal());
-        System.out.println("Duc:  Oldpass: "+ oldPassword+"\n" +
+        System.out.println("Dung:  Oldpass: "+ oldPassword+"\n" +
                 "new pass: "+newPassword+"\n" +
                 "Confirm pass: "+confirmPassword);
 
