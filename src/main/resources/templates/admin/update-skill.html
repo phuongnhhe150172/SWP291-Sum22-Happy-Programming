@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create skill - Happy Programming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-white flex">
+<!--Left-sidebar-->
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+<!--End-Left-sidebar-->
+<div class="bg-gray-900 grow flex min-h-[100vh]">
+    <div class="flex grow flex-col justify-center items-center">
+        <form th:action="@{/admin/update-skill}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillName">
+                    Update Skill
+                </label>
+                <input name="skillId" type="hidden" th:value="${skill.id}">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="skillName" name="skillName" type="text" th:value="${skill.name}">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Update
+                </button>
+                <a class="" th:href="@{/admin/skills}">
+                <button class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" >
+                    Cancel
+                </button>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
