@@ -15,7 +15,7 @@
             <h1><a href="">Happy Programming</a></h1>
         </div>
         <div class="flex items-center gap-3 rounded-md p-3 mt-4">
-            <img src="../../static/imgs/avatar1.jpg" th:src="@{/imgs/avatar1.jpg}" alt="" class="w-10 h-10 rounded-full">
+            <img src="../../static/imgs/avatar1.jpg" th:src="@{${session.userInformation.image}}" alt="" class="w-10 h-10 rounded-full">
             <div class="">
                 <a href="/profile">
                     <h3 class="font-medium"
@@ -64,7 +64,7 @@
             </li>
             <br>
             <li>
-                <a th:href="@{/cv(id=${session.id})}" href="" th:if="${session.role == 'MENTOR_AND_MENTEE'}"
+                <a th:href="@{/cv(id=${session.userInformation.id})}" href="" th:if="${session.role == 'MENTOR_AND_MENTEE'}"
                    class="group flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white hover:bg-blue-800">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

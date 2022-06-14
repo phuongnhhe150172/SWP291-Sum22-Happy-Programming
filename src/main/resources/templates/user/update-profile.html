@@ -15,7 +15,7 @@
 <div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
 
     <div class="col-span-1 grow min-h-[100vh] mt-[2rem] px-4 flex flex-col">
-        <img th:src="@{/imgs/avatar1.jpg}"
+        <img th:src="@{${user.image}}"
              class="w-64 h-64 rounded-full border-2 border-gray-400 mx-auto" alt="">
     </div>
 
@@ -25,6 +25,7 @@
             <input type="hidden" name="addressId" th:value="*{address.id}" th:field="*{address.id}">
             <input type="hidden" name="email" th:value="*{email}" th:field="*{email}">
             <input type="hidden" name="password" th:value="*{password}" th:field="*{password}">
+            <input type="hidden" name="image" th:value="*{image}" th:field="*{image}">
 <!--            <input type="hidden" name="created" th:value="*{created}" th:field="*{created}">-->
             <h2 class="my-4 text-xl">About me</h2>
             <div class="">

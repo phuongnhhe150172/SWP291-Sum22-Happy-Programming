@@ -180,10 +180,18 @@ public class UserService implements IUserService {
 
     @Override
     public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image){
+        User user = userRepository.findById(id).orElse(null);
+        Path imagePathOld = Paths.get(user.getImage().substring(6));
         Path imagesPath = Paths.get("src/main/resources/static/imgs");
-//        String imageName = "image" + id.toString() + ".jpg";
+        Path fileOld = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePathOld);
+        try {
+            Files.delete(fileOld);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        String imageName = "image" + user.getId().toString() + ".jpg";
         String fileName = image.getOriginalFilename().substring(0,image.getOriginalFilename().length() - 4);
-        String imageName = fileName + id.toString() + ".jpg";
+        String imageName = fileName + user.getId().toString() + ".jpg";
         Path imagePath = Paths.get(imageName);
         Path file = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePath);
         try (OutputStream os = Files.newOutputStream(file)) {
@@ -191,10 +199,8 @@ public class UserService implements IUserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        User user = userRepository.findById(id).orElse(null);
         String imageUrl = "/imgs/" + imageName;
         user.setImage(imageUrl);
-        userRepository.save(user);
         userRepository.save(user);
     }
 

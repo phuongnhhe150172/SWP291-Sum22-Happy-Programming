@@ -230,9 +230,9 @@ public class UserManagementController {
 
     @PostMapping("/uploading")
     public String updateImage(@RequestParam("image") MultipartFile image){
-        Long id =(Long) session.getAttribute("id");
-        userService.updateImage(id,CURRENT_FOLDER,image);
-        UserDTO user = userService.findUser(id);
+        UserDTO userDTO =(UserDTO) session.getAttribute("userInformation");
+        userService.updateImage(userDTO.getId(),CURRENT_FOLDER,image);
+        UserDTO user = userService.findUser(userDTO.getId());
         session.setAttribute("userInformation", user);
         return "redirect:profile";
     }

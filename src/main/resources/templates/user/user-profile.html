@@ -31,7 +31,7 @@
 <!--                Age 25 · Male</p>-->
         </div>
     </div>
-    <th:block th:if="${session.id == user.id}">
+    <th:block th:if="${session.userInformation.id == user.id}">
         <div class="mx-8 mb-6 w-48">
             <a class="w-full my-[10px]" th:href="@{/update(id=${user.id})}">
                 <button type="button"
@@ -43,7 +43,7 @@
             </a>
         </div>
     </th:block>
-    <th:block th:unless="${session.id == user.id}">
+    <th:block th:unless="${session.userInformation.id == user.id}">
         <div class="mx-8 mb-6 w-48">
             <button type="button"
                     class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
