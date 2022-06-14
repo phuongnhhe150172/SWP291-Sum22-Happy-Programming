@@ -51,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/home**",
                         "/mentor/**",
                         "/admin/**",
-                        "/mentee/**").permitAll()
+                        "/mentee/**",
+                        "/forgot_password/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/login")
