@@ -10,14 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDTO {
-    private String addressName;
+    private String name;
     private WardDTO ward;
     private DistrictDTO district;
     private ProvinceDTO province;
 
     @Override
     public String toString() {
-        return addressName + ", "
+        return name + ", "
                 + ward.getName() + ", "
                 + district.getName() + ", "
                 + province.getName();

@@ -16,6 +16,7 @@ import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IMentorRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -105,10 +106,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        Address address = addressRepository.findByAddressId(user.getAddress().getId());
-        user.setAddress(address);
-        return user;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -164,7 +162,7 @@ public class UserService implements IUserService {
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
+        Address address = Utility.mapAddressDTO(userDTO.getAddress());
         address.setName(userDTO.getAddress().getName());
         Ward ward = new Ward();
         ward.setId(wardId);
