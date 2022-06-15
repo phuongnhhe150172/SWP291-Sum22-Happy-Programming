@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.model.Request;
@@ -24,9 +23,9 @@ public class RequestManagementController {
     @Autowired
     private IRequestService requestService;
 
-    //    This class will be used both for admin and user
     @GetMapping("/requests")
     public String requests(Model model) {
+        //    Nguyễn Huy Hoàng - 32 - view all received requests (mentor)
         //    Current user's requests
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

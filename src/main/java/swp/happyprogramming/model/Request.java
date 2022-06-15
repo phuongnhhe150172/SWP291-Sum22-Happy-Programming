@@ -27,6 +27,4 @@ public class Request {
 
     @Column(name = "budget")
     private long budget;
-
-
 }

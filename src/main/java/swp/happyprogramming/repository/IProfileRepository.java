@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface IProfileRepository extends JpaRepository<Mentor, Long> {
     Optional<Mentor> findByUserId(long userID);
-    @Query(value = "select * from mentor where user_id=?1", nativeQuery = true)
-    Optional<Mentor> findByUserID(long userID);
 
     @Modifying
     @Transactional

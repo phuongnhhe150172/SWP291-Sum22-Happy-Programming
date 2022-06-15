@@ -6,8 +6,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")

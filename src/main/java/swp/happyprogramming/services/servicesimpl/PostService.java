@@ -11,7 +11,6 @@ import swp.happyprogramming.model.User;
 import swp.happyprogramming.repository.IMethodRepository;
 import swp.happyprogramming.repository.IPostRepository;
 import swp.happyprogramming.repository.IUserRepository;
-import swp.happyprogramming.services.IMethodService;
 import swp.happyprogramming.services.IPostService;
 
 import java.time.Instant;

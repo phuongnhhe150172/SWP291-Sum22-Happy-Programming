@@ -17,6 +17,7 @@ import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IMentorRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class UserService implements IUserService {
     private IMentorRepository mentorRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
@@ -55,6 +57,7 @@ public class UserService implements IUserService {
     }
 
     private void saveUser(UserDTO userDTO) {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
@@ -109,10 +112,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        Address address = addressRepository.findByAddressId(user.getAddress().getId());
-        user.setAddress(address);
-        return user;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
+    public void updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
         User user = mapper.map(userDTO, User.class);
         user.setEmail(currentUser.getEmail());
@@ -136,7 +136,6 @@ public class UserService implements IUserService {
         user.setCreated(currentUser.getCreated());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
-        return mapper.map(user, UserDTO.class);
     }
 
     @Override
@@ -155,7 +154,7 @@ public class UserService implements IUserService {
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
         List<UserDTO> userDTOS = new ArrayList<>();
-        for(User mentee:mentees){
+        for (User mentee : mentees) {
             UserDTO userDTO = mapper.map(mentee, UserDTO.class);
             userDTOS.add(userDTO);
         }
@@ -170,7 +169,7 @@ public class UserService implements IUserService {
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
+        Address address = Utility.mapAddressDTO(userDTO.getAddress());
         address.setName(userDTO.getAddress().getName());
         Ward ward = new Ward();
         ward.setId(wardId);

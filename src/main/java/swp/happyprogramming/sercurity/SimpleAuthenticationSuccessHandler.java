@@ -10,10 +10,9 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.model.Address;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.utility.Utility;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,26 +28,21 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private IAddressRepository addressRepository;
-
-    ModelMapper mapper = new ModelMapper();
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);
-        UserDTO userDTO = mapper.map(user, UserDTO.class);
+        UserDTO userDTO = Utility.mapUser(user);
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         authorities.forEach(authority -> {
+            session.setAttribute("id", userDTO.getId());
+            session.setAttribute("userInformation", userDTO);
             if (authority.getAuthority().equals("ROLE_MENTOR")) {
                 try {
                     String sessionRole = "MENTOR_AND_MENTEE";
                     session.setAttribute("role", sessionRole);
-                    session.setAttribute("id",userDTO.getId());
-                    session.setAttribute("userInformation", userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -57,14 +51,14 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 try {
                     String sessionRole = "MENTEE";
                     session.setAttribute("role", sessionRole);
-                    session.setAttribute("id",userDTO.getId());
-                    session.setAttribute("userInformation", userDTO);
                     redirectStrategy.sendRedirect(request, response, "/home");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (authority.getAuthority().contains("ROLE_ADMIN")) {
                 try {
+                    String sessionRole = "ADMIN";
+                    session.setAttribute("role", sessionRole);
                     redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
                 } catch (Exception e) {
                     e.printStackTrace();
