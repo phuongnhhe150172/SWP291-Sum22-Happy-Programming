@@ -62,6 +62,8 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                 try {
                     String sessionRole = "ADMIN";
                     session.setAttribute("role", sessionRole);
+                    session.setAttribute("id",userDTO.getId());
+                    session.setAttribute("userInformation", userDTO);
                     redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
                 } catch (Exception e) {
                     e.printStackTrace();
