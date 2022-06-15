@@ -181,25 +181,16 @@ public class UserService implements IUserService {
     @Override
     public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image){
         User user = userRepository.findById(id).orElse(null);
-        Path imagePathOld = Paths.get(user.getImage().substring(6));
-        Path imagesPath = Paths.get("src/main/resources/static/imgs");
-        Path fileOld = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePathOld);
-        try {
-            Files.delete(fileOld);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        String imageName = "image" + user.getId().toString() + ".jpg";
-        String fileName = image.getOriginalFilename().substring(0,image.getOriginalFilename().length() - 4);
-        String imageName = fileName + user.getId().toString() + ".jpg";
+        Path imagesPath = Paths.get("src/main/upload/static/imgs");
+        String imageName = "image" + user.getId().toString() + ".jpg";
         Path imagePath = Paths.get(imageName);
         Path file = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePath);
-        try (OutputStream os = Files.newOutputStream(file)) {
-            os.write(image.getBytes());
+        try {
+            Files.write(file,image.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String imageUrl = "/imgs/" + imageName;
+        String imageUrl = "/upload/static/imgs/" + imageName;
         user.setImage(imageUrl);
         userRepository.save(user);
     }
