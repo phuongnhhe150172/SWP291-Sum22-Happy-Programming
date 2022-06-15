@@ -18,6 +18,7 @@ public class ConnectionController {
 
     @GetMapping("/connections")
     public String getUserConnections(Model model) {
+        // Nguyễn Huy Hoàng - 33 - view connections
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

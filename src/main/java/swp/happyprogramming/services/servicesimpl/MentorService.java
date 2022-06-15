@@ -7,6 +7,7 @@ import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
+import swp.happyprogramming.utility.Utility;
 
 import java.time.Instant;
 import java.util.*;
@@ -19,15 +20,6 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private IProvinceRepository provinceRepository;
-
-    @Autowired
-    private IDistrictRepository districtRepository;
-
-    @Autowired
-    private IWardRepository wardRepository;
 
     @Autowired
     private IAddressRepository addressRepository;
@@ -48,32 +40,25 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
             User user = optionalUser.get();
-//            Address address = addressRepository.findByAddressId(user.getAddress().getId());
+            Address address = addressRepository.findByAddressId(user.getAddress().getId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
             //set data to mentorDTO
-            return combineUserAndProfile(user, mentor, listSkill, listExperience);
+            return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
         } else {
             return null;
         }
     }
 
     private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
-                                            ArrayList<Experience> listExperience) {
+                                            ArrayList<Experience> listExperience, Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-//        Ward ward = wardRepository.findById(user.getAddress().getWard().getId()).orElse(new Ward());
-//        District district = districtRepository.findById(ward.getDistrict().getId()).orElse(new District());
-//        Province province = provinceRepository.findById(district.getProvince().getId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
-//        mentorDTO.setWard(ward.getName());
-//        mentorDTO.setDistrict(district.getName());
-//        mentorDTO.setProvince(province.getName());
-        // The street name is set to "" by default
-//        mentorDTO.setStreet(address.getName());
+        mentorDTO.setAddress(Utility.mapAddress(address));
         return mentorDTO;
     }
 
@@ -91,33 +76,31 @@ public class MentorService implements IMentorService {
     public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
         Optional<Mentor> optionalUserProfile = profileRepository.findByUserId(mentorDTO.getId());
-        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            Mentor profile = optionalUserProfile.get();
-            User user = optionalUser.get();
-
-            //update to table user
-            updateUser(user, mentorDTO,profile);
-
-            //update to table address
-            updateAddress(mentorDTO, wardId, user);
-
-            //delete experience with mentor
-            deleteExperienceAndMentorExperience(profile);
-
-            //save experience with mentor
-            if(experienceValue != null){
-                saveExperienceAndMentorExperience(profile, experienceValue);
-            }
-
-            //delete skill with user
-            deleteUserSkills(mentorDTO.getProfileId());
-
-            //save skill with user
-            if (skillValue != null) {
-                saveUserSkills(mentorDTO.getProfileId(), skillValue);
-            }
-
+        if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) {
+            return;
         }
+        Mentor profile = optionalUserProfile.get();
+        User user = optionalUser.get();
+
+        //update to table user
+        updateUser(user, mentorDTO, profile);
+
+        //delete experience with mentor
+        deleteExperienceAndMentorExperience(profile);
+
+        //save experience with mentor
+        if (experienceValue != null) {
+            saveExperienceAndMentorExperience(profile, experienceValue);
+        }
+
+        //delete skill with user
+        deleteUserSkills(mentorDTO.getProfileId());
+
+        //save skill with user
+        if (skillValue != null) {
+            saveUserSkills(mentorDTO.getProfileId(), skillValue);
+        }
+
     }
 
     public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<Skill> mentorSkill) {
@@ -136,7 +119,7 @@ public class MentorService implements IMentorService {
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
     }
 
-    private void updateUser(User user, MentorDTO mentorDTO,Mentor profile) {
+    private void updateUser(User user, MentorDTO mentorDTO, Mentor profile) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setSchool(mentorDTO.getSchool());
@@ -146,6 +129,7 @@ public class MentorService implements IMentorService {
         user.setPhoneNumber(mentorDTO.getPhoneNumber());
         user.setModified(Date.from(Instant.now()));
         user.setBio(mentorDTO.getBio());
+        user.setAddress(Utility.mapAddressDTO(mentorDTO.getAddress()));
         userRepository.save(user);
         profile.setModified(mentorDTO.getModified());
         mentorRepository.save(profile);
@@ -153,21 +137,13 @@ public class MentorService implements IMentorService {
 
     private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {
         List<Experience> listExperienceWillSave = experieceValue.stream()
-                .map(value -> new Experience(value)).collect(Collectors.toList());
+                .map(Experience::new).collect(Collectors.toList());
 
         experienceRepository.saveAll(listExperienceWillSave);
         ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
 
         listExperienceSaved.forEach(value ->
                 profileRepository.insertByMentorIdAndExperienceId(profile.getId(), value.getId()));
-    }
-
-    private void updateAddress(MentorDTO mentorDTO, long wardId, User user) {
-        Address address = addressRepository.findByAddressId(user.getAddress().getId());
-        Ward ward = wardRepository.findById(wardId).orElseGet(null);
-        address.setName(mentorDTO.getAddress().getName());
-        address.setWard(ward);
-        addressRepository.save(address);
     }
 
     //    DELETE SECTION

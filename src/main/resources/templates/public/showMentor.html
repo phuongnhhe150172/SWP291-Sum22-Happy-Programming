@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View All Mentors</title>
+    <title>All Mentors</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 
 <style>
     div.online-indicator {
@@ -46,7 +46,6 @@
     }
 
     /*Animations*/
-
     @keyframes blink {
         100% {
             transform: scale(2, 2);
@@ -55,26 +54,11 @@
     }
 </style>
 
-<body class="bg-gray-900 text-white font-['SF_Pro_Text']">
-    <nav class="w-full bg-gray-800 p-5">
-        <div class="max-w-[1230px] flex justify-between items-center mx-auto">
-            <div class="flex items-center gap-10">
-                <div class="gap-3 flex items-center font-semibold text-lg text-blue-400">
-                    <img th:src="@{../../imgs/logo.svg}" src="../../static/styleindex/imgs/logo.svg" alt="" />
-                    Happy Programming
-                </div>
-                <div class="flex items-center gap-6 font-semibold">
-                    <a href="/home" class="hover:text-gray-400">Home</a>
-                </div>
-            </div>
-            <div class="">
-                <img th:src="@{../../imgs/avatar1.jpg}" src="../../static/styleindex/imgs/avatar1.jpg" alt=""
-                     class="w-8 h-8 rounded-full">
-            </div>
-        </div>
-    </nav>
+<body class="bg-gray-900 text-white font-['SF_Pro_Text'] flex">
+<div class="w-64" th:replace="components/nav.html :: aside"></div>
 
-    <div class="grid grid-cols-4 gap-6 m-10" >
+<div class="ml-64 w-full">
+    <div class="grid grid-cols-4 gap-6 grow p-4" >
         <th:block th:each="mentor: ${mentorList}">
             <div class="max-w-sm bg-gray-800 rounded-lg border border-zinc-900 shadow-md">
                 <div class="flex justify-end px-4 pt-4">
@@ -97,7 +81,7 @@
                     <div class="flex mt-4 space-x-3 lg:mt-6">
                         <a href="#"
                            class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">Send request</a>
-                        <a th:href="@{/profile/{id}(id=${mentor.getId()})}"
+                        <a th:href="@{/profile(id=${mentor.id})}"
                            class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">Profile</a>
                     </div>
                 </div>
@@ -106,5 +90,5 @@
 
     </div>
 
-
+</div>
 </body>

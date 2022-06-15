@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Ward;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface IWardRepository extends JpaRepository<Ward,Long> {

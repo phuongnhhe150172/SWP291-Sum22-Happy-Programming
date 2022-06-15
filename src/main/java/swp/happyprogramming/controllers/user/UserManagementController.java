@@ -43,8 +43,6 @@ public class UserManagementController {
     private IWardService wardService;
 
     @Autowired
-    private IAddressService addressService;
-    @Autowired
     private IMentorService mentorService;
 
     @Autowired
@@ -56,6 +54,7 @@ public class UserManagementController {
     @GetMapping("/profile")
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
+        //        Nguyễn Huy Hoàng - 04 - View public mentor profile
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
@@ -68,9 +67,7 @@ public class UserManagementController {
             user = (UserDTO) sessionUser;
         }
         String role = (String) session.getAttribute("role");
-        String address = addressService.getAddress(user.getAddress().getId());
         model.addAttribute("user", user);
-        model.addAttribute("address", address);
         model.addAttribute("role", role);
         return "user/user-profile";
     }
@@ -84,9 +81,8 @@ public class UserManagementController {
         } else {
             user = (UserDTO) session.getAttribute("userInformation");
         }
-        long wardId = wardService.getWardIdByAddressId(user.getAddress().getId());
-        long districtId = districtService.getDistrictIdByWardId(wardId);
-        long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
+        long districtId = user.getAddress().getDistrict().getId();
+        long provinceId = user.getAddress().getProvince().getId();
 
         List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
         List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
@@ -96,17 +92,7 @@ public class UserManagementController {
         model.addAttribute("listProvinces", listProvinces);
         model.addAttribute("listDistrict", listDistrict);
         model.addAttribute("listWard", listWard);
-        model.addAttribute("wardId", wardId);
-        model.addAttribute("districtId", districtId);
-        model.addAttribute("provinceId", provinceId);
         return "user/update-profile";
-    }
-
-    @GetMapping("/mentors")
-    public String allMentors(Model model) {
-        List<MentorDTO> mentors = mentorService.getMentors();
-        model.addAttribute("mentors", mentors);
-        return "mentor/all-mentors";
     }
 
     @PostMapping("/update")
@@ -124,49 +110,11 @@ public class UserManagementController {
 
     }
 
-    @GetMapping("/update/district")
-    public String updateDistrictByProvinceId(Model model, @RequestParam(value = "provinceId", required = false) String provinceId,
-                                             @RequestParam(value = "districtId", required = false) String districtId) {
-        try {
-            long province = Integer.parseInt(provinceId);
-            long district = Integer.parseInt(districtId);
-
-            List<DistrictDTO> listDistrict = districtService.findAllDistrict(province);
-            model.addAttribute("listDistrict", listDistrict);
-            model.addAttribute("dis", district);
-
-            return "components/area/district";
-        } catch (NumberFormatException e) {
-            return "redirect:index";
-        }
-    }
-
-    @GetMapping("/update/ward")
-    public String updateWardByDistrictId(Model model,
-                                         @RequestParam(value = "districtId", required = false) String districtId,
-                                         @RequestParam(value = "wardId", required = false) String wardId) {
-        try {
-            long district = Integer.parseInt(districtId);
-            long ward = Integer.parseInt(wardId);
-
-            List<WardDTO> listWard = wardService.findAllWard(district);
-            model.addAttribute("listWard", listWard);
-            model.addAttribute("war", ward);
-
-            return "components/area/ward";
-        } catch (NumberFormatException e) {
-            return "redirect:index";
-        }
-    }
-
     @GetMapping("/cv")
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentor = mentorService.findMentor(mentorId);
-            String address = addressService.getAddress(mentor.getAddress().getId());
-
-            model.addAttribute("address", address);
             model.addAttribute("mentor", mentor);
             return "user/mentorcv";
         } catch (NumberFormatException e) {
@@ -180,7 +128,7 @@ public class UserManagementController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddress().getId());
+            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddress().getWard().getId());
             long districtId = districtService.getDistrictIdByWardId(wardId);
             long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
 

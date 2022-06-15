@@ -7,13 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.RequestDTO;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -24,9 +27,13 @@ public class RequestManagementController {
     @Autowired
     private IRequestService requestService;
 
+    @Autowired
+    private HttpSession session;
+
     //    This class will be used both for admin and user
     @GetMapping("/requests")
     public String requests(Model model) {
+        //    Nguyễn Huy Hoàng - 32 - view all received requests (mentor)
         //    Current user's requests
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -41,9 +48,17 @@ public class RequestManagementController {
     }
 
     //Display all request sent (mentee)
-    @GetMapping("/request/sent/{id}")
-    public String getRequestSent(@PathVariable int id, Model model){
-        List<RequestDTO> list = requestService.getRequestSent(id);
+    @GetMapping("/request/sent")
+    public String getRequestSent(Model model, @RequestParam(value = "id", required = false) String id){
+        UserDTO user;
+        if (id != null) {
+            long userId = Integer.parseInt(id);
+            user = userService.findUser(userId);
+        } else {
+            user = (UserDTO) session.getAttribute("userInformation");
+        }
+
+        List<RequestDTO> list = requestService.getRequestSent(user.getId());
         model.addAttribute("requestList", list);
         return "requests/request_sent";
     }
