@@ -46,6 +46,7 @@ public class AdminController {
 
     @GetMapping("/mentors")
     public String showMentor(Model model) {
+        //        Nguyễn Huy Hoàng - 46 - List all mentors (admin)
         List<MentorDTO> mentorList = mentorService.getMentors();
         model.addAttribute("mentors", mentorList);
         return "mentor/all-mentors";
@@ -88,14 +89,14 @@ public class AdminController {
     }
 
     @GetMapping("/update-skill")
-    public String showSkillToUpdate(Model model, @RequestParam(value = "id", required = false) long id){
+    public String showSkillToUpdate(Model model, @RequestParam(value = "id", required = false) long id) {
         Skill skill = skillService.findSkillById(id);
         model.addAttribute("skill", skill);
         return "admin/update-skill";
     }
 
     @PostMapping("/update-skill")
-    public String updateSkill(@RequestParam String skillId, @RequestParam String skillName){
+    public String updateSkill(@RequestParam String skillId, @RequestParam String skillName) {
         Skill skill = new Skill();
         long id = Integer.parseInt(String.valueOf(skillId));
         skill.setId(id);

@@ -22,9 +22,9 @@ public class RequestManagementController {
     @Autowired
     private IRequestService requestService;
 
-    //    This class will be used both for admin and user
     @GetMapping("/requests")
     public String requests(Model model) {
+        //    Nguyễn Huy Hoàng - 32 - view all received requests (mentor)
         //    Current user's requests
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -40,7 +40,7 @@ public class RequestManagementController {
 
     //List all request sent to mentors
     @GetMapping("/request/sent/{id}")
-    public String getRequestSent(@PathVariable int id, Model model){
+    public String getRequestSent(@PathVariable int id, Model model) {
         List<Request> list = requestService.getRequestSent(id);
         model.addAttribute("requestList", list);
         return "requests/request_sent";

@@ -38,6 +38,7 @@ public class UserService implements IUserService {
     private IMentorRepository mentorRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
@@ -49,6 +50,7 @@ public class UserService implements IUserService {
     }
 
     private void saveUser(UserDTO userDTO) {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
@@ -119,7 +121,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
+    public void updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
         User user = mapper.map(userDTO, User.class);
         user.setEmail(currentUser.getEmail());
@@ -129,7 +131,6 @@ public class UserService implements IUserService {
         user.setRoles(currentUser.getRoles());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
-        return mapper.map(user, UserDTO.class);
     }
 
     @Override

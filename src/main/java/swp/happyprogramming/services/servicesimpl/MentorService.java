@@ -48,24 +48,25 @@ public class MentorService implements IMentorService {
         if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
             Mentor mentor = optionalUserProfile.get();
             User user = optionalUser.get();
-//            Address address = addressRepository.findByAddressId(user.getAddress().getId());
+            Address address = addressRepository.findByAddressId(user.getAddress().getId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
             //set data to mentorDTO
-            return combineUserAndProfile(user, mentor, listSkill, listExperience);
+            return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
         } else {
             return null;
         }
     }
 
     private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
-                                            ArrayList<Experience> listExperience) {
+                                            ArrayList<Experience> listExperience, Address address) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
+        mentorDTO.setAddress(address);
         return mentorDTO;
     }
 
