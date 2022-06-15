@@ -1,6 +1,5 @@
 package swp.happyprogramming.controllers.feedback;
 
-import com.sun.tools.javac.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +9,7 @@ import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IFeedbackService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class FeedbackController {

@@ -29,6 +29,7 @@ public class UserDTO {
     private String bio;
     private String school;
     private Double price;
+    private String image;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

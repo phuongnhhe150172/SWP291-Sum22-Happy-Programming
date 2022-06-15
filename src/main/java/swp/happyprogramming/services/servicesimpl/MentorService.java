@@ -83,7 +83,7 @@ public class MentorService implements IMentorService {
         User user = optionalUser.get();
 
         //update to table user
-        updateUser(user, mentorDTO);
+        updateUser(user, mentorDTO, profile);
 
         //delete experience with mentor
         deleteExperienceAndMentorExperience(profile);
@@ -119,7 +119,7 @@ public class MentorService implements IMentorService {
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
     }
 
-    private void updateUser(User user, MentorDTO mentorDTO,Mentor profile) {
+    private void updateUser(User user, MentorDTO mentorDTO, Mentor profile) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setSchool(mentorDTO.getSchool());

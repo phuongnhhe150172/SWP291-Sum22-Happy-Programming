@@ -125,7 +125,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateUserProfile(UserDTO userDTO, long wardId) {
+    public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
         User user = mapper.map(userDTO, User.class);
         user.setEmail(currentUser.getEmail());
@@ -136,6 +136,7 @@ public class UserService implements IUserService {
         user.setCreated(currentUser.getCreated());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
+        return Utility.mapUser(user);
     }
 
     @Override
@@ -178,7 +179,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image){
+    public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image) {
         User user = userRepository.findById(id).orElse(null);
         Path imagePathOld = Paths.get(user.getImage().substring(6));
         Path imagesPath = Paths.get("src/main/resources/static/imgs");
@@ -189,7 +190,7 @@ public class UserService implements IUserService {
             e.printStackTrace();
         }
 //        String imageName = "image" + user.getId().toString() + ".jpg";
-        String fileName = image.getOriginalFilename().substring(0,image.getOriginalFilename().length() - 4);
+        String fileName = image.getOriginalFilename().substring(0, image.getOriginalFilename().length() - 4);
         String imageName = fileName + user.getId().toString() + ".jpg";
         Path imagePath = Paths.get(imageName);
         Path file = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePath);

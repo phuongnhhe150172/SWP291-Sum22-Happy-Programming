@@ -27,7 +27,7 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO findUser(long id);
 
-    void updateUserProfile(UserDTO userDTO, long wardId);
+    UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
     List<ConnectionDTO> getRequestsByEmail(String email);
 

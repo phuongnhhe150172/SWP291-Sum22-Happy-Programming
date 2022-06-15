@@ -66,7 +66,6 @@ public class UserManagementController {
             }
             user = (UserDTO) sessionUser;
         }
-        System.out.println(user.getImage());
         String role = (String) session.getAttribute("role");
         model.addAttribute("user", user);
         model.addAttribute("role", role);
