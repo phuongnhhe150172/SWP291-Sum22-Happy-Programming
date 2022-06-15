@@ -14,7 +14,7 @@ public class MentorManagementController {
     @Autowired
     private IMentorService mentorService;
 
-    @GetMapping("/mentor/viewall")
+    @GetMapping("/mentor")
     public String showMentor(Model model) {
         List<MentorDTO> mentorList = mentorService.getMentors();
         model.addAttribute("mentorList", mentorList);
