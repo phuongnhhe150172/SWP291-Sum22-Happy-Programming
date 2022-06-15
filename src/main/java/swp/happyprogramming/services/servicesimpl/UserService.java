@@ -148,7 +148,7 @@ public class UserService implements IUserService {
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
         List<UserDTO> userDTOS = new ArrayList<>();
-        for(User mentee:mentees){
+        for (User mentee : mentees) {
             UserDTO userDTO = mapper.map(mentee, UserDTO.class);
             userDTOS.add(userDTO);
         }

@@ -62,18 +62,10 @@ public class MentorService implements IMentorService {
                                             ArrayList<Experience> listExperience) {
         ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
-//        Ward ward = wardRepository.findById(user.getAddress().getWard().getId()).orElse(new Ward());
-//        District district = districtRepository.findById(ward.getDistrict().getId()).orElse(new District());
-//        Province province = provinceRepository.findById(district.getProvince().getId()).orElse(new Province());
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
-//        mentorDTO.setWard(ward.getName());
-//        mentorDTO.setDistrict(district.getName());
-//        mentorDTO.setProvince(province.getName());
-        // The street name is set to "" by default
-//        mentorDTO.setStreet(address.getName());
         return mentorDTO;
     }
 
