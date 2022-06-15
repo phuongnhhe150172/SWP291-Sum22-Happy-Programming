@@ -16,7 +16,7 @@
     <div class="p-8 flex gap-6 justify-start items-center">
         <div class="relative group">
             <img th:src="@{${user.image}}"
-                 class="w-48 h-48 rounded-full border-2 border-gray-400" alt="">
+                 class="w-48 h-48 rounded-full border-2 border-gray-400 group-hover:opacity-70" alt="">
             <form th:action="@{/uploading}" th:method="post" id="formImage" class="w-full" enctype="multipart/form-data">
                 <input type="file" name="image" id="changeImage" class="hidden" onchange="document.getElementById('formImage').submit()">
                 <input type="button" class="block w-[100px] text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 invisible absolute bottom-[10%] left-[50%] translate-x-[-50%]  group-hover:visible"
@@ -31,7 +31,7 @@
 <!--                Age 25 · Male</p>-->
         </div>
     </div>
-    <th:block th:if="${session.id == user.id}">
+    <th:block th:if="${session.userInformation.id == user.id}">
         <div class="mx-8 mb-6 w-48">
             <a class="w-full my-[10px]" th:href="@{/update(id=${user.id})}">
                 <button type="button"
@@ -43,7 +43,7 @@
             </a>
         </div>
     </th:block>
-    <th:block th:unless="${session.id == user.id}">
+    <th:block th:unless="${session.userInformation.id == user.id}">
         <div class="mx-8 mb-6 w-48">
             <button type="button"
                     class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10

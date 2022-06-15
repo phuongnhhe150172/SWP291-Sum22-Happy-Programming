@@ -17,9 +17,8 @@
                      class="mx-auto">
             </a>
         </div>
-        <div class="flex items-center gap-3 rounded-md p-3 mx-2 my-4">
-            <img src="../../static/imgs/avatar1.jpg" th:src="@{/imgs/avatar1.jpg}" alt=""
-                 class="w-10 h-10 rounded-full">
+        <div class="flex items-center gap-3 rounded-md p-3 mt-4">
+            <img src="../../static/imgs/avatar1.jpg" th:src="@{${session.userInformation.image}}" alt="" class="w-10 h-10 rounded-full">
             <div class="">
                 <a href="/profile">
                     <h3 class="font-medium"
@@ -78,7 +77,20 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/cv(id=${session.id})}" href="" th:if="${session.role == 'MENTOR_AND_MENTEE'}"
+                <a href="/mentor"
+                   class="group flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white hover:bg-blue-800">
+                    <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
+                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Mentors</span>
+                </a>
+            </li>
+            <br>
+            <li>
+                <a th:href="@{/cv(id=${session.userInformation.id})}" href="" th:if="${session.role == 'MENTOR_AND_MENTEE'}"
                    class="group flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white hover:bg-blue-800">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

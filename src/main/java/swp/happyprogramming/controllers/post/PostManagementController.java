@@ -52,10 +52,9 @@ public class PostManagementController {
     public String updatePost(@ModelAttribute("post") PostDTO postDTO,
                              @RequestParam Map<String, Object> params){
         try{
-            long postId = Integer.parseInt(String.valueOf(params.get("id")));
             long method = Integer.parseInt(String.valueOf(params.get("method")));
-            long userId =(Long) session.getAttribute("id");
-            UserDTO userDTO = userService.findUser(userId);
+            UserDTO user =(UserDTO) session.getAttribute("userInformation");
+            UserDTO userDTO = userService.findUser(user.getId());
 
             postService.updatePost(postDTO,method,userDTO);
 
