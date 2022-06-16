@@ -13,70 +13,34 @@
 <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
 <!--End-Left-sidebar-->
 
-<div class="bg-gray-900 grow flex">
+<div class="bg-gray-900 grow flex min-h-[100vh]">
     <div class="grow p-4">
-        <div class="">
-            <h1 class="font-semibold text-5xl my-10 px-3">All Requests</h1>
-        </div>
-        <div class="">
-            <ul class="" th:each="request : ${requests}">
-                <li class="rounded-lg bg-gray-900">
-                    <div class="flex justify-between items-center p-3">
-                        <div class="flex items-center gap-4">
-                            <h5 class="text-xl font-medium text-white hover:text-gray-300">
-                                <a href="" th:text="${request.id}"></a>
-                                <a href="" th:text="${request.mentorName}"></a>
-                                <a href="" th:text="${request.menteeName}"></a>
-                                <a href="" th:text="${request.skillName}"></a>
-                                <a href="" th:text="${request.budget}"></a>
-                            </h5>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <a href="#"
-                               class="text-white focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 bg-red-600 hover:bg-red-700 focus:ring-red-800">
-                                Delete
-                            </a>
-                            <a href="#"
-                               class="px-5 py-2.5 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                                Detail
-                            </a>
-<!--                            <div class="flex justify-end p-2">-->
-<!--                                <button data-dropdown-toggle="dropdown"-->
-<!--                                        class="hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"-->
-<!--                                        type="button">-->
-<!--                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"-->
-<!--                                         xmlns="http://www.w3.org/2000/svg">-->
-<!--                                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>-->
-<!--                                    </svg>-->
-<!--                                </button>-->
-<!--                                &lt;!&ndash; Dropdown menu &ndash;&gt;-->
-<!--                                <div id="dropdown"-->
-<!--                                     class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">-->
-<!--                                    <ul class="py-1" aria-labelledby="dropdownButton">-->
-<!--                                        <li>-->
-<!--                                            <a href="#"-->
-<!--                                               class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>-->
-<!--                                        </li>-->
-<!--                                        <li>-->
-<!--                                            <a href="#"-->
-<!--                                               class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export-->
-<!--                                                Data</a>-->
-<!--                                        </li>-->
-<!--                                        <li>-->
-<!--                                            <a href="#"-->
-<!--                                               class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="xl:w-96 border-l border-gray-600">
+        <div class="relative overflow-x-auto sm:rounded-lg">
+            <table class="w-full text-left text-gray-400">
+                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+                <tr>
+                    <th class="px-6 py-4"> ID</th>
+                    <th class="px-6 py-4"> Mentee</th>
+                    <th class="px-6 py-4"> Mentor</th>
+                    <th class="px-6 py-4"> Skill</th>
+                    <th class="px-6 py-4"> Budget</th>
+                    <th class="px-6 py-4"> Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="border-b bg-gray-800 border-gray-700" th:each="request: ${requests}">
+                    <td class="px-6 py-4" th:utext="${request.id}"></td>
+                    <td class="px-6 py-4" th:utext="${request.menteeName}"></td>
+                    <td class="px-6 py-4" th:utext="${request.mentorName}"></td>
+                    <td class="px-6 py-4" th:utext="${request.skillName}"></td>
+                    <td class="px-6 py-4" th:utext="${request.budget}"></td>
+                    <td class="px-6 py-4" th:if="${request.status == 1}"><input type="checkbox" readonly checked></input></td>
+                    <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox" readonly></input></td>
 
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

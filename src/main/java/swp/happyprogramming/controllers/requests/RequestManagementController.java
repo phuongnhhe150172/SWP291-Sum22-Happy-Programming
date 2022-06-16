@@ -13,6 +13,7 @@ import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Request;
+import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
 
@@ -49,17 +50,17 @@ public class RequestManagementController {
 
     //Display all request sent (mentee)
     @GetMapping("/request/sent")
-    public String getRequestSent(Model model, @RequestParam(value = "id", required = false) String id){
-        UserDTO user;
-        if (id != null) {
-            long userId = Integer.parseInt(id);
-            user = userService.findUser(userId);
-        } else {
-            user = (UserDTO) session.getAttribute("userInformation");
+    public String getRequestSent(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+        if (email.equalsIgnoreCase("anonymousUser")) {
+            return "redirect:/login";
         }
+        User user = userService.findByEmail(email);
 
         List<RequestDTO> list = requestService.getRequestSent(user.getId());
-        model.addAttribute("requestList", list);
+        model.addAttribute("requests", list);
         return "requests/request_sent";
     }
 
