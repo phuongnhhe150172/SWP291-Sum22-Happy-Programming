@@ -160,13 +160,11 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserDTO> findAllMentees() {
-        List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
-        List<UserDTO> userDTOS = new ArrayList<>();
-        for (User mentee : mentees) {
-            UserDTO userDTO = mapper.map(mentee, UserDTO.class);
-            userDTOS.add(userDTO);
-        }
-        return userDTOS;
+        return userRepository
+                .findUsersByRole("ROLE_MENTOR")
+                .stream()
+                .map(user -> findUser(user.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override

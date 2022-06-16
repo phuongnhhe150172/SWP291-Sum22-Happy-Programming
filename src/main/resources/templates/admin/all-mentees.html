@@ -36,7 +36,7 @@
                     </td>
                     <td class="px-6 py-4" th:utext="${mentee.email}">
                     </td>
-                    <td class="px-6 py-4" th:utext="${mentee.address.ward.name + ', ' + mentee.address.ward.district.name + ', ' + mentee.address.ward.district.province.name}">
+                    <td class="px-6 py-4" th:utext="${mentee.address.ward.name + ', ' + mentee.address.district.name + ', ' + mentee.address.province.name}">
                     </td>
                     <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
                         <a th:href="@{/admin/mentee(id=${mentee.id})}" class="text-green-500 hover:text-gray-500">

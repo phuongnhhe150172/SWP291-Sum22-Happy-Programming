@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Programming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-white flex">
+<!--Left-sidebar-->
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+<!--End-Left-sidebar-->
+<div class="bg-gray-900 grow flex">
+    <div class="grow p-4">
+
+        <div class="relative overflow-x-auto sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-400">
+                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+                <tr>
+                    <th class="px-4 py-4"> Name</th>
+                    <th class="px-4 py-4"> phone</th>
+                    <th class="px-4 py-4"> Email</th>
+                    <th class="px-4 py-4"> Address</th>
+                    <th scope="col" class="px-4 py-3">
+                        <span class="sr-only">Action</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="mentor: ${mentors}">
+                    <tr class="border-b bg-gray-800 border-gray-700">
+                        <td class="px-4 py-4 flex items-center gap-3 text-white font-medium ">
+                            <img class="w-12 h-12 rounded-full" src="../../static/imgs/avatar2.jpg"
+                                 alt="Bonnie image" th:src="@{/imgs/avatar1.jpg}"/>
+                            <a th:href="@{/profile(id=${mentor.id})}" th:text="${mentor.firstName + ' ' + mentor.lastName}">Nguyen Hong Phuong</a>
+                        </td>
+                        <td class="px-4 py-4" th:text="${mentor.phoneNumber}">
+                            0987654321
+                        </td>
+                        <td class="px-4 py-4" th:text="${mentor.email}">
+                            test@example.com.vn
+                        </td>
+                        <td class="px-4 py-4 max-w-[300px]"
+                            th:text="${mentor.address.ward.name+', '+mentor.address.district.name+', '+mentor.address.province.name }">
+                            Hoa Lac, Thach That, Hanoi
+                        </td>
+                        <td class="px-4 py-4">
+                            <a th:href="@{/update(id=${mentor.id})}" class="mr-4 text-green-500 hover:underline">
+                                Edit
+                            </a>
+                            <a href="#" class="text-red-500 hover:underline">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
