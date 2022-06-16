@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import swp.happyprogramming.model.Address;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDTO {
+public class AddressDTO extends Address {
     private String name;
     private WardDTO ward;
     private DistrictDTO district;

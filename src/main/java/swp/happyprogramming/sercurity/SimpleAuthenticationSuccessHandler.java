@@ -37,8 +37,8 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
         UserDTO userDTO = Utility.mapUser(user);
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         authorities.forEach(authority -> {
-            session.setAttribute("id", userDTO.getId());
-            session.setAttribute("userInformation", userDTO);
+//            session.setAttribute("id", userDT
+
             if (authority.getAuthority().equals("ROLE_MENTOR")) {
                 try {
                     String sessionRole = "MENTOR_AND_MENTEE";
