@@ -15,7 +15,7 @@
 <div class="" th:replace="components/nav.html :: aside"></div>
 
 <div class="max-w-[1400px] ml-[16rem] mx-auto lg:flex">
-    <div class="min-w-[20rem] lg:max-w-[50%] grow min-h-[100vh] mt-[2rem] px-4 flex flex-col grow-0" th:object="${mentor}">
+    <div class="min-w-[20rem] lg:max-w-[50%] grow min-h-[100vh] mt-[2rem] px-4 flex flex-col grow-0 basis-1/4" th:object="${mentor}">
         <img th:src="@{${mentor.image}}" class="w-72 h-72 rounded-full" alt="Avatar"/>
         <h1 class="text-2xl font-bold my-6" th:text="*{firstName + ' ' + lastName}">abc</h1>
         <div class="text-gray-300">
@@ -86,7 +86,7 @@
         </th:block>
     </div>
 
-    <div class="p-8 grow">
+    <div class="p-8 grow basis-1/2">
         <div class="">
             <h2 class="my-4 text-xl">About me</h2>
             <div class="block p-6 rounded-lg bg-gray-800">
