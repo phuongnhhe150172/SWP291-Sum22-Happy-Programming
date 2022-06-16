@@ -13,9 +13,7 @@ import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
-import swp.happyprogramming.repository.IAddressRepository;
-import swp.happyprogramming.repository.IMentorRepository;
-import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
 
@@ -43,6 +41,15 @@ public class UserService implements IUserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private IMentorRepository mentorRepository;
+
+    @Autowired
+    private IWardRepository wardRepository;
+
+    @Autowired
+    private IDistrictRepository districtRepository;
+
+    @Autowired
+    private IProvinceRepository provinceRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
         //        Nguyễn Huy Hoàng - 02 - Signup
@@ -121,7 +128,7 @@ public class UserService implements IUserService {
         if (user == null) {
             return null;
         }
-        return mapper.map(user, UserDTO.class);
+        return Utility.mapUser(user);
     }
 
     @Override
@@ -136,7 +143,7 @@ public class UserService implements IUserService {
         user.setCreated(currentUser.getCreated());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
-        return Utility.mapUser(user);
+        return Utility.mapUser(userRepository.findById(user.getId()).orElse(null));
     }
 
     @Override
@@ -170,11 +177,8 @@ public class UserService implements IUserService {
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = Utility.mapAddressDTO(userDTO.getAddress());
+        Address address = Utility.mapAddressDTO(userDTO.getAddress(),wardId);
         address.setName(userDTO.getAddress().getName());
-        Ward ward = new Ward();
-        ward.setId(wardId);
-        address.setWard(ward);
         addressRepository.save(address);
     }
 

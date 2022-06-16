@@ -128,9 +128,8 @@ public class UserManagementController {
             long mentorId = Integer.parseInt(id);
 
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
-            long wardId = wardService.getWardIdByAddressId(mentorDTO.getAddress().getWard().getId());
-            long districtId = districtService.getDistrictIdByWardId(wardId);
-            long provinceId = provinceService.getProvinceIdByDistrictId(districtId);
+            long districtId = mentorDTO.getAddress().getDistrict().getId();
+            long provinceId = mentorDTO.getAddress().getProvince().getId();
 
             List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
             List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
@@ -142,10 +141,6 @@ public class UserManagementController {
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("mentorId", mentorId);
-
-            model.addAttribute("wardId", wardId);
-            model.addAttribute("districtId", districtId);
-            model.addAttribute("provinceId", provinceId);
 
             model.addAttribute("listProvinces", listProvinces);
             model.addAttribute("listDistrict", listDistrict);

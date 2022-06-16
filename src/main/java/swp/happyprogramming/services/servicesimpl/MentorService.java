@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -83,7 +84,10 @@ public class MentorService implements IMentorService {
         User user = optionalUser.get();
 
         //update to table user
-        updateUser(user, mentorDTO, profile);
+        updateUser(user, mentorDTO, profile,wardId);
+
+        //update address
+        updateAddress(mentorDTO,wardId);
 
         //delete experience with mentor
         deleteExperienceAndMentorExperience(profile);
@@ -119,7 +123,7 @@ public class MentorService implements IMentorService {
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
     }
 
-    private void updateUser(User user, MentorDTO mentorDTO, Mentor profile) {
+    private void updateUser(User user, MentorDTO mentorDTO, Mentor profile, long wardId) {
         user.setFirstName(mentorDTO.getFirstName());
         user.setLastName(mentorDTO.getLastName());
         user.setSchool(mentorDTO.getSchool());
@@ -129,10 +133,15 @@ public class MentorService implements IMentorService {
         user.setPhoneNumber(mentorDTO.getPhoneNumber());
         user.setModified(Date.from(Instant.now()));
         user.setBio(mentorDTO.getBio());
-        user.setAddress(Utility.mapAddressDTO(mentorDTO.getAddress()));
         userRepository.save(user);
         profile.setModified(mentorDTO.getModified());
         mentorRepository.save(profile);
+    }
+
+    private void updateAddress(MentorDTO mentorDTO, long wardId) {
+        Address address = Utility.mapAddressDTO(mentorDTO.getAddress(),wardId);
+        address.setName(mentorDTO.getAddress().getName());
+        addressRepository.save(address);
     }
 
     private void saveExperienceAndMentorExperience(Mentor profile, List<String> experieceValue) {

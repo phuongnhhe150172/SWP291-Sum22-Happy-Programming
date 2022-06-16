@@ -35,10 +35,13 @@ public class Utility {
         return addressDTO;
     }
 
-    public static Address mapAddressDTO(AddressDTO addressDTO) {
+    public static Address mapAddressDTO(AddressDTO addressDTO,long wardId) {
         ModelMapper mapper = new ModelMapper();
         Address address = mapper.map(addressDTO, Address.class);
-        address.setWard(mapper.map(addressDTO.getWard(), Ward.class));
+        Ward ward = new Ward();
+        ward.setId(wardId);
+        address.setWard(ward);
+//        address.setWard(mapper.map(addressDTO.getWard(), Ward.class));
         return address;
     }
 
