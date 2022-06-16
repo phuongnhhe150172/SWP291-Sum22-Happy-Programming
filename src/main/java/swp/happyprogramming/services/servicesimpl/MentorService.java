@@ -73,6 +73,11 @@ public class MentorService implements IMentorService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<MentorDTO> searchMentors(Map<String, Object> params) {
+        return null;
+    }
+
     //    UPDATE SECTION
     public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());

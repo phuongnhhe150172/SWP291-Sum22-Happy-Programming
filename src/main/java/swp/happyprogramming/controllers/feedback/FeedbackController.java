@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
-import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IFeedbackService;
 
 import javax.servlet.http.HttpSession;
@@ -20,13 +20,16 @@ public class FeedbackController {
 
     @GetMapping("/feedback")
     public String feedbackPage(Model model) {
+        //        Nguyễn Huy Hoàng - 16 - View user feedback
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) {
             return "redirect:/login";
         }
-        User sessionUser = (User) sessionInfo;
-        List<Feedback> feedbacks = feedbackService.getFeedbacks(sessionUser.getId());
+        UserDTO sessionUser = (UserDTO) sessionInfo;
+        List<Feedback> feedbacks = feedbackService.getFeedbackReceived(sessionUser.getId());
+        int[] count = feedbackService.feedBackCount();
         model.addAttribute("feedbacks", feedbacks);
-        return "feedback";
+        model.addAttribute("count", count);
+        return "feedback/feedback";
     }
 }

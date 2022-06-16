@@ -14,4 +14,6 @@ public interface IMentorService {
     Map<Skill,Integer> findMapSkill(List<Skill> listSkill, List<Skill> listSkillDTO);
 
     List<MentorDTO> getMentors();
+
+    List<MentorDTO> searchMentors(Map<String, Object> params);
 }

@@ -5,5 +5,7 @@ import swp.happyprogramming.model.Feedback;
 import java.util.List;
 
 public interface IFeedbackService {
-    List<Feedback> getFeedbacks(Long id);
+    List<Feedback> getFeedbackReceived(Long id);
+
+    int[] feedBackCount();
 }
