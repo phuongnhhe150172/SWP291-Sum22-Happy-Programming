@@ -2,6 +2,7 @@ package swp.happyprogramming.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
 
-    Page<User> findUsersByRole(PageRequest pageRequest, Role role);
+    Page<User> findUsersByRoles(Pageable pageable, Role role);
 
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);

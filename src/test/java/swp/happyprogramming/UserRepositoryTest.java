@@ -58,9 +58,9 @@ public class UserRepositoryTest {
         int total = userRepository.countUsersByRolesLike(role);
     }
 
-    @Test
-    public void testShowAllMentees(){
-        List<UserDTO> userDTOS = userService.findAllMentees();
-        System.out.println(userDTOS.size());
-    }
+//    @Test
+//    public void testShowAllMentees(){
+//        List<UserDTO> userDTOS = userService.findAllMentees();
+//        System.out.println(userDTOS.size());
+//    }
 }

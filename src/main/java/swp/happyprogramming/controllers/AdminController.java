@@ -41,8 +41,9 @@ public class AdminController {
     public String showAllMentees(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
         Pagination<UserDTO> page = userService.getMentees(pageNumber);
         model.addAttribute("mentees", page.getPaginatedList());
-        model.addAttribute("pageNumber", page.getPageNumbers());
-        model.addAttribute("currentPageNumber", pageNumber);
+        model.addAttribute("pageNumber", pageNumber);
+//        model.addAttribute("currentPageNumber", pageNumber);
+        model.addAttribute("totalPages", page.getPaginatedList().size());
         return "admin/all-mentees";
     }
 
