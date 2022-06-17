@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IRequestService;
@@ -64,12 +65,6 @@ public class RequestManagementController {
         return "requests/request_sent";
     }
 
-    //Display all requests (admin)
-    @GetMapping("/admin/requests")
-    public String showAllRequests(Model model){
-        List<RequestDTO> requests = requestService.getAllRequest();
-        model.addAttribute("requests",requests);
-        return "requests/all-requests";
-    }
+
 
 }

@@ -5,10 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.IMentorService;
+import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.ISkillService;
 import swp.happyprogramming.services.IUserService;
 
@@ -22,8 +24,12 @@ public class AdminController {
 
     @Autowired
     private ISkillService skillService;
+
     @Autowired
     private IMentorService mentorService;
+
+    @Autowired
+    private IRequestService requestService;
 
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model) {
@@ -106,5 +112,16 @@ public class AdminController {
         skill.setName(skillName);
         skillService.save(skill);
         return "redirect:/admin/skills";
+    }
+
+
+    @GetMapping("/requests")
+    public String showAllRequests(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+        // Trinh Trung Kien - 52 - View all requests (admin)
+        Pagination<RequestDTO> requests = requestService.getAllRequest(pageNumber);
+        model.addAttribute("requests",requests.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", requests.getPageNumbers().size());
+        return "requests/all-requests";
     }
 }
