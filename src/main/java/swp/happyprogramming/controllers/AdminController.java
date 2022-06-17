@@ -48,7 +48,7 @@ public class AdminController {
         //        Nguyễn Huy Hoàng - 46 - List all mentors (admin)
         List<MentorDTO> mentorList = mentorService.getMentors();
         model.addAttribute("mentors", mentorList);
-        return "mentor/all-mentors";
+        return "admin/all-mentors";
     }
 
     @GetMapping("/mentee")
