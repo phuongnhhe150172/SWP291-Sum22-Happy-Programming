@@ -84,7 +84,6 @@ public class AdminController {
 
     @PostMapping("/create-skill")
     public String createSkill(@RequestParam String skillName) {
-        System.out.println("+++++++++++++++++++++++++++");
         Skill skill = new Skill();
         skill.setName(skillName);
         System.out.println(skillName);
