@@ -143,7 +143,8 @@ public class UserService implements IUserService {
         user.setCreated(currentUser.getCreated());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
-        return Utility.mapUser(userRepository.findById(user.getId()).orElse(null));
+        User userSaved = userRepository.findById(user.getId()).orElse(null);
+        return Utility.mapUser(userSaved);
     }
 
     @Override
