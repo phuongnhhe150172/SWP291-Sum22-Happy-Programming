@@ -11,4 +11,6 @@ import java.util.Collection;
 public interface IRoleRepository extends JpaRepository<Role, Long> {
     @Query(value = "select * from roles where id in (select role_id from user_roles where user_id=?1)", nativeQuery = true)
     Collection<Role> getRolesByUserId(Long id);
+
+    Role findByName(String name);
 }

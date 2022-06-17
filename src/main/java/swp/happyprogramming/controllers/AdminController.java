@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.IMentorService;
 import swp.happyprogramming.services.ISkillService;
@@ -37,9 +38,11 @@ public class AdminController {
     }
 
     @GetMapping("/mentees")
-    public String showAllMentees(Model model) {
-        List<UserDTO> mentees = userService.findAllMentees();
-        model.addAttribute("mentees", mentees);
+    public String showAllMentees(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
+        Pagination<UserDTO> page = userService.getMentees(pageNumber);
+        model.addAttribute("mentees", page.getPaginatedList());
+        model.addAttribute("pageNumber", page.getPageNumbers());
+        model.addAttribute("currentPageNumber", pageNumber);
         return "admin/all-mentees";
     }
 

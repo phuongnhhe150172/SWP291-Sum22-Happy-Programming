@@ -2,6 +2,8 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -41,6 +44,8 @@ public class UserService implements IUserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private IMentorRepository mentorRepository;
+
+    @Autowired private IRoleRepository roleRepository;
 
     @Autowired
     private IWardRepository wardRepository;
@@ -160,15 +165,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserDTO> findAllMentees() {
-        return userRepository
-                .findUsersByRole("ROLE_MENTOR")
-                .stream()
-                .map(user -> findUser(user.getId()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public void removeMentee(long menteeId) {
         User user = userRepository.getById(menteeId);
         addressRepository.deleteById(user.getAddress().getId());
@@ -196,6 +192,18 @@ public class UserService implements IUserService {
         String imageUrl = "/upload/static/imgs/" + imageName;
         user.setImage(imageUrl);
         userRepository.save(user);
+    }
+
+    @Override
+    public Pagination<UserDTO> getMentees(int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
+        Role role = roleRepository.findByName("ROLE_MENTEE");
+        Page<User> page = userRepository.findUsersByRole(pageRequest, role);
+        int totalPages = page.getTotalPages();
+        List<User> mentees = page.getContent();
+        List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(menteesDTO, pageNumbers);
     }
 
     public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {

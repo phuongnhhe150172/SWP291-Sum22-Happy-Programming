@@ -66,11 +66,12 @@ public class MentorService implements IMentorService {
 
     @Override
     public List<MentorDTO> getMentors() {
-        return userRepository
-                .findUsersByRole("ROLE_MENTOR")
-                .stream()
-                .map(user -> findMentor(user.getId()))
-                .collect(Collectors.toList());
+//        return userRepository
+//                .findUsersByRole("ROLE_MENTOR")
+//                .stream()
+//                .map(user -> findMentor(user.getId()))
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.User;
 
 import java.nio.file.Path;
@@ -31,9 +32,9 @@ public interface IUserService extends UserDetailsService {
 
     List<ConnectionDTO> getRequestsByEmail(String email);
 
-    List<UserDTO> findAllMentees();
-
     void removeMentee(long menteeId);
 
     void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image);
+
+    Pagination<UserDTO> getMentees(int pageNumber);
 }
