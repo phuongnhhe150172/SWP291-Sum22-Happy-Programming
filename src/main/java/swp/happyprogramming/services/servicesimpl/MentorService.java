@@ -2,6 +2,8 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserDTO;
@@ -13,6 +15,7 @@ import swp.happyprogramming.utility.Utility;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class MentorService implements IMentorService {
@@ -30,6 +33,8 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private ISkillRepository skillRepository;
+
+    @Autowired IRoleRepository roleRepository;
 
     @Autowired
     private IMentorRepository mentorRepository;
@@ -63,20 +68,24 @@ public class MentorService implements IMentorService {
         return mentorDTO;
     }
 
-
     @Override
-    public List<MentorDTO> getMentors() {
-//        return userRepository
-//                .findUsersByRole("ROLE_MENTOR")
-//                .stream()
-//                .map(user -> findMentor(user.getId()))
-//                .collect(Collectors.toList());
+    public List<MentorDTO> searchMentors(Map<String, Object> params) {
         return null;
     }
 
     @Override
-    public List<MentorDTO> searchMentors(Map<String, Object> params) {
-        return null;
+    public Pagination<MentorDTO> getMentors(int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
+        Role role = roleRepository.findByName("ROLE_MENTOR");
+        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
+        int totalPages = page.getTotalPages();
+        List<User> mentees = page.getContent();
+        List<MentorDTO> mentorDTOS = mentees.stream().map(
+                    user -> findMentor(user.getId())
+                )
+                .collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(mentorDTOS, pageNumbers);
     }
 
     //    UPDATE SECTION

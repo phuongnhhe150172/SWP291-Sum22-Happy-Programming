@@ -42,16 +42,17 @@ public class AdminController {
         Pagination<UserDTO> page = userService.getMentees(pageNumber);
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
-//        model.addAttribute("currentPageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPaginatedList().size());
         return "admin/all-mentees";
     }
 
     @GetMapping("/mentors")
-    public String showMentor(Model model) {
+    public String showMentor(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
         //        Nguyễn Huy Hoàng - 46 - List all mentors (admin)
-        List<MentorDTO> mentorList = mentorService.getMentors();
-        model.addAttribute("mentors", mentorList);
+        Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
+        model.addAttribute("mentors", page.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", page.getPaginatedList().size());
         return "admin/all-mentors";
     }
 

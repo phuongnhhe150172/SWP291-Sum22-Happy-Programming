@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.services.IMentorService;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class MentorManagementController {
     private IMentorService mentorService;
 
     @GetMapping("/mentor")
-    public String showMentor(Model model) {
-        List<MentorDTO> mentorList = mentorService.getMentors();
-        model.addAttribute("mentorList", mentorList);
+    public String showMentor(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
+        Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
+        model.addAttribute("mentorList", page.getPaginatedList());
         return "public/showMentor";
     }
 

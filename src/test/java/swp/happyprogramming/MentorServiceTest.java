@@ -23,12 +23,12 @@ public class MentorServiceTest {
 
     @Test
     public void testGetMentors() {
-        List<MentorDTO> list = mentorService.getMentors();
-        System.out.println(list.size());
-        Assertions.assertThat(list).isNotNull();
-        for (MentorDTO m:list) {
-            System.out.println(m.getLastName());
-        }
+//        List<MentorDTO> list = mentorService.getMentors();
+//        System.out.println(list.size());
+//        Assertions.assertThat(list).isNotNull();
+//        for (MentorDTO m:list) {
+//            System.out.println(m.getLastName());
+//        }
     }
 
     @Test

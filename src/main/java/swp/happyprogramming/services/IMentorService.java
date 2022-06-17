@@ -1,6 +1,7 @@
 package swp.happyprogramming.services;
 
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Skill;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public interface IMentorService {
 
     Map<Skill,Integer> findMapSkill(List<Skill> listSkill, List<Skill> listSkillDTO);
 
-    List<MentorDTO> getMentors();
 
     List<MentorDTO> searchMentors(Map<String, Object> params);
+
+    Pagination<MentorDTO> getMentors(int pageNumber);
 }
