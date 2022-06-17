@@ -99,8 +99,10 @@
                         <select id="province" th:name="provinceId"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose province --</option>
-                            <option th:each="province,state : ${listProvinces}" th:value="${province.id}"
-                                    th:utext="${province.name}" th:selected="${provinceId == province.id}"></option>
+                            <option th:each="province,state : ${listProvinces}"
+                                    th:value="${province.id}" th:utext="${province.name}"
+                                    th:selected="${user.address.province.id == province.id}">
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -109,13 +111,14 @@
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">District</label>
                     <div class="" id="district-id">
                         <select id="district" th:name="districtId"
-                                th:value="${districtId}"
+                                th:value="*{address.district.id}"
                                 class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose district --</option>
-                            <option th:if="${districtId != null}" th:each="district,state : ${listDistrict}"
+                            <option th:if="*{address.district.id != null}"
+                                    th:each="district,state : ${listDistrict}"
                                     th:value="${district.id}"
                                     th:utext="${district.name}"
-                                    th:selected="${districtId == district.id}"></option>
+                                    th:selected="${user.address.district.id == district.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -123,11 +126,14 @@
                     <label for="ward"
                            class="peer-focus:font-medium absolute text-xl text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ward</label>
                     <div class="" id="ward-id">
-                        <select id="ward" th:name="wardId" th:value="${wardId}"
+                        <select id="ward" th:name="wardId" th:value="*{address.ward.id}"
                                 class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose ward --</option>
-                            <option th:if="${wardId != null}" th:each="ward,state : ${listWard}" th:value="${ward.id}"
-                                    th:utext="${ward.name}" th:selected="${wardId == ward.id}"></option>
+                            <option th:if="*{address.ward.id != null}"
+                                    th:each="ward,state : ${listWard}"
+                                    th:value="${ward.id}"
+                                    th:utext="${ward.name}"
+                                    th:selected="${user.address.ward.id == ward.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -201,7 +207,6 @@
             });
         });
     });
-
     $(document).ready(function () {
         $('#district').on('change', function () {
             var districtId = $("#district").val();

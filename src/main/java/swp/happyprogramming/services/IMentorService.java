@@ -1,7 +1,6 @@
 package swp.happyprogramming.services;
 
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Skill;
 
 import java.util.List;

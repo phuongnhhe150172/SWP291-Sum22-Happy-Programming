@@ -22,6 +22,7 @@ public class SignupController {
 
     @GetMapping("/signup")
     public String signupPage(WebRequest request, Model model) {
+        // Nguyễn Huy Hoàng - 02 - Signup
         UserDTO userDto = new UserDTO();
         model.addAttribute("user", userDto);
         return "public/signup";
@@ -29,6 +30,7 @@ public class SignupController {
 
     @PostMapping("/signup")
     public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult errors) {
+        // Nguyễn Huy Hoàng - 02 - Signup
         ModelAndView mav = new ModelAndView("signup");
         try {
             userService.registerNewUserAccount(userDto);

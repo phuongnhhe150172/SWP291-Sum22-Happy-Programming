@@ -16,6 +16,7 @@ import swp.happyprogramming.repository.IAddressRepository;
 import swp.happyprogramming.repository.IMentorRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -38,13 +39,19 @@ public class UserService implements IUserService {
     private IMentorRepository mentorRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         if (emailExists(userDTO.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + userDTO.getEmail());
         }
         saveUser(userDTO);
     }
 
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
     private void saveUser(UserDTO userDTO) {
+        //        Nguyễn Huy Hoàng - 02 - Signup
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
@@ -55,10 +62,6 @@ public class UserService implements IUserService {
         Mentor mentor = new Mentor();
         mentor.setUser(savedUser);
         mentorRepository.save(mentor);
-    }
-
-    private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
     }
 
     @Override
@@ -103,10 +106,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        Address address = addressRepository.findByAddressId(user.getAddress().getId());
-        user.setAddress(address);
-        return user;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
+    public void updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
         User user = mapper.map(userDTO, User.class);
         user.setEmail(currentUser.getEmail());
@@ -129,7 +129,6 @@ public class UserService implements IUserService {
         user.setRoles(currentUser.getRoles());
         userRepository.save(user);
         updateAddress(userDTO, wardId);
-        return mapper.map(user, UserDTO.class);
     }
 
     @Override
@@ -148,7 +147,7 @@ public class UserService implements IUserService {
     public List<UserDTO> findAllMentees() {
         List<User> mentees = userRepository.findUsersByRole("ROLE_MENTEE");
         List<UserDTO> userDTOS = new ArrayList<>();
-        for(User mentee:mentees){
+        for (User mentee : mentees) {
             UserDTO userDTO = mapper.map(mentee, UserDTO.class);
             userDTOS.add(userDTO);
         }
@@ -163,11 +162,33 @@ public class UserService implements IUserService {
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = addressRepository.findByAddressId(userDTO.getAddress().getId());
+        Address address = Utility.mapAddressDTO(userDTO.getAddress());
         address.setName(userDTO.getAddress().getName());
         Ward ward = new Ward();
         ward.setId(wardId);
         address.setWard(ward);
         addressRepository.save(address);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        User user = userRepository.findByResetPasswordToken(token);
+        return user;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+        String Password = password.encode(newPassword);
+        user.setPassword(Password);
+        userRepository.save(user);
     }
 }

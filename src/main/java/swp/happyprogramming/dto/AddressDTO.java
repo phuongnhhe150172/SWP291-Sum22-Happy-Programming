@@ -4,14 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import swp.happyprogramming.model.Address;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDTO {
-    private String addressName;
-    private String ward;
-    private String district;
-    private String province;
+public class AddressDTO extends Address {
+    private String name;
+    private WardDTO ward;
+    private DistrictDTO district;
+    private ProvinceDTO province;
+
+    @Override
+    public String toString() {
+        return name + ", "
+                + ward.getName() + ", "
+                + district.getName() + ", "
+                + province.getName();
+    }
 }

@@ -8,6 +8,7 @@ import swp.happyprogramming.services.ISkillService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SkillService implements ISkillService {
@@ -30,5 +31,8 @@ public class SkillService implements ISkillService {
         return skillRepository.findAllByMentorId(userId);
     }
 
-
+    @Override
+    public Skill findSkillById(long id) {
+        return skillRepository.getById(id);
+    }
 }

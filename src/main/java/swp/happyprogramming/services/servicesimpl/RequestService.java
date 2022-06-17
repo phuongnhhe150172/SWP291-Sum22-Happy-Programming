@@ -8,6 +8,7 @@ import swp.happyprogramming.services.IRequestService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestService implements IRequestService {
@@ -18,10 +19,8 @@ public class RequestService implements IRequestService {
     @Override
     public List<Request> getRequestSent(long menteeId) {
         List<Request> listAll = requestRepository.findAll();
-        List<Request> res = new ArrayList<>();
-        for (Request r: listAll) {
-            if (r.getMenteeId() == menteeId) res.add(r);
-        }
-        return res;
+        return listAll.stream()
+                .filter(request -> request.getMenteeId() == menteeId)
+                .collect(Collectors.toList());
     }
 }
