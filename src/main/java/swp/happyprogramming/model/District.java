@@ -11,7 +11,6 @@ import java.util.Collection;
 @Table(name = "district")
 @Getter
 @Setter
-@ToString
 public class District {
 
     @Id

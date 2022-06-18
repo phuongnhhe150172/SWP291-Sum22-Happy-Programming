@@ -129,16 +129,21 @@ public class UserService implements IUserService {
     @Override
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
-        User user = mapper.map(userDTO, User.class);
-        user.setEmail(currentUser.getEmail());
-        user.setId(currentUser.getId());
-        user.setPassword(currentUser.getPassword());
-        user.getAddress().setId(currentUser.getAddress().getId());
-        user.setRoles(currentUser.getRoles());
-        user.setCreated(currentUser.getCreated());
-        userRepository.save(user);
-        updateAddress(userDTO, wardId);
-        User userSaved = userRepository.findById(user.getId()).orElse(null);
+
+
+        currentUser.setAddress(Utility.mapAddressDTO(userDTO.getAddress(), wardId));
+        currentUser.setFirstName(userDTO.getFirstName());
+        currentUser.setLastName(userDTO.getLastName());
+        currentUser.setBio(userDTO.getBio());
+        currentUser.setDob(userDTO.getDob());
+        currentUser.setGender(userDTO.getGender());
+        currentUser.setPhoneNumber(userDTO.getPhoneNumber());
+        currentUser.setSchool(userDTO.getSchool());
+        currentUser.setPrice(userDTO.getPrice());
+
+        userRepository.save(currentUser);
+        // updateAddress(userDTO, wardId);
+        User userSaved = userRepository.findById(userDTO.getId()).orElse(null);
         return Utility.mapUser(userSaved);
     }
 
@@ -147,12 +152,10 @@ public class UserService implements IUserService {
         ArrayList<User> users = userRepository.findRequestsByEmail(email);
         return users.stream()
                 .map(user -> new ConnectionDTO(
-                                user.getId(),
-                                user.getFirstName() + " " + user.getLastName(),
-                                user.getImage()
-                        )
-                )
-                .collect(Collectors.toList());
+                        user.getId(),
+                        user.getFirstName() + " " + user.getLastName(),
+                        user.getImage())
+                ).collect(Collectors.toList());
     }
 
     @Override

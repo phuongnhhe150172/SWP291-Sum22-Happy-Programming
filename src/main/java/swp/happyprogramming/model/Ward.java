@@ -11,7 +11,6 @@ import java.util.Collection;
 @Table(name = "ward")
 @Getter
 @Setter
-@ToString
 public class Ward {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

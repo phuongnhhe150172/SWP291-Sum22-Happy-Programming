@@ -34,7 +34,7 @@ public interface IUserService extends UserDetailsService {
 
     void removeMentee(long menteeId);
 
-    void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image);
+    void updateImage(Long id, Path currentFolder, MultipartFile image);
 
     Pagination<UserDTO> getMentees(int pageNumber);
 }
