@@ -104,12 +104,10 @@ public class UserService implements IUserService {
         ArrayList<User> users = userRepository.findConnectionsByEmail(email);
         return users.stream()
                 .map(user -> new ConnectionDTO(
-                                user.getId(),
-                                user.getFirstName() + " " + user.getLastName(),
-                                user.getImage()
-                        )
-                )
-                .collect(Collectors.toList());
+                        user.getId(),
+                        user.getFirstName() + " " + user.getLastName(),
+                        user.getImage())
+                ).collect(Collectors.toList());
     }
 
     @Override
@@ -120,9 +118,7 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return null;
-        }
+        if (user == null) return null;
         return Utility.mapUser(user);
     }
 
@@ -130,7 +126,7 @@ public class UserService implements IUserService {
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
 
-
+        // migrate info to the user
         currentUser.setAddress(Utility.mapAddressDTO(userDTO.getAddress(), wardId));
         currentUser.setFirstName(userDTO.getFirstName());
         currentUser.setLastName(userDTO.getLastName());
@@ -142,7 +138,6 @@ public class UserService implements IUserService {
         currentUser.setPrice(userDTO.getPrice());
 
         userRepository.save(currentUser);
-        // updateAddress(userDTO, wardId);
         User userSaved = userRepository.findById(userDTO.getId()).orElse(null);
         return Utility.mapUser(userSaved);
     }
@@ -163,12 +158,6 @@ public class UserService implements IUserService {
         User user = userRepository.getById(menteeId);
         addressRepository.deleteById(user.getAddress().getId());
         userRepository.deleteById(menteeId);
-    }
-
-    private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = Utility.mapAddressDTO(userDTO.getAddress(), wardId);
-        address.setName(userDTO.getAddress().getName());
-        addressRepository.save(address);
     }
 
     @Override

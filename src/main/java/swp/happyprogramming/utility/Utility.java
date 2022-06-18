@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Utility {
 
-    private Utility() {
+    private static final ModelMapper mapper = new ModelMapper();
 
+    private Utility() {
+        //    Overwrite default constructor
     }
 
     public static String getSiteURL(HttpServletRequest request) {
@@ -21,14 +23,12 @@ public class Utility {
 
     public static UserDTO mapUser(User user) {
         if (user == null) return null;
-        ModelMapper mapper = new ModelMapper();
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
         return userDTO;
     }
 
     public static AddressDTO mapAddress(Address address) {
-        ModelMapper mapper = new ModelMapper();
         AddressDTO addressDTO = mapper.map(address, AddressDTO.class);
         addressDTO.setWard(mapper.map(address.getWard(), WardDTO.class));
         addressDTO.setDistrict(mapper.map(address.getWard().getDistrict(), DistrictDTO.class));
@@ -37,7 +37,6 @@ public class Utility {
     }
 
     public static Address mapAddressDTO(AddressDTO addressDTO, long wardId) {
-        ModelMapper mapper = new ModelMapper();
         Address address = mapper.map(addressDTO, Address.class);
         Ward ward = new Ward();
         ward.setId(wardId);
