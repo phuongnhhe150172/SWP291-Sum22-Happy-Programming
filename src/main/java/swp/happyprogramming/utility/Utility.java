@@ -20,6 +20,7 @@ public class Utility {
     }
 
     public static UserDTO mapUser(User user) {
+        if (user == null) return null;
         ModelMapper mapper = new ModelMapper();
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
@@ -35,13 +36,12 @@ public class Utility {
         return addressDTO;
     }
 
-    public static Address mapAddressDTO(AddressDTO addressDTO,long wardId) {
+    public static Address mapAddressDTO(AddressDTO addressDTO, long wardId) {
         ModelMapper mapper = new ModelMapper();
         Address address = mapper.map(addressDTO, Address.class);
         Ward ward = new Ward();
         ward.setId(wardId);
         address.setWard(ward);
-//        address.setWard(mapper.map(addressDTO.getWard(), Ward.class));
         return address;
     }
 

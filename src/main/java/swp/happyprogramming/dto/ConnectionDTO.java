@@ -13,4 +13,5 @@ public class ConnectionDTO {
     private long id;
     private String name;
 //    will need to add avatar in the future
+    private String image;
 }

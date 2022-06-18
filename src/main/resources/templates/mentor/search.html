@@ -25,22 +25,43 @@
     </div>
     <div class="flex px-5">
         <div class="m-5" aria-label="Criterias">
-            <p class="py-2 text-gray-300 font-medium">Method</p>
-            <div class="flex items-center mb-4">
-                <input id="method_on" type="checkbox" value=""
-                       class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
-                <label for="method_on" class="ml-2 text-sm font-medium text-gray-300">Online</label>
+            <div class="">
+                <p class="py-2 text-gray-300 font-medium">Method</p>
+                <div class="flex items-center mb-4">
+                    <input id="method_1" type="radio" value="" name="default-radio"
+                           class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600">
+                    <label for="method_1"
+                           class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Online</label>
+                </div>
+                <div class="flex items-center mb-4">
+                    <input id="method_2" type="radio" value="" name="default-radio"
+                           class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600">
+                    <label for="method_2"
+                           class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Offline</label>
+                </div>
+                <div class="flex items-center mb-4">
+                    <input id="method_3" type="radio" value="" name="default-radio"
+                           class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600">
+                    <label for="method_3" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Both</label>
+                </div>
             </div>
-            <div class="flex items-center mb-4">
-                <input id="method_off" type="checkbox" value=""
-                       class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
-                <label for="method_off" class="ml-2 text-sm font-medium text-gray-300">Offline</label>
-            </div>
-            <p class="py-2 text-gray-300 font-medium">Skill</p>
-            <div class="flex items-center mb-4">
-                <input id="skill_1" type="checkbox" value=""
-                       class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
-                <label for="skill_1" class="ml-2 text-sm font-medium text-gray-300">Java</label>
+            <div class="">
+                <p class="py-2 text-gray-300 font-medium">Skill</p>
+                <div class="flex items-center mb-4">
+                    <input id="skill_1" type="checkbox" value=""
+                           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
+                    <label for="skill_1" class="ml-2 text-sm font-medium text-gray-300">Java</label>
+                </div>
+                <div class="flex items-center mb-4">
+                    <input id="skill_2" type="checkbox" value=""
+                           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
+                    <label for="skill_2" class="ml-2 text-sm font-medium text-gray-300">Python</label>
+                </div>
+                <div class="flex items-center mb-4">
+                    <input id="skill_3" type="checkbox" value=""
+                           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600">
+                    <label for="skill_3" class="ml-2 text-sm font-medium text-gray-300">JavaScript</label>
+                </div>
             </div>
         </div>
         <div class="grow m-5 px-6 space-y-5">

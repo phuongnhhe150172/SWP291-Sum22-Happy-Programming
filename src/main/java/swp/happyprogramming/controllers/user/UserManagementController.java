@@ -14,9 +14,6 @@ import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -171,9 +168,9 @@ public class UserManagementController {
     }
 
     @PostMapping("/uploading")
-    public String updateImage(@RequestParam("image") MultipartFile image){
-        UserDTO userDTO =(UserDTO) session.getAttribute("userInformation");
-        userService.updateImage(userDTO.getId(),CURRENT_FOLDER,image);
+    public String updateImage(@RequestParam("image") MultipartFile image) {
+        UserDTO userDTO = (UserDTO) session.getAttribute("userInformation");
+        userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
         UserDTO user = userService.findUser(userDTO.getId());
         session.setAttribute("userInformation", user);
         return "redirect:profile";

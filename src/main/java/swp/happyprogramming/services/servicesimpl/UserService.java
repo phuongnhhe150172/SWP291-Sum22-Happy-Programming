@@ -14,14 +14,16 @@ import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.model.*;
+import swp.happyprogramming.model.Address;
+import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Role;
+import swp.happyprogramming.model.User;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,19 +44,9 @@ public class UserService implements IUserService {
     private IAddressRepository addressRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private IMentorRepository mentorRepository;
-
-    @Autowired private IRoleRepository roleRepository;
 
     @Autowired
-    private IWardRepository wardRepository;
-
-    @Autowired
-    private IDistrictRepository districtRepository;
-
-    @Autowired
-    private IProvinceRepository provinceRepository;
+    private IRoleRepository roleRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
         //        Nguyễn Huy Hoàng - 02 - Signup
@@ -69,17 +61,14 @@ public class UserService implements IUserService {
     }
 
     private void saveUser(UserDTO userDTO) {
-        //        Nguyễn Huy Hoàng - 02 - Signup
+        // Nguyễn Huy Hoàng - 02 - Signup
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         user.setAddress(savedAddress);
         user.addRole(new Role(2));
-        User savedUser = userRepository.save(user);
-        Mentor mentor = new Mentor();
-        mentor.setUser(savedUser);
-        mentorRepository.save(mentor);
+        userRepository.save(user);
     }
 
     @Override
@@ -116,7 +105,8 @@ public class UserService implements IUserService {
         return users.stream()
                 .map(user -> new ConnectionDTO(
                                 user.getId(),
-                                user.getFirstName() + " " + user.getLastName()
+                                user.getFirstName() + " " + user.getLastName(),
+                                user.getImage()
                         )
                 )
                 .collect(Collectors.toList());
@@ -158,7 +148,8 @@ public class UserService implements IUserService {
         return users.stream()
                 .map(user -> new ConnectionDTO(
                                 user.getId(),
-                                user.getFirstName() + " " + user.getLastName()
+                                user.getFirstName() + " " + user.getLastName(),
+                                user.getImage()
                         )
                 )
                 .collect(Collectors.toList());
@@ -172,20 +163,21 @@ public class UserService implements IUserService {
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {
-        Address address = Utility.mapAddressDTO(userDTO.getAddress(),wardId);
+        Address address = Utility.mapAddressDTO(userDTO.getAddress(), wardId);
         address.setName(userDTO.getAddress().getName());
         addressRepository.save(address);
     }
 
     @Override
-    public void updateImage(Long id, Path CURRENT_FOLDER, MultipartFile image) {
+    public void updateImage(Long id, Path currentFolder, MultipartFile image) {
         User user = userRepository.findById(id).orElse(null);
+        if (user == null) return;
         Path imagesPath = Paths.get("src/main/upload/static/imgs");
         String imageName = "image" + user.getId().toString() + ".jpg";
         Path imagePath = Paths.get(imageName);
-        Path file = CURRENT_FOLDER.resolve(imagesPath).resolve(imagePath);
+        Path file = currentFolder.resolve(imagesPath).resolve(imagePath);
         try {
-            Files.write(file,image.getBytes());
+            Files.write(file, image.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -198,8 +190,6 @@ public class UserService implements IUserService {
     public Pagination<UserDTO> getMentees(int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Role role = roleRepository.findByName("ROLE_MENTEE");
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
         Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
@@ -219,14 +209,13 @@ public class UserService implements IUserService {
     }
 
     public User getByResetPasswordToken(String token) {
-        User user = userRepository.findByResetPasswordToken(token);
-        return user;
+        return userRepository.findByResetPasswordToken(token);
     }
 
     public void updatePassword(User user, String newPassword) {
         BCryptPasswordEncoder password = new BCryptPasswordEncoder();
-        String Password = password.encode(newPassword);
-        user.setPassword(Password);
+        String encodedPassword = password.encode(newPassword);
+        user.setPassword(encodedPassword);
         userRepository.save(user);
     }
 }

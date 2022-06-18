@@ -24,7 +24,7 @@ public class Address {
         this.name = "";
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "ward_id")
     private Ward ward;
 }
