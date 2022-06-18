@@ -2,36 +2,67 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Request Sent</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request sent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
 <div class="" th:replace="components/nav.html :: aside"></div>
-<div class="ml-64 p-6 grow gap-4">
-    <h1 class="text-3xl my-4 font-semibold">Requests</h1>
-    <table class="w-6/12 text-sm text-left text-gray-400">
-        <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-        <tr>
-            <th class="px-6 py-4"> No.</th>
-            <th class="px-6 py-4"> Mentee</th>
-            <th class="px-6 py-4"> Mentor</th>
-            <th class="px-6 py-4"> Skill</th>
-            <th class="px-6 py-4"> Budget</th>
-            <th class="px-6 py-4"> Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b bg-gray-800 border-gray-700" th:each="request: ${requests}">
-            <td class="px-6 py-4" th:utext="${requestStat.index + 1}"></td>
-            <td class="px-6 py-4" th:utext="${request.menteeName}"></td>
-            <td class="px-6 py-4" th:utext="${request.mentorName}"></td>
-            <td class="px-6 py-4" th:utext="${request.skillName}"></td>
-            <td class="px-6 py-4" th:utext="${request.budget}"></td>
-            <td class="px-6 py-4" th:if="${request.status == 1}"><input type="checkbox" readonly checked></input></td>
-            <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox" readonly></input></td>
 
-        </tr>
-        </tbody>
-    </table>
+<div class="ml-64 p-6 grow gap-4">
+    <h1 class="text-3xl my-4 font-semibold">Requests sent</h1>
+    <div class="relative overflow-x-auto sm:rounded-lg">
+        <table class="w-full text-left text-gray-400">
+            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+            <tr>
+                <th class="px-6 py-4"> No.</th>
+                <th class="px-6 py-4"> Mentor</th>
+                <th class="px-6 py-4"> Skill</th>
+                <th class="px-6 py-4"> Budget</th>
+                <th class="px-6 py-4"> Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="border-b bg-gray-800 border-gray-700" th:each="request: ${requests}">
+                <td class="px-6 py-4" th:utext="${requestStat.index + 1}"></td>
+                <td class="px-6 py-4" th:utext="${request.mentorName}"></td>
+                <td class="px-6 py-4" th:utext="${request.skillName}"></td>
+                <td class="px-6 py-4" th:utext="${request.budget}"></td>
+                <td class="px-6 py-4" th:if="${request.status == 1}"><input type="checkbox" onclick="return false;"
+                                                                            checked></input></td>
+                <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox"
+                                                                            onclick="return false;"></input></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example" class="mt-6 mr-4 flex justify-end">
+        <ul class="inline-flex -space-x-px">
+            <li>
+                <a th:href="@{/admin/requests(pageNumber=1)}" class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">First</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber - 2 > 1}" th:href="@{/admin/requests(pageNumber=${pageNumber - 2})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber -2}">1</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber - 1 > 1}" th:href="@{/admin/requests(pageNumber=${pageNumber - 1})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber - 1}">2</a>
+            </li>
+            <li>
+                <a href="#" aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white" th:text="${pageNumber}">3</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber + 1 < totalPages}" th:href="@{/admin/requests(pageNumber=${pageNumber + 1})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber + 1}">4</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber + 2 < totalPages}" th:href="@{/admin/requests(pageNumber=${pageNumber + 2})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber + 2}">5</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/requests(pageNumber=${totalPages})}" class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Last</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

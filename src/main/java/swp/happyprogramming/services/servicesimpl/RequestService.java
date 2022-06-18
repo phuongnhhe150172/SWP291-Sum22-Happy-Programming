@@ -2,8 +2,12 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.RequestDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.model.User;
@@ -15,6 +19,7 @@ import swp.happyprogramming.services.IRequestService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class RequestService implements IRequestService {
@@ -56,11 +61,16 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public List<RequestDTO> getAllRequest() {
-        return requestRepository
-                .findAll()
+    public Pagination<RequestDTO> getAllRequest(int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
+        Page<Request> page = requestRepository.findAll(pageRequest);
+        int totalPages = page.getTotalPages();
+        List<Request> requests = page.getContent();
+        List<RequestDTO> requestDTOS = requests
                 .stream()
                 .map(request -> convertToDto(request))
                 .collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(requestDTOS, pageNumbers);
     }
 }

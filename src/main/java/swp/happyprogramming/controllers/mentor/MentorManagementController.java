@@ -21,6 +21,8 @@ public class MentorManagementController {
     public String showMentor(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentorList", page.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", page.getPaginatedList().size());
         return "public/showMentor";
     }
 
