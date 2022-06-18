@@ -78,9 +78,11 @@ public class AdminController {
     }
 
     @GetMapping("/skills")
-    public String getAllSkill(Model model) {
-        List<Skill> skillList = skillService.getAllSkill();
-        model.addAttribute("skills", skillList);
+    public String getAllSkill(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber) {
+        Pagination<Skill> skills = skillService.getAllSkill(pageNumber);
+        model.addAttribute("skills", skills.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", skills.getPageNumbers().size());
         return "admin/all-skills";
     }
 

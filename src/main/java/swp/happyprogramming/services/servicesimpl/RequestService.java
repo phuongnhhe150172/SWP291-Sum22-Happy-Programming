@@ -47,6 +47,15 @@ public class RequestService implements IRequestService {
     }
 
     @Override
+    public List<RequestDTO> getRequestSent(long menteeId) {
+        List<Request> requests = requestRepository.findRequestByMenteeId(menteeId);
+        return requests
+                .stream()
+                .map(request -> convertToDto(request))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public RequestDTO convertToDto(Request request) {
         RequestDTO requestDTO = new RequestDTO();
         ModelMapper mapper = new ModelMapper();
@@ -79,5 +88,16 @@ public class RequestService implements IRequestService {
     @Override
     public long countTotalRequest() {
         return requestRepository.count();
+    }
+
+    @Override
+    public void deleteRequest(long requestId) {
+        requestRepository.deleteById(requestId);
+    }
+
+    @Override
+    public RequestDTO getRequestById(long requestId) {
+        Request request = requestRepository.findById(requestId).get();
+        return convertToDto(request);
     }
 }

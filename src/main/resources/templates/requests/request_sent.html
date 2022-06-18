@@ -21,6 +21,7 @@
                 <th class="px-6 py-4"> Skill</th>
                 <th class="px-6 py-4"> Budget</th>
                 <th class="px-6 py-4"> Status</th>
+                <th class="px-6 py-4"> </th>
             </tr>
             </thead>
             <tbody>
@@ -33,7 +34,11 @@
                                                                             checked></input></td>
                 <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox"
                                                                             onclick="return false;"></input></td>
-
+                <td class="px-4 py-4">
+                    <a th:href="@{/request/delete(requestId=${request.id})}" class="text-red-500 hover:underline">
+                        Delete
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>

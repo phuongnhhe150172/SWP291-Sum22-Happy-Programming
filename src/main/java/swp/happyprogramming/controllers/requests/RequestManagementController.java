@@ -49,14 +49,13 @@ public class RequestManagementController {
         return "requests";
     }
 
-    //Display all request sent (mentee)
+
     @GetMapping("/request/sent")
     public String getRequestSent(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+        //  Trinh Trung Kien - 21 - view all sent requests (mentee)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         String email = authentication.getName();
         User user = userService.findByEmail(email);
-
 
         Pagination<RequestDTO> requests = requestService.getRequestSent(user.getId(), pageNumber);
         model.addAttribute("requests",requests.getPaginatedList());
@@ -65,6 +64,17 @@ public class RequestManagementController {
         return "requests/request_sent";
     }
 
+    @GetMapping("/request/delete")
+    public String deleteRequest(@RequestParam(required = false,defaultValue = "1") long requestId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
 
+        //verify if the request to be deleted belongs to that user
+        List<RequestDTO> requestDTOS = requestService.getRequestSent(user.getId());
+        RequestDTO request = requestService.getRequestById(requestId);
+        if (requestDTOS.contains(request)) requestService.deleteRequest(requestId);
 
+        return "redirect:/request/sent";
+    }
 }
