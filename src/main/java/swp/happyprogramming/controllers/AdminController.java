@@ -31,14 +31,16 @@ public class AdminController {
     @Autowired
     private IRequestService requestService;
 
+
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model) {
         int totalNumberOfMentors = userService.countUsersByRolesLike("ROLE_MENTOR");
         int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
+        long totalNumberOfRequests = requestService.countTotalRequest();
 
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
-        model.addAttribute("totalNumberOfRequests", 123);
+        model.addAttribute("totalNumberOfRequests", totalNumberOfRequests);
 
         return "admin/admin_dashboard";
     }

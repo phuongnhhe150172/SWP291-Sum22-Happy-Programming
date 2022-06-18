@@ -7,7 +7,8 @@ import swp.happyprogramming.model.Request;
 import java.util.List;
 
 public interface IRequestService {
-    List<RequestDTO> getRequestSent(long menteeId);
+    Pagination<RequestDTO> getRequestSent(long menteeId, int pageNumber);
     RequestDTO convertToDto(Request request);
     Pagination<RequestDTO> getAllRequest(int pageNumber);
+    long countTotalRequest();
 }

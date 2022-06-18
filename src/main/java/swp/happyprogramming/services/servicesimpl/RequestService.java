@@ -33,15 +33,17 @@ public class RequestService implements IRequestService {
     private ISkillRepository skillRepository;
 
     @Override
-    public List<RequestDTO> getRequestSent(long menteeId) {
-        List<Request> requests = new ArrayList<>();
-        for (Request r: requestRepository.findAll()) {
-            if (r.getMenteeId() == menteeId) requests.add(r);
-        }
-        return requests
+    public Pagination<RequestDTO> getRequestSent(long menteeId, int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
+        Page<Request> page = requestRepository.findRequestByMenteeId(pageRequest, menteeId);
+        int totalPages = page.getTotalPages();
+        List<Request> requests = page.getContent();
+        List<RequestDTO> requestDTOS = requests
                 .stream()
                 .map(request -> convertToDto(request))
                 .collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(requestDTOS, pageNumbers);
     }
 
     @Override
@@ -72,5 +74,10 @@ public class RequestService implements IRequestService {
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(requestDTOS, pageNumbers);
+    }
+
+    @Override
+    public long countTotalRequest() {
+        return requestRepository.count();
     }
 }

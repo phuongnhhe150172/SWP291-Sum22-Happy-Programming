@@ -51,17 +51,17 @@ public class RequestManagementController {
 
     //Display all request sent (mentee)
     @GetMapping("/request/sent")
-    public String getRequestSent(Model model){
+    public String getRequestSent(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String email = authentication.getName();
-        if (email.equalsIgnoreCase("anonymousUser")) {
-            return "redirect:/login";
-        }
         User user = userService.findByEmail(email);
 
-        List<RequestDTO> list = requestService.getRequestSent(user.getId());
-        model.addAttribute("requests", list);
+
+        Pagination<RequestDTO> requests = requestService.getRequestSent(user.getId(), pageNumber);
+        model.addAttribute("requests",requests.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", requests.getPageNumbers().size());
         return "requests/request_sent";
     }
 
