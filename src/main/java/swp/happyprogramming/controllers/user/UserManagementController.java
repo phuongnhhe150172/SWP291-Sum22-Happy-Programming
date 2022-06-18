@@ -23,6 +23,8 @@ import java.util.Map;
 @Controller
 public class UserManagementController {
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
+    private static final String INDEX_PAGE = "redirect:index";
+    private static final String USER_SESSION = "userInformation";
 
     @Autowired
     private HttpSession session;
@@ -57,7 +59,7 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
         } else {
-            Object sessionUser = session.getAttribute("userInformation");
+            Object sessionUser = session.getAttribute(USER_SESSION);
             if (sessionUser == null) {
                 return "redirect:/login";
             }
@@ -76,7 +78,7 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
         } else {
-            user = (UserDTO) session.getAttribute("userInformation");
+            user = (UserDTO) session.getAttribute(USER_SESSION);
         }
         long districtId = user.getAddress().getDistrict().getId();
         long provinceId = user.getAddress().getProvince().getId();
@@ -99,10 +101,10 @@ public class UserManagementController {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
             UserDTO user = userService.updateUserProfile(userDTO, wardId);
             // Update session
-            session.setAttribute("userInformation", user);
+            session.setAttribute(USER_SESSION, user);
             return "redirect:profile";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return INDEX_PAGE;
         }
 
     }
@@ -115,7 +117,7 @@ public class UserManagementController {
             model.addAttribute("mentor", mentor);
             return "user/mentorcv";
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return INDEX_PAGE;
         }
     }
 
@@ -147,7 +149,7 @@ public class UserManagementController {
 
             return "user/updatecv";
         } catch (NumberFormatException e) {
-            return "redirect:/index";
+            return INDEX_PAGE;
         }
     }
 
@@ -163,16 +165,16 @@ public class UserManagementController {
 
             return "redirect:../cv?id=" + mentor.getId();
         } catch (NumberFormatException e) {
-            return "redirect:index";
+            return INDEX_PAGE;
         }
     }
 
     @PostMapping("/uploading")
     public String updateImage(@RequestParam("image") MultipartFile image) {
-        UserDTO userDTO = (UserDTO) session.getAttribute("userInformation");
+        UserDTO userDTO = (UserDTO) session.getAttribute(USER_SESSION);
         userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
         UserDTO user = userService.findUser(userDTO.getId());
-        session.setAttribute("userInformation", user);
+        session.setAttribute(USER_SESSION, user);
         return "redirect:profile";
     }
 }
