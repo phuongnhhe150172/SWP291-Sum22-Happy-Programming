@@ -80,9 +80,9 @@ public class MentorService implements IMentorService {
         Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-        List<MentorDTO> mentorDTOS = mentees.stream().map(
-                    user -> findMentor(user.getId())
-                )
+        List<MentorDTO> mentorDTOS = mentees
+                .stream()
+                .map(user -> findMentor(user.getId()))
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(mentorDTOS, pageNumbers);

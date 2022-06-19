@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import sun.net.ftp.FtpDirEntry;
+import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
 import swp.happyprogramming.services.IFeedbackService;
+import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -17,6 +21,8 @@ public class FeedbackController {
     private HttpSession session;
     @Autowired
     private IFeedbackService feedbackService;
+    @Autowired
+    private IUserService userService;
 
     @GetMapping("/feedback")
     public String feedbackPage(Model model) {
@@ -30,6 +36,20 @@ public class FeedbackController {
         int[] count = feedbackService.feedBackCount();
         model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("count", count);
+        return "feedback/feedback";
+    }
+
+    @GetMapping("/feedback")
+    public String showUserFeedback(Model model,
+                                   @RequestParam(value = "id", required = false) String id) {
+        //    show user feedback
+        if (id == null) return "redirect:/login";
+
+        long userId = Integer.parseInt(id);
+        UserDTO viewedUser = userService.findUser(userId);
+        List<Feedback> feedback = feedbackService.getFeedbackReceived(userId);
+        model.addAttribute("feedback", feedback);
+        model.addAttribute("viewedUser", viewedUser);
         return "feedback/feedback";
     }
 }
