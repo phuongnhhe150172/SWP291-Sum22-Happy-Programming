@@ -71,7 +71,7 @@ public class PostManagementController {
         Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(listPostOngoing);
 
         model.addAttribute("listPost",listPostOngoing);
-        model.addAttribute(("mapLikePost"),mapLikePost);
+        model.addAttribute("mapLikePost",mapLikePost);
         return "/post/view/all";
     }
 }

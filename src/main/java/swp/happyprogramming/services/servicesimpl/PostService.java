@@ -76,19 +76,23 @@ public class PostService implements IPostService {
     public List<PostDTO> getListPostOngoing(){
         List<Post> listPost = postRepository.findAllByStatus(2);
         List<PostDTO> listPostDTO = listPost.stream().map(value -> mapper.map(value, PostDTO.class)).collect(Collectors.toList());
+        for (int i = 0; i< listPost.size() ; i++){
+            listPostDTO.get(i).setUser(Utility.mapUser(listPost.get(i).getUser()));
+        }
         return listPostDTO;
     }
 
     @Override
     public List<UserDTO> getListUserLikePost(long postId){
-        List<User> listUser = postRepository.findAllUserLikePost(postId);
+        List<Long> listUserId = postRepository.findAllUserLikePost(postId);
+        List<User> listUser = listUserId.stream().map(value -> userRepository.findById(value).orElse(null)).collect(Collectors.toList());
         List<UserDTO> listUserDTO = listUser.stream().map(value -> Utility.mapUser(value)).collect(Collectors.toList());
         return listUserDTO;
     }
 
     @Override
     public Map<Long,List<UserDTO>> mapLikePost(List<PostDTO> listPost){
-        HashMap<Long,List<UserDTO>> mapLikePost = new HashMap<>();
+        Map<Long,List<UserDTO>> mapLikePost = new HashMap<>();
         for (PostDTO postDTO : listPost) {
             mapLikePost.put(postDTO.getId(),getListUserLikePost(postDTO.getId()));
         }

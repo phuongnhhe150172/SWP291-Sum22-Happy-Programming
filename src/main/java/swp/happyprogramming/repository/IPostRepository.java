@@ -13,7 +13,7 @@ public interface IPostRepository extends JpaRepository<Post,Long> {
 
     List<Post> findAllByStatus(int status);
 
-    @Query(value = "select u.* from user_like_posts as l inner join users as u on l.user_id = u.id where post_id = ?1",
-    nativeQuery = true)
-    List<User> findAllUserLikePost(long postId);
+    @Query(value = "select id from users where id in (select user_id from user_like_posts where post_id = ?1)",
+            nativeQuery = true)
+    List<Long> findAllUserLikePost(long postId);
 }
