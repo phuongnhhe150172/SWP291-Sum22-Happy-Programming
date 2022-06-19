@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sun.net.ftp.FtpDirEntry;
-import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
 import swp.happyprogramming.services.IFeedbackService;
@@ -41,7 +39,7 @@ public class FeedbackController {
 
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
-                                   @RequestParam(value = "id", required = false) String id) {
+                                   @RequestParam(value = "id") String id) {
         //    show user feedback
         if (id == null) return "redirect:/login";
 
