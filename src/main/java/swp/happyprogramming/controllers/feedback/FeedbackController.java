@@ -24,7 +24,7 @@ public class FeedbackController {
 
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
-                                   @RequestParam(value = "id") String id) {
+                                   @RequestParam(value = "id", required = false) String id) {
         //    show user feedback
         long userId;
         if (id == null) {
