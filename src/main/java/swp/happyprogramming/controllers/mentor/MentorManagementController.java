@@ -22,7 +22,7 @@ public class MentorManagementController {
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentorList", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("totalPages", page.getPaginatedList().size());
+        model.addAttribute("totalPages", page.getPageNumbers().size());
         return "public/showMentor";
     }
 

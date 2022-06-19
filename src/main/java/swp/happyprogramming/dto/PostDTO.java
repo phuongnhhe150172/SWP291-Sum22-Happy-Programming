@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PostDTO {
     private long id;
-    private User user;
+    private UserDTO user;
     private Method method;
     private String description;
     private float price;

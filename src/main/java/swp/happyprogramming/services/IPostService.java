@@ -5,6 +5,7 @@ import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Post;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IPostService {
     List<Post> getAllPosts();
@@ -12,4 +13,10 @@ public interface IPostService {
     PostDTO findPost(long id);
 
     void updatePost(PostDTO postDTO, long methodId, UserDTO userDTO);
+
+    List<PostDTO> getListPostOngoing();
+
+    List<UserDTO> getListUserLikePost(long postId);
+
+    Map<Long,List<UserDTO>> mapLikePost(List<PostDTO> listPost);
 }

@@ -35,9 +35,9 @@ public class RequestServiceTest {
     @Test
     public void testGetRequestSent(){
         long id = 20;
-        List<RequestDTO> list = requestService.getRequestSent(id); //error because of null in budget, skillID column in database
+        Pagination<RequestDTO> list = requestService.getRequestSent(id , 1); //error because of null in budget, skillID column in database
         Assertions.assertThat(list).isNotNull();
-        System.out.println(list.size());
+        System.out.println(list.getPaginatedList().size());
     }
 
     @Test

@@ -12,11 +12,11 @@ import swp.happyprogramming.repository.IMethodRepository;
 import swp.happyprogramming.repository.IPostRepository;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IPostService;
+import swp.happyprogramming.utility.Utility;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService implements IPostService {
@@ -70,5 +70,32 @@ public class PostService implements IPostService {
         postMap.setMethod(method);
         postMap.setUser(user);
         postRepository.save(postMap);
+    }
+
+    @Override
+    public List<PostDTO> getListPostOngoing(){
+        List<Post> listPost = postRepository.findAllByStatus(2);
+        List<PostDTO> listPostDTO = listPost.stream().map(value -> mapper.map(value, PostDTO.class)).collect(Collectors.toList());
+        for (int i = 0; i< listPost.size() ; i++){
+            listPostDTO.get(i).setUser(Utility.mapUser(listPost.get(i).getUser()));
+        }
+        return listPostDTO;
+    }
+
+    @Override
+    public List<UserDTO> getListUserLikePost(long postId){
+        List<Long> listUserId = postRepository.findAllUserLikePost(postId);
+        List<User> listUser = listUserId.stream().map(value -> userRepository.findById(value).orElse(null)).collect(Collectors.toList());
+        List<UserDTO> listUserDTO = listUser.stream().map(value -> Utility.mapUser(value)).collect(Collectors.toList());
+        return listUserDTO;
+    }
+
+    @Override
+    public Map<Long,List<UserDTO>> mapLikePost(List<PostDTO> listPost){
+        Map<Long,List<UserDTO>> mapLikePost = new HashMap<>();
+        for (PostDTO postDTO : listPost) {
+            mapLikePost.put(postDTO.getId(),getListUserLikePost(postDTO.getId()));
+        }
+        return mapLikePost;
     }
 }

@@ -12,6 +12,7 @@ import swp.happyprogramming.services.IPostService;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,5 +63,15 @@ public class PostManagementController {
         }catch (NumberFormatException e){
             return "redirect:index";
         }
+    }
+
+    @GetMapping("/view/all")
+    public String viewAllPost(Model model){
+        List<PostDTO> listPostOngoing = postService.getListPostOngoing();
+        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(listPostOngoing);
+
+        model.addAttribute("listPost",listPostOngoing);
+        model.addAttribute("mapLikePost",mapLikePost);
+        return "/post/view/all";
     }
 }

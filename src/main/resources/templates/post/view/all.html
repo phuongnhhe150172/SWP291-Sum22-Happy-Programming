@@ -6,34 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-    <title>Posts</title>
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <title>Document</title>
 </head>
 
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
 <div class="" th:replace="components/nav.html :: aside"></div>
 
 <div class="ml-[16rem] max-w-[1400px]">
-    <div class="">
+    <div class="w-[80vw]">
         <div class="block w-[80%] min-h-[100vh] mx-auto p-4">
-            <div class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
+            <div th:each="post,state : ${listPost}"
+                 class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
                 <div class="flex items-center justify-between m-2">
                     <div class="flex items-center">
                         <div class="m-2">
-                            <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                 src="https://cdn.vnlife.org/img/2020/5/9/c192a75aa814afc57419909cd42c3b4a.jpg"
+                            <img th:src="@{${post.user.image}}"
+                                    class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                  alt="Bordered avatar">
                         </div>
 
                         <div class="flex flex-col items-left m-2">
-                            <p class="font-bold text-md">Hoàng Văn Nam</p>
+                            <p class="font-bold text-md" th:text="${post.user.firstName} + ${post.user.firstName}">Hoàng
+                                Văn Nam</p>
                             <div class="flex items-center">
-                                <p class="text-sm text-gray-500 mx-1 font-semibold">17 phut</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mx-1"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
+                                <p class="text-sm text-gray-500 mx-1 font-semibold"
+                                   th:text="${#dates.format(post.modified,'dd/MM/yyyy')}">17 phut</p>
                             </div>
 
                         </div>
@@ -56,6 +58,10 @@
                             <ul class="py-1" aria-labelledby="dropdownButton">
                                 <li>
                                     <a href="#"
+                                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+                                </li>
+                                <li>
+                                    <a href="#"
                                        class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export
                                         Data</a>
                                 </li>
@@ -68,41 +74,67 @@
                     </div>
                 </div>
 
-                <div class="m-2">
-                    <p>
+                <a href="#" class="m-2">
+                    <p th:text="${post.description}">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos aperiam, exercitationem
                         nemo
                         quae consequatur doloremque sunt illum quidem atque blanditiis, consequuntur dolorum
                         illo,
                         libero iste cumque harum reprehenderit voluptatum totam.
                     </p>
-                </div>
+                </a>
 
                 <div class="flex items-center m-2">
                     <div class="flex -space-x-4">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                             src="https://lucdia2.vn/anh-dai-dien-hay/imager_51423.jpg" alt="">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                             src="https://khoinguonsangtao.vn/wp-content/uploads/2022/05/anh-avatar-dep-ngau-hinh-dai-dien.jpg"
-                             alt="">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWF3vr0emxdWSmRLtu1y56JdbSpDkZRW7aiw&usqp=CAU"
-                             alt="">
-                        <a class="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                           href="#">+99</a>
-                    </div>
-                    <div class="m-2">
-                        <p class="text-sm text-gray-500">Bạn,Thanh Phong, Linh Chi và 190 người khác</p>
+                        <th:block th:each="image,state : ${mapLikePost.get(post.id)}" th:if="${state.index} < 3">
+                            <img th:src="@{${image.image}}"
+                                 class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" alt="">
+                        </th:block>
+                        <p th:text="'+' + ${mapLikePost.get(post.id).size() - 3}"
+                           class="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                           href="#"></p>
                     </div>
                 </div>
 
-                <div class="mt-6 m-2 border-y-[1px] border-gray-500 py-1.5 text-center">
-                    <p class="font-bold">Thích</p>
+                <div class="mt-6 m-2 border-y-[1px] border-gray-500 py-1.5 text-center cursor-pointer" id="button-like">
+                    <p class="font-bold text-white" id="like">Thích</p>
+                    <p class="font-bold text-blue-600 hidden" id="not-like">Thích</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#button-like').on('click', function () {
+            if($('#like').css("display") == "none"){
+                $('#like').css("display","block");
+                $('#not-like').css("display","none");
+            }else{
+                $('#like').css("display","none");
+                $('#not-like').css("display","block");
+            }
+        });
+    });
+
+    // $(document).ready(function () {
+    //     $('#button-like').on('click', function () {
+    //         var province_id = $("#province").val();
+    //         $("#error").html("");
+    //         $.ajax({
+    //             url: "district.html",
+    //             data: {
+    //                 province_id: province_id
+    //             },
+    //             method: "GET",
+    //             success: function (data) {
+    //                 $("#district_id").html(data);
+    //             }
+    //         });
+    //     });
+    // });
+</script>
 </body>
 
 </html>
