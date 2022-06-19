@@ -35,7 +35,7 @@ public class RequestManagementController {
     //    This class will be used both for admin and user
     @GetMapping("/requests")
     public String requests(Model model) {
-        //    Nguyễn Huy Hoàng - 32 - view all received requests (mentor)
+        //    Nguyễn Huy Hoàng - view all received requests
         //    Current user's requests
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -48,7 +48,6 @@ public class RequestManagementController {
         model.addAttribute("requests", requests);
         return "requests";
     }
-
 
     @GetMapping("/request/sent")
     public String getRequestSent(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){

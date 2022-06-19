@@ -11,68 +11,12 @@
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="ml-64 p-6 grow gap-4">
     <h1 class="text-3xl my-4 font-semibold">Requests</h1>
-    <!--    <div class="space-y-4 xl:mr-40" th:each="request: ${requests}">-->
-    <div class="space-y-4 xl:mr-40">
-        <!--        <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800"-->
-        <!--             th:object="${request}">-->
-        <!--            <a th:href="@{/profile(id=request.id)}" class="flex items-center gap-4">-->
-        <!--                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">-->
-        <!--                <p th:text="*{name}" class="font-medium">Anna Amelius</p>-->
-        <!--            </a>-->
-        <!--            <div class="flex items-center gap-4">-->
-        <!--                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>-->
-        <!--                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>-->
-        <!--            </div>-->
-        <!--        </div>-->
-        <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
-                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>
-            </div>
-        </div><div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
-                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>
-            </div>
-        </div><div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
-                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>
-            </div>
-        </div><div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
-                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>
-            </div>
-        </div><div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
-            </a>
-            <div class="flex items-center gap-4">
-                <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
-                <a href="" class="bg-red-600 font-medium px-4 py-2 rounded-lg cursor-default">Delete</a>
-            </div>
-        </div><div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
-            <a href="" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
-                <p class="font-medium">Anna Amelius</p>
+    <div class="space-y-4 xl:mr-40" th:each="request: ${requests}">
+        <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800"
+             th:object="${request}">
+            <a th:href="@{/profile(id=request.id)}" class="flex items-center gap-4">
+                <img th:src="${request.image}" alt="" class="w-10 h-10 rounded-full">
+                <p th:text="*{name}" class="font-medium">Anna Amelius</p>
             </a>
             <div class="flex items-center gap-4">
                 <a href="" class="bg-green-600 font-medium px-4 py-2 rounded-lg cursor-default">Accept</a>
