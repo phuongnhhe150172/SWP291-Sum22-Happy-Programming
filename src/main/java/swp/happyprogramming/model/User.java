@@ -48,7 +48,7 @@ public class User {
     @Column(name = "image")
     private String image;
     @Column(name = "status")
-    private int status;
+    private Integer status;
 
     @Column(name = "created")
     private Date created;
