@@ -3,10 +3,12 @@ package swp.happyprogramming.utility;
 import org.modelmapper.ModelMapper;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Address;
+import swp.happyprogramming.model.Feedback;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.model.Ward;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class Utility {
 
@@ -42,6 +44,11 @@ public class Utility {
         ward.setId(wardId);
         address.setWard(ward);
         return address;
+    }
+
+    public static double getAverageRate(List<Feedback> feedback) {
+        if (feedback.isEmpty()) return 0;
+        return (double) feedback.stream().mapToInt(Feedback::getRate).sum() / feedback.size();
     }
 
 }

@@ -9,6 +9,7 @@ import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
 import swp.happyprogramming.services.IFeedbackService;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.utility.Utility;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -36,8 +37,10 @@ public class FeedbackController {
         }
         UserDTO viewedUser = userService.findUser(userId);
         List<Feedback> feedback = feedbackService.getFeedbackReceived(userId);
+        double avgRate = Utility.getAverageRate(feedback);
         model.addAttribute("feedback", feedback);
         model.addAttribute("viewedUser", viewedUser);
+        model.addAttribute("avgRate", avgRate);
         return "feedback/feedback";
     }
 }
