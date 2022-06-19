@@ -23,27 +23,17 @@ public class FeedbackController {
     private IUserService userService;
 
     @GetMapping("/feedback")
-    public String feedbackPage(Model model) {
-        //        Nguyễn Huy Hoàng - 16 - View user feedback
-        Object sessionInfo = session.getAttribute("userInformation");
-        if (sessionInfo == null) {
-            return "redirect:/login";
-        }
-        UserDTO sessionUser = (UserDTO) sessionInfo;
-        List<Feedback> feedbacks = feedbackService.getFeedbackReceived(sessionUser.getId());
-        int[] count = feedbackService.feedBackCount();
-        model.addAttribute("feedbacks", feedbacks);
-        model.addAttribute("count", count);
-        return "feedback/feedback";
-    }
-
-    @GetMapping("/feedback")
     public String showUserFeedback(Model model,
                                    @RequestParam(value = "id") String id) {
         //    show user feedback
-        if (id == null) return "redirect:/login";
-
-        long userId = Integer.parseInt(id);
+        long userId;
+        if (id == null) {
+            Object sessionInfo = session.getAttribute("userInformation");
+            UserDTO sessionUser = (UserDTO) sessionInfo;
+            userId = sessionUser.getId();
+        } else {
+            userId = Integer.parseInt(id);
+        }
         UserDTO viewedUser = userService.findUser(userId);
         List<Feedback> feedback = feedbackService.getFeedbackReceived(userId);
         model.addAttribute("feedback", feedback);
