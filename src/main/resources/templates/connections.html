@@ -14,7 +14,7 @@
     <div class="space-y-4" th:each="connection: ${connections}">
         <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800">
             <a href="#" class="flex items-center gap-4">
-                <img src="../static/imgs/avatar1.jpg" alt="" class="w-10 h-10 rounded-full">
+                <img th:src="*{connection.image}" alt="" class="w-10 h-10 rounded-full">
                 <p th:text="${connection.name}" class="font-medium">Anna Amelius</p>
             </a>
             <div class="flex items-center gap-4">
