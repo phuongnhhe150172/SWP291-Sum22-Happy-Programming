@@ -25,8 +25,8 @@
                 <div class="flex items-center justify-between m-2">
                     <div class="flex items-center">
                         <div class="m-2">
-                            <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                 src="https://cdn.vnlife.org/img/2020/5/9/c192a75aa814afc57419909cd42c3b4a.jpg"
+                            <img th:src="@{${post.user.image}}"
+                                    class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                  alt="Bordered avatar">
                         </div>
 
@@ -92,12 +92,13 @@
                         </th:block>
                         <p th:text="'+' + ${mapLikePost.get(post.id).size() - 3}"
                            class="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                           href="#">+99</p>
+                           href="#"></p>
                     </div>
                 </div>
 
-                <div class="mt-6 m-2 border-y-[1px] border-gray-500 py-1.5 text-center" id="button-like">
-                    <p class="font-bold text-white">Thích</p>
+                <div class="mt-6 m-2 border-y-[1px] border-gray-500 py-1.5 text-center cursor-pointer" id="button-like">
+                    <p class="font-bold text-white" id="like">Thích</p>
+                    <p class="font-bold text-blue-600 hidden" id="not-like">Thích</p>
                 </div>
             </div>
         </div>
@@ -105,6 +106,18 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#button-like').on('click', function () {
+            if($('#like').css("display") == "none"){
+                $('#like').css("display","block");
+                $('#not-like').css("display","none");
+            }else{
+                $('#like').css("display","none");
+                $('#not-like').css("display","block");
+            }
+        });
+    });
+
     // $(document).ready(function () {
     //     $('#button-like').on('click', function () {
     //         var province_id = $("#province").val();
