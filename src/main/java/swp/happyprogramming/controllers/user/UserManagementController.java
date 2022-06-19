@@ -54,6 +54,7 @@ public class UserManagementController {
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
         //        Nguyễn Huy Hoàng - 04 - View public mentor profile
+        //        Hoàng Văn Nam -   - View mentee profile
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
@@ -73,6 +74,7 @@ public class UserManagementController {
 
     @GetMapping("/update")
     public String updateUserProfile(Model model, @RequestParam(value = "id", required = false) String id) {
+        //      Hoàng Văn Nam -   - Update profile mentee
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
@@ -97,6 +99,7 @@ public class UserManagementController {
     @PostMapping("/update")
     public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
                                     @RequestParam Map<String, Object> params) {
+        //      Hoàng Văn Nam -   - Update profile mentee
         try {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
             UserDTO user = userService.updateUserProfile(userDTO, wardId);
@@ -111,6 +114,7 @@ public class UserManagementController {
 
     @GetMapping("/cv")
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
+        //      Hoàng Văn Nam -   - View profile mentor
         try {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentor = mentorService.findMentor(mentorId);
@@ -123,6 +127,7 @@ public class UserManagementController {
 
     @GetMapping("/update/cv")
     public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id) {
+        //      Hoàng Văn Nam -   - Update profile mentor
         try {
             long mentorId = Integer.parseInt(id);
 
@@ -158,6 +163,7 @@ public class UserManagementController {
                                  @RequestParam Map<String, Object> params,
                                  @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
                                  @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
+        //      Hoàng Văn Nam -   - Update profile mentor
         try {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
 
@@ -171,6 +177,7 @@ public class UserManagementController {
 
     @PostMapping("/uploading")
     public String updateImage(@RequestParam("image") MultipartFile image) {
+        //      Hoàng Văn Nam -   - Upload avatar
         UserDTO userDTO = (UserDTO) session.getAttribute(USER_SESSION);
         userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
         UserDTO user = userService.findUser(userDTO.getId());
