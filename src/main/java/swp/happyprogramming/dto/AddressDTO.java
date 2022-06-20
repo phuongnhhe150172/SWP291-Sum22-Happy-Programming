@@ -11,6 +11,7 @@ import swp.happyprogramming.model.Address;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDTO extends Address {
+//    private long id;
     private String name;
     private WardDTO ward;
     private DistrictDTO district;

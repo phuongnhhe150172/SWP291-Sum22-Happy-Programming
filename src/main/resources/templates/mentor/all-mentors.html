@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,7 +39,7 @@
                             test@example.com.vn
                         </td>
                         <td class="px-4 py-4 max-w-[300px]"
-                            th:text="${mentor.address.street+', '+mentor.address.ward+', '+mentor.address.district+', '+mentor.address.province }">
+                            th:text="${mentor.address.name+', '+mentor.address.ward.name+', '+mentor.address.district.name+', '+mentor.address.province.name }">
                             Hoa Lac, Thach That, Hanoi
                         </td>
                         <td class="px-4 py-4">
