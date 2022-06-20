@@ -55,13 +55,20 @@ public class AdminController {
     }
 
     @GetMapping("/mentors")
-    public String showMentor(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
+    public String showMentors(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
         //        Nguyễn Huy Hoàng - 46 - List all mentors (admin)
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentors", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPaginatedList().size());
         return "admin/all-mentors";
+    }
+
+    @GetMapping("/mentor")
+    public String viewMentor(Model model,@RequestParam(value = "id", required = false) long mentorId){
+        MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+        model.addAttribute("mentor", mentorDTO);
+        return "admin/view-mentor";
     }
 
     @GetMapping("/mentee")
