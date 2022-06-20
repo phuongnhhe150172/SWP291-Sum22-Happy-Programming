@@ -51,6 +51,13 @@ public class AdminController {
         return "mentor/all-mentors";
     }
 
+    @GetMapping("/mentor")
+    public String showMentor(Model model, @RequestParam(value = "id", required = false) long mentorId){
+        MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+        model.addAttribute("mentor", mentorDTO);
+        return "admin/view-mentor";
+    }
+
     @GetMapping("/mentee")
     public String showMentee(Model model, @RequestParam(value = "id", required = false) long menteeId) {
         UserDTO mentee = userService.findUser(menteeId);
