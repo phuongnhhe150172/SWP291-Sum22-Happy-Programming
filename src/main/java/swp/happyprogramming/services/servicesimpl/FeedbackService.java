@@ -19,12 +19,13 @@ public class FeedbackService implements IFeedbackService {
     }
 
     public int[] feedBackCount() {
-        int[] count = new int[5];
+        int[] count = new int[6];
         count[0] = feedbackRepository.countByRate(1);
         count[1] = feedbackRepository.countByRate(2);
         count[2] = feedbackRepository.countByRate(3);
         count[3] = feedbackRepository.countByRate(4);
         count[4] = feedbackRepository.countByRate(5);
+        count[5] = count[0] + count[1] + count[2] + count[3] + count[4]+1;
         return count;
     }
 }
