@@ -36,5 +36,5 @@ public interface IUserService extends UserDetailsService {
 
     void updateImage(Long id, Path currentFolder, MultipartFile image);
 
-    Pagination<UserDTO> getMentees(int pageNumber);
+    Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email);
 }

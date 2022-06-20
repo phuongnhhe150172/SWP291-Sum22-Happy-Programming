@@ -179,10 +179,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Pagination<UserDTO> getMentees(int pageNumber) {
+    public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Role role = roleRepository.findByName("ROLE_MENTEE");
-        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
+        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
