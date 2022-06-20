@@ -6,11 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
-    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
     <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+<!--    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>-->
     <title>Document</title>
 </head>
 
@@ -41,37 +39,37 @@
                         </div>
                     </div>
 
-                    <div class="w-10 h-10 p-1 rounded-full hover:bg-gray-700 flex items-center justify-center">
-                        <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                                class="hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1.5"
-                                type="button">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
-                                </path>
-                            </svg>
-                        </button>
-                        <!-- Dropdown menu -->
-                        <div id="dropdown"
-                             class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
-                            <ul class="py-1" aria-labelledby="dropdownButton">
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export
-                                        Data</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+<!--                    <div class="w-10 h-10 p-1 rounded-full hover:bg-gray-700 flex items-center justify-center">-->
+<!--                        <button id="dropdownButton" data-dropdown-toggle="dropdown"-->
+<!--                                class="hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1.5"-->
+<!--                                type="button">-->
+<!--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"-->
+<!--                                 xmlns="http://www.w3.org/2000/svg">-->
+<!--                                <path-->
+<!--                                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">-->
+<!--                                </path>-->
+<!--                            </svg>-->
+<!--                        </button>-->
+<!--                        &lt;!&ndash; Dropdown menu &ndash;&gt;-->
+<!--                        <div id="dropdown"-->
+<!--                             class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">-->
+<!--                            <ul class="py-1" aria-labelledby="dropdownButton">-->
+<!--                                <li>-->
+<!--                                    <a href="#"-->
+<!--                                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#"-->
+<!--                                       class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export-->
+<!--                                        Data</a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#"-->
+<!--                                       class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
 
                 <a href="#" class="m-2">
@@ -84,21 +82,22 @@
                     </p>
                 </a>
 
-                <div class="flex items-center m-2">
-                    <div class="flex -space-x-4">
-                        <th:block th:each="image,state : ${mapLikePost.get(post.id)}" th:if="${state.index} < 3">
-                            <img th:src="@{${image.image}}"
-                                 class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" alt="">
-                        </th:block>
-                        <p th:text="'+' + ${mapLikePost.get(post.id).size() - 3}"
-                           class="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                           href="#"></p>
-                    </div>
-                </div>
+<!--                <div class="flex items-center m-2">-->
+<!--                    <div class="flex -space-x-4">-->
+<!--                        <th:block th:each="image,state : ${mapLikePost.get(post.id)}" th:if="${state.index} < 3">-->
+<!--                            <img th:src="@{${image.image}}"-->
+<!--                                 class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" alt="">-->
+<!--                        </th:block>-->
+<!--                        <p th:text="'+' + ${mapLikePost.get(post.id).size() - 3}"-->
+<!--                           class="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"-->
+<!--                           href="#"></p>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="mt-6 m-2 border-y-[1px] border-gray-500 py-1.5 text-center cursor-pointer" id="button-like">
-                    <p class="font-bold text-white" id="like">Thích</p>
-                    <p class="font-bold text-blue-600 hidden" id="not-like">Thích</p>
+                    <a
+                            class="font-bold text-white" id="like">Chi tiết</a>
+<!--                    <p class="font-bold text-blue-600 hidden" id="not-like">Thích</p>-->
                 </div>
             </div>
         </div>
@@ -131,32 +130,15 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#button-like').on('click', function () {
-            if($('#like').css("display") == "none"){
-                $('#like').css("display","block");
-                $('#not-like').css("display","none");
-            }else{
-                $('#like').css("display","none");
-                $('#not-like').css("display","block");
-            }
-        });
-    });
-
     // $(document).ready(function () {
     //     $('#button-like').on('click', function () {
-    //         var province_id = $("#province").val();
-    //         $("#error").html("");
-    //         $.ajax({
-    //             url: "district.html",
-    //             data: {
-    //                 province_id: province_id
-    //             },
-    //             method: "GET",
-    //             success: function (data) {
-    //                 $("#district_id").html(data);
-    //             }
-    //         });
+    //         if($('#like').css("display") == "none"){
+    //             $('#like').css("display","block");
+    //             $('#not-like').css("display","none");
+    //         }else{
+    //             $('#like').css("display","none");
+    //             $('#not-like').css("display","block");
+    //         }
     //     });
     // });
 </script>
