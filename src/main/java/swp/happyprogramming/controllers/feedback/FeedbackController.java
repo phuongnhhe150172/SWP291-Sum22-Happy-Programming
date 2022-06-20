@@ -30,6 +30,7 @@ public class FeedbackController {
         long userId;
         if (id == null) {
             Object sessionInfo = session.getAttribute("userInformation");
+            if (sessionInfo == null) return "redirect:/login";
             UserDTO sessionUser = (UserDTO) sessionInfo;
             userId = sessionUser.getId();
         } else {
@@ -38,9 +39,11 @@ public class FeedbackController {
         UserDTO viewedUser = userService.findUser(userId);
         List<Feedback> feedback = feedbackService.getFeedbackReceived(userId);
         double avgRate = Utility.getAverageRate(feedback);
+        int[] count = feedbackService.feedBackCount();
         model.addAttribute("feedback", feedback);
         model.addAttribute("viewedUser", viewedUser);
         model.addAttribute("avgRate", avgRate);
+        model.addAttribute("count", count);
         return "feedback/feedback";
     }
 }

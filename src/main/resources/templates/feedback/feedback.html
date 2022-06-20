@@ -20,46 +20,48 @@
             <div class="">
                 <div class="flex justify-between mb-1">
                     <span class="text-base font-medium text-white">5</span>
-                    <span class="text-sm font-medium text-white">43</span>
+                    <span class="text-sm font-medium text-white" th:text="${count[0]}">43</span>
                 </div>
                 <div class="w-full rounded-full h-2.5 bg-gray-700">
-                    <div class="bg-green-600 h-2.5 rounded-full" style="width: 43%"></div>
+                    <div class="bg-green-600 h-2.5 rounded-full" th:style="'width:'+${count[0]*100/count[5]}+'%'"></div>
                 </div>
             </div>
             <div class="">
                 <div class="flex justify-between mb-1">
                     <span class="text-base font-medium text-blue-700 dark:text-white">4</span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-white">16</span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-white" th:text="${count[1]}">16</span>
                 </div>
                 <div class="w-full rounded-full h-2.5 bg-gray-700">
-                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 16%"></div>
+                    <div class="bg-blue-600 h-2.5 rounded-full" th:style="'width:'+${count[1]*100/count[5]}+'%'"></div>
                 </div>
             </div>
             <div class="">
                 <div class="flex justify-between mb-1">
                     <span class="text-base font-medium text-blue-700 dark:text-white">3</span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-white">8</span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-white" th:text="${count[2]}">8</span>
                 </div>
                 <div class="w-full rounded-full h-2.5 bg-gray-700">
-                    <div class="bg-yellow-600 h-2.5 rounded-full" style="width: 8%"></div>
+                    <div class="bg-yellow-600 h-2.5 rounded-full"
+                         th:style="'width:'+${count[2]*100/count[5]}+'%'"></div>
                 </div>
             </div>
             <div class="">
                 <div class="flex justify-between mb-1">
                     <span class="text-base font-medium text-blue-700 dark:text-white">2</span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-white">5</span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-white" th:text="${count[3]}">5</span>
                 </div>
                 <div class="w-full rounded-full h-2.5 bg-gray-700">
-                    <div class="bg-orange-600 h-2.5 rounded-full" style="width: 5%"></div>
+                    <div class="bg-orange-600 h-2.5 rounded-full"
+                         th:style="'width:'+${count[3]*100/count[5]}+'%'"></div>
                 </div>
             </div>
             <div class="">
                 <div class="flex justify-between mb-1">
                     <span class="text-base font-medium text-blue-700 dark:text-white">1</span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-white">2</span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-white" th:text="${count[4]}">2</span>
                 </div>
                 <div class="w-full rounded-full h-2.5 bg-gray-700">
-                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 2%"></div>
+                    <div class="bg-red-600 h-2.5 rounded-full" th:style="'width:'+${count[4]*100/count[5]}+'%'"></div>
                 </div>
             </div>
         </div>

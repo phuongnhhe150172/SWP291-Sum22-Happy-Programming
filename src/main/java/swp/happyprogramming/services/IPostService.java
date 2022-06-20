@@ -2,6 +2,7 @@ package swp.happyprogramming.services;
 
 import swp.happyprogramming.dto.PostDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Post;
 
 import java.util.List;
@@ -19,10 +20,13 @@ public interface IPostService {
     List<UserDTO> getListUserLikePost(long postId);
 
     Map<Long,List<UserDTO>> mapLikePost(List<PostDTO> listPost);
-
+    
     List<PostDTO> getPostByUserId(long userId);
 
     PostDTO getPostById(long postId);
 
     void deletePost(long postId);
+
+    Pagination<PostDTO> getPostsPaging(int pageNumber);
+
 }
