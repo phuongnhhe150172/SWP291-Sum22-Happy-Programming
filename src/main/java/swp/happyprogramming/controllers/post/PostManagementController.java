@@ -1,12 +1,15 @@
 package swp.happyprogramming.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.PostDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Method;
+import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IMethodService;
 import swp.happyprogramming.services.IPostService;
 import swp.happyprogramming.services.IUserService;
@@ -73,5 +76,18 @@ public class PostManagementController {
         model.addAttribute("listPost",listPostOngoing);
         model.addAttribute("mapLikePost",mapLikePost);
         return "/post/view/all";
+    }
+
+    @GetMapping("/delete")
+    public String deletePost(Model model, @RequestParam(value = "postId",required = false) long postId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
+
+        List<PostDTO> listPostByUser = postService.getPostByUserId(user.getId());
+        for (int i = listPostByUser.size()-1; i >= 0 ; i--){
+            if (listPostByUser.get(i).getId() == postId) postService.deletePost(postId);
+        }
+        return "redirect:/post/view/all";
     }
 }

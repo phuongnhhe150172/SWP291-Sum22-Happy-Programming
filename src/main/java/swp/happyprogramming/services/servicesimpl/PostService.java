@@ -98,4 +98,33 @@ public class PostService implements IPostService {
         }
         return mapLikePost;
     }
+
+    @Override
+    public List<PostDTO> getPostByUserId(long userId) {
+        List<Post> posts = postRepository.findAll();
+        List<Post> postByUser = new ArrayList<>();
+        for (Post post :posts) {
+            if (post.getUser().getId() == userId){
+                postByUser.add(post);
+            }
+        }
+        List<PostDTO> listPostDTO = postByUser.stream().map(value -> mapper.map(value, PostDTO.class)).collect(Collectors.toList());
+        for (int i = 0; i< postByUser.size() ; i++){
+            listPostDTO.get(i).setUser(Utility.mapUser(postByUser.get(i).getUser()));
+        }
+        return listPostDTO;
+    }
+
+    @Override
+    public PostDTO getPostById(long postId) {
+        Optional<Post> post = postRepository.findById(postId);
+        PostDTO postDTO = mapper.map(post.get(), PostDTO.class);
+        postDTO.setUser(Utility.mapUser(post.get().getUser()));
+        return postDTO;
+    }
+
+    @Override
+    public void deletePost(long postId) {
+        postRepository.deleteById(postId);
+    }
 }

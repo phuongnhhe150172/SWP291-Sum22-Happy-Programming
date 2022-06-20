@@ -64,7 +64,7 @@ public class RequestManagementController {
     }
 
     @GetMapping("/request/delete")
-    public String deleteRequest(@RequestParam(required = false,defaultValue = "1") long requestId){
+    public String deleteRequest(@RequestParam(required = true) long requestId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);

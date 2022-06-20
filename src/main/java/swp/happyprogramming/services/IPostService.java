@@ -19,4 +19,10 @@ public interface IPostService {
     List<UserDTO> getListUserLikePost(long postId);
 
     Map<Long,List<UserDTO>> mapLikePost(List<PostDTO> listPost);
+
+    List<PostDTO> getPostByUserId(long userId);
+
+    PostDTO getPostById(long postId);
+
+    void deletePost(long postId);
 }

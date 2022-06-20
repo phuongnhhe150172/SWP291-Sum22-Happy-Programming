@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="flex flex-col items-left m-2">
-                            <p class="font-bold text-md" th:text="${post.user.firstName} + ${post.user.firstName}">Hoàng
+                            <p class="font-bold text-md" th:text="${post.user.firstName} + ' '+ ${post.user.lastName}">Hoàng
                                 Văn Nam</p>
                             <div class="flex items-center">
                                 <p class="text-sm text-gray-500 mx-1 font-semibold"
@@ -66,7 +66,7 @@
                                         Data</a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <a th:href="@{/post/delete(postId=${post.id})}"
                                        class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                 </li>
                             </ul>
