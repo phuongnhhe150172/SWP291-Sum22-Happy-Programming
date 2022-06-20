@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.PostDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Method;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.services.IMethodService;
 import swp.happyprogramming.services.IPostService;
 import swp.happyprogramming.services.IUserService;
@@ -66,12 +67,15 @@ public class PostManagementController {
     }
 
     @GetMapping("/view/all")
-    public String viewAllPost(Model model){
-        List<PostDTO> listPostOngoing = postService.getListPostOngoing();
-        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(listPostOngoing);
+    public String viewAllPost(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber){
+        Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
+//        List<PostDTO> listPostOngoing = postService.getListPostOngoing();
+        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
 
-        model.addAttribute("listPost",listPostOngoing);
+        model.addAttribute("listPost",page.getPaginatedList());
+        model.addAttribute("pageNumber",pageNumber);
         model.addAttribute("mapLikePost",mapLikePost);
+        model.addAttribute("totalPages",page.getPageNumbers().size());
         return "/post/view/all";
     }
 }

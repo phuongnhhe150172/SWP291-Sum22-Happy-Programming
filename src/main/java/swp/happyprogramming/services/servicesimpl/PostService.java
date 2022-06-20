@@ -2,10 +2,14 @@ package swp.happyprogramming.services.servicesimpl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.PostDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Method;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Post;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.repository.IMethodRepository;
@@ -17,6 +21,7 @@ import swp.happyprogramming.utility.Utility;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class PostService implements IPostService {
@@ -97,5 +102,22 @@ public class PostService implements IPostService {
             mapLikePost.put(postDTO.getId(),getListUserLikePost(postDTO.getId()));
         }
         return mapLikePost;
+    }
+
+    @Override
+    public Pagination<PostDTO> getPostsPaging(int pageNumber){
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1,10);
+        Page<Post> page = postRepository.findAllByStatusPaging(pageRequest, 2);
+        int totalPages = page.getTotalPages();
+        List<Post> posts = page.getContent();
+        List<PostDTO> postDTOS = posts
+                .stream()
+                .map(value -> mapper.map(value,PostDTO.class))
+                .collect(Collectors.toList());
+        for (int i = 0; i< posts.size() ; i++){
+            postDTOS.get(i).setUser(Utility.mapUser(posts.get(i).getUser()));
+        }
+        List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(postDTOS,pageNumbers);
     }
 }

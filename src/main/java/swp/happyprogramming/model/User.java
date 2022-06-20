@@ -47,6 +47,8 @@ public class User {
     private Double price;
     @Column(name = "image")
     private String image;
+    @Column(name = "status")
+    private Integer status;
 
     @Column(name = "created")
     private Date created;
