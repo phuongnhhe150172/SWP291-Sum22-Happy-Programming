@@ -69,19 +69,6 @@ public class PostManagementController {
         }
     }
 
-    @GetMapping("/view/all")
-    public String viewAllPost(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber){
-        Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
-//        List<PostDTO> listPostOngoing = postService.getListPostOngoing();
-        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
-
-        model.addAttribute("listPost",page.getPaginatedList());
-        model.addAttribute("pageNumber",pageNumber);
-        model.addAttribute("mapLikePost",mapLikePost);
-        model.addAttribute("totalPages",page.getPageNumbers().size());
-        return "/post/view/all";
-    }
-
     @GetMapping("/delete")
     public String deletePost(Model model, @RequestParam(value = "postId",required = false) long postId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
