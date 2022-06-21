@@ -68,7 +68,6 @@ public class UserManagementController {
             user = userService.findUser(userId);
             UserDTO userDTO = (UserDTO) sessionUser;
             Integer statusRequest = requestService.findStatusRequest(userDTO.getId(), user.getId());
-            System.out.println(statusRequest);
             model.addAttribute("statusRequest",statusRequest);
         } else {
             user = (UserDTO) sessionUser;
