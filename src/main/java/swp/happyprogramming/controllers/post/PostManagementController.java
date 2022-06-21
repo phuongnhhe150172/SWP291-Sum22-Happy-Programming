@@ -79,6 +79,6 @@ public class PostManagementController {
         for (int i = listPostByUser.size()-1; i >= 0 ; i--){
             if (listPostByUser.get(i).getId() == postId) postService.deletePost(postId);
         }
-        return "redirect:/post/view/all";
+        return "redirect:/admin/all-posts";
     }
 }

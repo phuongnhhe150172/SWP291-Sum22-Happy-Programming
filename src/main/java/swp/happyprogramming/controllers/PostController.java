@@ -19,6 +19,6 @@ public class PostController {
     public String getPosts(Model model) {
         ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
         model.addAttribute("posts", posts);
-        return "post/view/all";
+        return "/admin/all-posts";
     }
 }
