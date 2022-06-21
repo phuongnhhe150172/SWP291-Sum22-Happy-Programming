@@ -14,4 +14,5 @@ public interface IRequestService {
     long countTotalRequest();
     void deleteRequest(long requestId);
     RequestDTO getRequestById(long requestId);
+    Integer findStatusRequest(long mentorId, long menteeId);
 }

@@ -50,20 +50,27 @@ public class UserManagementController {
     @Autowired
     private ISkillService skillService;
 
+    @Autowired
+    private IRequestService requestService;
+
     @GetMapping("/profile")
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
         //        Nguyễn Huy Hoàng - 04 - View public mentor profile
         //        Hoàng Văn Nam -   - View mentee profile
+        Object sessionUser = session.getAttribute(USER_SESSION);
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
+            UserDTO userDTO = (UserDTO) sessionUser;
+            Integer statusRequest = requestService.findStatusRequest(userDTO.getId(), user.getId());
+            System.out.println(statusRequest);
+            model.addAttribute("statusRequest",statusRequest);
         } else {
-            Object sessionUser = session.getAttribute(USER_SESSION);
-            if (sessionUser == null) {
-                return "redirect:/login";
-            }
             user = (UserDTO) sessionUser;
         }
         String role = (String) session.getAttribute("role");

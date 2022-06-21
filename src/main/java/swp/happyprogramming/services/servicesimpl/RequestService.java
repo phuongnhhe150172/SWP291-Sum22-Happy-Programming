@@ -100,4 +100,13 @@ public class RequestService implements IRequestService {
         Request request = requestRepository.findById(requestId).get();
         return convertToDto(request);
     }
+
+    @Override
+    public Integer findStatusRequest(long mentorId, long menteeId){
+        Request request = requestRepository.findRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(null);
+        if(request == null){
+            return -1;
+        }
+        return request.getStatus();
+    }
 }
