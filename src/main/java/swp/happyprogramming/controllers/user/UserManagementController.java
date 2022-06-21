@@ -122,9 +122,24 @@ public class UserManagementController {
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - View profile mentor
         try {
-            long mentorId = Integer.parseInt(id);
-            MentorDTO mentor = mentorService.findMentor(mentorId);
+            Object sessionUser = session.getAttribute(USER_SESSION);
+            if (sessionUser == null) {
+                return "redirect:/login";
+            }
+            UserDTO user = (UserDTO) sessionUser;
+            MentorDTO mentor;
+            if (id != null) {
+                long mentorId = Integer.parseInt(id);
+                mentor = mentorService.findMentor(mentorId);
+                Integer statusRequest = requestService.findStatusRequest(user.getId(), mentor.getId());
+                System.out.println(statusRequest);
+                model.addAttribute("statusRequest",statusRequest);
+            } else {
+                mentor = mentorService.findMentor(user.getId());
+            }
             model.addAttribute("mentor", mentor);
+            String role = (String) session.getAttribute("role");
+            model.addAttribute("role", role);
             return "user/mentorcv";
         } catch (NumberFormatException e) {
             return INDEX_PAGE;
