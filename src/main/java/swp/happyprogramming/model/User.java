@@ -1,6 +1,7 @@
 package swp.happyprogramming.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,7 +12,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

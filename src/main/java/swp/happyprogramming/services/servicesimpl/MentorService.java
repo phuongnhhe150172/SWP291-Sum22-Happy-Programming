@@ -1,5 +1,6 @@
 package swp.happyprogramming.services.servicesimpl;
 
+import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,10 +35,13 @@ public class MentorService implements IMentorService {
     @Autowired
     private ISkillRepository skillRepository;
 
-    @Autowired IRoleRepository roleRepository;
+    @Autowired
+    IRoleRepository roleRepository;
 
     @Autowired
     private IMentorRepository mentorRepository;
+    private ModelMapper mapper;
+    private IWardRepository wardRepository;
 
     // READ SECTION
     public MentorDTO findMentor(long id) {
@@ -49,7 +53,7 @@ public class MentorService implements IMentorService {
             Address address = addressRepository.findByAddressId(user.getAddress().getId());
             ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
             ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
-            //set data to mentorDTO
+            // set data to mentorDTO
             return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
         } else {
             return null;
@@ -58,7 +62,6 @@ public class MentorService implements IMentorService {
 
     private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
                                             ArrayList<Experience> listExperience, Address address) {
-        ModelMapper mapper = new ModelMapper();
         MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
         mapper.map(user, mentorDTO);
         mentorDTO.setProfileId(profile.getId());
@@ -99,24 +102,24 @@ public class MentorService implements IMentorService {
         Mentor profile = optionalUserProfile.get();
         User user = optionalUser.get();
 
-        //update to table user
-        updateUser(user, mentorDTO, profile,wardId);
+        // update to table user
+        updateUser(user, mentorDTO, profile, wardId);
 
-        //update address
-        updateAddress(mentorDTO,wardId);
+        // update address
+        updateAddress(mentorDTO, wardId);
 
-        //delete experience with mentor
+        // delete experience with mentor
         deleteExperienceAndMentorExperience(profile);
 
-        //save experience with mentor
+        // save experience with mentor
         if (experienceValue != null) {
             saveExperienceAndMentorExperience(profile, experienceValue);
         }
 
-        //delete skill with user
+        // delete skill with user
         deleteUserSkills(mentorDTO.getProfileId());
 
-        //save skill with user
+        // save skill with user
         if (skillValue != null) {
             saveUserSkills(mentorDTO.getProfileId(), skillValue);
         }
@@ -155,7 +158,10 @@ public class MentorService implements IMentorService {
     }
 
     private void updateAddress(MentorDTO mentorDTO, long wardId) {
-        Address address = Utility.mapAddressDTO(mentorDTO.getAddress(),wardId);
+        Address address = mapper.map(mentorDTO.getAddress(), Address.class);
+        Ward ward = wardRepository.findById(wardId).orElse(new Ward());
+        address.setWard(ward);
+        // Address address = Utility.mapAddressDTO(mentorDTO.getAddress(),wardId);
         address.setName(mentorDTO.getAddress().getName());
         addressRepository.save(address);
     }
