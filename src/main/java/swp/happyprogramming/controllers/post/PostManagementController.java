@@ -6,16 +6,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import swp.happyprogramming.dto.MethodDTO;
 import swp.happyprogramming.dto.PostDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Method;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Post;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IMethodService;
 import swp.happyprogramming.services.IPostService;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.vo.PostVo;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,5 +86,22 @@ public class PostManagementController {
             if (listPostByUser.get(i).getId() == postId) postService.deletePost(postId);
         }
         return "redirect:/admin/all-posts";
+    }
+
+    @GetMapping("/all")
+    public String getPosts(Model model) {
+        ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
+        ArrayList<PostVo> result = new ArrayList<>();
+
+        for (Post p : posts) {
+            PostDTO postDTO = postService.findPost(p.getId());
+            UserDTO userDTO = postDTO.getUser();
+            Method methodDTO = postDTO.getMethod();
+            PostVo pi = new PostVo(userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            result.add(pi);
+        }
+
+        model.addAttribute("posts", result);
+        return "/admin/all-posts";
     }
 }
