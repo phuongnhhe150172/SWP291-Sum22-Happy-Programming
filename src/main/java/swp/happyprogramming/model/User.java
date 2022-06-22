@@ -94,4 +94,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<Post> posts;
+
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
+    private Collection<Connect> connects1;
+
+    @OneToMany(mappedBy = "user2",cascade = CascadeType.ALL)
+    private Collection<Connect> connects2;
 }
