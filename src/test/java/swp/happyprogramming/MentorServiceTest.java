@@ -5,9 +5,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import swp.happyprogramming.dto.ConnectDTO;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.model.Connect;
 import swp.happyprogramming.model.User;
+import swp.happyprogramming.repository.IConnectRepository;
 import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.services.IMentorService;
 
 import java.util.List;
@@ -20,6 +24,12 @@ public class MentorServiceTest {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IConnectRepository connectRepository;
+
+    @Autowired
+    private IConnectService connectService;
 
     @Test
     public void testGetMentors() {
@@ -41,5 +51,21 @@ public class MentorServiceTest {
 //        Optional<User> u = userRepository.findById(id);
 //        Assertions.assertThat(u).isNotNull();
 //        System.out.println(u.get().getFirstName());
+    }
+
+    @Test
+    public void testConnect(){
+//        Optional<Connect> connect = connectRepository.findConnectByUser1IdAndUser2Id(23,22);
+//        Connect c = connect.get();
+//        System.out.println(c.getId());
+//        System.out.println(c.getUser1().getFirstName());
+
+//        List<Connect> c = connectRepository.findAll();
+//        System.out.println(c.get(0).getId());
+//        System.out.println(c.get(0).getUser1().getFirstName());
+
+        List<ConnectDTO> c = connectService.findAllConnections();
+        System.out.println(c.get(0).getId());
+        System.out.println(c.get(0).getUser1().getFirstName());
     }
 }

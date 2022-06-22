@@ -23,7 +23,7 @@ public class MentorManagementController {
         model.addAttribute("mentorList", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
-        return "public/showMentor";
+        return "mentor/showMentor";
     }
 
     @GetMapping("/mentor/search")
