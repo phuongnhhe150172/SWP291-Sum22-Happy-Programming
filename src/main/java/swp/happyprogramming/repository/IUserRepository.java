@@ -21,19 +21,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
 
-//    @Query(value =  "select * from " +
-//            "users as a " +
-//            "   join " +
-//            "user_roles as b " +
-//            "where b.role_id = ?1 AND ((1 = 1) " +
-//            "OR (a.firstName = ?2 " +
-//            "AND a.lastName = ?3 " +
-//            "AND a.phone_number = ?4 " +
-//            "AND a.email = ?5))", nativeQuery = true)
-//    Page<User> findUsers(Pageable pageable, Role role, String firstName, String lastName, String phone, String email);
-//
-//    Page<User> findAllBySpeRoles(Specification<User> specification, Pageable pageable, List<Role> roles);
-
     Page<User> findAll(Specification<User> specification, Pageable pageable);
 
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
