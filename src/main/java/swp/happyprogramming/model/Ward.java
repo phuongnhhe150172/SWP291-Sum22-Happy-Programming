@@ -27,7 +27,7 @@ public class Ward {
         this.id = 1;
     }
 
-    @OneToMany(mappedBy = "ward")
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
     private Collection<Address> addresses;
 
     @ManyToOne
