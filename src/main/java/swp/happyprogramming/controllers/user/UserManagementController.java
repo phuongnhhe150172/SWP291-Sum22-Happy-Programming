@@ -53,6 +53,9 @@ public class UserManagementController {
     @Autowired
     private IRequestService requestService;
 
+    @Autowired
+    private IConnectService connectService;
+
     @GetMapping("/profile")
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
@@ -67,7 +70,11 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
             UserDTO userDTO = (UserDTO) sessionUser;
-            Integer statusRequest = requestService.findStatusRequest(userDTO.getId(), user.getId());
+
+            Integer statusRequest = (requestService.findStatusRequest(userDTO.getId(), user.getId()) != null) ? 1 : 0;
+            Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(),userDTO.getId()) != null ||
+                    connectService.findConnectByUser1AndUser2(userDTO.getId(),user.getId()) != null) ? 1 : 0;
+            model.addAttribute("statusConnect",statusConnect);
             model.addAttribute("statusRequest",statusRequest);
         } else {
             user = (UserDTO) sessionUser;
@@ -131,8 +138,10 @@ public class UserManagementController {
             if (id != null) {
                 long mentorId = Integer.parseInt(id);
                 mentor = mentorService.findMentor(mentorId);
-                Integer statusRequest = requestService.findStatusRequest(user.getId(), mentor.getId());
-                System.out.println(statusRequest);
+                Integer statusRequest = (requestService.findStatusRequest(user.getId(), mentor.getId()) != null) ? 1 : 0;
+                Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(),mentor.getId()) != null ||
+                        connectService.findConnectByUser1AndUser2(mentor.getId(),user.getId()) != null) ? 1 : 0;
+                model.addAttribute("statusConnect",statusConnect);
                 model.addAttribute("statusRequest",statusRequest);
             } else {
                 mentor = mentorService.findMentor(user.getId());
