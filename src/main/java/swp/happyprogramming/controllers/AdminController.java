@@ -52,12 +52,7 @@ public class AdminController {
             Model model,
             @RequestParam Map<String, String> params,
             @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber
-//            @RequestParam(value = "firstName", required = false) String firstName,
-//            @RequestParam(value = "lastName", required = false) String lastName,
-//            @RequestParam(value = "phone", required = false) String phone,
-//            @RequestParam(value = "email", required = false) String email
     ) {
-//        System.out.println("admin:" + params.get("firstName"));
         Pagination<UserDTO> page = userService.getMentees(pageNumber, params.get("first_name"), params.get("last_name"), params.get("phone"), params.get("email"));
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);

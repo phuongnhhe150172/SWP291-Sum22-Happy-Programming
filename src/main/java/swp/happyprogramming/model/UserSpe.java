@@ -7,9 +7,8 @@ public class UserSpe {
     public static Specification<User> getUserSpe(String firstName, String lastName, String phone, String email){
         Specification<User> spec = null;
         Specification<User> temp = null;
-        System.out.println("firstname1:  "+firstName);
+
         if (firstName != null){
-            System.out.println("firstname2:  "+firstName);
             temp = getByColumn("firstName", firstName);
             spec = spec!=null?Specification.where(spec).and(temp):temp;
         }
@@ -25,7 +24,6 @@ public class UserSpe {
             temp = getByColumn("email", email);
             spec = spec!=null?Specification.where(spec).and(temp):temp;
         }
-
         return spec;
     }
 
