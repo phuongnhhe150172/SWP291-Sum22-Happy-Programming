@@ -72,7 +72,7 @@ public class UserService implements IUserService {
 
         user.setImage("/upload/static/imgs/avatar_default.jpg");
         user.setAddress(savedAddress);
-        user.addRole(new Role(2));
+        user.addRole(roleRepository.findByName("ROLE_MENTEE"));
         userRepository.save(user);
     }
 

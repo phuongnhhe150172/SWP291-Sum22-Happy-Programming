@@ -40,7 +40,8 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private IMentorRepository mentorRepository;
-    private ModelMapper mapper;
+    private ModelMapper mapper = new ModelMapper();
+    @Autowired
     private IWardRepository wardRepository;
 
     // READ SECTION
@@ -60,11 +61,11 @@ public class MentorService implements IMentorService {
         }
     }
 
-    private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
+    private MentorDTO combineUserAndProfile(User user, Mentor mentor, ArrayList<Skill> listSkill,
                                             ArrayList<Experience> listExperience, Address address) {
-        MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
+        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
         mapper.map(user, mentorDTO);
-        mentorDTO.setProfileId(profile.getId());
+        mentorDTO.setProfileId(mentor.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
         mentorDTO.setAddress(Utility.mapAddress(address));
