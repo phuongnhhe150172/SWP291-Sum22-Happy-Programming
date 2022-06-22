@@ -1,4 +1,4 @@
-package swp.happyprogramming.config.auth;
+package swp.happyprogramming.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
