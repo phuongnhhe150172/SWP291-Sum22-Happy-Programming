@@ -79,18 +79,17 @@ public class MentorService implements IMentorService {
 
     @Override
     public Pagination<MentorDTO> getMentors(int pageNumber) {
-//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
-//        Role role = roleRepository.findByName("ROLE_MENTOR");
-//        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
-//        int totalPages = page.getTotalPages();
-//        List<User> mentees = page.getContent();
-//        List<MentorDTO> mentorDTOS = mentees
-//                .stream()
-//                .map(user -> findMentor(user.getId()))
-//                .collect(Collectors.toList());
-//        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-//        return new Pagination<>(mentorDTOS, pageNumbers);
-        return null;
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
+        Role role = roleRepository.findByName("ROLE_MENTOR");
+        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
+        int totalPages = page.getTotalPages();
+        List<User> mentees = page.getContent();
+        List<MentorDTO> mentorDTOS = mentees
+                .stream()
+                .map(user -> findMentor(user.getId()))
+                .collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(mentorDTOS, pageNumbers);
     }
 
     //    UPDATE SECTION

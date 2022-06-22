@@ -197,7 +197,6 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-//        List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
         List<UserDTO> menteesDTO = new ArrayList<>();
         for (User mentee: mentees){
             boolean check = true;
