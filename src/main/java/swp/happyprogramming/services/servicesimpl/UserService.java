@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -189,7 +191,11 @@ public class UserService implements IUserService {
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Role role = roleRepository.findByName("ROLE_MENTEE");
-        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(role);
+//        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
+        Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
+        Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());

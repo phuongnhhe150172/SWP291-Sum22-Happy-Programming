@@ -50,13 +50,15 @@ public class AdminController {
     @GetMapping("/mentees")
     public String showAllMentees(
             Model model,
-            @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber,
-            @RequestParam(value = "firstName", required = false, defaultValue = "") String firstName,
-            @RequestParam(value = "lastName", required = false, defaultValue = "") String lastName,
-            @RequestParam(value = "phone", required = false, defaultValue = "") String phone,
-            @RequestParam(value = "email", required = false, defaultValue = "") String email
+            @RequestParam Map<String, String> params,
+            @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber
+//            @RequestParam(value = "firstName", required = false) String firstName,
+//            @RequestParam(value = "lastName", required = false) String lastName,
+//            @RequestParam(value = "phone", required = false) String phone,
+//            @RequestParam(value = "email", required = false) String email
     ) {
-        Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
+//        System.out.println("admin:" + params.get("firstName"));
+        Pagination<UserDTO> page = userService.getMentees(pageNumber, params.get("first_name"), params.get("last_name"), params.get("phone"), params.get("email"));
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPaginatedList().size());
