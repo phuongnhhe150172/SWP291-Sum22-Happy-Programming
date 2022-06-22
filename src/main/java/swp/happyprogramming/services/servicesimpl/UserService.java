@@ -202,8 +202,7 @@ public class UserService implements IUserService {
         for (User mentee: mentees){
             boolean check = true;
             for (Role role1 : mentee.getRoles()){
-                System.out.println(mentee + ":" +role);
-                if (role1.equals("ROLE_ADMIN")){
+                if (role1.getName().equals("ROLE_ADMIN")){
                     check = false;
                     break;
                 }
