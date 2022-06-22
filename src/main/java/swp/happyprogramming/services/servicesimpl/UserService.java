@@ -197,16 +197,20 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
+//        List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
         List<UserDTO> menteesDTO = new ArrayList<>();
         for (User mentee: mentees){
             boolean check = true;
             for (Role role1 : mentee.getRoles()){
+                System.out.println(mentee + ":" +role);
                 if (role1.equals("ROLE_ADMIN")){
                     check = false;
+                    break;
                 }
             }
             if (check == true){
-                menteesDTO.add(mapper.map(mentee, UserDTO.class));
+                UserDTO userDTO = findUser(mentee.getId());
+                menteesDTO.add(userDTO);
             }
         }
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
