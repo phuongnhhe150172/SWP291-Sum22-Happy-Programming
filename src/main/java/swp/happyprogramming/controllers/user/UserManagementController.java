@@ -91,6 +91,7 @@ public class UserManagementController {
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
+            System.out.println("updateUserProfile(88)");
             user = userService.findUser(userId);
         } else {
             user = (UserDTO) session.getAttribute(USER_SESSION);

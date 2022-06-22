@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.model.Address;
-import swp.happyprogramming.model.Pagination;
-import swp.happyprogramming.model.Role;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
@@ -47,6 +46,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private IRoleRepository roleRepository;
+    @Autowired
+    private IWardRepository wardRepository;
 
     public void registerNewUserAccount(UserDTO userDTO) throws UserAlreadyExistException {
         //        Nguyễn Huy Hoàng - 02 - Signup
@@ -61,11 +62,15 @@ public class UserService implements IUserService {
     }
 
     private void saveUser(UserDTO userDTO) {
-        // Nguyễn Huy Hoàng - 02 - Signup
+        // Nguyễn Huy Hoàng - Signup
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = mapper.map(userDTO, User.class);
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
+        Ward firstWard = wardRepository.findFirst();
+        savedAddress.setWard(firstWard);
+
+        user.setImage("/upload/static/imgs/avatar_default.jpg");
         user.setAddress(savedAddress);
         user.addRole(new Role(2));
         userRepository.save(user);
@@ -126,8 +131,12 @@ public class UserService implements IUserService {
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
 
+        Address address = mapper.map(userDTO.getAddress(), Address.class);
+        Ward ward = wardRepository.findById(wardId).orElse(null);
+        address.setWard(ward);
+
         // migrate info to the user
-        currentUser.setAddress(Utility.mapAddressDTO(userDTO.getAddress(), wardId));
+        currentUser.setAddress(address);
         currentUser.setFirstName(userDTO.getFirstName());
         currentUser.setLastName(userDTO.getLastName());
         currentUser.setBio(userDTO.getBio());
@@ -138,7 +147,7 @@ public class UserService implements IUserService {
         currentUser.setPrice(userDTO.getPrice());
 
         userRepository.save(currentUser);
-        User userSaved = userRepository.findById(userDTO.getId()).orElse(null);
+        User userSaved = userRepository.findById(userDTO.getId()).orElse(new User());
         return Utility.mapUser(userSaved);
     }
 
@@ -182,7 +191,11 @@ public class UserService implements IUserService {
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Role role = roleRepository.findByName("ROLE_MENTEE");
-        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(role);
+//        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
+        Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
+        Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
