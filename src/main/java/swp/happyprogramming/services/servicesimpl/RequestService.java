@@ -102,11 +102,7 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public Integer findStatusRequest(long mentorId, long menteeId){
-        Request request = requestRepository.findRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(null);
-        if(request == null){
-            return -1;
-        }
-        return request.getStatus();
+    public Request findStatusRequest(long mentorId, long menteeId){
+        return requestRepository.findRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(null);
     }
 }

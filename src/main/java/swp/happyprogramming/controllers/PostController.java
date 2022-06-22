@@ -6,6 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import swp.happyprogramming.model.Post;
 import swp.happyprogramming.services.IPostService;
+import swp.happyprogramming.vo.PostVo;
+
+import swp.happyprogramming.dto.PostDTO;
+import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Method;
 
 import java.util.ArrayList;
 
@@ -15,10 +20,5 @@ public class PostController {
     @Autowired
     private IPostService postService;
 
-    @GetMapping("/posts")
-    public String getPosts(Model model) {
-        ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
-        model.addAttribute("posts", posts);
-        return "/admin/all-posts";
-    }
+    
 }
