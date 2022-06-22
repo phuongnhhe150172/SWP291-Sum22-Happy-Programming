@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create skill - Happy Programming</title>
+    <title>All post - Happy Programming</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-white flex">
@@ -14,13 +14,13 @@
 <!--End-Left-sidebar-->
 <div class="bg-gray-900 grow flex min-h-[100vh]">
     <div class="flex grow flex-col justify-center items-center">
-        <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
+        <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 min-w-[60vw]">
             <div class="flex items-center justify-between m-2">
                 <div class="flex items-center">
                     <div class="m-2">
-                        <!-- <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                             th:src="@{${session.userInformation.image}}"
-                             alt="Bordered avatar"> -->
+                        <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                            th:src="@{/imgs/avatar1.jpg}"
+                            >
                     </div>
 
                     <div class="flex flex-col items-left m-2">
@@ -32,7 +32,6 @@
                                 <option value="1">Completed</option>
                                 <option value="2">OnGoing</option>
                                 <option value="0">Canceled</option>
-
                             </select>
                         </div>
 
@@ -47,7 +46,7 @@
             <div class="">
                 <div class="">
                     <div class="relative z-0 w-full mb-6 group">
-                        <p class="text-sm text-gray-500 mx-1 font-semibold"
+                        <p class="text-sm text-gray-500 mx-1 font-semibold mt-5" 
                         th:text="${post.price}">1000</p>
                         <label for="price"
                                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform
