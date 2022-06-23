@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.PostDTO;
-import swp.happyprogramming.dto.RequestDTO;
-import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
@@ -32,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private IPostService postService;
+
+    @Autowired
+    private IConnectService connectService;
 
 
     @GetMapping("/dashboard")
@@ -139,7 +139,7 @@ public class AdminController {
         model.addAttribute("requests",requests.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", requests.getPageNumbers().size());
-        return "requests/all-requests";
+        return "admin/all-requests";
     }
 
     @GetMapping("/posts")
@@ -154,4 +154,12 @@ public class AdminController {
         model.addAttribute("totalPages",page.getPageNumbers().size());
         return "/admin/all-posts";
     }
+
+    @GetMapping("/connections")
+    public String viewAllConn(Model model){
+        List<ConnectDTO> connectDTOS = connectService.findAllConnections();
+        model.addAttribute("connections", connectDTOS);
+        return "admin/all-connections";
+    }
+
 }

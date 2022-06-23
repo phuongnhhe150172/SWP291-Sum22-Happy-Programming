@@ -30,7 +30,7 @@ public class UserDTO {
     private String school;
     private Double price;
     private String image;
-    private int status;
+    private Integer status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

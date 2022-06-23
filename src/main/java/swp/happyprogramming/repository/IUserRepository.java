@@ -35,4 +35,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     ArrayList<User> findRequestsByEmail(String email);
 
     User findByResetPasswordToken(String token);
+
+    Page<User> findUsersByRoles(Pageable pageable, Role role);
 }
