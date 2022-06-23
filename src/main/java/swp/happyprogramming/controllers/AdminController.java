@@ -156,9 +156,11 @@ public class AdminController {
     }
 
     @GetMapping("/connections")
-    public String viewAllConn(Model model){
-        List<ConnectDTO> connectDTOS = connectService.findAllConnections();
-        model.addAttribute("connections", connectDTOS);
+    public String viewAllConn(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+        Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
+        model.addAttribute("connections",connects.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", connects.getPageNumbers().size());
         return "admin/all-connections";
     }
 
