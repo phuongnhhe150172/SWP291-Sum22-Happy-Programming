@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Happy Programming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+<div class="" th:replace="components/nav.html :: aside"></div>
+<div id="message" class="grow flex flex-col mx-64 min-h-[100vh]"></div>
+<aside class="w-64 p-4 fixed top-0 right-0 border-l-2 border-gray-700 h-[100vh]">
+    <div th:each="connection, state: ${connections}">
+        <div class="connection_button | flex items-center px-4 py-2 gap-3 hover:bg-gray-700 rounded-md">
+            <input type="hidden" name="" th:value="${connection.id}">
+            <img th:src="${connection.image}" class="w-10 h-10 rounded-full" alt=""/>
+            <div class="">
+                <p class="font-medium" th:text="${connection.name}">Anna Amelius</p>
+            </div>
+        </div>
+    </div>
+</aside>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script type="text/javascript">
+    $('.connection_button').on('change', function () {
+        $.ajax({
+            url: "/window",
+            method: "GET",
+            // data: {
+            //     id: this.first().value,
+            // },
+            success: function (data) {
+                $("#message").html(data);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/window",
+            method: "GET",
+            success: function (data) {
+                $("#message").html(data);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+</body>
+</html>
