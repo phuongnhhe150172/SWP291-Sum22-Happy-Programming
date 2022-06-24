@@ -15,7 +15,7 @@
 <body>
 <select id="district" th:name="districtId"
         class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-    <option th:value="-1"> -- Choose district --</option>
+    <option disabled th:value="-1"> -- Choose district --</option>
     <option th:each="district,state : ${listDistrict}" th:value="${district.id}" th:utext="${district.name}"
             th:selected="${dis == district.id}"></option>
 </select>
