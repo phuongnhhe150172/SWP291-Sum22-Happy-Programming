@@ -90,7 +90,7 @@ public class UserService implements IUserService {
 
     @Override
     public int countUsersByRolesLike(String role) {
-        return userRepository.countUsersByRolesLike("ROLE_MENTOR");
+        return userRepository.countUsersByRolesLike(role);
     }
 
     @Override
