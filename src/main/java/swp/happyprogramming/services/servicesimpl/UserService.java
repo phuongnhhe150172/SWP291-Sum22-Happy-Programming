@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -120,11 +119,14 @@ public class UserService implements IUserService {
         return userRepository.findByEmail(email);
     }
 
-    @Override
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) return null;
         return Utility.mapUser(user);
+    }
+
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -198,15 +200,15 @@ public class UserService implements IUserService {
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = new ArrayList<>();
-        for (User mentee: mentees){
+        for (User mentee : mentees) {
             boolean check = true;
-            for (Role role1 : mentee.getRoles()){
-                if (role1.getName().equals("ROLE_ADMIN")){
+            for (Role role1 : mentee.getRoles()) {
+                if (role1.getName().equals("ROLE_ADMIN")) {
                     check = false;
                     break;
                 }
             }
-            if (check == true){
+            if (check == true) {
                 UserDTO userDTO = findUser(mentee.getId());
                 menteesDTO.add(userDTO);
             }

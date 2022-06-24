@@ -20,13 +20,15 @@ public interface IUserService extends UserDetailsService {
 
     int countUsersByRolesLike(String role);
 
-    int statusRequest(long mentorId,long menteeId);
+    int statusRequest(long mentorId, long menteeId);
 
     List<ConnectionDTO> getConnectionsByEmail(String email);
 
     User findByEmail(String email);
 
     UserDTO findUser(long id);
+
+    User getUserById(long id);
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
