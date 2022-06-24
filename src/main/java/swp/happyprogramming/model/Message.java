@@ -1,5 +1,6 @@
 package swp.happyprogramming.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.time.Instant;
 @Table(name = "chat_messages")
 @Getter
 @Setter
-
+@AllArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +23,16 @@ public class Message {
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "conn_id")
-    private Connect conn;
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
 
     @JoinColumn(name = "chat_content")
     private String content;
 
     @Column(name = "timestamp")
     private Instant timestamp;
+
+    public Message() {
+
+    }
 }
