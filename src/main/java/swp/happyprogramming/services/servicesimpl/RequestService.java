@@ -105,4 +105,9 @@ public class RequestService implements IRequestService {
     public Request findStatusRequest(long mentorId, long menteeId){
         return requestRepository.findRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(null);
     }
+
+    @Override
+    public void insertRequeset(long fromId, long toId){
+        requestRepository.insertByMentorIdAndMenteeId(fromId, toId);
+    }
 }

@@ -200,7 +200,7 @@ public class UserManagementController {
 
             mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
 
-            return "redirect:../cv?id=" + mentor.getId();
+            return "redirect:../cv";
         } catch (NumberFormatException e) {
             return INDEX_PAGE;
         }

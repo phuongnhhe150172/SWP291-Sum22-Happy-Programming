@@ -15,4 +15,5 @@ public interface IRequestService {
     void deleteRequest(long requestId);
     RequestDTO getRequestById(long requestId);
     Request findStatusRequest(long mentorId, long menteeId);
+    void insertRequeset(long fromId, long toId);
 }

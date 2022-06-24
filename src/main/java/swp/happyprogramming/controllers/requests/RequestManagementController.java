@@ -72,4 +72,17 @@ public class RequestManagementController {
 
         return "redirect:/request/sent";
     }
+
+    @GetMapping("/sent")
+    public String sentRequest(@RequestParam(value = "from") String fromId,@RequestParam(value = "to") String toId){
+        try {
+            long mentorId = Integer.parseInt(fromId);
+            long menteeId = Integer.parseInt(toId);
+            requestService.insertRequeset(mentorId, menteeId);
+            return "redirect:cv?id=" + toId;
+        }catch (NumberFormatException e){
+            return "redirect:index";
+        }
+
+    }
 }
