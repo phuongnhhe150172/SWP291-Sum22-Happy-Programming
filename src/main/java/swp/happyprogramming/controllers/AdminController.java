@@ -111,7 +111,7 @@ public class AdminController {
         skill.setName(skillName);
         System.out.println(skillName);
         skillService.save(skill);
-        return "redirect:admin/skills";
+        return "redirect:/admin/skills";
     }
 
     @GetMapping("/update-skill")
