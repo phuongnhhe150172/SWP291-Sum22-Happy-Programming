@@ -21,7 +21,7 @@
                 <th class="px-6 py-4"> Skill</th>
                 <th class="px-6 py-4"> Budget</th>
                 <th class="px-6 py-4"> Status</th>
-                <th class="px-6 py-4"> </th>
+                <th class="px-6 py-4"></th>
             </tr>
             </thead>
             <tbody>
@@ -35,10 +35,29 @@
                 <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox"
                                                                             onclick="return false;"></input></td>
                 <td class="px-4 py-4">
-                    <a th:href="@{/request/delete(requestId=${request.id})}" class="text-red-500 hover:underline">
+                    <button th:onclick="'javascript:confirmDelete(\'' + ${request.id} + '\');'" class="px-4 py-3 bg-red-600 text-gray-100 rounded shadow delete-btn">
                         Delete
-                    </a>
+                    </button>
                 </td>
+                <div class="bg-black bg-opacity-50 absolute inset-0 hidden justify-center items-center" id="overlay">
+                    <div class="bg-gray-200 max-w-sm py-2 px-3 rounded shadow-xl text-gray-800">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-lg font-bold">Confirm Delete?</h4>
+                            <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-2 text-sm">
+                            <p>You sure want to delete this request</p>
+                        </div>
+                        <div class="mt-3 flex justify-end space-x-3">
+                            <button id="cancelBtn" class="px-3 py-1 rounded hover:bg-red-300 hover:bg-opacity-50 hover:text-red-900">Cancel</button>
+                            <button id="confirmDelBtn" class="px-3 py-1 bg-red-800 text-gray-200 hover:bg-red-600 rounded">Delete</button>
+                        </div>
+                    </div>
+                </div>
             </tr>
             </tbody>
         </table>
@@ -46,28 +65,69 @@
     <nav aria-label="Page navigation example" class="mt-6 mr-4 flex justify-end">
         <ul class="inline-flex -space-x-px">
             <li>
-                <a th:href="@{/request/sent(pageNumber=1)}" class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">First</a>
+                <a th:href="@{/request/sent(pageNumber=1)}"
+                   class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">First</a>
             </li>
             <li>
-                <a th:if="${pageNumber - 2 > 1}" th:href="@{/request/sent(pageNumber=${pageNumber - 2})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber -2}">1</a>
+                <a th:if="${pageNumber - 2 > 1}" th:href="@{/request/sent(pageNumber=${pageNumber - 2})}"
+                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                   th:text="${pageNumber -2}">1</a>
             </li>
             <li>
-                <a th:if="${pageNumber - 1 > 1}" th:href="@{/request/sent(pageNumber=${pageNumber - 1})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber - 1}">2</a>
+                <a th:if="${pageNumber - 1 > 1}" th:href="@{/request/sent(pageNumber=${pageNumber - 1})}"
+                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                   th:text="${pageNumber - 1}">2</a>
             </li>
             <li>
-                <a href="#" aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white" th:text="${pageNumber}">3</a>
+                <a href="#" aria-current="page"
+                   class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                   th:text="${pageNumber}">3</a>
             </li>
             <li>
-                <a th:if="${pageNumber + 1 < totalPages}" th:href="@{/request/sent(pageNumber=${pageNumber + 1})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber + 1}">4</a>
+                <a th:if="${pageNumber + 1 < totalPages}" th:href="@{/request/sent(pageNumber=${pageNumber + 1})}"
+                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                   th:text="${pageNumber + 1}">4</a>
             </li>
             <li>
-                <a th:if="${pageNumber + 2 < totalPages}" th:href="@{/request/sent(pageNumber=${pageNumber + 2})}" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" th:text="${pageNumber + 2}">5</a>
+                <a th:if="${pageNumber + 2 < totalPages}" th:href="@{/request/sent(pageNumber=${pageNumber + 2})}"
+                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                   th:text="${pageNumber + 2}">5</a>
             </li>
             <li>
-                <a th:href="@{/request/sent(pageNumber=${totalPages})}" class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Last</a>
+                <a th:href="@{/request/sent(pageNumber=${totalPages})}"
+                   class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Last</a>
             </li>
         </ul>
     </nav>
 </div>
+
+
+<script>
+    const overlay = document.querySelector('#overlay')
+    let delBtn = document.querySelectorAll('.delete-btn')
+    const closeBtn = document.querySelector('#close-modal')
+    const cancelBtn = document.querySelector('#cancelBtn')
+    var toggleModal
+    for (var i = 0; i < delBtn.length; i++) {
+        toggleModal = () => {
+            overlay.classList.toggle('hidden')
+            overlay.classList.toggle('flex')
+        }
+        delBtn[i].addEventListener('click', toggleModal)
+    }
+
+    closeBtn.addEventListener('click', toggleModal)
+    cancelBtn.addEventListener('click', toggleModal)
+
+    function confirmDelete(id) {
+        const confirmDelBtn = document.querySelector('#confirmDelBtn')
+        const deleteRequest = () => {
+            window.location = "/request/delete?id="+id;
+        }
+
+        confirmDelBtn.addEventListener('click', deleteRequest)
+    }
+
+</script>
 </body>
 </html>
