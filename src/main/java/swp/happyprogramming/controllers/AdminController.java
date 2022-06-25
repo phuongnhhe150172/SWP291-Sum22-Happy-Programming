@@ -164,4 +164,16 @@ public class AdminController {
         return "admin/all-connections";
     }
 
+    @GetMapping("/enable")
+    public String enableUser(@RequestParam(value = "id",required = false) int id){
+        userService.enableUser(id);
+        return "redirect:mentors";
+    }
+
+    @GetMapping("/disable")
+    public String disableUser(@RequestParam(value = "id",required = false) int id){
+        userService.disableUser(id);
+        return "redirect:mentors";
+    }
+
 }
