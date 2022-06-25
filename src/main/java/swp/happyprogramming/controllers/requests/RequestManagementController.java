@@ -59,7 +59,7 @@ public class RequestManagementController {
         return "requests/request_sent";
     }
 
-    @GetMapping("/request/delete")
+    @GetMapping("/request/sent/delete")
     public String deleteRequest(@RequestParam(required = true, value = "id") long requestId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
