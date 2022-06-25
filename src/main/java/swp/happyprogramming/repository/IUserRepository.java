@@ -5,11 +5,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,4 +39,14 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     User findByResetPasswordToken(String token);
 
     Page<User> findUsersByRoles(Pageable pageable, Role role);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update users set status = 1 where id = ?1",nativeQuery = true)
+    void enableUser(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update users set status = 0 where id = ?1",nativeQuery = true)
+    void disableUser(long id);
 }

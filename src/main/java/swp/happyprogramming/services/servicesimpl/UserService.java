@@ -237,4 +237,14 @@ public class UserService implements IUserService {
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
+
+    @Override
+    public void enableUser(long id){
+        userRepository.enableUser(id);
+    }
+
+    @Override
+    public void disableUser(long id){
+        userRepository.disableUser(id);
+    }
 }
