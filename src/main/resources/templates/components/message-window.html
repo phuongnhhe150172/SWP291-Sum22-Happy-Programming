@@ -1,18 +1,21 @@
-<nav class="h-20 border-b-2 border-gray-700 flex items-center" th:fragment="window">
+<nav class="px-4 py-2 border-b-2 border-gray-700 flex items-center" th:fragment="window">
     <a href="#" class="flex items-center px-4 py-2 gap-3 rounded-md">
         <img th:src="${connection.image}" class="w-10 h-10 rounded-full" alt=""/>
         <p href="" class="font-medium" th:text="${connection.name}">Anna Amelius</p>
     </a>
 </nav>
-<div class="grow" id="messages">
-    <div class="flex flex-col justify-end" th:each="message: ${messages}">
+<div class="grow overflow-auto" id="messages">
+    <div class="message | flex flex-col justify-end" th:each="message: ${messages}">
         <div class="p-4 flex"
              th:classappend="${message.sender.id == session.userInformation.getId()} ? 'flex-row-reverse' : 'flex-row'">
-            <div class='p-2 rounded-lg bg-blue-600' th:text="${message.content}">
+            <div class='p-2 rounded-xl'
+                 th:classappend="${message.sender.id == session.userInformation.getId()} ? 'bg-blue-600' : 'bg-gray-700'"
+                 th:text="${message.content}">
                 ${content}
             </div>
         </div>
     </div>
+    <div id="dummy"></div>
 </div>
 <div class="">
     <form>
@@ -20,7 +23,7 @@
         <input type="hidden" id="receiver_id" th:value="${connection.id}">
         <div class="flex items-center py-2 px-3 border-t border-gray-700">
             <button type="button"
-                    class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                    class="inline-flex justify-center p-2 rounded-lg cursor-pointer text-gray-400 hover:text-white hover:bg-gray-700">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                           d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
@@ -53,12 +56,22 @@
         ws.onmessage = function (data) {
             showNewMessages(data.data);
         }
+        setTimeout(() => {
+            ws.send(JSON.stringify({
+                senderId: $("#sender_id").val(),
+                receiverId: $("#receiver_id").val(),
+                content: ""
+            }));
+        }, 100);
+        // scroll to bottom
+        $("#dummy")[0].scrollIntoView();
     });
 
     function createMessage(content, fromSelf) {
         let div = document.createElement('div');
         let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
-        div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-lg bg-blue-600'>${content}</div></div>`;
+        let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
+        div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-xl ${bg}'>${content}</div></div>`;
         return div.firstChild;
     }
 
@@ -74,6 +87,7 @@
                 url: 'http://localhost:8080/sendMessage',
                 method: 'GET',
                 data: {
+                    senderId: $("#sender_id").val(),
                     receiverId: $("#receiver_id").val(),
                     content: $("#content").val()
                 },
@@ -83,6 +97,8 @@
     }
 
     function showNewMessages(message) {
-        $("#messages").append(createMessage(message, false));
+        if (message === "") return;
+        //insert before dummy
+        $("#messages .message:last").before(createMessage(message, false));
     }
 </script>
