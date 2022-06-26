@@ -7,13 +7,7 @@ import lombok.Data;
 public class RequestDTO {
     private long id;
 
-    private String mentorName;
+    private UserDTO mentor;
 
-    private String menteeName;
-
-    private int status;
-
-    private String skillName;
-
-    private long budget;
+    private UserDTO mentee;
 }

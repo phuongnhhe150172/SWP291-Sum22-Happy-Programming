@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Request;
+import swp.happyprogramming.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.Optional;
 @Repository
 public interface IRequestRepository extends JpaRepository<Request, Long> {
     Page<Request> findRequestByMenteeId(Pageable pageable, long menteeId);
-    List<Request> findRequestByMenteeId(long menteeId);
+    List<Request> findRequestByMenteeId(long id);
+
 
     Optional<Request> findRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
 

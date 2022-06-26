@@ -13,55 +13,44 @@
 <div class="ml-64 p-6 grow gap-4">
     <h1 class="text-3xl my-4 font-semibold">Requests sent</h1>
     <div class="relative overflow-x-auto sm:rounded-lg">
-        <table class="w-full text-left text-gray-400">
-            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-            <tr>
-                <th class="px-6 py-4"> No.</th>
-                <th class="px-6 py-4"> Mentor</th>
-                <th class="px-6 py-4"> Skill</th>
-                <th class="px-6 py-4"> Budget</th>
-                <th class="px-6 py-4"> Status</th>
-                <th class="px-6 py-4"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="border-b bg-gray-800 border-gray-700" th:each="request: ${requests}">
-                <td class="px-6 py-4" th:utext="${requestStat.index + 1}"></td>
-                <td class="px-6 py-4" th:utext="${request.mentorName}"></td>
-                <td class="px-6 py-4" th:utext="${request.skillName}"></td>
-                <td class="px-6 py-4" th:utext="${request.budget}"></td>
-                <td class="px-6 py-4" th:if="${request.status == 1}"><input type="checkbox" onclick="return false;"
-                                                                            checked></input></td>
-                <td class="px-6 py-4" th:if="${request.status == 0}"><input type="checkbox"
-                                                                            onclick="return false;"></input></td>
-                <td class="px-4 py-4">
+        <div class="space-y-4 xl:mr-40" th:each="request: ${requests}">
+            <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800 mb-5"
+                 th:object="${request}">
+                <a th:href="@{/cv(id=${request.mentor.id})}" class="flex items-center gap-4">
+                    <img th:src="${request.mentor.image}" alt="" class="w-10 h-10 rounded-full">
+                    <p th:text="*{mentor.firstName + ' ' + mentor.lastName}" class="font-medium">Anna Amelius</p>
+                </a>
+                <div class="flex items-center gap-4">
                     <button th:onclick="'javascript:confirmDelete(\'' + ${request.id} + '\');'" class="px-4 py-3 bg-red-600 text-gray-100 rounded shadow delete-btn">
                         Delete
                     </button>
-                </td>
-                <div class="bg-black bg-opacity-50 absolute inset-0 hidden justify-center items-center" id="overlay">
-                    <div class="bg-gray-200 max-w-sm py-2 px-3 rounded shadow-xl text-gray-800">
-                        <div class="flex justify-between items-center">
-                            <h4 class="text-lg font-bold">Confirm Delete?</h4>
-                            <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="mt-2 text-sm">
-                            <p>You sure want to delete this request</p>
-                        </div>
-                        <div class="mt-3 flex justify-end space-x-3">
-                            <button id="cancelBtn" class="px-3 py-1 rounded hover:bg-red-300 hover:bg-opacity-50 hover:text-red-900">Cancel</button>
-                            <button id="confirmDelBtn" class="px-3 py-1 bg-red-800 text-gray-200 hover:bg-red-600 rounded">Delete</button>
-                        </div>
-                    </div>
                 </div>
-            </tr>
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
+<!--    <div class="relative overflow-x-auto sm:rounded-lg">-->
+<!--        <table class="w-full text-left text-gray-400">-->
+<!--            <thead class="text-xs uppercase bg-gray-700 text-gray-400">-->
+<!--            <tr>-->
+<!--                <th class="px-6 py-4"> No.</th>-->
+<!--                <th class="px-6 py-4"> Mentor</th>-->
+<!--                <th class="px-6 py-4"></th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr class="border-b bg-gray-800 border-gray-700" th:each="request: ${requests}">-->
+<!--                <td class="px-6 py-4" th:utext="${requestStat.index + 1}"></td>-->
+<!--                <td class="px-6 py-4" th:utext="${request.mentor.lastName}"></td>-->
+<!--                <td class="px-4 py-4">-->
+<!--                    <button th:onclick="'javascript:confirmDelete(\'' + ${request.id} + '\');'" class="px-4 py-3 bg-red-600 text-gray-100 rounded shadow delete-btn">-->
+<!--                        Delete-->
+<!--                    </button>-->
+<!--                </td>-->
+<!--                -->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
     <nav aria-label="Page navigation example" class="mt-6 mr-4 flex justify-end">
         <ul class="inline-flex -space-x-px">
             <li>
@@ -99,6 +88,26 @@
             </li>
         </ul>
     </nav>
+<div class="bg-black bg-opacity-50 absolute inset-0 hidden justify-center items-center" id="overlay">
+    <div class="bg-gray-200 max-w-sm py-2 px-3 rounded shadow-xl text-gray-800">
+        <div class="flex justify-between items-center">
+            <h4 class="text-lg font-bold">Confirm Delete?</h4>
+            <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <div class="mt-2 text-sm">
+            <p>You sure want to delete this request</p>
+        </div>
+        <div class="mt-3 flex justify-end space-x-3">
+            <button id="cancelBtn" class="px-3 py-1 rounded hover:bg-red-300 hover:bg-opacity-50 hover:text-red-900">Cancel</button>
+            <button id="confirmDelBtn" class="px-3 py-1 bg-red-800 text-gray-200 hover:bg-red-600 rounded">Delete</button>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 
 
@@ -122,7 +131,7 @@
     function confirmDelete(id) {
         const confirmDelBtn = document.querySelector('#confirmDelBtn')
         const deleteRequest = () => {
-            window.location = "/request/delete?id="+id;
+            window.location = "/request/sent/delete?id="+id;
         }
 
         confirmDelBtn.addEventListener('click', deleteRequest)

@@ -102,4 +102,10 @@ public class User {
 
     @OneToMany(mappedBy = "user2",cascade = CascadeType.ALL)
     private Collection<Connect> connects2;
+
+    @OneToMany(mappedBy = "mentor",cascade = CascadeType.ALL)
+    private Collection<Request> requestReceived;
+
+    @OneToMany(mappedBy = "mentee",cascade = CascadeType.ALL)
+    private Collection<Request> requestSent;
 }
