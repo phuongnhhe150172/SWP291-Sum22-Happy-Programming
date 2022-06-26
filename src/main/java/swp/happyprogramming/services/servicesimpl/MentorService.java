@@ -147,6 +147,26 @@ public class MentorService implements IMentorService {
         return mapSkill;
     }
 
+    @Override
+    public void createCv(long userId, List<String> experienceValue, List<String> skillValue){
+        User user = userRepository.findById(userId).orElse(null);
+        Mentor mentor = new Mentor();
+        mentor.setUser(user);
+
+        mentorRepository.save(mentor);
+
+        userRepository.convertToMentor(userId);
+
+        Mentor mentorLast = mentorRepository.findMentorLast();
+        if(experienceValue != null){
+            saveExperienceAndMentorExperience(mentorLast,experienceValue);
+        }
+
+        if(skillValue != null){
+            saveUserSkills(mentorLast.getId(),skillValue);
+        }
+    }
+
     private void saveUserSkills(long profileId, List<String> skillValue) {
         skillValue
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));

@@ -20,4 +20,6 @@ public interface IMentorService {
     Pagination<MentorDTO> getMentors(int pageNumber);
 
     List<MentorDTO> getTopMentors();
+
+    void createCv(long userId, List<String> experienceValue, List<String> skillValue);
 }
