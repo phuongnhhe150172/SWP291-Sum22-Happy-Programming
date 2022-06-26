@@ -28,7 +28,9 @@ public class SocketHandler extends TextWebSocketHandler {
         String senderId = (String) value.get("senderId");
         String receiverId = (String) value.get("receiverId");
         String content = (String) value.get("content");
-        users.put(senderId, session.getId());
+        if (senderId != null) {
+            users.put(senderId, session.getId());
+        }
 
         sessions.stream().filter(s -> s.getId().equals(users.get(receiverId))).forEach(s -> {
             try {
