@@ -18,4 +18,6 @@ public interface IMentorService {
     List<MentorDTO> searchMentors(Map<String, Object> params);
 
     Pagination<MentorDTO> getMentors(int pageNumber);
+
+    List<MentorDTO> getTopMentors();
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.AddressDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
@@ -92,6 +93,15 @@ public class MentorService implements IMentorService {
         return new Pagination<>(mentorDTOS, pageNumbers);
     }
 
+    @Override
+    public List<MentorDTO> getTopMentors() {
+        List<Mentor> mentors = mentorRepository.getTopMentors();
+        return mentors
+                .stream()
+                .map(mentor -> findMentor(mentor.getUser().getId()))
+                .collect(Collectors.toList());
+    }
+
     //    UPDATE SECTION
     public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
@@ -161,7 +171,6 @@ public class MentorService implements IMentorService {
         Address address = mapper.map(mentorDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(new Ward());
         address.setWard(ward);
-        // Address address = Utility.mapAddressDTO(mentorDTO.getAddress(),wardId);
         address.setName(mentorDTO.getAddress().getName());
         addressRepository.save(address);
     }
