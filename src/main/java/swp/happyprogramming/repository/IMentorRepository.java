@@ -37,4 +37,7 @@ public interface IMentorRepository extends JpaRepository<Mentor, Long> {
     @Transactional
     @Query(value = "delete from user_skills where mentor_id = ?1 and skill_id = ?2", nativeQuery = true)
     void deleteByUserIdAndSkillId(long userId, long skillId);
+
+    @Query(value = "select * from mentor order by id desc limit 1", nativeQuery = true)
+    Mentor findMentorLast();
 }
