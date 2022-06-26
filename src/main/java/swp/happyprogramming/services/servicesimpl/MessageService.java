@@ -6,6 +6,7 @@ import swp.happyprogramming.model.Message;
 import swp.happyprogramming.repository.IMessageRepository;
 import swp.happyprogramming.services.IMessageService;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -19,6 +20,7 @@ public class MessageService implements IMessageService {
         List<Message> messages1 = messageRepository.getMessages(id, recId);
         List<Message> messages2 = messageRepository.getMessages(recId, id);
         messages1.addAll(messages2);
+        messages1.sort(Comparator.comparing(Message::getTimestamp));
         return messages1;
     }
 

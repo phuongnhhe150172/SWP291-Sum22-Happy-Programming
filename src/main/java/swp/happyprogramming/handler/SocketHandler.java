@@ -30,6 +30,7 @@ public class SocketHandler extends TextWebSocketHandler {
         sessions.put(session, senderId);
         for (Map.Entry<WebSocketSession, String> s : sessions.entrySet()) {
             if (s.getValue().equals(receiverId)) {
+                System.out.println(receiverId);
                 s.getKey().sendMessage(new TextMessage(content));
             }
         }

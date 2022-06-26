@@ -59,10 +59,9 @@ public class MessageController {
 
     @GetMapping("/sendMessage")
     public void sendMessage(@RequestParam(value = "content", required = false) String content,
+                            @RequestParam(value = "senderId", required = false) String senderId,
                             @RequestParam(value = "receiverId", required = false) String receiverId) {
-        Object sessionUser = session.getAttribute("userInformation");
-        UserDTO userDTO = (UserDTO) sessionUser;
-        User user = userService.getUserById(userDTO.getId());
+        User user = userService.getUserById(Long.parseLong(senderId));
         Message message = new Message();
         message.setContent(content);
         message.setSender(user);
