@@ -10,7 +10,7 @@
              th:classappend="${message.sender.id == session.userInformation.getId()} ? 'flex-row-reverse' : 'flex-row'">
             <div class='p-2 rounded-xl'
                  th:classappend="${message.sender.id == session.userInformation.getId()} ? 'bg-blue-600' : 'bg-gray-700'"
-                 th:utext="${message.content}">
+                 th:text="${message.content}">
                 ${content}
             </div>
         </div>
@@ -19,19 +19,19 @@
 </div>
 <div>
     <div class="flex items-center py-2 px-3 border-t border-gray-700">
-        <form th:action="@{/addImage}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="senderId" id="sender_id" th:value="${session.userInformation.getId()}">
-            <input type="hidden" name="receiverId" id="receiver_id" th:value="${connection.id}">
-            <input type="file" id="image" name="image" class="hidden">
-            <label for="image"
-                   class="inline-flex justify-center p-1 rounded-full cursor-pointer text-gray-400 hover:text-white hover:bg-gray-700">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                          clip-rule="evenodd"></path>
-                </svg>
-            </label>
-        </form>
+        <input type="hidden" name="senderId" id="sender_id" th:value="${session.userInformation.getId()}">
+        <input type="hidden" name="receiverId" id="receiver_id" th:value="${connection.id}">
+        <!--        <form th:action="@{/addImage}" method="POST" enctype="multipart/form-data">-->
+        <!--            <input type="file" id="image" name="image" class="hidden">-->
+        <!--            <label for="image"-->
+        <!--                   class="inline-flex justify-center p-1 rounded-full cursor-pointer text-gray-400 hover:text-white hover:bg-gray-700">-->
+        <!--                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
+        <!--                    <path fill-rule="evenodd"-->
+        <!--                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"-->
+        <!--                          clip-rule="evenodd"></path>-->
+        <!--                </svg>-->
+        <!--            </label>-->
+        <!--        </form>-->
 
         <textarea id="content" rows="1"
                   class="resize-none block mx-4 p-2.5 w-full text-sm rounded-lg bg-gray-800 border-gray-600 placeholder-gray-400 focus:outline-none"
@@ -46,11 +46,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    var ws;
+    let ws;
 
-    $("form").submit(function (e) {
-        e.preventDefault();
-    });
+    $("form").submit(e => e.preventDefault());
 
     $(document).ready(function () {
         ws = new WebSocket('ws://localhost:8080/chatSocket');
@@ -69,34 +67,24 @@
         $("#dummy")[0].scrollIntoView();
     });
 
-    $("#image").on("change", async function () {
-        let file = this.files[0];
-        let formData = new FormData();
-        formData.append("image", file);
-        formData.append("senderId", $("#sender_id").val());
-        formData.append("receiverId", $("#receiver_id").val());
-        await fetch("http://localhost:8080/addImage", {
-            method: "GET",
-            body: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        });
+    $("#content").on("keyup", function (e) {
+        // if enter key is pressed
+        if (e.keyCode === 13) {
+            send();
+        }
     });
 
     function createMessage(content, fromSelf) {
         let div = document.createElement('div');
         let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
         let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-        div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-xl ${bg}'></div></div>`;
-        div.firstChild.firstChild.innerHTML = content;
+        div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-xl ${bg}'>${content}</div></div>`;
         return div.firstChild;
     }
 
     function send() {
         $("#dummy").before(createMessage($("#content").val(), true));
         ws.send(JSON.stringify({
-            senderId: $("#sender_id").val(),
             receiverId: $("#receiver_id").val(),
             content: $("#content").val()
         }));
@@ -105,12 +93,12 @@
                 url: 'http://localhost:8080/sendMessage',
                 method: 'GET',
                 data: {
-                    senderId: $("#sender_id").val(),
                     receiverId: $("#receiver_id").val(),
                     content: $("#content").val()
                 },
             }
         )
+        $("#dummy")[0].scrollIntoView();
         $("#content").val("");
     }
 
