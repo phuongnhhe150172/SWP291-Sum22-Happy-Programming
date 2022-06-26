@@ -12,32 +12,37 @@ import swp.happyprogramming.services.IUserService;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class SocketHandler extends TextWebSocketHandler {
 
-    Map<WebSocketSession, String> sessions = new HashMap<>();
+    ArrayList<WebSocketSession> sessions = new ArrayList<>();
+    Map<String, String> users = new HashMap<>();
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message)
-            throws InterruptedException, IOException {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
         Map value = new Gson().fromJson(message.getPayload(), Map.class);
         String senderId = (String) value.get("senderId");
         String receiverId = (String) value.get("receiverId");
         String content = (String) value.get("content");
-        sessions.put(session, senderId);
-        for (Map.Entry<WebSocketSession, String> s : sessions.entrySet()) {
-            if (s.getValue().equals(receiverId)) {
-                System.out.println(receiverId);
-                s.getKey().sendMessage(new TextMessage(content));
-            }
+        if (senderId != null) {
+            users.put(senderId, session.getId());
         }
+
+        sessions.stream().filter(s -> s.getId().equals(users.get(receiverId))).forEach(s -> {
+            try {
+                s.sendMessage(new TextMessage(content));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.put(session, session.getId());
+        sessions.add(session);
     }
 }

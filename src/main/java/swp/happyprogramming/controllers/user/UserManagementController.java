@@ -72,10 +72,10 @@ public class UserManagementController {
             UserDTO userDTO = (UserDTO) sessionUser;
 
             Integer statusRequest = (requestService.findStatusRequest(userDTO.getId(), user.getId()) != null) ? 1 : 0;
-            Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(),userDTO.getId()) != null ||
-                    connectService.findConnectByUser1AndUser2(userDTO.getId(),user.getId()) != null) ? 1 : 0;
-            model.addAttribute("statusConnect",statusConnect);
-            model.addAttribute("statusRequest",statusRequest);
+            Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), userDTO.getId()) != null ||
+                    connectService.findConnectByUser1AndUser2(userDTO.getId(), user.getId()) != null) ? 1 : 0;
+            model.addAttribute("statusConnect", statusConnect);
+            model.addAttribute("statusRequest", statusRequest);
         } else {
             user = (UserDTO) sessionUser;
         }
@@ -139,10 +139,10 @@ public class UserManagementController {
                 long mentorId = Integer.parseInt(id);
                 mentor = mentorService.findMentor(mentorId);
                 Integer statusRequest = (requestService.findStatusRequest(user.getId(), mentor.getId()) != null) ? 1 : 0;
-                Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(),mentor.getId()) != null ||
-                        connectService.findConnectByUser1AndUser2(mentor.getId(),user.getId()) != null) ? 1 : 0;
-                model.addAttribute("statusConnect",statusConnect);
-                model.addAttribute("statusRequest",statusRequest);
+                Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), mentor.getId()) != null ||
+                        connectService.findConnectByUser1AndUser2(mentor.getId(), user.getId()) != null) ? 1 : 0;
+                model.addAttribute("statusConnect", statusConnect);
+                model.addAttribute("statusRequest", statusRequest);
             } else {
                 mentor = mentorService.findMentor(user.getId());
             }

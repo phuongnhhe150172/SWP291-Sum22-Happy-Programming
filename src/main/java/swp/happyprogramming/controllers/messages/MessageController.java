@@ -1,13 +1,14 @@
-package swp.happyprogramming.controllers;
+package swp.happyprogramming.controllers.messages;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Message;
@@ -16,6 +17,8 @@ import swp.happyprogramming.services.IMessageService;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
 
@@ -45,29 +48,48 @@ public class MessageController {
     @GetMapping("/window")
     public String chatScreen(Model model,
                              @RequestParam(value = "id", required = false) String id) {
-        // long rec_id = Integer.parseInt(id);
+        // Get the connections
         Object sessionUser = session.getAttribute("userInformation");
         UserDTO user = (UserDTO) sessionUser;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
-        List<Message> messages = messageService.getMessagesByUserId(user.getId(), connections.get(0).getId());
-        model.addAttribute("connection", connections.get(0));
+        // Get the desired connection
+        List<Long> ids = connections.stream()
+                .map(ConnectionDTO::getId)
+                .collect(java.util.stream.Collectors.toList());
+        long receiverId;
+        if (id != null && ids.contains(Long.parseLong(id))) {
+            receiverId = Long.parseLong(id);
+        } else {
+            receiverId = ids.get(0);
+        }
+        ConnectionDTO receiver = connections.stream()
+                .filter(connection -> connection.getId() == receiverId)
+                .findFirst()
+                .orElse(connections.get(0));
+        // Add the connection to the model
+        // Get the messages
+        List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
+        model.addAttribute("connection", receiver);
         model.addAttribute("messages", messages);
         return "components/message-window";
     }
 
     @GetMapping("/sendMessage")
+    @ResponseStatus(HttpStatus.OK)
     public void sendMessage(@RequestParam(value = "content", required = false) String content,
-                            @RequestParam(value = "senderId", required = false) String senderId,
                             @RequestParam(value = "receiverId", required = false) String receiverId) {
-        User user = userService.getUserById(Long.parseLong(senderId));
+        Object sessionUser = session.getAttribute("userInformation");
+        UserDTO user = (UserDTO) sessionUser;
+        if (sessionUser == null) return;
+
+        User sender = userService.getUserById(user.getId());
         Message message = new Message();
         message.setContent(content);
-        message.setSender(user);
+        message.setSender(sender);
         message.setReceiver(userService.getUserById(Long.parseLong(receiverId)));
         message.setTimestamp(Instant.now());
-        System.out.println(message.getContent());
         messageService.saveMessage(message);
     }
 }
