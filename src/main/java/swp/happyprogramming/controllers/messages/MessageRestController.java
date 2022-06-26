@@ -26,7 +26,7 @@ public class MessageRestController {
     private HttpSession session;
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/addImage")
+    @PostMapping("/addImage")
     @ResponseBody
     public ResponseEntity addImage(@RequestParam("image") MultipartFile image,
                                    @RequestParam(value = "senderId", required = false) String senderId,

@@ -78,18 +78,18 @@ public class MessageController {
 
     @GetMapping("/sendMessage")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public void sendMessage(@RequestParam(value = "content", required = false) String content,
-                            @RequestParam(value = "senderId", required = false) String senderId,
                             @RequestParam(value = "receiverId", required = false) String receiverId) {
-        User user = userService.getUserById(Long.parseLong(senderId));
+        Object sessionUser = session.getAttribute("userInformation");
+        UserDTO user = (UserDTO) sessionUser;
+        if (sessionUser == null) return;
+
+        User sender = userService.getUserById(user.getId());
         Message message = new Message();
         message.setContent(content);
-        message.setSender(user);
+        message.setSender(sender);
         message.setReceiver(userService.getUserById(Long.parseLong(receiverId)));
         message.setTimestamp(Instant.now());
         messageService.saveMessage(message);
     }
-
-
 }
