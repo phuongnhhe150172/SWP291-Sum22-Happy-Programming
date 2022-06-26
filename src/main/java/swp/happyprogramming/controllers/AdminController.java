@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
@@ -135,7 +136,7 @@ public class AdminController {
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
         // Trinh Trung Kien - 52 - View all requests (admin)
-        Pagination<RequestDTO> requests = requestService.getAllRequest(pageNumber);
+        Pagination<Request> requests = requestService.getAllRequest(pageNumber);
         model.addAttribute("requests",requests.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", requests.getPageNumbers().size());

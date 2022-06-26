@@ -1,30 +1,26 @@
 package swp.happyprogramming.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "request")
-@Data
+@Getter
+@Setter
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "mentor_id")
-    private long mentorId;
+    @ManyToOne
+    @JoinColumn(name = "mentor_id")
+    private User mentor;
 
-    @Column(name = "mentee_id")
-    private long menteeId;
-
-    @Column(name = "status")
-    private int status;
-
-    @Column(name = "skill_id")
-    private long skillId;
-
-    @Column(name = "budget")
-    private long budget;
+    @ManyToOne
+    @JoinColumn(name = "mentee_id")
+    private User mentee;
 }

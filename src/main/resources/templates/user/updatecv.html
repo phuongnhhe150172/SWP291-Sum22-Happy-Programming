@@ -241,39 +241,6 @@
     });
 
     $(document).ready(function () {
-        $('#button-add-skill').on('click', function () {
-            $("#skill").show();
-            $("#button-remove-skill").show();
-            $("#button-add-skill").hide();
-        });
-    });
-
-    $(document).ready(function () {
-        $('#button-remove-skill').on('click', function () {
-            $("#skill").hide();
-            $("#button-add-skill").show();
-            $("#button-remove-skill").hide();
-        });
-    });
-
-    $(document).ready(function () {
-        $('#skill').on('change', function () {
-            var skillId = $("#skill").val();
-            var skillText = $("#skill").find("option:selected").text();
-            if (skillId != -1) {
-                $(".skill-container").append('<button type="button" class="inline border border-gray-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 m-2 bg-gray-700">' + skillText + '<input type="hidden" name="skillValue" value="' + skillId + '"></button>');
-            }
-
-        });
-    });
-
-    $(document).ready(function () {
-        $('#button-minus-skill').on('click', function () {
-            $(".skill-container").find("button:last").remove();
-        });
-    });
-
-    $(document).ready(function () {
         $('#province').on('change', function () {
             var provinceId = $("#province").val();
             var districtId = $("#district").val();

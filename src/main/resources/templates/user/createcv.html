@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body class="bg-gray-900 text-white font-['Open_Sans']">
+<div class="" th:replace="components/nav.html :: aside"></div>
+<div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
+
+    <div class="col-span-1 grow min-h-[100vh] mt-[2rem] px-4 flex flex-col">
+        <img th:src="@{${user.image}}" class="w-64 h-64 rounded-full border-2 border-gray-400 mx-auto" alt="">
+    </div>
+
+    <form class="col-span-3 p-8" th:action="@{/create}" th:object="${user}" method="post">
+        <div class="">
+            <input type="hidden" name="id" th:value="*{id}" th:field="*{id}">
+            <h2 class="my-4 text-2xl font-bold">Create CV</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="relative z-0 w-full mb-6 group">
+                <div>
+                    <label for="name" class="block font-medium text-gray-300 text-sm mb-2">Name</label>
+                    <p type="text" id="name" class="border text-sm rounded-lg
+                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
+                       th:text="${user.firstName} +' ' + ${user.lastName}" value="Hoang Van Nam"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="w-full flex items-center justify-between">
+                <h2 class="my-4 text-xl">Experience</h2>
+                <div class="flex items-center justify-between">
+                    <button type="button"
+                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
+                            id="button-add-experience">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            class="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-2"
+                            id="button-minus-experience">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="experience-content grid grid-cols-2 gap-4">
+                <div class="block shadow-md">
+                        <textarea th:name="experieceValue" rows="4"
+                                  class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500
+                                  focus:border-blue-500"
+                                  placeholder="Your experience..." required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <h2 class="my-4 text-xl">Skills</h2>
+
+            <div class="">
+                <div class="block p-6 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 flex flex-wrap">
+                    <div class="flex items-center m-2" th:each="skill,state : ${listSkill}">
+                        <input th:attr="id=${'inline-checkbox' + skill.id}" type="checkbox" th:value="${skill.id}"
+                               th:name="skillValue"
+                               class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500
+                               dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700
+                               dark:border-gray-600">
+                        <label th:attr="for=${'inline-checkbox' + skill.id}" th:text="${skill.name}"
+                               class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Inline 1</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-2">
+            <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center m-[5px]">
+                Create
+            </button>
+            <a class="" th:href="@{/cv}">
+                <button type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center m-[5px]">
+                    Cancel
+                </button>
+            </a>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#button-add-experience').on('click', function () {
+            $('.experience-content').append('<div class="block shadow-md"><textarea name="experieceValue" rows="4" class="block p-2.5 w-full bg-gray-900 text-sm rounded-lg border focus:ring-blue-500 focus:border-blue-500" placeholder="Your experience..." required></textarea></div>');
+        });
+    });
+
+    $(document).ready(function () {
+        $('#button-minus-experience').on('click', function () {
+            $('.experience-content').find("div:last").remove();
+        });
+    });
+</script>
+</body>
+
+</html>
