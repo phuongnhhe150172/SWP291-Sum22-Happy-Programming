@@ -14,7 +14,7 @@
 </div>
 <aside class="w-64 p-4 fixed top-0 right-0 border-l-2 border-gray-700 h-[100vh]">
     <div th:each="connection, state: ${connections}">
-        <div class="connection_button | flex items-center px-4 py-2 gap-3 hover:bg-gray-700 rounded-md">
+        <div class="connection_button | cursor-pointer flex items-center px-4 py-2 gap-3 hover:bg-gray-700 rounded-md">
             <input type="hidden" name="" th:value="${connection.id}">
             <img th:src="${connection.image}" class="w-10 h-10 rounded-full" alt=""/>
             <div class="">
@@ -25,13 +25,10 @@
 </aside>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
 <script type="text/javascript">
-    $('.connection_button').on('change', function () {
+    $('.connection_button').on('click', function () {
         $.ajax({
-            url: "/window",
+            url: "/window?id=" + $(this).find('input').val(),
             method: "GET",
-            // data: {
-            //     id: this.first().value,
-            // },
             success: function (data) {
                 $("#message").html(data);
             },
