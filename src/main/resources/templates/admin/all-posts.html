@@ -20,7 +20,7 @@
                     <div class="m-2">
                         <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                             th:src="@{/imgs/avatar1.jpg}"
-                            >
+                        >
                     </div>
 
                     <div class="flex flex-col items-left m-2">
@@ -30,7 +30,6 @@
                             <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
                             <p th:case="*" class="text-red-900 dark:text-red-300">Offline</p> 
                         </div>
-                        
                         <div class="">
                             <select id="" disabled
                                     class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
@@ -53,15 +52,85 @@
                         <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Price: </p>
                         <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
                         th:text="${post.price}">1000</p>
-                        
                     </div>
                 </div>
                 <div class="">
                     <div class="relative z-0 w-full mb-6 group">
                         <h6 style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Method: </h6>
                         <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
-                        th:text="${post.methodName}">1000</p>
-                        
+                        th:text="${post.methodName}">1000</p>     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All post - Happy Programming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-white flex">
+
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+
+<div class="bg-gray-900 grow flex min-h-[100vh]">
+    <div class="flex grow flex-col justify-center items-center">
+        <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 min-w-[60vw]">
+            <div class="flex items-center justify-between m-2">
+                <div class="flex items-center">
+                    <div class="m-2">
+                        <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                            th:src="@{/imgs/avatar1.jpg}"
+                        >
+                    </div>
+
+                    <div class="flex flex-col items-left m-2">
+                         <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}"></p>
+                        <p class="font-bold text-md" th:text="${post.fullName}"></p>
+                        <div th:switch="${post.status}"> 
+                            <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
+                            <p th:case="*" class="text-red-900 dark:text-red-300">Offline</p> 
+                        </div>
+                        <div class="">
+                            <select id="" disabled
+                                    class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
+                                <option value="1" th:selected="(${post.status} == 1)" >Completed</option>
+                                <option value="2" th:selected="(${post.status} == 2)">OnGoing</option>
+                                <option value="0" th:selected="(${post.status} == 0)">Canceled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
+                <label for="editor" class="sr-only">Publish post</label>
+                <p class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                th:text="${post.description}">Bla bla</p>
+            </div>
+            <div class="">
+                <div class="">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Price: </p>
+                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
+                        th:text="${post.price}">1000</p>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="relative z-0 w-full mb-6 group">
+                        <h6 style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Method: </h6>
+                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
+                        th:text="${post.methodName}">1000</p>     
                     </div>
                 </div>
             </div>
@@ -74,3 +143,4 @@
 
 
 
+ -->

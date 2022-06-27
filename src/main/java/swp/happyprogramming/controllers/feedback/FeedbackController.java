@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
@@ -45,5 +47,42 @@ public class FeedbackController {
         model.addAttribute("avgRate", avgRate);
         model.addAttribute("count", count);
         return "feedback/feedback";
+    }
+
+    @GetMapping("/create-feedback")
+    public String createFeedback(Model model) {
+        Object sessionInfo = session.getAttribute("userInformation");
+        if (sessionInfo == null) return "redirect:/login";
+        Integer receivedId = 22;
+
+        UserDTO receivedUser = userService.findUser(receivedId);
+        System.out.print("====send====="+receivedUser.getId());
+        model.addAttribute("receivedUser", receivedUser);
+        session.setAttribute("receivedUser", receivedUser);
+        return "feedback/createFeedBack";
+    }
+
+    @PostMapping("/add-feedback")
+    public String addFeedback(@RequestParam String comment, @RequestParam Integer rating) {
+        Object sessionInfo = session.getAttribute("userInformation");
+        if (sessionInfo == null) return "redirect:/login";
+        UserDTO sessionUser = (UserDTO) sessionInfo;
+        long senderId = sessionUser.getId();
+
+
+
+
+        UserDTO receivedUser = (UserDTO)session.getAttribute("receivedUser");
+
+
+        Feedback feedBack = new Feedback();
+        feedBack.setRate(rating);
+        feedBack.setComment(comment);
+        feedBack.setReceiverid(receivedUser.getId());
+        feedBack.setSenderid(senderId);
+
+        
+        feedbackService.save(feedBack);
+        return "redirect:/admin/skills";
     }
 }

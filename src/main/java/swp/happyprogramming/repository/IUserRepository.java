@@ -49,4 +49,9 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "update users set status = 0 where id = ?1",nativeQuery = true)
     void disableUser(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update user_roles set role_id = 1 where user_id = ?1",nativeQuery = true)
+    void convertToMentor(long id);
 }

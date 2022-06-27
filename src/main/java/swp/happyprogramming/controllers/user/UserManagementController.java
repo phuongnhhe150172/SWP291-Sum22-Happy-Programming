@@ -91,7 +91,6 @@ public class UserManagementController {
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
-            System.out.println("updateUserProfile(88)");
             user = userService.findUser(userId);
         } else {
             user = (UserDTO) session.getAttribute(USER_SESSION);
@@ -214,5 +213,39 @@ public class UserManagementController {
         UserDTO user = userService.findUser(userDTO.getId());
         session.setAttribute(USER_SESSION, user);
         return "redirect:profile";
+    }
+
+    @GetMapping("/create")
+    public String createCv(Model model,@RequestParam(value = "id", required = false) String id){
+        UserDTO user;
+        try{
+            if (id != null) {
+                long userId = Integer.parseInt(id);
+                user = userService.findUser(userId);
+            } else {
+                user = (UserDTO) session.getAttribute(USER_SESSION);
+            }
+            List<Skill> listSkill = skillService.getAllSkill();
+
+            model.addAttribute("listSkill",listSkill);
+            model.addAttribute("user",user);
+            return "user/createcv";
+        }catch (NumberFormatException e){
+            return INDEX_PAGE;
+        }
+    }
+
+    @PostMapping("/create")
+    public String createCv(@RequestParam(value = "id", required = false) String id,
+                           @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                           @RequestParam(value = "skillValue", required = false) List<String> skillValue){
+        try {
+            long userId = Integer.parseInt(id);
+
+            mentorService.createCv(userId,experieceValue,skillValue);
+            return "redirect:cv";
+        }catch (NumberFormatException e){
+            return INDEX_PAGE;
+        }
     }
 }
