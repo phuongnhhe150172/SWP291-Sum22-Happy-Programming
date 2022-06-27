@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import swp.happyprogramming.dto.AddressDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
@@ -40,7 +41,8 @@ public class MentorService implements IMentorService {
 
     @Autowired
     private IMentorRepository mentorRepository;
-    private ModelMapper mapper;
+    private ModelMapper mapper = new ModelMapper();
+    @Autowired
     private IWardRepository wardRepository;
 
     // READ SECTION
@@ -60,11 +62,11 @@ public class MentorService implements IMentorService {
         }
     }
 
-    private MentorDTO combineUserAndProfile(User user, Mentor profile, ArrayList<Skill> listSkill,
+    private MentorDTO combineUserAndProfile(User user, Mentor mentor, ArrayList<Skill> listSkill,
                                             ArrayList<Experience> listExperience, Address address) {
-        MentorDTO mentorDTO = mapper.map(profile, MentorDTO.class);
+        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
         mapper.map(user, mentorDTO);
-        mentorDTO.setProfileId(profile.getId());
+        mentorDTO.setProfileId(mentor.getId());
         mentorDTO.setExperiences(listExperience);
         mentorDTO.setSkills(listSkill);
         mentorDTO.setAddress(Utility.mapAddress(address));
@@ -78,18 +80,26 @@ public class MentorService implements IMentorService {
 
     @Override
     public Pagination<MentorDTO> getMentors(int pageNumber) {
-//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
-//        Role role = roleRepository.findByName("ROLE_MENTOR");
-//        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
-//        int totalPages = page.getTotalPages();
-//        List<User> mentees = page.getContent();
-//        List<MentorDTO> mentorDTOS = mentees
-//                .stream()
-//                .map(user -> findMentor(user.getId()))
-//                .collect(Collectors.toList());
-//        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-//        return new Pagination<>(mentorDTOS, pageNumbers);
-        return null;
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
+        Role role = roleRepository.findByName("ROLE_MENTOR");
+        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
+        int totalPages = page.getTotalPages();
+        List<User> mentees = page.getContent();
+        List<MentorDTO> mentorDTOS = mentees
+                .stream()
+                .map(user -> findMentor(user.getId()))
+                .collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(mentorDTOS, pageNumbers);
+    }
+
+    @Override
+    public List<MentorDTO> getTopMentors() {
+        List<Mentor> mentors = mentorRepository.getTopMentors();
+        return mentors
+                .stream()
+                .map(mentor -> findMentor(mentor.getUser().getId()))
+                .collect(Collectors.toList());
     }
 
     //    UPDATE SECTION
@@ -137,6 +147,26 @@ public class MentorService implements IMentorService {
         return mapSkill;
     }
 
+    @Override
+    public void createCv(long userId, List<String> experienceValue, List<String> skillValue){
+        User user = userRepository.findById(userId).orElse(null);
+        Mentor mentor = new Mentor();
+        mentor.setUser(user);
+
+        mentorRepository.save(mentor);
+
+        userRepository.convertToMentor(userId);
+
+        Mentor mentorLast = mentorRepository.findMentorLast();
+        if(experienceValue != null){
+            saveExperienceAndMentorExperience(mentorLast,experienceValue);
+        }
+
+        if(skillValue != null){
+            saveUserSkills(mentorLast.getId(),skillValue);
+        }
+    }
+
     private void saveUserSkills(long profileId, List<String> skillValue) {
         skillValue
                 .forEach(value -> mentorRepository.addSkillUser(profileId, Long.parseLong(value)));
@@ -161,7 +191,6 @@ public class MentorService implements IMentorService {
         Address address = mapper.map(mentorDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(new Ward());
         address.setWard(ward);
-        // Address address = Utility.mapAddressDTO(mentorDTO.getAddress(),wardId);
         address.setName(mentorDTO.getAddress().getName());
         addressRepository.save(address);
     }

@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.PostDTO;
-import swp.happyprogramming.dto.RequestDTO;
-import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
@@ -33,6 +31,9 @@ public class AdminController {
     @Autowired
     private IPostService postService;
 
+    @Autowired
+    private IConnectService connectService;
+
 
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model) {
@@ -50,13 +51,10 @@ public class AdminController {
     @GetMapping("/mentees")
     public String showAllMentees(
             Model model,
-            @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber,
-            @RequestParam(value = "firstName", required = false, defaultValue = "") String firstName,
-            @RequestParam(value = "lastName", required = false, defaultValue = "") String lastName,
-            @RequestParam(value = "phone", required = false, defaultValue = "") String phone,
-            @RequestParam(value = "email", required = false, defaultValue = "") String email
+            @RequestParam Map<String, String> params,
+            @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber
     ) {
-        Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
+        Pagination<UserDTO> page = userService.getMentees(pageNumber, params.get("first_name"), params.get("last_name"), params.get("phone"), params.get("email"));
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPaginatedList().size());
@@ -114,7 +112,7 @@ public class AdminController {
         skill.setName(skillName);
         System.out.println(skillName);
         skillService.save(skill);
-        return "redirect:admin/skills";
+        return "redirect:/admin/skills";
     }
 
     @GetMapping("/update-skill")
@@ -138,11 +136,11 @@ public class AdminController {
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
         // Trinh Trung Kien - 52 - View all requests (admin)
-        Pagination<RequestDTO> requests = requestService.getAllRequest(pageNumber);
+        Pagination<Request> requests = requestService.getAllRequest(pageNumber);
         model.addAttribute("requests",requests.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", requests.getPageNumbers().size());
-        return "requests/all-requests";
+        return "admin/all-requests";
     }
 
     @GetMapping("/posts")
@@ -157,4 +155,26 @@ public class AdminController {
         model.addAttribute("totalPages",page.getPageNumbers().size());
         return "/admin/all-posts";
     }
+
+    @GetMapping("/connections")
+    public String viewAllConn(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+        Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
+        model.addAttribute("connections",connects.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", connects.getPageNumbers().size());
+        return "admin/all-connections";
+    }
+
+    @GetMapping("/enable")
+    public String enableUser(@RequestParam(value = "id",required = false) int id){
+        userService.enableUser(id);
+        return "redirect:mentors";
+    }
+
+    @GetMapping("/disable")
+    public String disableUser(@RequestParam(value = "id",required = false) int id){
+        userService.disableUser(id);
+        return "redirect:mentors";
+    }
+
 }

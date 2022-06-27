@@ -14,7 +14,12 @@
 
 <div class="ml-64 min-h-[100vh] px-10" th:object="${user}">
     <div class="py-8 flex gap-6 justify-start items-center">
-        <div class="relative group">
+        <div th:if="${session.userInformation.id != user.id}">
+            <img th:src="@{*{image}}"
+                 class="w-48 h-48 rounded-full border-2 border-gray-400 group-hover:opacity-70" alt="">
+        </div>
+        <div th:if="${session.userInformation.id == user.id}"
+                class="relative group">
             <img th:src="@{*{image}}"
                  class="w-48 h-48 rounded-full border-2 border-gray-400 group-hover:opacity-70" alt="">
             <form th:action="@{/uploading}" th:method="post" id="formImage" class="w-full"
@@ -48,25 +53,22 @@
     </th:block>
     <th:block th:unless="${session.userInformation.id == user.id}">
         <div class="mb-6 w-48">
-            <button th:if="${statusRequest == 1}"
-                    type="button"
-                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
-                    focus:ring-2 focus:ring-gray-700 bg-green-600 text-white border-gray-600 cursor-default">
-                Connected
-            </button>
-            <button th:if="${statusRequest == 0}"
-                    type="button"
-                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
+            <th:block th:if="${statusConnect == 1}">
+                <button type="button"
+                        class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg focus:z-10
+                    focus:ring-2 focus:ring-gray-700 bg-green-400 text-white cursor-default">
+                    Connected
+                </button>
+            </th:block>
+            <th:block th:if="${statusConnect == 0}">
+                <th:block th:if="${statusRequest == 1}">
+                    <button type="button"
+                            class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
                     focus:ring-2 focus:ring-gray-700 bg-gray-800 text-white border-gray-600 cursor-default">
-                Waitting...
-            </button>
-            <button th:if="${statusRequest == -1}"
-                    type="button"
-                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10
-                        focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white
-                        hover:bg-gray-700">
-                Connect
-            </button>
+                        Waitting...
+                    </button>
+                </th:block>
+            </th:block>
         </div>
     </th:block>
 

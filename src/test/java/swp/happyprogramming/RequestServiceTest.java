@@ -7,12 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import swp.happyprogramming.dto.RequestDTO;
-import swp.happyprogramming.model.Pagination;
-import swp.happyprogramming.model.Request;
-import swp.happyprogramming.model.Role;
-import swp.happyprogramming.model.User;
+import swp.happyprogramming.model.*;
+import swp.happyprogramming.repository.IConnectRepository;
 import swp.happyprogramming.repository.IRequestRepository;
 import swp.happyprogramming.services.IRequestService;
+import swp.happyprogramming.services.IUserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +24,12 @@ public class RequestServiceTest {
     @Autowired
     private IRequestService requestService;
 
+    @Autowired
+    private IConnectRepository connectRepository;
+
+    @Autowired
+    private IUserService userService;
+
     @Test
     public void testGetAllRequest(){
         List<Request> list = requestRepository.findAll();
@@ -32,17 +37,11 @@ public class RequestServiceTest {
         System.out.println(list.size());
     }
 
-    @Test
-    public void testGetRequestSent(){
-        long id = 20;
-        Pagination<RequestDTO> list = requestService.getRequestSent(id , 1); //error because of null in budget, skillID column in database
-        Assertions.assertThat(list).isNotNull();
-        System.out.println(list.getPaginatedList().size());
-    }
+
 
     @Test
     public void testRequestPaging(){
-        int pageNumber = 1;
+        int pageNumber = 2;
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 2);
         Page<Request> page = requestRepository.findAll(pageRequest);
         System.out.println(page.getTotalPages());
@@ -51,10 +50,24 @@ public class RequestServiceTest {
         List<Request> requestList = page.stream().collect(Collectors.toList());
         for (Request r: requestList
              ) {
-            System.out.println(r.getMentorId());
-            System.out.println(r.getMenteeId());
-            System.out.println(r.getBudget());
+            System.out.println(r.getMentor().getFirstName());
+            System.out.println(r.getMentee().getFirstName());
         }
     }
+
+    @Test
+    public void testGetRequestSent(){
+        long id = 43;
+        User user = userService.getUserById(id);
+
+        
+        List<Request> list = requestRepository.findRequestByMenteeId(id);
+
+
+        Assertions.assertThat(list).isNotEmpty();
+        System.out.println(list.get(0).getMentor().getFirstName());
+    }
+
+
 
 }

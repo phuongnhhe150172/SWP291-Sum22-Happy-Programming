@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.RequestDTO;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
@@ -52,24 +53,37 @@ public class RequestManagementController {
         String email = authentication.getName();
         User user = userService.findByEmail(email);
 
-        Pagination<RequestDTO> requests = requestService.getRequestSent(user.getId(), pageNumber);
+        Pagination<Request> requests = requestService.getRequestSent(user.getId(), pageNumber);
         model.addAttribute("requests",requests.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", requests.getPageNumbers().size());
         return "requests/request_sent";
     }
 
-    @GetMapping("/request/delete")
-    public String deleteRequest(@RequestParam(required = true) long requestId){
+    @GetMapping("/request/sent/delete")
+    public String deleteRequest(@RequestParam(required = true, value = "id") long requestId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);
 
         //verify if the request to be deleted belongs to that user
-        List<RequestDTO> requestDTOS = requestService.getRequestSent(user.getId());
-        RequestDTO request = requestService.getRequestById(requestId);
-        if (requestDTOS.contains(request)) requestService.deleteRequest(requestId);
+        List<Request> requestList = requestService.getRequestSent(user.getId());
+        Request request = requestService.getRequestById(requestId);
+        if (requestList.contains(request)) requestService.deleteRequest(requestId);
 
         return "redirect:/request/sent";
+    }
+
+    @GetMapping("/sent")
+    public String sentRequest(@RequestParam(value = "from") String fromId,@RequestParam(value = "to") String toId){
+        try {
+            long mentorId = Integer.parseInt(toId);
+            long menteeId = Integer.parseInt(fromId);
+            requestService.insertRequeset(mentorId, menteeId);
+            return "redirect:cv?id=" + toId;
+        }catch (NumberFormatException e){
+            return "redirect:index";
+        }
+
     }
 }

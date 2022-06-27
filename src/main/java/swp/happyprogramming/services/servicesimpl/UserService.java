@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -70,7 +71,7 @@ public class UserService implements IUserService {
 
         user.setImage("/upload/static/imgs/avatar_default.jpg");
         user.setAddress(savedAddress);
-        user.addRole(new Role(2));
+        user.addRole(roleRepository.findByName("ROLE_MENTEE"));
         userRepository.save(user);
     }
 
@@ -89,7 +90,7 @@ public class UserService implements IUserService {
 
     @Override
     public int countUsersByRolesLike(String role) {
-        return userRepository.countUsersByRolesLike("ROLE_MENTOR");
+        return userRepository.countUsersByRolesLike(role);
     }
 
     @Override
@@ -118,11 +119,14 @@ public class UserService implements IUserService {
         return userRepository.findByEmail(email);
     }
 
-    @Override
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) return null;
         return Utility.mapUser(user);
+    }
+
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -189,10 +193,26 @@ public class UserService implements IUserService {
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Role role = roleRepository.findByName("ROLE_MENTEE");
-        Page<User> page = userRepository.findUsers(pageRequest, role, firstName, lastName, phone, email);
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
+        Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-        List<UserDTO> menteesDTO = mentees.stream().map(user -> findUser(user.getId())).collect(Collectors.toList());
+        List<UserDTO> menteesDTO = new ArrayList<>();
+        for (User mentee : mentees) {
+            boolean check = true;
+            for (Role role1 : mentee.getRoles()) {
+                if (role1.getName().equals("ROLE_ADMIN")) {
+                    check = false;
+                    break;
+                }
+            }
+            if (check == true) {
+                UserDTO userDTO = findUser(mentee.getId());
+                menteesDTO.add(userDTO);
+            }
+        }
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(menteesDTO, pageNumbers);
     }
@@ -216,5 +236,15 @@ public class UserService implements IUserService {
         String encodedPassword = password.encode(newPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
+    }
+
+    @Override
+    public void enableUser(long id){
+        userRepository.enableUser(id);
+    }
+
+    @Override
+    public void disableUser(long id){
+        userRepository.disableUser(id);
     }
 }

@@ -187,7 +187,7 @@
                         <input type="text" id="price" class="border text-sm rounded-lg
                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
-                               th:field="*{price}" required>
+                               th:field="*{price}" pattern="[1-9][0-9]*.?[0-9]+" required>
                     </div>
                 </div>
             </div>

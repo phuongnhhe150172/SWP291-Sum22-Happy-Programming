@@ -3,12 +3,15 @@ package swp.happyprogramming.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,16 +23,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
 
-    @Query(value =  "select * from " +
-            "users as a " +
-            "   join " +
-            "user_roles as b " +
-            "where b.role_id = ?1 AND ((1 = 1) " +
-            "OR (a.firstName = ?2 " +
-            "AND a.lastName = ?3 " +
-            "AND a.phone_number = ?4 " +
-            "AND a.email = ?5))", nativeQuery = true)
-    Page<User> findUsers(Pageable pageable, Role role, String firstName, String lastName, String phone, String email);
+    Page<User> findAll(Specification<User> specification, Pageable pageable);
 
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
@@ -43,4 +37,21 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     ArrayList<User> findRequestsByEmail(String email);
 
     User findByResetPasswordToken(String token);
+
+    Page<User> findUsersByRoles(Pageable pageable, Role role);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update users set status = 1 where id = ?1",nativeQuery = true)
+    void enableUser(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update users set status = 0 where id = ?1",nativeQuery = true)
+    void disableUser(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update user_roles set role_id = 1 where user_id = ?1",nativeQuery = true)
+    void convertToMentor(long id);
 }

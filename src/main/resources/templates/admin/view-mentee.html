@@ -36,7 +36,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="text-gray-300 mx-24 my-2">
+                    <div class="text-gray-300 mx-24 my-2 w-full">
                         <h1 class="text-2xl font-bold mb-6">Information Personal</h1>
                         <div class="flex items-center gap-4 mx-6 my-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -53,7 +53,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
                             </svg>
-                            First Name:
+                            Last Name:
                             <p th:text="${mentee.lastName}"></p>
                         </div>
                         <div class="flex items-center gap-4 my-4 mx-6">
@@ -120,6 +120,31 @@
                             </svg>
                             Created Date:
                             <p th:text="${#dates.format(mentee.created,'dd-MM-yyyy')}">30/4/1975</p>
+                        </div>
+                        <div class="gap-4 my-8 mx-6">
+                            <div class="">
+                                <h3 class="font-bold my-4 text-xl">Additional Information</h3>
+                                <div class="block p-6 rounded-lg bg-gray-800">
+                                    <p class="font-normal text-gray-300 break-all" th:text="${mentee.bio}">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dignissim dui sed dapibus finibus.
+                                        Sed pellentesque eu leo at elementum. Etiam posuere justo eget lacus posuere, in posuere lacus
+                                        vehicula. Donec malesuada dolor quam, eget egestas purus sagittis dictum. Mauris lacinia metus nunc,
+                                        ut tincidunt elit convallis sed. Sed id diam a massa auctor iaculis ut a velit. Nullam fermentum
+                                        tincidunt elit eget mollis. Etiam elementum egestas convallis. Donec sed orci vel odio tristique
+                                        condimentum vitae ac nunc. Suspendisse vel nibh tristique, bibendum tortor id, ornare mi. Duis
+                                        dictum consequat efficitur. Phasellus quis eros quis lorem pharetra venenatis.
+
+                                        Integer justo purus, commodo nec ex vitae, ultrices hendrerit nisl. Donec placerat eu mauris non
+                                        viverra. In ut nisl et arcu faucibus scelerisque sed ac leo. Orci varius natoque penatibus et magnis
+                                        dis parturient montes, nascetur ridiculus mus. Vivamus maximus elementum metus, sed suscipit mi
+                                        varius in. Fusce egestas laoreet nisi, eu scelerisque magna vehicula in. Orci varius natoque
+                                        penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam et nibh rhoncus, dignissim
+                                        urna et, tempor augue. Quisque justo diam, rhoncus eu pulvinar eu, varius quis ligula. Integer
+                                        laoreet velit at vulputate tincidunt. Nam maximus odio id arcu hendrerit posuere. Pellentesque id
+                                        ante volutpat, tempor est sit amet, facilisis quam.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
             </div>

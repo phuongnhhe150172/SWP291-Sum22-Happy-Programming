@@ -18,12 +18,12 @@ public class MentorManagementController {
     private IMentorService mentorService;
 
     @GetMapping("/mentor")
-    public String showMentor(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
+    public String showMentor(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentorList", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
-        return "public/showMentor";
+        return "mentor/showMentor";
     }
 
     @GetMapping("/mentor/search")
@@ -31,5 +31,12 @@ public class MentorManagementController {
         List<MentorDTO> mentorList = mentorService.searchMentors(params);
         model.addAttribute("mentorList", mentorList);
         return "mentor/search";
+    }
+
+    @GetMapping("/mentor/top")
+    public String topMentor(Model model) {
+        List<MentorDTO> mentorList = mentorService.getTopMentors();
+        model.addAttribute("mentorList", mentorList);
+        return "mentor/suggestions";
     }
 }

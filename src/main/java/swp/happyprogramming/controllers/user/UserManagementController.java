@@ -53,6 +53,9 @@ public class UserManagementController {
     @Autowired
     private IRequestService requestService;
 
+    @Autowired
+    private IConnectService connectService;
+
     @GetMapping("/profile")
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
@@ -67,8 +70,12 @@ public class UserManagementController {
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
             UserDTO userDTO = (UserDTO) sessionUser;
-            Integer statusRequest = requestService.findStatusRequest(userDTO.getId(), user.getId());
-            model.addAttribute("statusRequest",statusRequest);
+
+            Integer statusRequest = (requestService.findStatusRequest(userDTO.getId(), user.getId()) != null) ? 1 : 0;
+            Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), userDTO.getId()) != null ||
+                    connectService.findConnectByUser1AndUser2(userDTO.getId(), user.getId()) != null) ? 1 : 0;
+            model.addAttribute("statusConnect", statusConnect);
+            model.addAttribute("statusRequest", statusRequest);
         } else {
             user = (UserDTO) sessionUser;
         }
@@ -84,7 +91,6 @@ public class UserManagementController {
         UserDTO user;
         if (id != null) {
             long userId = Integer.parseInt(id);
-            System.out.println("updateUserProfile(88)");
             user = userService.findUser(userId);
         } else {
             user = (UserDTO) session.getAttribute(USER_SESSION);
@@ -132,9 +138,11 @@ public class UserManagementController {
             if (id != null) {
                 long mentorId = Integer.parseInt(id);
                 mentor = mentorService.findMentor(mentorId);
-                Integer statusRequest = requestService.findStatusRequest(user.getId(), mentor.getId());
-                System.out.println(statusRequest);
-                model.addAttribute("statusRequest",statusRequest);
+                Integer statusRequest = (requestService.findStatusRequest(user.getId(), mentor.getId()) != null) ? 1 : 0;
+                Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), mentor.getId()) != null ||
+                        connectService.findConnectByUser1AndUser2(mentor.getId(), user.getId()) != null) ? 1 : 0;
+                model.addAttribute("statusConnect", statusConnect);
+                model.addAttribute("statusRequest", statusRequest);
             } else {
                 mentor = mentorService.findMentor(user.getId());
             }
@@ -191,7 +199,7 @@ public class UserManagementController {
 
             mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
 
-            return "redirect:../cv?id=" + mentor.getId();
+            return "redirect:../cv";
         } catch (NumberFormatException e) {
             return INDEX_PAGE;
         }
@@ -205,5 +213,39 @@ public class UserManagementController {
         UserDTO user = userService.findUser(userDTO.getId());
         session.setAttribute(USER_SESSION, user);
         return "redirect:profile";
+    }
+
+    @GetMapping("/create")
+    public String createCv(Model model,@RequestParam(value = "id", required = false) String id){
+        UserDTO user;
+        try{
+            if (id != null) {
+                long userId = Integer.parseInt(id);
+                user = userService.findUser(userId);
+            } else {
+                user = (UserDTO) session.getAttribute(USER_SESSION);
+            }
+            List<Skill> listSkill = skillService.getAllSkill();
+
+            model.addAttribute("listSkill",listSkill);
+            model.addAttribute("user",user);
+            return "user/createcv";
+        }catch (NumberFormatException e){
+            return INDEX_PAGE;
+        }
+    }
+
+    @PostMapping("/create")
+    public String createCv(@RequestParam(value = "id", required = false) String id,
+                           @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
+                           @RequestParam(value = "skillValue", required = false) List<String> skillValue){
+        try {
+            long userId = Integer.parseInt(id);
+
+            mentorService.createCv(userId,experieceValue,skillValue);
+            return "redirect:cv";
+        }catch (NumberFormatException e){
+            return INDEX_PAGE;
+        }
     }
 }

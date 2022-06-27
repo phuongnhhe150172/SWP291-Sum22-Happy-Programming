@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Programming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex text-white">
+<div class="" th:replace="components/nav.html :: aside"></div>
+<div class="bg-gray-900 grow ml-64 p-5 min-h-[100vh]">
+    <h1>Top Mentors</h1>
+    <div class="" th:each="mentor: ${mentorList}">
+        <div class="">
+            <div class="flex items-center" th:object="${mentor}">
+                <div class="w-1/4">
+                    <img th:src="@{image}" alt="${mentor.name}" class="rounded-full h-32 w-32">
+                </div>
+                <div class="w-3/4">
+                    <div class="flex items-center">
+                        <div class="w-1/2">
+                            <h2 class="text-xl font-bold" th:text="${name}"></h2>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-1/2">
+                            <p class="text-sm" th:text="${price}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

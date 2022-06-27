@@ -20,13 +20,15 @@ public interface IUserService extends UserDetailsService {
 
     int countUsersByRolesLike(String role);
 
-    int statusRequest(long mentorId,long menteeId);
+    int statusRequest(long mentorId, long menteeId);
 
     List<ConnectionDTO> getConnectionsByEmail(String email);
 
     User findByEmail(String email);
 
     UserDTO findUser(long id);
+
+    User getUserById(long id);
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
@@ -37,4 +39,8 @@ public interface IUserService extends UserDetailsService {
     void updateImage(Long id, Path currentFolder, MultipartFile image);
 
     Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email);
+
+    void enableUser(long id);
+
+    void disableUser(long id);
 }
