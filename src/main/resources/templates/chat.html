@@ -47,6 +47,7 @@
 <aside class="w-64 p-4 fixed top-0 right-0 border-l-2 border-gray-700 h-[100vh]">
     <a class="connection_button | cursor-pointer flex items-center px-4 py-2 gap-3 hover:bg-gray-700 rounded-md"
        th:href="@{/chat(id=${connection.id})}"
+       th:id="'connection_'+${connection.id}"
        th:each="connection, state: ${connections}">
         <img th:src="${connection.image}" class="w-10 h-10 rounded-full" alt=""/>
         <div class="">
@@ -55,64 +56,6 @@
     </a>
 </aside>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-<script>
-    let ws;
-
-    $("form").submit(e => e.preventDefault());
-
-    $(document).ready(function () {
-        ws = new WebSocket('ws://localhost:8080/chatSocket');
-        ws.onmessage = function (data) {
-            showNewMessages(data.data);
-            scrollDown();
-        }
-        setTimeout(() => {
-            ws.send(JSON.stringify({
-                senderId: $("#sender_id").val(),
-                receiverId: $("#receiver_id").val(),
-            }));
-        }, 100);
-        scrollDown();
-    });
-
-    $("#content").on("keyup", (e) => {
-        // check enter
-        if (e.keyCode === 13) send();
-    });
-
-    function send() {
-        $("#dummy").before(createMessage($("#content").val(), true));
-        ws.send(JSON.stringify({
-            receiverId: $("#receiver_id").val(),
-            content: $("#content").val()
-        }));
-        $.ajax({
-            url: 'http://localhost:8080/sendMessage',
-            method: 'GET',
-            data: {
-                receiverId: $("#receiver_id").val(),
-                content: $("#content").val()
-            },
-        })
-        scrollDown();
-        $("#content").val("");
-    }
-
-    function showNewMessages(message) {
-        if (message === "") return;
-        //insert before dummy
-        $("#dummy").before(createMessage(message, false));
-    }
-
-    function createMessage(content, fromSelf) {
-        let div = document.createElement('div');
-        let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
-        let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-        div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-xl ${bg}'>${content}</div></div>`;
-        return div.firstChild;
-    }
-
-    let scrollDown = () => $("#dummy")[0].scrollIntoView();
-</script>
+<script th:src="@{/upload/static/js/chat.js}"></script>
 </body>
 </html>
