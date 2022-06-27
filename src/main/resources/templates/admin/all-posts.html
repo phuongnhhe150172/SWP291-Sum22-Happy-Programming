@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="flex flex-col items-left m-2">
-                        <!-- <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}"></p> -->
+                         <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}"></p>
                         <p class="font-bold text-md" th:text="${post.fullName}"></p>
                         <div th:switch="${post.status}"> 
                             <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
