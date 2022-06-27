@@ -28,4 +28,10 @@ public class FeedbackService implements IFeedbackService {
         count[5] = count[0] + count[1] + count[2] + count[3] + count[4]+1;
         return count;
     }
+
+    @Override
+    public Feedback save(Feedback feedback) {
+        feedbackRepository.save(feedback);
+        return feedback;
+    }
 }
