@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class SocketHandler extends TextWebSocketHandler {
@@ -23,26 +24,25 @@ public class SocketHandler extends TextWebSocketHandler {
     Map<String, String> users = new HashMap<>();
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         Map value = new Gson().fromJson(message.getPayload(), Map.class);
         String senderId = (String) value.get("senderId");
         String receiverId = (String) value.get("receiverId");
         String content = (String) value.get("content");
-        if (senderId != null) {
-            users.put(senderId, session.getId());
-        }
 
-        sessions.stream().filter(s -> s.getId().equals(users.get(receiverId))).forEach(s -> {
-            try {
-                s.sendMessage(new TextMessage(content));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        if (senderId != null) users.put(senderId, session.getId());
+        if (content == null) return;
+
+        Optional<WebSocketSession> target = sessions
+                .stream()
+                .filter(s -> s.getId().equals(users.get(receiverId)))
+                .findFirst();
+
+        if (target.isPresent()) target.get().sendMessage(new TextMessage(content));
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         sessions.add(session);
     }
 }
