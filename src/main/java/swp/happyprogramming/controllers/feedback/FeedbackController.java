@@ -49,7 +49,7 @@ public class FeedbackController {
         return "feedback/feedback";
     }
 
-    @GetMapping("/createFeedback")
+    @GetMapping("/create-feedback")
     public String createFeedback(Model model) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
@@ -62,7 +62,7 @@ public class FeedbackController {
         return "feedback/createFeedBack";
     }
 
-    @PostMapping("/addFeedback")
+    @PostMapping("/add-feedback")
     public String addFeedback(@RequestParam String comment, @RequestParam Integer rating) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
