@@ -8,4 +8,5 @@ public interface IFeedbackService {
     List<Feedback> getFeedbackReceived(Long id);
 
     int[] feedBackCount();
+    Feedback save(Feedback feedback);
 }
