@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
@@ -45,5 +46,18 @@ public class FeedbackController {
         model.addAttribute("avgRate", avgRate);
         model.addAttribute("count", count);
         return "feedback/feedback";
+    }
+
+    @GetMapping("/createFeedback")
+    public String createFeedback(Model model) {
+        //    show user feedback
+        return "feedback/createFeedBack";
+    }
+
+    @PostMapping("/addFeedback")
+    public String addFeedback(@RequestParam String comment, @RequestParam Integer rating) {
+        System.out.print("in ket qua");
+        System.out.print(comment + " ====== " + rating);
+        return "redirect:admin/skills";
     }
 }
