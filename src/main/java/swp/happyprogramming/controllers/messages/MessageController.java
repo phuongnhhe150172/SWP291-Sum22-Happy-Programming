@@ -2,13 +2,13 @@ package swp.happyprogramming.controllers.messages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Message;
@@ -17,6 +17,8 @@ import swp.happyprogramming.services.IMessageService;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class MessageController {
     private HttpSession session;
 
     @GetMapping("/chat")
-    public String chat(Model model, @RequestParam(value = "id", required = false) String id) {
+    public String chat(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String email = authentication.getName();
@@ -38,15 +40,26 @@ public class MessageController {
             return "redirect:/login";
         }
 
+        List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
+        model.addAttribute("connections", connections);
+        return "chat";
+    }
+
+    @GetMapping("/window")
+    public String chatScreen(Model model,
+                             @RequestParam(value = "id", required = false) String id) {
+        // Get the connections
         Object sessionUser = session.getAttribute("userInformation");
         UserDTO user = (UserDTO) sessionUser;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
         List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
         // Get the desired connection
         List<Long> ids = connections.stream()
                 .map(ConnectionDTO::getId)
                 .collect(java.util.stream.Collectors.toList());
         long receiverId;
-        if (id != null && !id.equalsIgnoreCase("null") && ids.contains(Long.parseLong(id))) {
+        if (id != null && ids.contains(Long.parseLong(id))) {
             receiverId = Long.parseLong(id);
         } else {
             receiverId = ids.get(0);
@@ -58,11 +71,9 @@ public class MessageController {
         // Add the connection to the model
         // Get the messages
         List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
-        model.addAttribute("receiver", receiver);
+        model.addAttribute("connection", receiver);
         model.addAttribute("messages", messages);
-
-        model.addAttribute("connections", connections);
-        return "chat";
+        return "components/message-window";
     }
 
     @GetMapping("/sendMessage")
