@@ -138,7 +138,7 @@ public class UserManagementController {
             if (id != null) {
                 long mentorId = Integer.parseInt(id);
                 mentor = mentorService.findMentor(mentorId);
-                Integer statusRequest = (requestService.findStatusRequest(user.getId(), mentor.getId()) != null) ? 1 : 0;
+                Integer statusRequest = (requestService.findStatusRequest(mentor.getId(), user.getId()) != null) ? 1 : 0;
                 Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), mentor.getId()) != null ||
                         connectService.findConnectByUser1AndUser2(mentor.getId(), user.getId()) != null) ? 1 : 0;
                 model.addAttribute("statusConnect", statusConnect);
