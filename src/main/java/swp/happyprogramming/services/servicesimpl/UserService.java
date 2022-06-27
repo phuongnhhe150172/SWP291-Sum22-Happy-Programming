@@ -79,7 +79,7 @@ public class UserService implements IUserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Email does not exist in system. Please re-enter another email!");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
