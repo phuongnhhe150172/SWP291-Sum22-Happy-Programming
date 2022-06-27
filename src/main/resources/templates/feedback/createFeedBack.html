@@ -16,14 +16,15 @@
     <div class="flex grow flex-col justify-center items-center">
         <div class="max-w-lg rounded-lg shadow-md shadow-blue-600/50">
             <form th:action="@{/addFeedback}" method="POST">
-              <div class="mb-2">
-                <label for="comment" class="text-lg text-white-800">Add a feed back</label>
+              <div class="mb-2 pa-3">
+                <p class="font-bold text-md text-lg text-white-800" th:text="'Add a feed back to ' + ${receivedUser.firstName} +' '+ ${receivedUser.lastName}"></p>
                 <textarea
                 id="comment"
                     style="color:black"
                   class="mt-4 w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
                   name="comment"
                   placeholder=""></textarea>
+                
               </div>
               
               <input
@@ -32,7 +33,7 @@
               max="6"
               oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
               step="1"
-              style="--stars:6;--value:2"
+              style="--stars:5;--value:2"
               type="range"
               value="2">
 
