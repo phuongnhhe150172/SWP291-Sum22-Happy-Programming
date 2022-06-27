@@ -14,7 +14,9 @@ import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.services.IMentorService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @SpringBootTest
@@ -67,5 +69,14 @@ public class MentorServiceTest {
         List<ConnectDTO> c = connectService.findAllConnections();
         System.out.println(c.get(0).getId());
         System.out.println(c.get(0).getUser1().getFirstName());
+    }
+
+    @Test
+    public void testConnectMap(){
+        List<Long> c = connectService.getConnectedMentor(43);
+        for (Long id:c
+             ) {
+            System.out.println(id);
+        }
     }
 }
