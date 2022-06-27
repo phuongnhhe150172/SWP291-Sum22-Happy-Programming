@@ -62,10 +62,10 @@ public class AdminController {
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
-        model.addAttribute("first_name", firstName!=null?firstName:"");
-        model.addAttribute("last_name", lastName!=null?lastName:"");
-        model.addAttribute("phone", phone!=null?phone:"");
-        model.addAttribute("email", email!=null?email:"");
+        model.addAttribute("first_name", firstName!=null?firstName:null);
+        model.addAttribute("last_name", lastName!=null?lastName:null);
+        model.addAttribute("phone", phone!=null?phone:null);
+        model.addAttribute("email", email!=null?email:null);
         return "admin/all-mentees";
     }
 
