@@ -23,5 +23,5 @@ public class Feedback {
     private int rate;
 
     @Column(name = "comment")
-    private long comment;
+    private String comment;
 }
