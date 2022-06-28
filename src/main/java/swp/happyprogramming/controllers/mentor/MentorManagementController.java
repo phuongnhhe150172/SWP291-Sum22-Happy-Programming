@@ -14,6 +14,7 @@ import swp.happyprogramming.model.User;
 import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.services.IMentorService;
+import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
 
 import java.util.List;
@@ -30,10 +31,12 @@ public class MentorManagementController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IRequestService requestService;
+
     @GetMapping("/mentor")
     public String showMentor(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         String email = authentication.getName();
         if (email.equalsIgnoreCase("anonymousUser")) {
             return "redirect:/login";
@@ -42,7 +45,10 @@ public class MentorManagementController {
         User user = userService.findByEmail(email);
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         List<Long> connectedMentorIds = connectService.getConnectedMentor(user.getId());
+        List<Long> requestedMentorIds = requestService.getRequestedMentorId(user.getId());
+
         model.addAttribute("connections", connectedMentorIds);
+        model.addAttribute("requests", requestedMentorIds);
         model.addAttribute("mentorList", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());

@@ -16,4 +16,5 @@ public interface IRequestService {
     Request getRequestById(long requestId);
     Request findStatusRequest(long mentorId, long menteeId);
     void insertRequeset(long fromId, long toId);
+    List<Long> getRequestedMentorId(long menteeId);
 }

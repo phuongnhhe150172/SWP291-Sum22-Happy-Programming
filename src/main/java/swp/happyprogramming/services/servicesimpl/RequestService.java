@@ -84,4 +84,15 @@ public class RequestService implements IRequestService {
     public void insertRequeset(long fromId, long toId){
         requestRepository.insertByMentorIdAndMenteeId(fromId, toId);
     }
+
+    @Override
+    public List<Long> getRequestedMentorId(long menteeId) {
+        List<Request> requests = requestRepository.findRequestByMenteeId(menteeId);
+        List<Long> requestedMentorId = new ArrayList<>();
+        for (Request r :
+                requests) {
+            requestedMentorId.add(r.getMentor().getId());
+        }
+        return requestedMentorId;
+    }
 }
