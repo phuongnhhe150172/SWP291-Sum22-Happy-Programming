@@ -44,6 +44,10 @@
                     <a href="signup" class="border border-gray-700 hover:bg-gray-700 px-5 py-2.5 rounded-lg text-medium">Sign up</a>
                 </div>
             </div>
+            <div class="my-5 flex items-center justify-between">
+                <p th:if="${param.error}" class="error danger" style="color: red">Invalid email or
+                    password</p>
+            </div>
         </form>
     </div>
     <div class="flex-col justify-center hidden lg:flex">
