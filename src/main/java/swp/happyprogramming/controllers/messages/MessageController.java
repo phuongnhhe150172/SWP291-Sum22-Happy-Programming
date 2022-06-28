@@ -31,36 +31,32 @@ public class MessageController {
 
     @GetMapping("/chat")
     public String chat(Model model, @RequestParam(value = "id", required = false) String id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-        if (email.equalsIgnoreCase("anonymousUser")) {
-            return "redirect:/login";
-        }
-
         Object sessionUser = session.getAttribute("userInformation");
+        if (sessionUser == null) return "redirect:/login";
+
         UserDTO user = (UserDTO) sessionUser;
-        List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
+        List<ConnectionDTO> connections = userService.getConnectionsById(user.getId());
+
         // Get the desired connection
         List<Long> ids = connections.stream()
                 .map(ConnectionDTO::getId)
                 .collect(java.util.stream.Collectors.toList());
-        long receiverId;
-        if (id != null && !id.equalsIgnoreCase("null") && ids.contains(Long.parseLong(id))) {
-            receiverId = Long.parseLong(id);
-        } else {
-            receiverId = ids.get(0);
+
+        if (id == null || id.equalsIgnoreCase("null") || !ids.contains(Long.parseLong(id))) {
+            return "redirect:/chat?id=" + ids.get(0);
         }
+
+        long receiverId = Long.parseLong(id);
+
         ConnectionDTO receiver = connections.stream()
                 .filter(connection -> connection.getId() == receiverId)
                 .findFirst()
                 .orElse(connections.get(0));
-        // Add the connection to the model
-        // Get the messages
+
         List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
+
         model.addAttribute("receiver", receiver);
         model.addAttribute("messages", messages);
-
         model.addAttribute("connections", connections);
         return "chat";
     }
