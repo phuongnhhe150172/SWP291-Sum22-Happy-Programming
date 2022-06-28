@@ -71,7 +71,7 @@ public class UserManagementController {
             user = userService.findUser(userId);
             UserDTO userDTO = (UserDTO) sessionUser;
 
-            Integer statusRequest = (requestService.findStatusRequest(userDTO.getId(), user.getId()) != null) ? 1 : 0;
+            Integer statusRequest = (requestService.findStatusRequest(user.getId(), userDTO.getId()) != null) ? 1 : 0;
             Integer statusConnect = (connectService.findConnectByUser1AndUser2(user.getId(), userDTO.getId()) != null ||
                     connectService.findConnectByUser1AndUser2(userDTO.getId(), user.getId()) != null) ? 1 : 0;
             model.addAttribute("statusConnect", statusConnect);
