@@ -104,8 +104,8 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public List<ConnectionDTO> getConnectionsByEmail(String email) {
-        ArrayList<User> users = userRepository.findConnectionsByEmail(email);
+    public List<ConnectionDTO> getConnectionsById(long id) {
+        ArrayList<User> users = userRepository.findConnectionsById(id);
         return users.stream()
                 .map(user -> new ConnectionDTO(
                         user.getId(),
@@ -239,12 +239,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void enableUser(long id){
+    public void enableUser(long id) {
         userRepository.enableUser(id);
     }
 
     @Override
-    public void disableUser(long id){
+    public void disableUser(long id) {
         userRepository.disableUser(id);
     }
 }

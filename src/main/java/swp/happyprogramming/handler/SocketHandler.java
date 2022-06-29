@@ -1,17 +1,12 @@
 package swp.happyprogramming.handler;
 
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import swp.happyprogramming.model.Message;
-import swp.happyprogramming.services.IMessageService;
-import swp.happyprogramming.services.IUserService;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +33,7 @@ public class SocketHandler extends TextWebSocketHandler {
                 .filter(s -> s.getId().equals(users.get(receiverId)))
                 .findFirst();
 
-        if (target.isPresent()) target.get().sendMessage(new TextMessage(content));
+        if (target.isPresent()) target.get().sendMessage(new TextMessage(new Gson().toJson(value)));
     }
 
     @Override

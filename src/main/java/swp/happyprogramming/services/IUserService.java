@@ -22,7 +22,7 @@ public interface IUserService extends UserDetailsService {
 
     int statusRequest(long mentorId, long menteeId);
 
-    List<ConnectionDTO> getConnectionsByEmail(String email);
+    List<ConnectionDTO> getConnectionsById(long id);
 
     User findByEmail(String email);
 
