@@ -20,18 +20,19 @@ function send() {
     let content = $("#content").val();
 
     emptyInput();
-    displaySentMessage(content);
     sendMessageSocket(senderId, receiverId, content);
-    saveMessageToDB(receiverId, content);
     scrollDown();
 }
 
 let processData = (data) => {
-    let {senderId, content} = JSON.parse(data);
+    let {senderId, receiverId, content, image, title, link} = JSON.parse(data);
     let currentTarget = $("#receiver_id").val();
     addNotification(senderId);
     if (senderId === currentTarget) {
-        displayReceivedMessage(content);
+        $("#dummy").before(createMessage({content, image, title, link}, false));
+    }
+    if (senderId === $("#sender_id").val()) {
+        $("#dummy").before(createMessage({content, image, title, link}, true));
     }
 };
 
@@ -43,14 +44,6 @@ $("#content").on("keyup", (e) => {
 });
 
 //<editor-fold desc="Utilities">
-function createMessage(content, fromSelf) {
-    let div = document.createElement('div');
-    let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
-    let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-    div.innerHTML = `<div class='p-4 flex ${direction}'><div class='p-2 rounded-xl ${bg}'>${content}</div></div>`;
-    return div.firstChild;
-}
-
 let scrollDown = () => $("#dummy")[0].scrollIntoView();
 let emptyInput = () => $("#content").val("");
 
@@ -74,23 +67,21 @@ let addNotification = (senderId) => {
     });
 }
 
-let saveMessageToDB = (receiverId, content) => {
-    $.ajax({
-        url: 'http://localhost:8080/sendMessage',
-        method: 'GET',
-        data: {
-            receiverId: receiverId,
-            content: content
-        },
-    })
-}
-
-let displaySentMessage = (content) => {
-    $("#dummy").before(createMessage(content, true));
-}
-let displayReceivedMessage = (content) => {
-    if (content === "") return;
-    $("#dummy").before(createMessage(content, false));
+function createMessage(content, fromSelf) {
+    let div = document.createElement('div');
+    let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
+    let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
+    let ogInfo = content.image ? `<a href="${content.link}" target="_blank">
+            <img src="${content.image}" alt="${content.title}">
+            <p class="font-medium p-3">${content.title}</p>
+        </a>` : "";
+    div.innerHTML = `<div class='p-4 flex ${direction}'>
+            <div class='py-2 rounded-xl ${bg} max-w-[40vmin]'>
+                <p class="px-2 break-all">${content.content}</p>
+                ${ogInfo}
+            </div>
+        </div>`;
+    return div.firstChild;
 }
 
 let sendMessageSocket = (senderId, receiverId, content) => {

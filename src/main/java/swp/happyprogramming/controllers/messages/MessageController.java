@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Message;
+import swp.happyprogramming.services.IMessageService;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,8 @@ public class MessageController {
     private IUserService userService;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private IMessageService messageService;
 
     @GetMapping("/chat")
     public String chat(Model model, @RequestParam(value = "id", required = false) String id) {
@@ -38,12 +42,15 @@ public class MessageController {
 
         long receiverId = Long.parseLong(id);
 
+        List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
+
         ConnectionDTO receiver = connections.stream()
                 .filter(connection -> connection.getId() == receiverId)
                 .findFirst()
                 .orElse(connections.get(0));
 
         model.addAttribute("receiver", receiver);
+        model.addAttribute("messages", messages);
         model.addAttribute("connections", connections);
         return "chat";
     }

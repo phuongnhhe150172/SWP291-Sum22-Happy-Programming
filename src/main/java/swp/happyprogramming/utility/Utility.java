@@ -1,5 +1,9 @@
 package swp.happyprogramming.utility;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Address;
@@ -8,6 +12,8 @@ import swp.happyprogramming.model.User;
 import swp.happyprogramming.model.Ward;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class Utility {
@@ -38,17 +44,42 @@ public class Utility {
         return addressDTO;
     }
 
-    public static Address mapAddressDTO(AddressDTO addressDTO, long wardId) {
-        Address address = mapper.map(addressDTO, Address.class);
-        Ward ward = new Ward();
-        ward.setId(wardId);
-        address.setWard(ward);
-        return address;
-    }
-
     public static double getAverageRate(List<Feedback> feedback) {
         if (feedback.isEmpty()) return 0;
         return (double) feedback.stream().mapToInt(Feedback::getRate).sum() / feedback.size();
     }
 
+    public static String[] getOG(String website) throws IOException {
+        if (website.isEmpty()) return new String[0];
+        Document doc = Jsoup.connect(website).get();
+        Elements metaTags = doc.getElementsByTag("meta");
+
+        String[] og = new String[2];
+
+        for (Element metaTag : metaTags) {
+            String property = metaTag.attr("property");
+            if (property.equalsIgnoreCase("og:title")) {
+                String content = metaTag.attr("content");
+                og[0] = content;
+            }
+            if (property.equalsIgnoreCase("og:image")) {
+                String content = metaTag.attr("content");
+                og[1] = content;
+            }
+        }
+
+        return og;
+    }
+
+    public static String getFirstLink(String content) {
+        String regex = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
+
+        String[] words = content.split(" ");
+        for (String word : words) {
+            if (word.matches(regex)) {
+                return word;
+            }
+        }
+        return "";
+    }
 }
