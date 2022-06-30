@@ -17,4 +17,6 @@ public interface IRequestService {
     Request findStatusRequest(long mentorId, long menteeId);
     void insertRequeset(long fromId, long toId);
     List<Long> getRequestedMentorId(long menteeId);
+
+    long countMonthlyRequest();
 }
