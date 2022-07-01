@@ -65,10 +65,6 @@ public class PostService implements IPostService {
     }
 
     private void updateInformationPost(PostDTO postDTO, long methodId, User user){
-//        post.setDescription(postDTO.getDescription());
-//        post.setPrice(postDTO.getPrice());
-//        post.setStatus(postDTO.getStatus());
-//        post.setMethodId(method);
         Post postMap = mapper.map(postDTO, Post.class);
         postMap.setModified(Date.from(Instant.now()));
         Method method = methodRepository.findById(methodId);
