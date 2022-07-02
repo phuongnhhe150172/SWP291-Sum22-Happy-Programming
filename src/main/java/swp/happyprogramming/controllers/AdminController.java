@@ -40,6 +40,7 @@ public class AdminController {
         int totalNumberOfMentors = userService.countUsersByRolesLike("ROLE_MENTOR");
         int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
         long totalNumberOfRequests = requestService.countTotalRequest();
+        long MonthlyRequest = requestService.countMonthlyRequest();
 
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
