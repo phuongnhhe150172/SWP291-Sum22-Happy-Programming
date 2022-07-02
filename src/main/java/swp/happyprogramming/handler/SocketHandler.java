@@ -42,7 +42,7 @@ public class SocketHandler extends TextWebSocketHandler {
                 .filter(s -> s.getId().equals(users.get(receiverId)) || s.getId().equals(users.get(senderId)))
                 .forEach(target -> sendMessage(value, content, target));
 
-        saveMessage(senderId, receiverId, content);
+        saveMessage(value);
     }
 
     @Override
@@ -50,18 +50,14 @@ public class SocketHandler extends TextWebSocketHandler {
         sessions.add(session);
     }
 
-    public void saveMessage(String senderId, String receiverId, String content) throws IOException {
+    public void saveMessage(Map value) throws IOException {
         Message message = new Message();
-        message.setSender(userService.getUserById(Long.parseLong(senderId)));
-        message.setReceiver(userService.getUserById(Long.parseLong(receiverId)));
-        message.setContent(content);
-        String firstURL = Utility.getFirstLink(content);
-        String[] og = Utility.getOG(firstURL);
-        if (!firstURL.isEmpty()) message.setLink(firstURL);
-        if (og.length != 0) {
-            message.setTitle(og[0]);
-            message.setImage(og[1]);
-        }
+        message.setSender(userService.getUserById(Long.parseLong((String) value.get("senderId"))));
+        message.setReceiver(userService.getUserById(Long.parseLong((String) value.get("receiverId"))));
+        message.setContent((String) value.get("content"));
+        message.setLink(value.get("link") == null ? null : (String) value.get("link"));
+        message.setTitle(value.get("title") == null ? null : (String) value.get("title"));
+        message.setImage(value.get("image") == null ? null : (String) value.get("image"));
         messageService.saveMessage(message);
     }
 

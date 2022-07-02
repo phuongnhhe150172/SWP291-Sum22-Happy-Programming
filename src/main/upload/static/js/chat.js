@@ -18,7 +18,7 @@ function send() {
     let senderId = $("#sender_id").val();
     let receiverId = $("#receiver_id").val();
     let content = $("#content").val();
-
+    if (content.length <= 0) return;
     emptyInput();
     sendMessageSocket(senderId, receiverId, content);
     scrollDown();
@@ -71,7 +71,7 @@ function createMessage(content, fromSelf) {
     let div = document.createElement('div');
     let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
     let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-    let ogInfo = content.image ? `<a href="${content.link}" target="_blank">
+    let ogInfo = content.link ? `<a href="${content.link}" target="_blank">
             <img src="${content.image}" alt="${content.title}">
             <p class="font-medium p-3">${content.title}</p>
         </a>` : "";

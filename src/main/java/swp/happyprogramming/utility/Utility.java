@@ -19,6 +19,7 @@ import java.util.List;
 public class Utility {
 
     private static final ModelMapper mapper = new ModelMapper();
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0";
 
     private Utility() {
         //    Overwrite default constructor
@@ -51,28 +52,29 @@ public class Utility {
 
     public static String[] getOG(String website) throws IOException {
         if (website.isEmpty()) return new String[0];
-        Document doc = Jsoup.connect(website).get();
-        Elements metaTags = doc.getElementsByTag("meta");
-
+        Document doc = Jsoup.connect(website)
+                // .userAgent(USER_AGENT)
+                .header("Accept-Encoding", "gzip,deflate,sdch")
+                .timeout(0)
+                .maxBodySize(0)
+                .get();
         String[] og = new String[2];
-
-        for (Element metaTag : metaTags) {
-            String property = metaTag.attr("property");
-            if (property.equalsIgnoreCase("og:title")) {
-                String content = metaTag.attr("content");
-                og[0] = content;
-            }
-            if (property.equalsIgnoreCase("og:image")) {
-                String content = metaTag.attr("content");
-                og[1] = content;
-            }
+        if (doc.selectFirst("title") != null) {
+            og[0] = doc.selectFirst("title").text();
+        } else {
+            og[0] = "Untitled";
         }
-
+        Element imageTag = doc.selectFirst("meta[property='og:image']");
+        if (imageTag != null && imageTag.attr("content") != null) {
+            og[1] = imageTag.attr("content");
+        } else {
+            og[1] = "/upload/static/imgs/noimage.jpg";
+        }
         return og;
     }
 
     public static String getFirstLink(String content) {
-        String regex = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
+        String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
 
         String[] words = content.split(" ");
         for (String word : words) {
