@@ -145,7 +145,6 @@ public class AdminController {
         return "redirect:/admin/skills";
     }
 
-
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Trinh Trung Kien - 52 - View all requests (admin)
