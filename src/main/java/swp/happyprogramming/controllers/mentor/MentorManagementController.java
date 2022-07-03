@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.ConnectDTO;
+import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.User;
@@ -64,7 +65,7 @@ public class MentorManagementController {
 
     @GetMapping("/mentor/top")
     public String topMentor(Model model) {
-        List<MentorDTO> mentorList = mentorService.getTopMentors();
+        List<ConnectionDTO> mentorList = mentorService.getTopMentors();
         model.addAttribute("mentorList", mentorList);
         return "mentor/suggestions";
     }
