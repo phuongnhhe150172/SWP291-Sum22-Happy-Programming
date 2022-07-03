@@ -71,6 +71,7 @@ public class UserService implements IUserService {
 
         user.setImage("/upload/static/imgs/avatar_default.jpg");
         user.setAddress(savedAddress);
+        user.setStatus(1);
         user.addRole(roleRepository.findByName("ROLE_MENTEE"));
         userRepository.save(user);
     }
@@ -133,7 +134,9 @@ public class UserService implements IUserService {
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
 
-        Address address = mapper.map(userDTO.getAddress(), Address.class);
+        Address address = currentUser.getAddress();
+
+        // Address address = mapper.map(userDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(null);
         address.setWard(ward);
 
