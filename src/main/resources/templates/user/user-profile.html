@@ -19,7 +19,7 @@
                  class="w-48 h-48 rounded-full border-2 border-gray-400 group-hover:opacity-70" alt="">
         </div>
         <div th:if="${session.userInformation.id == user.id}"
-                class="relative group">
+             class="relative group">
             <img th:src="@{*{image}}"
                  class="w-48 h-48 rounded-full border-2 border-gray-400 group-hover:opacity-70" alt="">
             <form th:action="@{/uploading}" th:method="post" id="formImage" class="w-full"
