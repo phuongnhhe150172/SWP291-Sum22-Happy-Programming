@@ -31,9 +31,9 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public void saveMessage(Message message) {
+    public Message saveMessage(Message message) {
         message.setTimestamp(Instant.now());
-        messageRepository.save(message);
+        return messageRepository.save(message);
     }
 
     @Override

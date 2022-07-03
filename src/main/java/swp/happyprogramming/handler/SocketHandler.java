@@ -12,6 +12,9 @@ import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,7 @@ import java.util.Map;
 @Component
 public class SocketHandler extends TextWebSocketHandler {
 
+    private static final String PATTERN_FORMAT = "dd/MM/yyyy hh:mm";
     ArrayList<WebSocketSession> sessions = new ArrayList<>();
     Map<String, String> users = new HashMap<>();
     @Autowired
@@ -38,11 +42,19 @@ public class SocketHandler extends TextWebSocketHandler {
             return;
         }
 
-        sessions.stream()
-                .filter(s -> s.getId().equals(users.get(receiverId)) || s.getId().equals(users.get(senderId)))
-                .forEach(target -> sendMessage(value, content, target));
+        Utility.addOG(value);
+        Message savedMessage = saveMessage(value);
+        value.put("timestamp", DateTimeFormatter
+                .ofPattern(PATTERN_FORMAT)
+                .withZone(ZoneId.systemDefault())
+                .format(savedMessage.getTimestamp())
+        );
 
-        saveMessage(value);
+        for (WebSocketSession s : sessions) {
+            if (s.getId().equals(users.get(receiverId)) || s.getId().equals(users.get(senderId))) {
+                s.sendMessage(new TextMessage(new Gson().toJson(value)));
+            }
+        }
     }
 
     @Override
@@ -50,7 +62,7 @@ public class SocketHandler extends TextWebSocketHandler {
         sessions.add(session);
     }
 
-    public void saveMessage(Map value) throws IOException {
+    public Message saveMessage(Map value) {
         Message message = new Message();
         message.setSender(userService.getUserById(Long.parseLong((String) value.get("senderId"))));
         message.setReceiver(userService.getUserById(Long.parseLong((String) value.get("receiverId"))));
@@ -58,21 +70,6 @@ public class SocketHandler extends TextWebSocketHandler {
         message.setLink(value.get("link") == null ? null : (String) value.get("link"));
         message.setTitle(value.get("title") == null ? null : (String) value.get("title"));
         message.setImage(value.get("image") == null ? null : (String) value.get("image"));
-        messageService.saveMessage(message);
-    }
-
-    public void sendMessage(Map value, String content, WebSocketSession target) {
-        try {
-            String firstURL = Utility.getFirstLink(content);
-            String[] og = Utility.getOG(firstURL);
-            if (!firstURL.isEmpty()) value.put("link", firstURL);
-            if (og.length != 0) {
-                value.put("title", og[0]);
-                value.put("image", og[1]);
-            }
-            target.sendMessage(new TextMessage(new Gson().toJson(value)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return messageService.saveMessage(message);
     }
 }

@@ -25,14 +25,14 @@ function send() {
 }
 
 let processData = (data) => {
-    let {senderId, receiverId, content, image, title, link} = JSON.parse(data);
+    let {senderId, receiverId, content, image, title, link, timestamp} = JSON.parse(data);
     let currentTarget = $("#receiver_id").val();
     addNotification(senderId);
     if (senderId === currentTarget) {
-        $("#dummy").before(createMessage({content, image, title, link}, false));
+        $("#dummy").before(createMessage({content, image, title, link, timestamp}, false));
     }
     if (senderId === $("#sender_id").val()) {
-        $("#dummy").before(createMessage({content, image, title, link}, true));
+        $("#dummy").before(createMessage({content, image, title, link, timestamp}, true));
     }
 };
 
@@ -72,14 +72,15 @@ function createMessage(content, fromSelf) {
     let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
     let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
     let ogInfo = content.link ? `<a href="${content.link}" target="_blank">
-            <img src="${content.image}" alt="${content.title}">
-            <p class="font-medium p-3">${content.title}</p>
+            <img class="w-full" src="${content.image}" alt="${content.title}">
+            <p class="font-medium px-3 pt-3">${content.title}</p>
         </a>` : "";
-    div.innerHTML = `<div class='p-4 flex ${direction}'>
-            <div class='py-2 rounded-xl ${bg} max-w-[40vmin]'>
-                <p class="px-2 break-all">${content.content}</p>
+    div.innerHTML = `<div class='p-4 flex ${direction} items-center group gap-4'>
+            <div class='py-2 rounded-xl ${bg} max-w-[30ch]'>
+                <p class="px-2 pb-2 break-all">${content.content}</p>
                 ${ogInfo}
             </div>
+            <p class="hidden group-hover:block text-gray-600 font-medium text-sm">${content.timestamp}</p>
         </div>`;
     return div.firstChild;
 }
