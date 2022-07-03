@@ -1,14 +1,12 @@
 package swp.happyprogramming.services.servicesimpl;
 
-import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.AddressDTO;
+import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -94,11 +92,16 @@ public class MentorService implements IMentorService {
     }
 
     @Override
-    public List<MentorDTO> getTopMentors() {
+    public List<ConnectionDTO> getTopMentors() {
         List<Mentor> mentors = mentorRepository.getTopMentors();
         return mentors
                 .stream()
-                .map(mentor -> findMentor(mentor.getUser().getId()))
+                .map(mentor -> new ConnectionDTO(
+                                mentor.getUser().getId(),
+                                mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
+                                mentor.getUser().getImage()
+                        )
+                )
                 .collect(Collectors.toList());
     }
 
@@ -148,7 +151,7 @@ public class MentorService implements IMentorService {
     }
 
     @Override
-    public void createCv(long userId, List<String> experienceValue, List<String> skillValue){
+    public void createCv(long userId, List<String> experienceValue, List<String> skillValue) {
         User user = userRepository.findById(userId).orElse(null);
         Mentor mentor = new Mentor();
         mentor.setUser(user);
@@ -158,12 +161,12 @@ public class MentorService implements IMentorService {
         userRepository.convertToMentor(userId);
 
         Mentor mentorLast = mentorRepository.findMentorLast();
-        if(experienceValue != null){
-            saveExperienceAndMentorExperience(mentorLast,experienceValue);
+        if (experienceValue != null) {
+            saveExperienceAndMentorExperience(mentorLast, experienceValue);
         }
 
-        if(skillValue != null){
-            saveUserSkills(mentorLast.getId(),skillValue);
+        if (skillValue != null) {
+            saveUserSkills(mentorLast.getId(), skillValue);
         }
     }
 
