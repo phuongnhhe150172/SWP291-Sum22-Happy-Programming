@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Entity
 @Table(name = "connections")
@@ -17,10 +16,10 @@ public class Connect {
     private long id;
 
     @Column(name = "date_created")
-    private Date created;
+    private Instant created;
 
-    public Connect(){
-        this.created = Date.from(Instant.now());
+    public Connect() {
+        this.created = Instant.now();
     }
 
     @ManyToOne

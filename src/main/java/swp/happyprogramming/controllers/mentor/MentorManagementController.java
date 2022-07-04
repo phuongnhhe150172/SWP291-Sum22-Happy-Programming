@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.ConnectDTO;
 import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.IUserRepository;
 import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.services.IMentorService;
 import swp.happyprogramming.services.IRequestService;
@@ -54,13 +52,6 @@ public class MentorManagementController {
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
         return "mentor/showMentor";
-    }
-
-    @GetMapping("/mentor/search")
-    public String searchMentor(Model model, @RequestParam Map<String, Object> params) {
-        List<MentorDTO> mentorList = mentorService.searchMentors(params);
-        model.addAttribute("mentorList", mentorList);
-        return "mentor/search";
     }
 
     @GetMapping("/mentor/top")
