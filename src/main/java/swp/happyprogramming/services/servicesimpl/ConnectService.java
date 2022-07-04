@@ -29,7 +29,7 @@ public class ConnectService implements IConnectService {
     ModelMapper mapper = new ModelMapper();
 
     @Override
-    public Connect findConnectByUser1AndUser2(long user1Id, long user2Id){
+    public Connect findConnectByUser1AndUser2(long user1Id, long user2Id) {
         return connectRepository.findConnectByUser1IdAndUser2Id(user1Id, user2Id).orElse(null);
     }
 
@@ -62,17 +62,15 @@ public class ConnectService implements IConnectService {
     public List<Long> getConnectedMentor(long menteeId) {
         List<Long> connected = new ArrayList<>();
         List<Connect> connects = connectRepository.findAll();
-        for (Connect c: connects) {
-            if (c.getUser1().getId() == menteeId){
+        for (Connect c : connects) {
+            if (c.getUser1().getId() == menteeId) {
                 connected.add(c.getUser2().getId());
-            }
-            else if (c.getUser2().getId() == menteeId){
+            } else if (c.getUser2().getId() == menteeId) {
                 connected.add(c.getUser1().getId());
             }
         }
         return connected;
     }
-
 
 
 }

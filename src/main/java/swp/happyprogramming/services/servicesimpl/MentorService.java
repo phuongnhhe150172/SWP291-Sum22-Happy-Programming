@@ -40,26 +40,8 @@ public class MentorService implements IMentorService {
 
     // READ SECTION
     public MentorDTO findMentor(long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
         Optional<Mentor> optionalMentor = mentorRepository.findByUserId(id);
-        if (optionalUser.isPresent() && optionalMentor.isPresent()) {
-            Mentor mentor = optionalMentor.get();
-            User user = optionalUser.get();
-            // set data to mentorDTO
-            return combineUserAndProfile(user, mentor);
-        } else {
-            return null;
-        }
-    }
-
-    private MentorDTO combineUserAndProfile(User user, Mentor mentor) {
-        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
-        mapper.map(user, mentorDTO);
-        mentorDTO.setProfileId(mentor.getId());
-        mentorDTO.setExperiences((List<Experience>) mentor.getExperiences());
-        mentorDTO.setSkills((List<Skill>) mentor.getSkills());
-        mentorDTO.setAddress(Utility.mapAddress(user.getAddress()));
-        return mentorDTO;
+        return optionalMentor.map(Utility::mapMentor).orElse(null);
     }
 
     @Override
@@ -82,11 +64,10 @@ public class MentorService implements IMentorService {
         return mentors
                 .stream()
                 .map(mentor -> new ConnectionDTO(
-                                mentor.getUser().getId(),
-                                mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
-                                mentor.getUser().getImage()
-                        )
-                )
+                        mentor.getUser().getId(),
+                        mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
+                        mentor.getUser().getImage()
+                ))
                 .collect(Collectors.toList());
     }
 

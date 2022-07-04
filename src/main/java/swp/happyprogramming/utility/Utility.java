@@ -3,18 +3,14 @@ package swp.happyprogramming.utility;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
 import swp.happyprogramming.dto.*;
-import swp.happyprogramming.model.Address;
-import swp.happyprogramming.model.Feedback;
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.model.Ward;
+import swp.happyprogramming.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Utility {
 
@@ -37,6 +33,17 @@ public class Utility {
         return userDTO;
     }
 
+    public static MentorDTO mapMentor(Mentor mentor) {
+        if (mentor == null) return null;
+        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
+        mapper.map(mentor.getUser(), mentorDTO);
+        mentorDTO.setProfileId(mentor.getId());
+        mentorDTO.setExperiences((List<Experience>) mentor.getExperiences());
+        mentorDTO.setSkills((List<Skill>) mentor.getSkills());
+        mentorDTO.setAddress(Utility.mapAddress(mentor.getUser().getAddress()));
+        return mentorDTO;
+    }
+
     public static AddressDTO mapAddress(Address address) {
         AddressDTO addressDTO = mapper.map(address, AddressDTO.class);
         addressDTO.setWard(mapper.map(address.getWard(), WardDTO.class));
@@ -50,27 +57,25 @@ public class Utility {
         return (double) feedback.stream().mapToInt(Feedback::getRate).sum() / feedback.size();
     }
 
-    public static String[] getOG(String website) throws IOException {
-        if (website.isEmpty()) return new String[0];
-        Document doc = Jsoup.connect(website)
+    public static void addOG(Map value) throws IOException {
+        String firstURL = getFirstLink((String) value.get("content"));
+        Document doc = Jsoup.connect(firstURL)
                 // .userAgent(USER_AGENT)
                 .header("Accept-Encoding", "gzip,deflate,sdch")
                 .timeout(0)
                 .maxBodySize(0)
                 .get();
-        String[] og = new String[2];
         if (doc.selectFirst("title") != null) {
-            og[0] = doc.selectFirst("title").text();
+            value.put("title", doc.selectFirst("title").text());
         } else {
-            og[0] = "Untitled";
+            value.put("title", "Untitled");
         }
         Element imageTag = doc.selectFirst("meta[property='og:image']");
         if (imageTag != null && imageTag.attr("content") != null) {
-            og[1] = imageTag.attr("content");
+            value.put("image", imageTag.attr("content"));
         } else {
-            og[1] = "/upload/static/imgs/noimage.jpg";
+            value.put("image", "/upload/static/imgs/noimage.jpg");
         }
-        return og;
     }
 
     public static String getFirstLink(String content) {
