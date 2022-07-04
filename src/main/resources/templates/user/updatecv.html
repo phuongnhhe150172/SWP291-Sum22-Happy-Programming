@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>-->
     <title>Document</title>
 </head>
 
@@ -19,7 +20,7 @@
              class="w-64 h-64 rounded-full border-2 border-gray-400 mx-auto" alt="">
     </div>
 
-    <form class="col-span-3 p-8" th:action="@{/update/cv}" th:object="${mentor}" method="post">
+    <form class="col-span-3 p-8" th:action="@{/update/cv}" th:object="${mentor}" method="post" id="form-submit">
         <div class="">
             <input type="hidden" name="id" th:value="*{id}" th:field="*{id}">
             <input type="hidden" name="image" th:value="*{image}" th:field="*{image}">
@@ -277,6 +278,26 @@
             });
         });
     });
+    //
+    // $(document).read(function (){
+    //     $("#form-submit").validate({
+    //         rules: {
+    //             gender : {
+    //                 required: true,
+    //                 validateGender: true
+    //             }
+    //         },
+    //         messages: {
+    //             gender: {
+    //                 required: "abc"
+    //             }
+    //         }
+    //     });
+    // });
+    // $.validator.addMethod("validateGender",function (value, element){
+    //     return value == -1;
+    // })
+
 </script>
 </body>
 
