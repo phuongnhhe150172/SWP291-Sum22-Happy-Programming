@@ -293,15 +293,15 @@
             },
         );
 
-        // $.validator.addMethod(
-        //     "validateDOB",
-        //     function (value,element){
-        //         let created = document.getElementById('created').value;
-        //         let dob = new Date(value);
-        //         let createdDate = new Date(created);
-        //         return dob < createdDate;
-        //     },
-        // );
+        $.validator.addMethod(
+            "validateDOB",
+            function (value,element){
+                let created = document.getElementById('created').value;
+                let dob = new Date(value);
+                let createdDate = new Date(created);
+                return dob < createdDate;
+            },
+        );
 
         // $("#form-submit").validate({
         //     rules: {
