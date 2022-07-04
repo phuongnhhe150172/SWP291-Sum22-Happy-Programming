@@ -284,44 +284,44 @@
             });
         });
     });
-    //
-    // $(document).ready(function (){
-    //     $.validator.addMethod(
-    //         "validateGender",
-    //         function (value,element){
-    //             return value != "-1";
-    //         },
-    //     );
-    //
-    //     $.validator.addMethod(
-    //         "validateDOB",
-    //         function (value,element){
-    //             let created = document.getElementById('created').value;
-    //             let dob = new Date(value);
-    //             let createdDate = new Date(created);
-    //             return dob < createdDate;
-    //         },
-    //     );
-    //
-    //     $("#form-submit").validate({
-    //         rules: {
-    //             gender : {
-    //                 validateGender: true
-    //             },
-    //             dob: {
-    //                 validateDOB: true
-    //             }
-    //         },
-    //         messages: {
-    //             gender: {
-    //                 validateGender: "You should choose gender"
-    //             },
-    //             dob: {
-    //                 validateDOB: "Date of birth need before created date"
-    //             }
-    //         }
-    //     });
-    // });
+
+    $(document).ready(function (){
+        $.validator.addMethod(
+            "validateGender",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        // $.validator.addMethod(
+        //     "validateDOB",
+        //     function (value,element){
+        //         let created = document.getElementById('created').value;
+        //         let dob = new Date(value);
+        //         let createdDate = new Date(created);
+        //         return dob < createdDate;
+        //     },
+        // );
+
+        // $("#form-submit").validate({
+        //     rules: {
+        //         gender : {
+        //             validateGender: true
+        //         },
+        //         dob: {
+        //             validateDOB: true
+        //         }
+        //     },
+        //     messages: {
+        //         gender: {
+        //             validateGender: "You should choose gender"
+        //         },
+        //         dob: {
+        //             validateDOB: "Date of birth need before created date"
+        //         }
+        //     }
+        // });
+    });
 
 </script>
 </body>
