@@ -59,6 +59,8 @@ public class Utility {
 
     public static void addOG(Map value) throws IOException {
         String firstURL = getFirstLink((String) value.get("content"));
+        value.put("link", firstURL);
+        if (firstURL == "") return;
         Document doc = Jsoup.connect(firstURL)
                 // .userAgent(USER_AGENT)
                 .header("Accept-Encoding", "gzip,deflate,sdch")
@@ -88,5 +90,14 @@ public class Utility {
             }
         }
         return "";
+    }
+
+    public static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
