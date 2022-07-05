@@ -16,7 +16,7 @@
                 <img th:src="@{/upload/static/imgs/logo.svg}" alt="" class="mx-auto">
             </a>
         </div>
-        <div class="flex items-center gap-3 rounded-md p-4 my-4">
+        <div class="flex items-center gap-3 rounded-md p-4 my-4" th:if="${session.userInformation != null}">
             <img src="../../static/imgs/avatar1.jpg" th:src="@{${session.userInformation.image}}" alt=""
                  class="w-10 h-10 rounded-full">
             <div class="">
@@ -24,6 +24,17 @@
                     <h3 class="font-medium"
                         th:text="${session.userInformation.getFirstName() + ' ' + session.userInformation.getLastName()}">
                         Anna Amelius
+                    </h3>
+                </a>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 rounded-md p-4 my-4" th:if="${session.userInformation == null}">
+            <img th:src="@{/upload/static/imgs/avatar_default}" alt=""
+                 class="w-10 h-10 rounded-full">
+            <div class="">
+                <a href="/login">
+                    <h3 class="font-medium">
+                        Login
                     </h3>
                 </a>
             </div>
