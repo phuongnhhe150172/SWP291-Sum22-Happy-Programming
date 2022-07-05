@@ -61,8 +61,7 @@ public class MentorService implements IMentorService {
     @Override
     public List<ConnectionDTO> getTopMentors() {
         List<Mentor> mentors = mentorRepository.getTopMentors();
-        return mentors
-                .stream()
+        return mentors.stream()
                 .map(mentor -> new ConnectionDTO(
                         mentor.getUser().getId(),
                         mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
