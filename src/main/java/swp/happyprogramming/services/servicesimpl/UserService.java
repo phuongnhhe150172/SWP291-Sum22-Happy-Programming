@@ -105,8 +105,24 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
+    public Pagination<ConnectionDTO> getConnectionsById(long id, int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
+        Page<User> page = userRepository.findConnectionsById(pageRequest, id);
+        int totalPages = page.getTotalPages();
+        List<User> users = page.getContent();
+        List<ConnectionDTO> connections = users.stream()
+                .map(user -> new ConnectionDTO(
+                        user.getId(),
+                        user.getFirstName() + " " + user.getLastName(),
+                        user.getImage())
+                ).collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(connections, pageNumbers);
+    }
+
+    @Override
     public List<ConnectionDTO> getConnectionsById(long id) {
-        ArrayList<User> users = userRepository.findConnectionsById(id);
+        List<User> users = userRepository.findConnectionsById(id);
         return users.stream()
                 .map(user -> new ConnectionDTO(
                         user.getId(),

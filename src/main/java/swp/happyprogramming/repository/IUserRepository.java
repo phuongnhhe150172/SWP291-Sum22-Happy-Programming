@@ -30,7 +30,11 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
             nativeQuery = true)
-    ArrayList<User> findConnectionsById(long id);
+    Page<User> findConnectionsById(Pageable pageable, long id);
+
+    @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
+            nativeQuery = true)
+    List<User> findConnectionsById(long id);
 
     @Query(value = "select * from users where id in (select mentor_id from request where mentee_id = (select id from users where email=?1) union select mentee_id from request where mentor_id = (select id from users where email=?1))",
             nativeQuery = true)

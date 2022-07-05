@@ -11,13 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Experience;
 import swp.happyprogramming.model.Skill;
-import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.*;
+import swp.happyprogramming.utility.Utility;
 
 import javax.servlet.http.HttpSession;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +86,7 @@ public class UserManagementController {
         UserDTO user = id != null ?
                 userService.findUser(Integer.parseInt(id)) :
                 (UserDTO) session.getAttribute(USER_SESSION);
-        addAddressInfo(model, user);
+        addAddressAttribute(model, user);
         model.addAttribute("user", user);
         return "user/update-profile";
     }
@@ -141,9 +140,9 @@ public class UserManagementController {
             long mentorId = Integer.parseInt(id);
             MentorDTO mentorDTO = mentorService.findMentor(mentorId);
 
-            addAddressInfo(model, mentorDTO);
-            addSkillInfo(model, mentorDTO);
-            addExperienceInfo(model, mentorDTO);
+            addAddressAttribute(model, mentorDTO);
+            addSkillAttribute(model, mentorDTO);
+            addExperienceAttribute(model, mentorDTO);
 
             model.addAttribute("mentor", mentorDTO);
             model.addAttribute("mentorId", mentorId);
@@ -175,29 +174,26 @@ public class UserManagementController {
         //      Hoàng Văn Nam -   - Upload avatar
         UserDTO userDTO = (UserDTO) session.getAttribute(USER_SESSION);
         userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
-        UserDTO user = userService.findUser(userDTO.getId());
-        session.setAttribute(USER_SESSION, user);
+        userDTO.setImage("/upload/static/imgs/image" + userDTO.getId() + ".jpg");
+        session.setAttribute(USER_SESSION, userDTO);
         return "redirect:profile";
     }
 
     @GetMapping("/create")
     public String createCv(Model model, @RequestParam(value = "id", required = false) String id) {
         UserDTO user;
-        try {
-            if (id != null) {
-                long userId = Integer.parseInt(id);
-                user = userService.findUser(userId);
-            } else {
-                user = (UserDTO) session.getAttribute(USER_SESSION);
-            }
-            List<Skill> listSkill = skillService.getAllSkill();
-
-            model.addAttribute("listSkill", listSkill);
-            model.addAttribute("user", user);
-            return "user/createcv";
-        } catch (NumberFormatException e) {
-            return INDEX_PAGE;
+        if (id != null) {
+            if (!Utility.isNumber(id)) return INDEX_PAGE;
+            long userId = Integer.parseInt(id);
+            user = userService.findUser(userId);
+        } else {
+            user = (UserDTO) session.getAttribute(USER_SESSION);
         }
+        List<Skill> listSkill = skillService.getAllSkill();
+
+        model.addAttribute("listSkill", listSkill);
+        model.addAttribute("user", user);
+        return "user/createcv";
     }
 
     @PostMapping("/create")
@@ -213,7 +209,7 @@ public class UserManagementController {
         }
     }
 
-    public void addAddressInfo(Model model, UserDTO user) {
+    public void addAddressAttribute(Model model, UserDTO user) {
         long districtId = user.getAddress().getDistrict().getId();
         long provinceId = user.getAddress().getProvince().getId();
 
@@ -226,13 +222,13 @@ public class UserManagementController {
         model.addAttribute("listWard", listWard);
     }
 
-    public void addSkillInfo(Model model, MentorDTO mentor) {
+    public void addSkillAttribute(Model model, MentorDTO mentor) {
         List<Skill> listSkill = skillService.getAllSkill();
         Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentor.getSkills());
         model.addAttribute("mapSkill", mapSkill);
     }
 
-    public void addExperienceInfo(Model model, MentorDTO mentor) {
+    public void addExperienceAttribute(Model model, MentorDTO mentor) {
         List<Experience> listExperience = experienceService.getAllExperienceByProfileID(mentor.getProfileId());
         model.addAttribute("listExperience", listExperience);
     }
