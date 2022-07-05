@@ -1,5 +1,6 @@
 package swp.happyprogramming.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -38,5 +39,10 @@ public class Role {
                     name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"))
-    private Collection<User> users ;
+    private Collection<User> users;
+
+
+
+    @ManyToMany(mappedBy = "notificationToRoles")
+    private Collection<Notification> notifications;
 }
