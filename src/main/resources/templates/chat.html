@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - Happy Programming</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/upload/static/imgs/logo.svg}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex bg-zinc-900 text-white font-['SF_Pro_Text']">
@@ -29,7 +30,7 @@
                     </a>
                 </div>
                 <p class="hidden group-hover:block text-gray-600 font-medium text-sm"
-                   th:text="${#temporals.format(message.timestamp, 'dd/MM/yyyy hh:mm')}"></p>
+                   th:text="${#temporals.format(message.timestamp, 'dd/MM/yyyy HH:mm:ss')}"></p>
             </div>
             <div id="dummy"></div>
         </div>

@@ -10,6 +10,4 @@ public interface IMessageService {
     List<Message> getMessagesByUserId(long id, long recId);
 
     Message saveMessage(Message message);
-
-    String uploadImage(Long sender_id, Long receiver_id, Path currentFolder, MultipartFile image);
 }

@@ -27,31 +27,42 @@ public class MessageController {
     public String chat(Model model, @RequestParam(value = "id", required = false) String id) {
         Object sessionUser = session.getAttribute("userInformation");
         if (sessionUser == null) return "redirect:/login";
-
         UserDTO user = (UserDTO) sessionUser;
+
         List<ConnectionDTO> connections = userService.getConnectionsById(user.getId());
 
         // Get the desired connection
-        List<Long> ids = connections.stream()
-                .map(ConnectionDTO::getId)
-                .collect(java.util.stream.Collectors.toList());
+        List<Long> ids = getConnectionsIds(connections);
 
-        if (id == null || id.equalsIgnoreCase("null") || !ids.contains(Long.parseLong(id))) {
+        if (id == null || !ids.contains(Long.parseLong(id))) return "redirect:/chat?id=" + ids.get(0);
+
+        long receiverId;
+        try {
+            receiverId = Long.parseLong(id);
+        } catch (NumberFormatException e) {
             return "redirect:/chat?id=" + ids.get(0);
         }
 
-        long receiverId = Long.parseLong(id);
-
         List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
 
-        ConnectionDTO receiver = connections.stream()
-                .filter(connection -> connection.getId() == receiverId)
-                .findFirst()
-                .orElse(connections.get(0));
+        ConnectionDTO receiver = getReceiver(connections, receiverId);
 
         model.addAttribute("receiver", receiver);
         model.addAttribute("messages", messages);
         model.addAttribute("connections", connections);
         return "chat";
+    }
+
+    private List<Long> getConnectionsIds(List<ConnectionDTO> connections) {
+        return connections.stream()
+                .map(ConnectionDTO::getId)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    private ConnectionDTO getReceiver(List<ConnectionDTO> connections, long receiverId) {
+        return connections.stream()
+                .filter(connection -> connection.getId() == receiverId)
+                .findFirst()
+                .orElse(connections.get(0));
     }
 }
