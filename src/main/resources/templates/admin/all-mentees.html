@@ -69,10 +69,10 @@
                     <th class="px-6 py-4"> phone</th>
                     <th class="px-6 py-4"> Email</th>
                     <th class="px-6 py-4"> Address</th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-4">
                         <span class="sr-only">Edit</span>
                     </th>
-                    <th class="px-4 py-4">Trigger</th>
+                    <th class="px-6 py-4">Trigger</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -89,100 +89,104 @@
                     <td class="px-6 py-4"
                         th:utext="${mentee.address.ward.name + ', ' + mentee.address.district.name + ', ' + mentee.address.province.name}">
                     </td>
-                    <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
-                        <a th:href="@{/admin/mentee(id=${mentee.id})}" class="text-green-500 hover:text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                            </svg>
-                        </a>
+                    <td class="px-6 py-4">
+                        <div class="w-[100%] h-[100%] flex items-center">
+                            <a th:href="@{/admin/mentee(id=${mentee.id})}" class="text-green-500 hover:text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </a>
+                        </div>
                     </td>
-                    <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
-                        <label th:attr="for=${'small-toggle' + mentee.id}"
-                               class="inline-flex relative items-center mb-5 cursor-pointer">
-                            <input th:if="${mentee.status == 0}"
-                                   type="checkbox" value=""
-                                   th:attr="id=${'small-toggle' + mentee.id},data-modal-toggle=${'popup-modal-enable' + mentee.id}"
-                                   class="sr-only peer">
-                            <input th:if="${mentee.status == 1}" checked
-                                   type="checkbox" value=""
-                                   th:attr="id=${'small-toggle' + mentee.id},data-modal-toggle=${'popup-modal-disable' + mentee.id}"
-                                   class="sr-only peer">
-                            <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4
+                    <td class="px-6 py-4">
+                        <div class="w-[100%] h-[100%] flex items-center">
+                            <label th:attr="for=${'small-toggle' + mentee.id}"
+                                   class="inline-flex relative items-center cursor-pointer">
+                                <input th:if="${mentee.status == 0}"
+                                       type="checkbox" value=""
+                                       th:attr="id=${'small-toggle' + mentee.id},data-modal-toggle=${'popup-modal-enable' + mentee.id}"
+                                       class="sr-only peer">
+                                <input th:if="${mentee.status == 1}" checked
+                                       type="checkbox" value=""
+                                       th:attr="id=${'small-toggle' + mentee.id},data-modal-toggle=${'popup-modal-disable' + mentee.id}"
+                                       class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4
                             peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700
                             peer-checked:after:translate-x-full peer-checked:after:border-white after:content-['']
                             after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300
                             after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600
                             peer-checked:bg-blue-600"></div>
-                        </label>
-                        <div th:attr="id=${'popup-modal-enable' + mentee.id}" data-modal-placement="top-center"
-                             tabindex="-1"
-                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
-                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <a th:href="@{/admin/mentors}"
-                                       type="button"
-                                       class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                  clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                    <div class="p-6 text-center">
-                                        <h3
-                                                class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                            Do you want to enable this user?</h3>
-                                        <a th:href="@{/admin/enable(id=${mentee.id})}" type="button"
-                                           class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
-                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
-                                               text-center mr-2">Yes</a>
-                                        <a th:href="@{/admin/mentors}"
-                                           type="button"
-                                           class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200
-                                               rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10
-                                               dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600
-                                               dark:focus:ring-gray-600">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div th:attr="id=${'popup-modal-disable' + mentee.id}" data-modal-placement="top-center"
-                             tabindex="-1"
-                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
-                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <a th:href="@{/admin/mentors}"
-                                       type="button"
-                                       class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                  clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                    <div class="p-6 text-center">
-                                        <h3
-                                                class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                            Do you want to disable this user?</h3>
-                                        <a th:href="@{/admin/disable(id=${mentee.id})}" type="button"
-                                           class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
-                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
-                                               text-center mr-2">Yes</a>
-                                        <a th:href="@{/admin/mentors}"
-                                           type="button"
-                                           class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200
-                                               rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10
-                                               dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600
-                                               dark:focus:ring-gray-600">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
+                            </label>
+<!--                            <div th:attr="id=${'popup-modal-enable' + mentee.id}" data-modal-placement="top-center"-->
+<!--                                 tabindex="-1"-->
+<!--                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">-->
+<!--                                <div class="relative p-4 w-full max-w-md h-full md:h-auto">-->
+<!--                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">-->
+<!--                                        <a th:href="@{/admin/mentors}"-->
+<!--                                           type="button"-->
+<!--                                           class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">-->
+<!--                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"-->
+<!--                                                 xmlns="http://www.w3.org/2000/svg">-->
+<!--                                                <path fill-rule="evenodd"-->
+<!--                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"-->
+<!--                                                      clip-rule="evenodd"></path>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
+<!--                                        <div class="p-6 text-center">-->
+<!--                                            <h3-->
+<!--                                                    class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">-->
+<!--                                                Do you want to enable this user?</h3>-->
+<!--                                            <a th:href="@{/admin/enable(id=${mentee.id})}" type="button"-->
+<!--                                               class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300-->
+<!--                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5-->
+<!--                                               text-center mr-2">Yes</a>-->
+<!--                                            <a th:href="@{/admin/mentors}"-->
+<!--                                               type="button"-->
+<!--                                               class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200-->
+<!--                                               rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10-->
+<!--                                               dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600-->
+<!--                                               dark:focus:ring-gray-600">Cancel</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div th:attr="id=${'popup-modal-disable' + mentee.id}" data-modal-placement="top-center"-->
+<!--                                 tabindex="-1"-->
+<!--                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">-->
+<!--                                <div class="relative p-4 w-full max-w-md h-full md:h-auto">-->
+<!--                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">-->
+<!--                                        <a th:href="@{/admin/mentors}"-->
+<!--                                           type="button"-->
+<!--                                           class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">-->
+<!--                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"-->
+<!--                                                 xmlns="http://www.w3.org/2000/svg">-->
+<!--                                                <path fill-rule="evenodd"-->
+<!--                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"-->
+<!--                                                      clip-rule="evenodd"></path>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
+<!--                                        <div class="p-6 text-center">-->
+<!--                                            <h3-->
+<!--                                                    class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">-->
+<!--                                                Do you want to disable this user?</h3>-->
+<!--                                            <a th:href="@{/admin/disable(id=${mentee.id})}" type="button"-->
+<!--                                               class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300-->
+<!--                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5-->
+<!--                                               text-center mr-2">Yes</a>-->
+<!--                                            <a th:href="@{/admin/mentors}"-->
+<!--                                               type="button"-->
+<!--                                               class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200-->
+<!--                                               rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10-->
+<!--                                               dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600-->
+<!--                                               dark:focus:ring-gray-600">Cancel</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </td>
                 </tr>
