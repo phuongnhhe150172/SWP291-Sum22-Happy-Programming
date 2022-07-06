@@ -70,7 +70,7 @@ public class UserManagementController {
             user = userService.findUser(userId);
             UserDTO userDTO = (UserDTO) sessionUser;
 
-            addStatusAttribute(model, userDTO, user);
+            addStatusAttribute(model, user, userDTO);
         } else {
             user = (UserDTO) sessionUser;
         }
