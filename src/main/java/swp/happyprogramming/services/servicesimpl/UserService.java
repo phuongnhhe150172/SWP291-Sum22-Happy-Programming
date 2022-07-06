@@ -151,13 +151,16 @@ public class UserService implements IUserService {
         User currentUser = userRepository.getById(userDTO.getId());
 
         Address address = currentUser.getAddress();
+        System.out.println(address.getName());
 
         // Address address = mapper.map(userDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(null);
         address.setWard(ward);
+        address.setName(userDTO.getAddress().getName());
 
         // migrate info to the user
         currentUser.setAddress(address);
+        System.out.println(currentUser.getAddress().getName());
         currentUser.setFirstName(userDTO.getFirstName());
         currentUser.setLastName(userDTO.getLastName());
         currentUser.setBio(userDTO.getBio());
