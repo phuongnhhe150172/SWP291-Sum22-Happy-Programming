@@ -9,11 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IFeedbackService;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
+import swp.happyprogramming.vo.FeedbackVo;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -80,5 +87,24 @@ public class FeedbackController {
         
         feedbackService.save(feedBack);
         return "redirect:/admin/skills";
+    }
+
+    @GetMapping("/all-feedback")
+    public String showAllFeedback(Model model) {
+        //    show user feedback
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
+        long userId = user.getId();
+
+        ArrayList<FeedbackVo> feedbacks = new ArrayList<>();
+        List<Feedback> feedback_raw = feedbackService.getFeedbackReceived(userId);
+        for (Feedback f :feedback_raw ) {
+            UserDTO sender_user = userService.findUser(f.getSenderid());
+            feedbacks.add(new FeedbackVo(sender_user.getFirstName() + " " + sender_user.getLastName(), f.getRate(), f.getComment()));
+        }
+        model.addAttribute("feedbacks", feedbacks);
+        model.addAttribute("viewedUser", user);
+        return "feedback/created_feedback";
     }
 }
