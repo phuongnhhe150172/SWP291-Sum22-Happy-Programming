@@ -68,10 +68,6 @@ public class FeedbackController {
         if (sessionInfo == null) return "redirect:/login";
         UserDTO sessionUser = (UserDTO) sessionInfo;
         long senderId = sessionUser.getId();
-
-
-
-
         UserDTO receivedUser = (UserDTO)session.getAttribute("receivedUser");
 
 

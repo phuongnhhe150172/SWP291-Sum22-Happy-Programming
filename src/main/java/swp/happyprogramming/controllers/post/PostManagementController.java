@@ -104,4 +104,25 @@ public class PostManagementController {
         model.addAttribute("posts", result);
         return "/admin/all-posts";
     }
+
+    @GetMapping("/created-post")
+    public String getCreatedPosts(Model model) {
+        ArrayList<PostVo> result = new ArrayList<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
+
+        List<PostDTO> listPostByUser = postService.getPostByUserId(user.getId());
+
+        for (PostDTO postDTO : listPostByUser) {
+            UserDTO userDTO = postDTO.getUser();
+            Method methodDTO = postDTO.getMethod();
+            PostVo pi = new PostVo(userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            result.add(pi);
+        }
+
+        model.addAttribute("posts", result);
+        return "/admin/all-created-post";
+    }
 }
