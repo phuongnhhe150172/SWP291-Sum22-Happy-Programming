@@ -123,6 +123,6 @@ public class PostManagementController {
         }
 
         model.addAttribute("posts", result);
-        return "/admin/all-created-post";
+        return "/post/all-created-post";
     }
 }
