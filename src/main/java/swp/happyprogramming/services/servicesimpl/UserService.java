@@ -119,6 +119,7 @@ public class UserService implements IUserService {
         return userRepository.findByEmail(email);
     }
 
+
     public UserDTO findUser(long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) return null;
