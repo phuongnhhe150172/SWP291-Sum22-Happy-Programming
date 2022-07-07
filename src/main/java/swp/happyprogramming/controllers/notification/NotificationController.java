@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import swp.happyprogramming.dto.NotificationDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Notification;
 import swp.happyprogramming.model.Role;
@@ -48,7 +49,7 @@ public class NotificationController {
         Set<Role> roles1 = new HashSet<Role>(user.getRoles());
 
 
-        List<Notification> notifications = notificationService.getNotificationByRoles(roles1);
+        List<NotificationDTO> notifications = notificationService.getNotificationByRoles(roles1);
         model.addAttribute("notifications", notifications);
         return "notification/notifications";
     }
