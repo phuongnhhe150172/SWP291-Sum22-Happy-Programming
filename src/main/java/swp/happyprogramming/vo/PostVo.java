@@ -3,6 +3,7 @@ package swp.happyprogramming.vo;
 
 public class PostVo {
     private static final long serialVersionUID = 1L;
+    private Long id;
     private String avatar;
     private String fullName;
     private String description;
@@ -11,13 +12,22 @@ public class PostVo {
     private String methodName;
 
 
-    public PostVo(String avatar, String fullName, String description, Integer status, Float price, String methodName) {
+    public PostVo(Long id, String avatar, String fullName, String description, Integer status, Float price, String methodName) {
+        this.id = id;
         this.avatar = avatar;
         this.fullName = fullName;
         this.description = description;
         this.status = status;
         this.price = price;
         this.methodName = methodName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAvatar() {
@@ -67,7 +77,6 @@ public class PostVo {
     public void setMethodName(String methodName) {
         this.methodName = methodName;
     }
-    
 
     @Override
     public String toString() {

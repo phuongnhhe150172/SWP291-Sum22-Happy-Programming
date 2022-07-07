@@ -76,7 +76,7 @@ public class PostManagementController {
     }
 
     @GetMapping("/delete")
-    public String deletePost(Model model, @RequestParam(value = "postId",required = false) long postId){
+    public String deletePost(Model model, @RequestParam(value = "postId",required = true) long postId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);
@@ -85,7 +85,7 @@ public class PostManagementController {
         for (int i = listPostByUser.size()-1; i >= 0 ; i--){
             if (listPostByUser.get(i).getId() == postId) postService.deletePost(postId);
         }
-        return "redirect:/admin/all-posts";
+        return "redirect:/post/created-post";
     }
 
     @GetMapping("/all")
@@ -97,7 +97,7 @@ public class PostManagementController {
             PostDTO postDTO = postService.findPost(p.getId());
             UserDTO userDTO = postDTO.getUser();
             Method methodDTO = postDTO.getMethod();
-            PostVo pi = new PostVo(userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
             result.add(pi);
         }
 
@@ -118,7 +118,7 @@ public class PostManagementController {
         for (PostDTO postDTO : listPostByUser) {
             UserDTO userDTO = postDTO.getUser();
             Method methodDTO = postDTO.getMethod();
-            PostVo pi = new PostVo(userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
             result.add(pi);
         }
 

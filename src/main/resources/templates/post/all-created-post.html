@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All post - Happy Programming</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 </head>
 <body class="text-white flex">
 <!--Left-sidebar-->
@@ -40,7 +41,35 @@
                         </div>
                     </div>
                 </div>
+                <div class="w-10 h-10 p-1 rounded-full hover:bg-gray-700 flex items-center justify-center">
+                    <button id="dropdownButton" data-dropdown-toggle="dropdown"
+                            class="hidden sm:inline-block text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 rounded-full text-sm p-1.5"
+                            type="button">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                            </path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdown"
+                         class="hidden z-10 w-44 text-base list-none rounded divide-y divide-gray-100 shadow bg-gray-700">
+                        <ul class="py-1" aria-labelledby="dropdownButton">
+                            <li>
+                                <a th:href="@{/post/update(id=${post.id})}"
+                                   class="block py-2 px-4 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Edit</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/post/delete(postId=${post.id})}"
+                                   class="block py-2 px-4 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+
             <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
                 <label for="editor" class="sr-only">Publish post</label>
                 <p class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
