@@ -28,9 +28,13 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
 
-    @Query(value = "select * from users where id in (select user1 from connections where user2 = (select id from users where email=?1) union select user2 from connections where user1 = (select id from users where email=?1))",
+    @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
             nativeQuery = true)
-    ArrayList<User> findConnectionsByEmail(String email);
+    Page<User> findConnectionsById(Pageable pageable, long id);
+
+    @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
+            nativeQuery = true)
+    List<User> findConnectionsById(long id);
 
     @Query(value = "select * from users where id in (select mentor_id from request where mentee_id = (select id from users where email=?1) union select mentee_id from request where mentor_id = (select id from users where email=?1))",
             nativeQuery = true)
@@ -42,16 +46,17 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update users set status = 1 where id = ?1",nativeQuery = true)
+    @Query(value = "update users set status = 1 where id = ?1", nativeQuery = true)
     void enableUser(long id);
 
     @Modifying
     @Transactional
-    @Query(value = "update users set status = 0 where id = ?1",nativeQuery = true)
+    @Query(value = "update users set status = 0 where id = ?1", nativeQuery = true)
     void disableUser(long id);
 
     @Modifying
     @Transactional
-    @Query(value = "update user_roles set role_id = 1 where user_id = ?1",nativeQuery = true)
+    @Query(value = "update user_roles set role_id = 1 where user_id = ?1", nativeQuery = true)
     void convertToMentor(long id);
+
 }

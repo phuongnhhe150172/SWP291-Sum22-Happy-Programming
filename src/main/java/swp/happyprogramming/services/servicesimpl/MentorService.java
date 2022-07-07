@@ -1,14 +1,12 @@
 package swp.happyprogramming.services.servicesimpl;
 
-import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.AddressDTO;
+import swp.happyprogramming.dto.ConnectionDTO;
 import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -22,7 +20,7 @@ import java.util.stream.IntStream;
 @Service
 public class MentorService implements IMentorService {
     @Autowired
-    private IProfileRepository profileRepository;
+    private IMentorRepository mentorRepository;
 
     @Autowired
     private IUserRepository userRepository;
@@ -36,76 +34,46 @@ public class MentorService implements IMentorService {
     @Autowired
     private ISkillRepository skillRepository;
 
-    @Autowired
-    IRoleRepository roleRepository;
-
-    @Autowired
-    private IMentorRepository mentorRepository;
     private ModelMapper mapper = new ModelMapper();
     @Autowired
     private IWardRepository wardRepository;
 
     // READ SECTION
     public MentorDTO findMentor(long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserId(id);
-        if (optionalUser.isPresent() && optionalUserProfile.isPresent()) {
-            Mentor mentor = optionalUserProfile.get();
-            User user = optionalUser.get();
-            Address address = addressRepository.findByAddressId(user.getAddress().getId());
-            ArrayList<Experience> listExperience = experienceRepository.findByMentorId(mentor.getId());
-            ArrayList<Skill> listSkill = skillRepository.findAllByMentorId(mentor.getId());
-            // set data to mentorDTO
-            return combineUserAndProfile(user, mentor, listSkill, listExperience, address);
-        } else {
-            return null;
-        }
-    }
-
-    private MentorDTO combineUserAndProfile(User user, Mentor mentor, ArrayList<Skill> listSkill,
-                                            ArrayList<Experience> listExperience, Address address) {
-        MentorDTO mentorDTO = mapper.map(mentor, MentorDTO.class);
-        mapper.map(user, mentorDTO);
-        mentorDTO.setProfileId(mentor.getId());
-        mentorDTO.setExperiences(listExperience);
-        mentorDTO.setSkills(listSkill);
-        mentorDTO.setAddress(Utility.mapAddress(address));
-        return mentorDTO;
-    }
-
-    @Override
-    public List<MentorDTO> searchMentors(Map<String, Object> params) {
-        return null;
+        Optional<Mentor> optionalMentor = mentorRepository.findByUserId(id);
+        return optionalMentor.map(Utility::mapMentor).orElse(null);
     }
 
     @Override
     public Pagination<MentorDTO> getMentors(int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
-        Role role = roleRepository.findByName("ROLE_MENTOR");
-        Page<User> page = userRepository.findUsersByRoles(pageRequest, role);
+        Page<Mentor> page = mentorRepository.findAll(pageRequest);
         int totalPages = page.getTotalPages();
-        List<User> mentees = page.getContent();
-        List<MentorDTO> mentorDTOS = mentees
+        List<Mentor> mentors = page.getContent();
+        List<MentorDTO> mentorDTOS = mentors
                 .stream()
-                .map(user -> findMentor(user.getId()))
+                .map(mentor -> findMentor(mentor.getUser().getId()))
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(mentorDTOS, pageNumbers);
     }
 
     @Override
-    public List<MentorDTO> getTopMentors() {
+    public List<ConnectionDTO> getTopMentors() {
         List<Mentor> mentors = mentorRepository.getTopMentors();
-        return mentors
-                .stream()
-                .map(mentor -> findMentor(mentor.getUser().getId()))
+        return mentors.stream()
+                .map(mentor -> new ConnectionDTO(
+                        mentor.getUser().getId(),
+                        mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
+                        mentor.getUser().getImage()
+                ))
                 .collect(Collectors.toList());
     }
 
     //    UPDATE SECTION
     public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
-        Optional<Mentor> optionalUserProfile = profileRepository.findByUserId(mentorDTO.getId());
+        Optional<Mentor> optionalUserProfile = mentorRepository.findByUserId(mentorDTO.getId());
         if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) {
             return;
         }
@@ -148,7 +116,7 @@ public class MentorService implements IMentorService {
     }
 
     @Override
-    public void createCv(long userId, List<String> experienceValue, List<String> skillValue){
+    public void createCv(long userId, List<String> experienceValue, List<String> skillValue) {
         User user = userRepository.findById(userId).orElse(null);
         Mentor mentor = new Mentor();
         mentor.setUser(user);
@@ -158,12 +126,12 @@ public class MentorService implements IMentorService {
         userRepository.convertToMentor(userId);
 
         Mentor mentorLast = mentorRepository.findMentorLast();
-        if(experienceValue != null){
-            saveExperienceAndMentorExperience(mentorLast,experienceValue);
+        if (experienceValue != null) {
+            saveExperienceAndMentorExperience(mentorLast, experienceValue);
         }
 
-        if(skillValue != null){
-            saveUserSkills(mentorLast.getId(),skillValue);
+        if (skillValue != null) {
+            saveUserSkills(mentorLast.getId(), skillValue);
         }
     }
 
@@ -203,7 +171,7 @@ public class MentorService implements IMentorService {
         ArrayList<Experience> listExperienceSaved = experienceRepository.findExperienceLast(listExperienceWillSave.size());
 
         listExperienceSaved.forEach(value ->
-                profileRepository.insertByMentorIdAndExperienceId(profile.getId(), value.getId()));
+                mentorRepository.insertByMentorIdAndExperienceId(profile.getId(), value.getId()));
     }
 
     //    DELETE SECTION
@@ -211,7 +179,7 @@ public class MentorService implements IMentorService {
         ArrayList<Experience> listExperience = experienceRepository.findByMentorId(profile.getId());
         List<Long> listIdExperience = listExperience.stream().map(Experience::getId).collect(Collectors.toList());
 
-        listExperience.forEach(value -> profileRepository.deleteByMentorIdAndExperienceId(profile.getId(), value.getId()));
+        listExperience.forEach(value -> mentorRepository.deleteByMentorIdAndExperienceId(profile.getId(), value.getId()));
         experienceRepository.deleteAllById(listIdExperience);
     }
 

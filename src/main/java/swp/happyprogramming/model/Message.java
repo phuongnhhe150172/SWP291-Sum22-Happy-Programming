@@ -2,6 +2,7 @@ package swp.happyprogramming.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +28,18 @@ public class Message {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    @JoinColumn(name = "chat_content")
+    @JoinColumn(name = "content")
     private String content;
 
     @Column(name = "timestamp")
     private Instant timestamp;
 
-    public Message() {
+    @Column(name = "title")
+    private String title;
 
-    }
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "link")
+    private String link;
 }

@@ -34,8 +34,8 @@
                 <th:block th:each="mentor: ${mentors}">
                     <tr class="border-b bg-gray-800 border-gray-700">
                         <td class="px-4 py-4 flex items-center gap-3 text-white font-medium ">
-                            <img class="w-12 h-12 rounded-full" src="../../static/imgs/avatar2.jpg"
-                                 alt="Bonnie image" th:src="@{/imgs/avatar1.jpg}"/>
+                            <img class="w-12 h-12 rounded-full" th:src="@{${mentor.image}}"
+                                 alt="Bonnie image"/>
                             <a th:href="@{/profile(id=${mentor.id})}"
                                th:text="${mentor.firstName + ' ' + mentor.lastName}">Nguyen Hong Phuong</a>
                         </td>
@@ -53,12 +53,9 @@
                             <a th:href="@{/admin/mentor(id=${mentor.id})}" class="mr-4 text-green-500 hover:underline">
                                 View
                             </a>
-                            <a href="#" class="text-red-500 hover:underline">
-                                Delete
-                            </a>
                         </td>
                         <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
-                            <label th:attr="for=${'small-toggle' + mentor.id}"
+                            <label th:attr="for=${'small-toggle'+mentor.id}"
                                    class="inline-flex relative items-center mb-5 cursor-pointer">
                                 <input th:if="${mentor.status == 0}"
                                        type="checkbox" value=""
@@ -75,7 +72,7 @@
                             after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600
                             peer-checked:bg-blue-600"></div>
                             </label>
-                            <div th:attr="id=${'popup-modal-enable' + mentor.id}" data-modal-placement="top-center"
+                            <div th:attr="id=${'popup-modal-enable'+mentor.id}" data-modal-placement="top-center"
                                  tabindex="-1"
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                                 <div class="relative p-4 w-full max-w-md h-full md:h-auto">
@@ -95,8 +92,8 @@
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to enable this user?</h3>
                                             <a th:href="@{/admin/enable(id=${mentor.id})}" type="button"
-                                               class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300
-                                               dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
+                                               class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
+                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
                                             <a th:href="@{/admin/mentors}"
                                                type="button"
@@ -128,8 +125,8 @@
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to disable this user?</h3>
                                             <a th:href="@{/admin/disable(id=${mentor.id})}" type="button"
-                                               class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300
-                                               dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
+                                               class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
+                                               dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
                                             <a th:href="@{/admin/mentors}"
                                                type="button"

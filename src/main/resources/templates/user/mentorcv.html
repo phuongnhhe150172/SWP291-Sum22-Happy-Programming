@@ -117,8 +117,8 @@
                                 <div class="p-6 text-center">
                                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                         Do you want to send request?</h3>
-                                    <a th:href="@{/sent(from=${session.userInformation.id},to=${mentor.id})}" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4
-                                    focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg
+                                    <a th:href="@{/sent(from=${session.userInformation.id},to=${mentor.id})}" type="button" class="text-white bg-green-600 hover:bg-green-800 focus:ring-4
+                                    focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg
                                     text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                         Yes</a>
                                     <button data-modal-toggle="popup-modal" type="button"
@@ -144,8 +144,7 @@
                     lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur
                     adipiscing elit.lorem ipsum dolor sit amet, consectetur adipiscing elit.lorem ipsum dolor sit amet,
                     consectetur adipiscing elit.lorem ipsum dolor sit amet, consectetur adipiscing elit.lorem ipsum
-                    dolor
-                    sit amet, consectetur adipiscing elit.lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    dolor.
                 </p>
             </div>
         </div>
@@ -157,7 +156,7 @@
                     <div th:each="experience,state : ${mentor.experiences}"
                          class="block max-w-lg p-6 rounded-lg shadow-md bg-gray-800">
                         <p class="font-normal text-gray-200" th:text="${experience.description}">
-                            Admin HSHB Gen 3.
+                            Descreption
                         </p>
                     </div>
                 </div>
@@ -179,7 +178,7 @@
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">
                         Gender
                     </h5>
-                    <p class="font-normal text-gray-400" th:text="${mentor.gender == 0 ? 'Male':'Female'}">
+                    <p class="font-normal text-gray-400" th:text="${mentor.gender == 1 ? 'Male':'Female'}">
                         Male
                     </p>
                 </div>

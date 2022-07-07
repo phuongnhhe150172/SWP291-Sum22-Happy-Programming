@@ -1,37 +1,37 @@
 package swp.happyprogramming.controllers.connection;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserDTO;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.services.IUserService;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ConnectionController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/connections")
-    public String getUserConnections(Model model) {
+    public String getUserConnections(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Nguyễn Huy Hoàng - 33 - view connections
+        Object sessionUser = session.getAttribute("userInformation");
+        if (sessionUser == null) return "redirect:/login";
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = (UserDTO) sessionUser;
 
-        String email = authentication.getName();
-        if (email.equalsIgnoreCase("anonymousUser")) {
-            return "redirect:/login";
-        }
+        Pagination<ConnectionDTO> connections = userService.getConnectionsById(user.getId(), pageNumber);
+        model.addAttribute("connections", connections.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", connections.getPageNumbers().size());
 
-        List<ConnectionDTO> connections = userService.getConnectionsByEmail(email);
-        model.addAttribute("connections", connections);
         return "connections";
     }
 }

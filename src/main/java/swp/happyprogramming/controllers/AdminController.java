@@ -40,6 +40,7 @@ public class AdminController {
         int totalNumberOfMentors = userService.countUsersByRolesLike("ROLE_MENTOR");
         int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
         long totalNumberOfRequests = requestService.countTotalRequest();
+        long MonthlyRequest = requestService.countMonthlyRequest();
 
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
@@ -52,18 +53,31 @@ public class AdminController {
     public String showAllMentees(
             Model model,
             @RequestParam Map<String, String> params,
-            @RequestParam(value = "pageNumber", required = false,defaultValue = "1") int pageNumber
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber
     ) {
-        Pagination<UserDTO> page = userService.getMentees(pageNumber, params.get("first_name"), params.get("last_name"), params.get("phone"), params.get("email"));
+        String rawFirstName = params.get("first_name");
+        String rawLastName = params.get("last_name");
+        String rawPhone = params.get("phone");
+        String rawEmail = params.get("email");
+        String firstName = (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName;
+        String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName;
+        String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone;
+        String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail;
+
+        Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("totalPages", page.getPaginatedList().size());
+        model.addAttribute("totalPages", page.getPageNumbers().size());
+        model.addAttribute("first_name", firstName);
+        model.addAttribute("last_name", lastName);
+        model.addAttribute("phone", phone);
+        model.addAttribute("email", email);
         return "admin/all-mentees";
     }
 
     @GetMapping("/mentors")
-    public String showMentors(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber) {
-        //        Nguyễn Huy Hoàng - 46 - List all mentors (admin)
+    public String showMentors(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
+        // Nguyễn Huy Hoàng - 46 - List all mentors (admin)
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentors", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
@@ -72,7 +86,7 @@ public class AdminController {
     }
 
     @GetMapping("/mentor")
-    public String viewMentor(Model model,@RequestParam(value = "id", required = false) long mentorId){
+    public String viewMentor(Model model, @RequestParam(value = "id", required = false) long mentorId) {
         MentorDTO mentorDTO = mentorService.findMentor(mentorId);
         model.addAttribute("mentor", mentorDTO);
         return "admin/view-mentor";
@@ -92,7 +106,7 @@ public class AdminController {
     }
 
     @GetMapping("/skills")
-    public String getAllSkill(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber) {
+    public String getAllSkill(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<Skill> skills = skillService.getAllSkill(pageNumber);
         model.addAttribute("skills", skills.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
@@ -110,7 +124,6 @@ public class AdminController {
     public String createSkill(@RequestParam String skillName) {
         Skill skill = new Skill();
         skill.setName(skillName);
-        System.out.println(skillName);
         skillService.save(skill);
         return "redirect:/admin/skills";
     }
@@ -132,47 +145,45 @@ public class AdminController {
         return "redirect:/admin/skills";
     }
 
-
     @GetMapping("/requests")
-    public String showAllRequests(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+    public String showAllRequests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Trinh Trung Kien - 52 - View all requests (admin)
         Pagination<Request> requests = requestService.getAllRequest(pageNumber);
-        model.addAttribute("requests",requests.getPaginatedList());
+        model.addAttribute("requests", requests.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", requests.getPageNumbers().size());
         return "admin/all-requests";
     }
 
     @GetMapping("/posts")
-    public String viewAllPost(Model model, @RequestParam(value = "pageNumber",required = false,defaultValue = "1") int pageNumber){
+    public String viewAllPost(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
         Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
-//        List<PostDTO> listPostOngoing = postService.getListPostOngoing();
         Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
 
-        model.addAttribute("listPost",page.getPaginatedList());
-        model.addAttribute("pageNumber",pageNumber);
-        model.addAttribute("mapLikePost",mapLikePost);
-        model.addAttribute("totalPages",page.getPageNumbers().size());
+        model.addAttribute("listPost", page.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("mapLikePost", mapLikePost);
+        model.addAttribute("totalPages", page.getPageNumbers().size());
         return "/admin/all-posts";
     }
 
     @GetMapping("/connections")
-    public String viewAllConn(Model model, @RequestParam(required = false,defaultValue = "1") int pageNumber){
+    public String viewAllConn(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
-        model.addAttribute("connections",connects.getPaginatedList());
+        model.addAttribute("connections", connects.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", connects.getPageNumbers().size());
         return "admin/all-connections";
     }
 
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id",required = false) int id){
+    public String enableUser(@RequestParam(value = "id", required = false) int id) {
         userService.enableUser(id);
         return "redirect:mentors";
     }
 
     @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id",required = false) int id){
+    public String disableUser(@RequestParam(value = "id", required = false) int id) {
         userService.disableUser(id);
         return "redirect:mentors";
     }

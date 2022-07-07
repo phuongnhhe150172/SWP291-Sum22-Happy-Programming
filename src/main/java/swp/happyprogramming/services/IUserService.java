@@ -22,7 +22,8 @@ public interface IUserService extends UserDetailsService {
 
     int statusRequest(long mentorId, long menteeId);
 
-    List<ConnectionDTO> getConnectionsByEmail(String email);
+    Pagination<ConnectionDTO> getConnectionsById(long id, int pageNumber);
+    List<ConnectionDTO> getConnectionsById(long id);
 
     User findByEmail(String email);
 

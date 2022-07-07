@@ -14,7 +14,10 @@ import swp.happyprogramming.repository.IConnectRepository;
 import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.utility.Utility;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,7 +29,7 @@ public class ConnectService implements IConnectService {
     ModelMapper mapper = new ModelMapper();
 
     @Override
-    public Connect findConnectByUser1AndUser2(long user1Id, long user2Id){
+    public Connect findConnectByUser1AndUser2(long user1Id, long user2Id) {
         return connectRepository.findConnectByUser1IdAndUser2Id(user1Id, user2Id).orElse(null);
     }
 
@@ -54,4 +57,20 @@ public class ConnectService implements IConnectService {
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(connectDTOS, pageNumbers);
     }
+
+    @Override
+    public List<Long> getConnectedMentor(long menteeId) {
+        List<Long> connected = new ArrayList<>();
+        List<Connect> connects = connectRepository.findAll();
+        for (Connect c : connects) {
+            if (c.getUser1().getId() == menteeId) {
+                connected.add(c.getUser2().getId());
+            } else if (c.getUser2().getId() == menteeId) {
+                connected.add(c.getUser1().getId());
+            }
+        }
+        return connected;
+    }
+
+
 }

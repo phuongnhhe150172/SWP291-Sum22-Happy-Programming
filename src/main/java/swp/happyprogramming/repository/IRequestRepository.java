@@ -16,13 +16,17 @@ import java.util.Optional;
 @Repository
 public interface IRequestRepository extends JpaRepository<Request, Long> {
     Page<Request> findRequestByMenteeId(Pageable pageable, long menteeId);
+
     List<Request> findRequestByMenteeId(long id);
 
+    Page<Request> findRequestByMentorId(Pageable pageable, long mentorId);
+
+    List<Request> findRequestByMentorId(long id);
 
     Optional<Request> findRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
 
     @Modifying
     @Transactional
-    @Query(value = "Insert into request(mentor_id,mentee_id) values (?1,?2)",nativeQuery = true)
-    void insertByMentorIdAndMenteeId(long mentorId,long menteeId);
+    @Query(value = "Insert into request(mentor_id,mentee_id) values (?1,?2)", nativeQuery = true)
+    void insertByMentorIdAndMenteeId(long mentorId, long menteeId);
 }

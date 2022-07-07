@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import swp.happyprogramming.sercurity.SimpleAuthenticationSuccessHandler;
 import swp.happyprogramming.services.IUserService;
 
@@ -60,13 +61,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login").loginProcessingUrl("/login")
                     .usernameParameter("username").passwordParameter("password")
                     .successHandler(successHandler)
-                    .failureForwardUrl("/login?error=true")
                     .permitAll()
                     .and()
-                .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutUrl("/home")
-                        .invalidateHttpSession(true)
-                ).exceptionHandling()
+                .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login")
+                    .permitAll()
+                    .and()
+                .exceptionHandling()
                 .accessDeniedPage("/404")
         ;
     }

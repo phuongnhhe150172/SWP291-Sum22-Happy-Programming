@@ -71,6 +71,7 @@ public class UserService implements IUserService {
 
         user.setImage("/upload/static/imgs/avatar_default.jpg");
         user.setAddress(savedAddress);
+        user.setStatus(1);
         user.addRole(roleRepository.findByName("ROLE_MENTEE"));
         userRepository.save(user);
     }
@@ -79,7 +80,7 @@ public class UserService implements IUserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Email does not exist in system. Please re-enter another email!");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
@@ -104,8 +105,24 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public List<ConnectionDTO> getConnectionsByEmail(String email) {
-        ArrayList<User> users = userRepository.findConnectionsByEmail(email);
+    public Pagination<ConnectionDTO> getConnectionsById(long id, int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
+        Page<User> page = userRepository.findConnectionsById(pageRequest, id);
+        int totalPages = page.getTotalPages();
+        List<User> users = page.getContent();
+        List<ConnectionDTO> connections = users.stream()
+                .map(user -> new ConnectionDTO(
+                        user.getId(),
+                        user.getFirstName() + " " + user.getLastName(),
+                        user.getImage())
+                ).collect(Collectors.toList());
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+        return new Pagination<>(connections, pageNumbers);
+    }
+
+    @Override
+    public List<ConnectionDTO> getConnectionsById(long id) {
+        List<User> users = userRepository.findConnectionsById(id);
         return users.stream()
                 .map(user -> new ConnectionDTO(
                         user.getId(),
@@ -134,9 +151,12 @@ public class UserService implements IUserService {
     public UserDTO updateUserProfile(UserDTO userDTO, long wardId) {
         User currentUser = userRepository.getById(userDTO.getId());
 
-        Address address = mapper.map(userDTO.getAddress(), Address.class);
+        Address address = currentUser.getAddress();
+
+        // Address address = mapper.map(userDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(null);
         address.setWard(ward);
+        address.setName(userDTO.getAddress().getName());
 
         // migrate info to the user
         currentUser.setAddress(address);
@@ -240,12 +260,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void enableUser(long id){
+    public void enableUser(long id) {
         userRepository.enableUser(id);
     }
 
     @Override
-    public void disableUser(long id){
+    public void disableUser(long id) {
         userRepository.disableUser(id);
     }
 }
