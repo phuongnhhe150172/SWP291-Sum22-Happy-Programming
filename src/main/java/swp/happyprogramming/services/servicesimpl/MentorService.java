@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
@@ -59,10 +59,10 @@ public class MentorService implements IMentorService {
     }
 
     @Override
-    public List<ConnectionDTO> getTopMentors() {
+    public List<UserAvatarDTO> getTopMentors() {
         List<Mentor> mentors = mentorRepository.getTopMentors();
         return mentors.stream()
-                .map(mentor -> new ConnectionDTO(
+                .map(mentor -> new UserAvatarDTO(
                         mentor.getUser().getId(),
                         mentor.getUser().getFirstName() + " " + mentor.getUser().getLastName(),
                         mentor.getUser().getImage()

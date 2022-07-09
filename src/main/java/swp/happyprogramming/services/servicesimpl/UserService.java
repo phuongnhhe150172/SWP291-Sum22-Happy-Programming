@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
@@ -105,13 +105,13 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public Pagination<ConnectionDTO> getConnectionsById(long id, int pageNumber) {
+    public Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
         Page<User> page = userRepository.findConnectionsById(pageRequest, id);
         int totalPages = page.getTotalPages();
         List<User> users = page.getContent();
-        List<ConnectionDTO> connections = users.stream()
-                .map(user -> new ConnectionDTO(
+        List<UserAvatarDTO> connections = users.stream()
+                .map(user -> new UserAvatarDTO(
                         user.getId(),
                         user.getFirstName() + " " + user.getLastName(),
                         user.getImage())
@@ -121,10 +121,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<ConnectionDTO> getConnectionsById(long id) {
+    public List<UserAvatarDTO> getConnectionsById(long id) {
         List<User> users = userRepository.findConnectionsById(id);
         return users.stream()
-                .map(user -> new ConnectionDTO(
+                .map(user -> new UserAvatarDTO(
                         user.getId(),
                         user.getFirstName() + " " + user.getLastName(),
                         user.getImage())
@@ -175,10 +175,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<ConnectionDTO> getRequestsByEmail(String email) {
+    public List<UserAvatarDTO> getRequestsByEmail(String email) {
         ArrayList<User> users = userRepository.findRequestsByEmail(email);
         return users.stream()
-                .map(user -> new ConnectionDTO(
+                .map(user -> new UserAvatarDTO(
                         user.getId(),
                         user.getFirstName() + " " + user.getLastName(),
                         user.getImage())
