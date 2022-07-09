@@ -24,7 +24,7 @@ public interface IRequestService {
 
     List<Long> getRequestedMentorId(long menteeId);
 
-    long countMonthlyRequest();
+
     Pagination<Request> getRequestReceived(long mentorId, int pageNumber);
 
     List<Request> getRequestReceived(long mentorId);
@@ -34,4 +34,5 @@ public interface IRequestService {
     Request getRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
 
     void deleteReceivedRequest(long requestId);
+
 }
