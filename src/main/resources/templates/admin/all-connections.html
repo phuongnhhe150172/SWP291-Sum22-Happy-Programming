@@ -59,7 +59,7 @@
                             </svg>
                         </a>
                     </td>
-                    <td class="px-6 py-4" th:utext="${conn.created}"></td>
+                    <td class="px-6 py-4" th:text="${#dates.format(conn.created,'E dd-MM-yyyy')}">Thu 12-05-2022</td>
                 </tr>
                 </tbody>
             </table>
