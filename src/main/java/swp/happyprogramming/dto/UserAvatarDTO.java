@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConnectionDTO {
+public class UserAvatarDTO {
     private long id;
     private String name;
     private String image;
