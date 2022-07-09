@@ -268,4 +268,9 @@ public class UserService implements IUserService {
     public void disableUser(long id) {
         userRepository.disableUser(id);
     }
+
+    @Override
+    public List<Integer> getMonthlyNewMentees() {
+        return null;
+    }
 }
