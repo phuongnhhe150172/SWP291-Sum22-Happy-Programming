@@ -14,7 +14,7 @@
 <div class="bg-gray-900 grow flex">
     <div class="grow p-4 space-y-8">
         <div class="">
-            <h1 class="font-semibold text-5xl my-10 px-3">Have a nice day, team!</h1>
+            <h1 class="font-semibold text-5xl my-4 px-3">Have a nice day, team!</h1>
         </div>
         <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-red-900/30 via-gray-800 to-gray-800">
             <div class="flex items-center mb-6">
@@ -26,15 +26,15 @@
             <div class="flex">
                 <div class="px-6 grow text-center">
                     <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentors}"></h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentors</p>
+                    <p class="font-normal text-gray-300 dark:text-gray-400">Number of mentors</p>
                 </div>
                 <div class="px-6 grow text-center">
                     <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentees}"></h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of mentees</p>
+                    <p class="font-normal text-gray-300 dark:text-gray-400">Number of mentees</p>
                 </div>
                 <div class="px-6 grow text-center">
                     <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white"  th:text="${totalNumberOfRequests}">272</h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">Number of Requests</p>
+                    <p class="font-normal text-gray-300 dark:text-gray-400">Number of Requests</p>
                 </div>
             </div>
         </div>
@@ -49,10 +49,46 @@
 
             </div>
         </div>
+        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-gray-800 via-gray-800 to-blue-900/30">
+            <div class="shadow-lg rounded-lg overflow-hidden">
+                <div class="py-3 px-5">Line chart</div>
+                <canvas class="p-10" id="chartLine"></canvas>
+            </div>
+        </div>
     </div>
-    <div class="xl:w-96 border-l border-gray-600">
 
-    </div>
 </div>
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart line -->
+<script>
+    const labels = ["January","February","March","April","May","June","July"];
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Likes",
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
+                borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+                borderWidth: 1,
+                color: "#fff"
+            },
+        ],
+    };
+
+    const configLineChart = {
+        type: "line",
+        data,
+        options: {},
+    };
+
+    var chartLine = new Chart(
+        document.getElementById("chartLine"),
+        configLineChart
+    );
+</script>
 </body>
 </html>
