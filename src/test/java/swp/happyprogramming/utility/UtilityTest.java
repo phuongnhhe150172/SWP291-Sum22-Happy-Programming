@@ -85,8 +85,6 @@ class UtilityTest {
         assertEquals(expected, actual);
     }
 
-
-
     @Test
     void testIsNumber1() {
         String message = "Thisisastring";
