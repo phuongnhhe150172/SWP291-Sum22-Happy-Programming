@@ -85,13 +85,13 @@ public class Utility {
     }
 
     public static String getFirstLink(String content) {
-        String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
+        String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]+\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
 
-        String[] words = content.split(" ");
+        String[] words = content.split("\\s+");
         for (String word : words) {
-            if (word.matches(regex)) {
-                return word;
-            }
+            if (!word.matches(regex)) continue;
+            if (word.endsWith(".")) return word.substring(0, word.length() - 1);
+            return word;
         }
         return "";
     }
