@@ -32,6 +32,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     User findByResetPasswordToken(String token);
 
-    @Query(value = "SELECT count(*) FROM users where Year(created) = ?1 and (month(created) >= ?2 or month(created) <= ?3) group by(month(created));", nativeQuery = true)  
+    @Query(value = "SELECT count(*) FROM users where Year(created) = ?1 and (month(created) >= ?2 or month(created) <= ?3) group by(month(created));", nativeQuery = true)
     List<Integer> getListAmountNewMentees(int currentYear, int originMonth, int currentMonth);
 }
