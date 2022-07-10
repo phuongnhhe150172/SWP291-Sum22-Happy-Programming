@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.Pagination;
@@ -22,8 +22,8 @@ public interface IUserService extends UserDetailsService {
 
     int statusRequest(long mentorId, long menteeId);
 
-    Pagination<ConnectionDTO> getConnectionsById(long id, int pageNumber);
-    List<ConnectionDTO> getConnectionsById(long id);
+    Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber);
+    List<UserAvatarDTO> getConnectionsById(long id);
 
     User findByEmail(String email);
 
@@ -33,7 +33,7 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
-    List<ConnectionDTO> getRequestsByEmail(String email);
+    List<UserAvatarDTO> getRequestsByEmail(String email);
 
     void removeMentee(long menteeId);
 
