@@ -32,4 +32,6 @@ public interface IUserService extends UserDetailsService {
     List<UserDTO> findAllMentees();
 
     void removeMentee(long menteeId);
+
+    List<Integer> getMonthlyNewMentees();
 }

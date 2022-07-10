@@ -20,6 +20,7 @@ import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -159,6 +160,21 @@ public class UserService implements IUserService {
         User user = userRepository.getById(menteeId);
         addressRepository.deleteById(user.getAddress().getId());
         userRepository.deleteById(menteeId);
+    }
+
+    @Override
+    public List<Integer> getMonthlyNewMentees() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        int originMonth = 5;
+        List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees(currentYear, originMonth, currentMonth);
+        for (int i = 0; i < originMonth - 1; i++){
+            numberOfNewMentees.add(0, 0);
+        }
+        for (int i = currentMonth; i < 12; i++){
+            numberOfNewMentees.add(0);
+        }
+        return numberOfNewMentees;
     }
 
     private void updateAddress(UserDTO userDTO, long wardId) {

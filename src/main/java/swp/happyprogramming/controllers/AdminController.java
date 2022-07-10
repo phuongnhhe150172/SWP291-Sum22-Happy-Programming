@@ -8,6 +8,7 @@ import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.IMentorService;
+import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.ISkillService;
 import swp.happyprogramming.services.IUserService;
 
@@ -24,15 +25,17 @@ public class AdminController {
     @Autowired
     private IMentorService mentorService;
 
+    @Autowired
+    private IRequestService requestService;
+
     @GetMapping("/dashboard")
     public String displayDashboardAdmin(Model model) {
         int totalNumberOfMentors = userService.countUsersByRolesLike("ROLE_MENTOR");
         int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
-
+        List<Integer> numberNewMentees = userService.getMonthlyNewMentees();
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
-        model.addAttribute("totalNumberOfRequests", 123);
-
+        model.addAttribute("numberNewMentees", numberNewMentees);
         return "admin/admin_dashboard";
     }
 
