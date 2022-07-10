@@ -276,6 +276,12 @@ public class UserService implements IUserService {
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         int originMonth = 5;
         List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees(currentYear, originMonth, currentMonth);
+        for (int i = 0; i < originMonth - 1; i++){
+            numberOfNewMentees.add(0, 0);
+        }
+        for (int i = currentMonth; i < 12; i++){
+            numberOfNewMentees.add(0);
+        }
         return numberOfNewMentees;
     }
 }
