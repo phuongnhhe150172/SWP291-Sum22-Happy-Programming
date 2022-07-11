@@ -45,7 +45,7 @@ public class AdminController {
         model.addAttribute("totalNumberOfMentors", totalNumberOfMentors);
         model.addAttribute("totalNumberOfMentees", totalNumberOfMentees);
         model.addAttribute("totalNumberOfRequests", totalNumberOfRequests);
-
+        model.addAttribute("numberNewMentees", numberNewMentees);
         return "admin/admin_dashboard";
     }
 

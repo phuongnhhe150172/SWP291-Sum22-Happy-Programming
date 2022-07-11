@@ -275,7 +275,7 @@ public class UserService implements IUserService {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         int originMonth = 5;
-        List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees(currentYear, originMonth, currentMonth);
+        List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees();
         return numberOfNewMentees;
     }
 }
