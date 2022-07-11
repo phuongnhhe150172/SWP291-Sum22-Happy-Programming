@@ -71,7 +71,7 @@ function createMessage(content, fromSelf) {
     let div = document.createElement('div');
     let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
     let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-    let ogInfo = content.link !== "" ? `<a href="${content.link}" target="_blank">
+    let ogInfo = content.link ? `<a href="${content.link}" target="_blank">
             <img class="w-full" src="${content.image}" alt="${content.title}">
             <p class="font-medium p-3">${content.title}</p>
         </a>` : "";
