@@ -56,6 +56,35 @@ public class NotificationController {
         return "notification/notifications";
     }
 
+    @GetMapping("all-notification")
+    public String getAllNotifications(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
+
+        Set<Role> roles1 = new HashSet<Role>(user.getRoles());
+        user.getRoles();
+        // if (user.getRoles() ) {
+
+        // }
+        boolean isAdmin = false;
+        for (Role s : roles1) {
+            if (s.getId() == 3) {
+                isAdmin = true;
+            }
+        }
+
+        if (isAdmin == false) {
+            return "redirect:/notification/all";
+        }
+
+        List<NotificationDTO> notifications = notificationService.getAllNotifications();
+        model.addAttribute("notifications", notifications);
+
+
+        return "notification/notifications";
+    }
+
     @GetMapping("create")
     public String createNotifications(Model model){
         // model.addAttribute("notifications", notifications);
