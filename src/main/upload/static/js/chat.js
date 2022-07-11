@@ -71,13 +71,13 @@ function createMessage(content, fromSelf) {
     let div = document.createElement('div');
     let direction = fromSelf ? 'flex-row-reverse' : 'flex-row';
     let bg = fromSelf ? 'bg-blue-600' : 'bg-gray-700';
-    let ogInfo = content.link ? `<a href="${content.link}" target="_blank">
+    let ogInfo = content.link !== "" ? `<a href="${content.link}" target="_blank">
             <img class="w-full" src="${content.image}" alt="${content.title}">
-            <p class="font-medium px-3 pt-3">${content.title}</p>
+            <p class="font-medium p-3">${content.title}</p>
         </a>` : "";
     div.innerHTML = `<div class='p-4 flex ${direction} items-center group gap-4'>
-            <div class='py-2 rounded-xl ${bg} max-w-[30ch]'>
-                <p class="px-2 pb-2 break-all">${content.content}</p>
+            <div class='rounded-xl ${bg} max-w-[30ch]'>
+                <p class="p-2 break-words">${content.content}</p>
                 ${ogInfo}
             </div>
             <p class="hidden group-hover:block text-gray-600 font-medium text-sm">${content.timestamp}</p>

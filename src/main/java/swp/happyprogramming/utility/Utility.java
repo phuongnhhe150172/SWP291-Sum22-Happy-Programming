@@ -32,6 +32,8 @@ public class Utility {
 
     public static UserDTO mapUser(User user) {
         if (user == null) return null;
+        // if (user.getId() == null) return null;
+        // if (user.getAddress() == null) return null;
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
         return userDTO;
@@ -63,8 +65,8 @@ public class Utility {
 
     public static void addOG(Map value) throws IOException {
         String firstURL = getFirstLink((String) value.get("content"));
-        value.put("link", firstURL);
         if (firstURL == "") return;
+        value.put("link", firstURL);
         Document doc = Jsoup.connect(firstURL)
                 // .userAgent(USER_AGENT)
                 .header("Accept-Encoding", "gzip,deflate,sdch")
@@ -96,7 +98,7 @@ public class Utility {
         return "";
     }
 
-    public static boolean isNumber(String str) {
+    public static boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
             return true;
