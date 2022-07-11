@@ -9,4 +9,6 @@ import java.util.Set;
 
 public interface INotificationService {
     List<NotificationDTO> getNotificationByRoles(Set<Role> roles);
+    Notification save(Notification notification);
+    void informNotiForRole(long noti_id, long role_id);
 }
