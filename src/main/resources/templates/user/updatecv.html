@@ -299,6 +299,15 @@
             },
         );
 
+        $.validator.addMethod(
+            "validateProvince",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        
+
         $("#form-submit").validate({
             rules: {
                 gender: {
