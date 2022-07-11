@@ -195,4 +195,22 @@ public class PostManagementController {
             return "redirect:index";
         }
     }
+
+    @GetMapping("/detail")
+    public String detailPost(Model model, @RequestParam(value = "id",required = false) String id){
+        try{
+            long postId = Integer.parseInt(id);
+
+            PostDTO postDTO = postService.findPost(postId);
+            UserDTO userDTO = userService.findUser(postDTO.getUser().getId());
+            List<Method> listMethod = methodService.getAllMethod();
+
+            model.addAttribute("post",postDTO);
+            model.addAttribute("user",userDTO);
+            model.addAttribute("listMethod",listMethod);
+            return "/post/detail";
+        }catch (NumberFormatException e){
+            return "redirect:index";
+        }
+    }
 }
