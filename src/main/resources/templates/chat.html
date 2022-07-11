@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat - Happy Programming</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/upload/static/imgs/logo.svg}">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<div class="" th:replace="components/head.html :: head"></div>
 <body class="flex bg-zinc-900 text-white font-['SF_Pro_Text']">
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div id="message" class="grow flex flex-col mx-64 h-[100vh]">
@@ -24,7 +17,8 @@
                 <div class='rounded-xl max-w-[30ch]'
                      th:classappend="${message.sender.id == session.userInformation.getId()} ? 'bg-blue-600' : 'bg-zinc-700'">
                     <p class="p-2 break-words" th:text="*{content}">${content}</p>
-                    <a th:href="@{${message.link}}" target="_blank" th:if="${message.link != null && message.link != ''}">
+                    <a th:href="@{${message.link}}" target="_blank"
+                       th:if="${message.link != null && message.link != ''}">
                         <img class="w-full" th:src="@{${message.image}}" th:alt="*{title}">
                         <p class="font-medium p-3" th:text="*{title}"></p>
                     </a>
