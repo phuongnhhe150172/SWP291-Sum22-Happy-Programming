@@ -44,4 +44,6 @@ public interface IUserService extends UserDetailsService {
     void enableUser(long id);
 
     void disableUser(long id);
+
+    List<Integer> getMonthlyNewMentees();
 }

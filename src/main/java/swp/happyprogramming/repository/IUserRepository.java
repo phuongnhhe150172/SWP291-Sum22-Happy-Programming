@@ -59,4 +59,18 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "update user_roles set role_id = 1 where user_id = ?1", nativeQuery = true)
     void convertToMentor(long id);
 
+    @Query(value = "select sum(case when b.created is null then 0 else 1 end) from\n" +
+            "\t(\n" +
+            "\tSELECT @N\\:=@N+1 AS 'month'\n" +
+            "    FROM mysql.help_relation,(SELECT @N\\:=0) dum LIMIT 12\n" +
+            "    ) as a \n" +
+            "\t\tleft join \n" +
+            "\t(\n" +
+            "\t\tSelect id, created \n" +
+            "\t\tfrom users as a\n" +
+            "\t\t\tjoin \n" +
+            "\t\tuser_roles as b on a.id = b.user_id and b.role_id = 2\n" +
+            "\t) as b on a.month =  month(b.created)\n" +
+            "    group by(a.month);",nativeQuery = true)
+    List<Integer> getListAmountNewMentees();
 }

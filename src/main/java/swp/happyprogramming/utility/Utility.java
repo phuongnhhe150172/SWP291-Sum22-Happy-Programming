@@ -9,8 +9,8 @@ import swp.happyprogramming.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
@@ -85,13 +85,13 @@ public class Utility {
     }
 
     public static String getFirstLink(String content) {
-        String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
+        String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]+\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
 
-        String[] words = content.split(" ");
+        String[] words = content.split("\\s+");
         for (String word : words) {
-            if (word.matches(regex)) {
-                return word;
-            }
+            if (!word.matches(regex)) continue;
+            if (word.endsWith(".")) return word.substring(0, word.length() - 1);
+            return word;
         }
         return "";
     }
@@ -116,30 +116,28 @@ public class Utility {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
-        long secondsElapsed = ChronoUnit.SECONDS.between(createdDateTime, todayDateTime) ;
-        long minutesElapsed = ChronoUnit.MINUTES.between(createdDateTime, todayDateTime) ;
-        long hoursElapsed = ChronoUnit.HOURS.between(createdDateTime, todayDateTime) ;
-        long daysElapsed = ChronoUnit.DAYS.between(createdDateTime, todayDateTime) ;
-        long weeksElapsed = ChronoUnit.WEEKS.between(createdDateTime, todayDateTime) ;
-        long monthsElapsed = ChronoUnit.MONTHS.between(createdDateTime, todayDateTime) ;
-        long yearsElapsed = ChronoUnit.YEARS.between(createdDateTime, todayDateTime) ;
+        long secondsElapsed = ChronoUnit.SECONDS.between(createdDateTime, todayDateTime);
+        long minutesElapsed = ChronoUnit.MINUTES.between(createdDateTime, todayDateTime);
+        long hoursElapsed = ChronoUnit.HOURS.between(createdDateTime, todayDateTime);
+        long daysElapsed = ChronoUnit.DAYS.between(createdDateTime, todayDateTime);
+        long weeksElapsed = ChronoUnit.WEEKS.between(createdDateTime, todayDateTime);
+        long monthsElapsed = ChronoUnit.MONTHS.between(createdDateTime, todayDateTime);
+        long yearsElapsed = ChronoUnit.YEARS.between(createdDateTime, todayDateTime);
         if (yearsElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(yearsElapsed) + " years ago");
-        }
-        else if (monthsElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(monthsElapsed) + " months ago");
+            notificationDTO.setTime(yearsElapsed + " years ago");
+        } else if (monthsElapsed > 0) {
+            notificationDTO.setTime(monthsElapsed + " months ago");
         } else if (weeksElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(weeksElapsed) + " weeks ago");
+            notificationDTO.setTime(weeksElapsed + " weeks ago");
         } else if (daysElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(daysElapsed) + " days ago");
+            notificationDTO.setTime(daysElapsed + " days ago");
         } else if (hoursElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(hoursElapsed) + " hours ago");
+            notificationDTO.setTime(hoursElapsed + " hours ago");
         } else if (minutesElapsed > 0) {
-            notificationDTO.setTime(String.valueOf(minutesElapsed) + " minutes ago");
+            notificationDTO.setTime(minutesElapsed + " minutes ago");
         } else {
-            notificationDTO.setTime(String.valueOf(secondsElapsed) + " seconds ago");
+            notificationDTO.setTime(secondsElapsed + " seconds ago");
         }
-
         return notificationDTO;
     }
 }

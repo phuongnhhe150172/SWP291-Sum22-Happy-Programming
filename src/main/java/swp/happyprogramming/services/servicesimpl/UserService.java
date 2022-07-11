@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -267,5 +268,14 @@ public class UserService implements IUserService {
     @Override
     public void disableUser(long id) {
         userRepository.disableUser(id);
+    }
+
+    @Override
+    public List<Integer> getMonthlyNewMentees() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        int originMonth = 5;
+        List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees();
+        return numberOfNewMentees;
     }
 }
