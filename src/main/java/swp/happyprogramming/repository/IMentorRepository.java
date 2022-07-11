@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface IMentorRepository extends JpaRepository<Mentor, Long> {
-    @Query(value = "select * from mentor limit 10", nativeQuery = true)
+    @Query(value = "select * from mentor order by created limit 10", nativeQuery = true)
     List<Mentor> getTopMentors();
 
     Optional<Mentor> findByUserId(long userID);

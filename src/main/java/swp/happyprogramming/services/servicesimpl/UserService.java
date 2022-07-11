@@ -154,7 +154,6 @@ public class UserService implements IUserService {
 
         Address address = currentUser.getAddress();
 
-        // Address address = mapper.map(userDTO.getAddress(), Address.class);
         Ward ward = wardRepository.findById(wardId).orElse(null);
         address.setWard(ward);
         address.setName(userDTO.getAddress().getName());
@@ -214,9 +213,6 @@ public class UserService implements IUserService {
     @Override
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
-        Role role = roleRepository.findByName("ROLE_MENTEE");
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
         Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
@@ -230,7 +226,7 @@ public class UserService implements IUserService {
                     break;
                 }
             }
-            if (check == true) {
+            if (check) {
                 UserDTO userDTO = findUser(mentee.getId());
                 menteesDTO.add(userDTO);
             }
@@ -272,10 +268,6 @@ public class UserService implements IUserService {
 
     @Override
     public List<Integer> getMonthlyNewMentees() {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
-        int originMonth = 5;
-        List<Integer> numberOfNewMentees = userRepository.getListAmountNewMentees();
-        return numberOfNewMentees;
+        return userRepository.getListAmountNewMentees();
     }
 }
