@@ -59,4 +59,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "update user_roles set role_id = 1 where user_id = ?1", nativeQuery = true)
     void convertToMentor(long id);
 
+    @Query(value = "SELECT count(*) FROM users where Year(created) = ?1 and (month(created) >= ?2 or month(created) <= ?3) group by(month(created));", nativeQuery = true)
+    List<Integer> getListAmountNewMentees(int currentYear, int originMonth, int currentMonth);
 }

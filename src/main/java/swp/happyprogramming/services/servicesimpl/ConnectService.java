@@ -14,6 +14,7 @@ import swp.happyprogramming.repository.IConnectRepository;
 import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.utility.Utility;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ConnectService implements IConnectService {
         List<Connect> connects = connectRepository.findAll();
         List<ConnectDTO> connectDTOS = connects.stream().map(connect -> mapper.map(connect, ConnectDTO.class)).collect(Collectors.toList());
         for (int i = 0; i < connects.size(); i++) {
+            connectDTOS.get(i).setCreated(Date.from(connects.get(i).getCreated()));
             connectDTOS.get(i).setUser1(Utility.mapUser(connects.get(i).getUser1()));
             connectDTOS.get(i).setUser2(Utility.mapUser(connects.get(i).getUser2()));
         }
@@ -54,6 +56,11 @@ public class ConnectService implements IConnectService {
                 .stream()
                 .map(connect -> mapper.map(connect, ConnectDTO.class))
                 .collect(Collectors.toList());
+        for (int i = 0; i < connects.size(); i++) {
+            connectDTOS.get(i).setCreated(Date.from(connects.get(i).getCreated()));
+            connectDTOS.get(i).setUser1(Utility.mapUser(connects.get(i).getUser1()));
+            connectDTOS.get(i).setUser2(Utility.mapUser(connects.get(i).getUser2()));
+        }
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(connectDTOS, pageNumbers);
     }

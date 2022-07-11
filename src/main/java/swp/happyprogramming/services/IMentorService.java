@@ -1,6 +1,6 @@
 package swp.happyprogramming.services;
 
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Skill;
@@ -17,7 +17,7 @@ public interface IMentorService {
 
     Pagination<MentorDTO> getMentors(int pageNumber);
 
-    List<ConnectionDTO> getTopMentors();
+    List<UserAvatarDTO> getTopMentors();
 
     void createCv(long userId, List<String> experienceValue, List<String> skillValue);
 }

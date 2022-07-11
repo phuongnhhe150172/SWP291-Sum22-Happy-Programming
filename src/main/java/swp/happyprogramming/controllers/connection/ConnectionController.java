@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.services.IUserService;
@@ -27,7 +27,7 @@ public class ConnectionController {
 
         UserDTO user = (UserDTO) sessionUser;
 
-        Pagination<ConnectionDTO> connections = userService.getConnectionsById(user.getId(), pageNumber);
+        Pagination<UserAvatarDTO> connections = userService.getConnectionsById(user.getId(), pageNumber);
         model.addAttribute("connections", connections.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", connections.getPageNumbers().size());

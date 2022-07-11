@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.User;
@@ -17,7 +17,6 @@ import swp.happyprogramming.services.IRequestService;
 import swp.happyprogramming.services.IUserService;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MentorManagementController {
@@ -56,7 +55,7 @@ public class MentorManagementController {
 
     @GetMapping("/mentor/top")
     public String topMentor(Model model) {
-        List<ConnectionDTO> mentorList = mentorService.getTopMentors();
+        List<UserAvatarDTO> mentorList = mentorService.getTopMentors();
         model.addAttribute("mentorList", mentorList);
         return "mentor/suggestions";
     }

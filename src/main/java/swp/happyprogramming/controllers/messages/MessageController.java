@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.dto.ConnectionDTO;
+import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Message;
 import swp.happyprogramming.services.IMessageService;
@@ -29,7 +29,7 @@ public class MessageController {
         if (sessionUser == null) return "redirect:/login";
         UserDTO user = (UserDTO) sessionUser;
 
-        List<ConnectionDTO> connections = userService.getConnectionsById(user.getId());
+        List<UserAvatarDTO> connections = userService.getConnectionsById(user.getId());
 
         // Get the desired connection
         List<Long> ids = getConnectionsIds(connections);
@@ -45,7 +45,7 @@ public class MessageController {
 
         List<Message> messages = messageService.getMessagesByUserId(user.getId(), receiverId);
 
-        ConnectionDTO receiver = getReceiver(connections, receiverId);
+        UserAvatarDTO receiver = getReceiver(connections, receiverId);
 
         model.addAttribute("receiver", receiver);
         model.addAttribute("messages", messages);
@@ -53,13 +53,13 @@ public class MessageController {
         return "chat";
     }
 
-    private List<Long> getConnectionsIds(List<ConnectionDTO> connections) {
+    private List<Long> getConnectionsIds(List<UserAvatarDTO> connections) {
         return connections.stream()
-                .map(ConnectionDTO::getId)
+                .map(UserAvatarDTO::getId)
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    private ConnectionDTO getReceiver(List<ConnectionDTO> connections, long receiverId) {
+    private UserAvatarDTO getReceiver(List<UserAvatarDTO> connections, long receiverId) {
         return connections.stream()
                 .filter(connection -> connection.getId() == receiverId)
                 .findFirst()
