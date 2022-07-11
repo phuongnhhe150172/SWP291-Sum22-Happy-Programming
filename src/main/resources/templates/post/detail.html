@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <title>Document</title>
+</head>
+
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+
+<div class="w-64" th:replace="components/nav.html :: aside"></div>
+
+<div class="ml-[16rem] max-w-[1400px]">
+    <div class="w-[80vw]">
+            <div class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
+                <div class="flex items-center justify-between m-2">
+                    <div class="flex items-center">
+                        <div class="m-2">
+                            <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                                 th:src="@{${session.userInformation.image}}"
+                                 alt="Bordered avatar">
+                        </div>
+
+                        <div class="flex flex-col items-left m-2">
+                            <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}">Hoàng Văn Nam</p>
+                            <div class="">
+                                <select id="" th:field="*{post.status}" disabled
+                                        class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
+                                    <option value="1" >Completed</option>
+                                    <option value="2">OnGoing</option>
+                                    <option value="0">Canceled</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="py-2 px-4 rounded-b-lg dark:bg-gray-800">
+                    <p class="text-white-800 ">Created</p>
+                    <p class="block px-0 w-full text-sm text-white-800 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    th:text="${post.created}">Bla bla</p>
+                </div>
+                <div class="py-2 px-4 rounded-b-lg dark:bg-gray-800">
+                    <p class="text-white-800 ">Modified</p>
+                    <p class="block px-0 w-full text-sm text-white-800 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    th:text="${post.modified}">Bla bla</p>
+                </div>
+                <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
+                    <label for="editor" class="sr-only">Publish post</label>
+                    <textarea disabled id="editor" rows="8" th:field="*{post.description}"
+                              class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                              placeholder="Write an article..." required>
+                        Lorem ipsum dolor lo, libero iste cumque harum reprehenderit voluptatum totam.</textarea>
+                </div>
+                <div class="">
+                    <div class="mt-6">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input disabled type="text" id="price" th:field="*{post.price}"
+                                   class="block py-2.5 px-0 w-full text-sm text-white-800 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                   placeholder=" " pattern="[1-9][0-9]*.?[0-9]+" required/>
+                            <label for="price"
+                                   class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform
+                                   -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600
+                                   peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75
+                                   peer-focus:-translate-y-6">Price</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h2 class="my-4 text-xl">Method</h2>
+                        <div class="flex items-center my-2" th:each="method,state : ${listMethod}">
+                            <input disabled th:attr="id=${'inline-checkbox' + method.id}" th:checked="${post.method.id == method.id}"
+                                   th:value="${method.id}" th:name="method"
+                                   type="radio" class="w-4 h-4 text-white-800 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label th:attr="for=${'inline-checkbox' + method.id}" th:text="${method.name}"
+                                   class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Online</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+
+</html>
