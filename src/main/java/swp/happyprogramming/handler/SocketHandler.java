@@ -40,8 +40,11 @@ public class SocketHandler extends TextWebSocketHandler {
             users.put(senderId, session.getId());
             return;
         }
-
-        Utility.addOG(value);
+        try {
+            Utility.addOG(value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Message savedMessage = saveMessage(value);
         value.put("timestamp", DateTimeFormatter
                 .ofPattern(PATTERN_FORMAT)

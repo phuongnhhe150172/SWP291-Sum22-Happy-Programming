@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/phuongnhhe150172/SWP291-Sum22-Happy-Programming/issues"
   },
-  "homepage": "https://github.com/phuongnhhe150172/SWP291-Sum22-Happy-Programming#readme"
+  "homepage": "https://github.com/phuongnhhe150172/SWP291-Sum22-Happy-Programming#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.0.24"
+  }
 }

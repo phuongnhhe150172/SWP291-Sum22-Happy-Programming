@@ -30,7 +30,7 @@ public class RequestServiceTest {
     private IUserService userService;
 
     @Test
-    public void testGetAllRequest(){
+    void testGetAllRequest(){
         List<Request> list = requestRepository.findAll();
         Assertions.assertThat(list).isNotNull();
         System.out.println(list.size());

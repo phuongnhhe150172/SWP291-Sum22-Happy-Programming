@@ -1,0 +1,4 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/*npx tailwindcss -i ./src/main/upload/static/css/input.css -o ./src/main/upload/static/css/main.css*/

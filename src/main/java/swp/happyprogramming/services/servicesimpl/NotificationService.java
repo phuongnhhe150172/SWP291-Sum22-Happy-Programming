@@ -27,4 +27,26 @@ public class NotificationService implements INotificationService {
                 .collect(Collectors.toList());
         return notificationDTOS;
     }
+
+    @Override
+    public List<NotificationDTO> getAllNotifications() {
+        List<Notification> notifications = notificationRepository.findAll();
+        List<NotificationDTO> notificationDTOS = notifications
+        .stream()
+        .map(notification -> Utility.mapNotification(notification))
+        .collect(Collectors.toList());
+            return notificationDTOS;
+    }
+
+
+
+    @Override
+    public Notification save(Notification notification) {
+        return notificationRepository.save(notification);
+    }
+
+    @Override
+    public void informNotiForRole(long noti_id, long role_id) {
+        notificationRepository.insertRoleHasNotification(noti_id, role_id);
+    }
 }

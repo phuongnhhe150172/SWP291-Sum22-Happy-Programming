@@ -183,7 +183,7 @@ public class UserManagementController {
     public String createCv(Model model, @RequestParam(value = "id", required = false) String id) {
         UserDTO user;
         if (id != null) {
-            if (!Utility.isNumber(id)) return INDEX_PAGE;
+            if (!Utility.isInteger(id)) return INDEX_PAGE;
             long userId = Integer.parseInt(id);
             user = userService.findUser(userId);
         } else {
