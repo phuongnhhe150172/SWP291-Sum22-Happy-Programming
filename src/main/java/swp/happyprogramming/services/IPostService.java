@@ -29,4 +29,6 @@ public interface IPostService {
 
     Pagination<PostDTO> getPostsPaging(int pageNumber);
 
+    void createNewPost(UserDTO userDTO, int statusId,String content, long methodId, float price);
+
 }
