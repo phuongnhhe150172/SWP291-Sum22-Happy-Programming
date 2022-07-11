@@ -90,7 +90,31 @@
 </div>
 
 <script type="text/javascript">
-    
+    $(document).ready(function (){
+        $.validator.addMethod(
+            "validateGender",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        $.validator.addMethod(
+            "validateLength",
+            function (value,element){
+                return value.length == 10;
+            },
+        );
+
+        $.validator.addMethod(
+            "validateDescription",
+            function (value,element){
+                const re = /[^a-zA-Z0-9 ]/;
+                return !re.test(value);
+            },
+        );
+
+        
+    });
 </script>
 </body>
 
