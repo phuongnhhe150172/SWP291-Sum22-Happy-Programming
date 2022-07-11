@@ -25,7 +25,8 @@ public class UserRepositoryTest {
     private IUserRepository userRepository;
 
 
-    @Autowired private IUserService userService;
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -33,9 +34,6 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUser() {
         User user = new User();
-        user.setFirstName("Nguyen Hong");
-        user.setLastName("Phuong");
-        user.setEmail("PhuongNHHE150172@fpt.edu.vn");
         user.setFirstName("Nguyen Hong");
         user.setLastName("Phuong");
         user.setEmail("PhuongNHHE150172@gmail.com");
@@ -53,7 +51,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testCountUserByRole(){
+    public void testCountUserByRole() {
         String role = "ROLE_MENTOR";
         int total = userRepository.countUsersByRolesLike(role);
     }
