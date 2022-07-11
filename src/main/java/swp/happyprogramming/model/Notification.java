@@ -11,6 +11,8 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "notification")
 @Getter
@@ -19,7 +21,7 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Long id = 0L;
 
     @Column(name = "content")
     private String content;
@@ -40,4 +42,11 @@ public class Notification {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> notificationToRoles;
+
+
+    public Notification(){
+        created = Date.from(Instant.now());
+        modified = Date.from(Instant.now());
+    }
+
 }
