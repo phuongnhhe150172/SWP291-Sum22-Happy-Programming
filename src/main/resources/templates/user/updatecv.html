@@ -43,7 +43,7 @@
                             <input type="text" id="firstname" class="border text-sm rounded-lg
                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
-                                   th:field="*{firstName}" placeholder="John" pattern="[a-zA-Z]+"
+                                   th:field="*{firstName}" placeholder="John"
                                    required>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             <input type="text" id="lastname" class="border text-sm rounded-lg
                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                             placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 bg-transparent"
-                                   th:field="*{lastName}" placeholder="Anderson" pattern="[a-zA-Z]+" required>
+                                   th:field="*{lastName}" placeholder="Anderson" required>
                         </div>
                     </div>
                 </div>
@@ -293,31 +293,17 @@
             },
         );
 
-        $.validator.addMethod(
-            "validateDOB",
-            function (value,element){
-                let created = document.getElementById('created').value;
-                let dob = new Date(value);
-                let createdDate = new Date(created);
-                return dob < createdDate;
-            },
-        );
+        
 
         $("#form-submit").validate({
             rules: {
                 gender : {
                     validateGender: true
-                },
-                dob: {
-                    validateDOB: true
                 }
             },
             messages: {
                 gender: {
                     validateGender: "You should choose gender"
-                },
-                dob: {
-                    validateDOB: "Date of birth need before created date"
                 }
             }
         });
