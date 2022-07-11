@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import swp.happyprogramming.services.IPostService;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.services.ICareService;
 import swp.happyprogramming.services.servicesimpl.CareService;
+import swp.happyprogramming.services.servicesimpl.MethodService;
 import swp.happyprogramming.vo.PostVo;
 
 import javax.servlet.http.HttpSession;
@@ -159,5 +161,38 @@ public class PostManagementController {
 
         model.addAttribute("posts", result);
         return "/post/all-created-post";
+    }
+
+    @GetMapping("/create")
+    public String createPosts(Model model) {
+
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            User user = userService.findByEmail(email);
+
+            List<Method> listMethod = methodService.getAllMethod();
+            model.addAttribute("user", user);
+            model.addAttribute("listMethod",listMethod);
+            return "/post/create";
+        }catch (NumberFormatException e){
+            return "redirect:/index";
+        }
+    }
+
+    @PostMapping("/create")
+    public String createPost(Model model,
+                             @RequestParam Map<String, Object> params){
+        try{
+            UserDTO user =(UserDTO) session.getAttribute("userInformation");
+            int method = Integer.parseInt(String.valueOf(params.get("method")));
+            int status = Integer.parseInt(String.valueOf(params.get("status")));
+            String content = String.valueOf(params.get("content"));
+            float price = Float.parseFloat(String.valueOf(params.get("price")));
+            postService.createNewPost(user, status, content, method, price);
+            return "/post/all";
+        }catch (NumberFormatException e){
+            return "redirect:index";
+        }
     }
 }
