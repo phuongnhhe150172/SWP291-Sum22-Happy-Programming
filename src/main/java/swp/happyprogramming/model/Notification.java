@@ -8,9 +8,13 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-@Data
 @Table(name = "notification")
+@Getter
+@Setter
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
