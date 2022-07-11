@@ -21,12 +21,12 @@
         <div class="flex flex-col justify-end" id="messages">
             <div class="p-4 flex items-center group gap-4" th:each="message: ${messages}" th:object="${message}"
                  th:classappend="${message.sender.id == session.userInformation.getId()} ? 'flex-row-reverse' : 'flex-row'">
-                <div class='py-2 rounded-xl max-w-[30ch]'
+                <div class='rounded-xl max-w-[30ch]'
                      th:classappend="${message.sender.id == session.userInformation.getId()} ? 'bg-blue-600' : 'bg-zinc-700'">
-                    <p class="px-2 pb-2 break-words" th:text="*{content}">${content}</p>
-                    <a th:href="@{${message.link}}" target="_blank" th:if="${message.link != null}">
+                    <p class="p-2 break-words" th:text="*{content}">${content}</p>
+                    <a th:href="@{${message.link}}" target="_blank" th:if="${message.link != null && message.link != ''}">
                         <img class="w-full" th:src="@{${message.image}}" th:alt="*{title}">
-                        <p class="font-medium px-3 pt-3" th:text="*{title}"></p>
+                        <p class="font-medium p-3" th:text="*{title}"></p>
                     </a>
                 </div>
                 <p class="hidden group-hover:block text-gray-600 font-medium text-sm"
