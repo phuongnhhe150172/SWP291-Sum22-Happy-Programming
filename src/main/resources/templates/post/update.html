@@ -113,7 +113,16 @@
             },
         );
 
-        
+        $("#form-submit").validate({
+            rules: {
+                description: {
+                    required: true
+                }
+            },
+            messages: {
+
+            }
+        });
     });
 </script>
 </body>
