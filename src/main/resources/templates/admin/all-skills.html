@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Skills - Happy Programming</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
+<div class="" th:replace="components/head.html :: head"></div>
+
 <body class="text-white flex">
 <!--Left-sidebar-->
 <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
