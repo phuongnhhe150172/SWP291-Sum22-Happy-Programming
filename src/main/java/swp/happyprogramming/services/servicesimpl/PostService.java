@@ -74,6 +74,20 @@ public class PostService implements IPostService {
     }
 
     @Override
+    public void createNewPost (UserDTO userDTO, int statusId, String content, long methodId, float price) {
+        User user = mapper.map(userDTO, User.class);
+        Method method = methodRepository.findById(methodId);
+        Post p = new Post();
+        p.setMethod(method);
+        p.setPrice(price);
+        p.setUser(user);
+        p.setStatus(statusId);
+        p.setDescription(content);
+
+        postRepository.save(p);
+    }
+
+    @Override
     public List<PostDTO> getListPostOngoing(){
         List<Post> listPost = postRepository.findAllByStatus(2);
         List<PostDTO> listPostDTO = listPost.stream().map(value -> mapper.map(value, PostDTO.class)).collect(Collectors.toList());
