@@ -62,9 +62,51 @@
                     </div>
                 </div>
             </div>
+            <button class="btn" th:attr="onclick=|carePost(${post.id})|">
+                <div th:switch="${post.liked}"> 
+                    <div th:case="1">
+                        <svg th:id="${post.id}" class="w-6 h-6" fill="red" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+
+                    </div>
+                    <div th:case="0">
+                        <svg th:id="${post.id}" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                  </div>
+                
+            </button>
+            
+            <!-- <svg class="w-6 h-6" fill="red" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg> -->
         </div>
     </div>
 </div>
+
+
+<script>
+    function carePost(id) {
+        let state = document.getElementById(id+"").getAttribute("fill")
+        if (state === "none") {
+            document.getElementById(id+"").setAttribute("fill", "red")
+            let data = {element: "barium"};
+            fetch("/post/care?id="+id, {
+                method: "GET",
+                headers: {'Content-Type': 'application/json'}, 
+              }).then(res => {
+                console.log("Request complete! response:", res);
+              });
+        } else {
+            document.getElementById(id+"").setAttribute("fill", "none")
+            fetch("/post/uncare?id="+id, {
+                method: "GET",
+                headers: {'Content-Type': 'application/json'}, 
+              }).then(res => {
+                console.log("Request complete! response:", res);
+              });
+        }
+        
+    }
+</script>
 
 </body>
 </html>
