@@ -10,6 +10,7 @@ public class PostVo {
     private Integer status;
     private Float price;
     private String methodName;
+    private int liked = 0;
 
 
     public PostVo(Long id, String avatar, String fullName, String description, Integer status, Float price, String methodName) {
@@ -21,6 +22,16 @@ public class PostVo {
         this.price = price;
         this.methodName = methodName;
     }
+
+    public int getLiked() {
+        return this.liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
+    }
+
+
 
     public Long getId() {
         return id;
