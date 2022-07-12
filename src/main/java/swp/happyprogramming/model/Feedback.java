@@ -3,6 +3,7 @@ package swp.happyprogramming.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "feedback")
@@ -13,15 +14,20 @@ public class Feedback {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "received_id")
-    private long receiverid;
+    @ManyToOne
+    @JoinColumn(name = "received_id")
+    private User receiver;
 
-    @Column(name = "sender_id")
-    private long senderid;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
     @Column(name = "rate")
     private int rate;
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "created")
+    private Instant created;
 }

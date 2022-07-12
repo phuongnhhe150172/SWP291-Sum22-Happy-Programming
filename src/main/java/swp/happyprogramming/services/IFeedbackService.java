@@ -1,12 +1,14 @@
 package swp.happyprogramming.services;
 
 import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.User;
 
 import java.util.List;
 
 public interface IFeedbackService {
-    List<Feedback> getFeedbackReceived(Long id);
+    List<Feedback> getFeedbackReceived(User user);
 
-    int[] feedBackCount();
+    double[] feedBackCount();
+
     Feedback save(Feedback feedback);
 }

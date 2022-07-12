@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
@@ -20,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpSession;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +46,10 @@ public class FeedbackController {
             userId = Integer.parseInt(id);
         }
         UserDTO viewedUser = userService.findUser(userId);
-        List<Feedback> feedback = feedbackService.getFeedbackReceived(userId);
-        double avgRate = Utility.getAverageRate(feedback);
-        int[] count = feedbackService.feedBackCount();
-        model.addAttribute("feedback", feedback);
+        List<Feedback> feedbacks = feedbackService.getFeedbackReceived(userService.getUserById(userId));
+        double avgRate = Utility.getAverageRate(feedbacks);
+        double[] count = feedbackService.feedBackCount();
+        model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("viewedUser", viewedUser);
         model.addAttribute("avgRate", avgRate);
         model.addAttribute("count", count);
@@ -57,36 +57,35 @@ public class FeedbackController {
     }
 
     @GetMapping("/create-feedback")
-    public String createFeedback(Model model) {
+    public String createFeedback(Model model, @RequestParam(value = "id") String id) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
-        Integer receivedId = 22;
+        Integer receivedId = Integer.parseInt(id);
 
         UserDTO receivedUser = userService.findUser(receivedId);
-        System.out.print("====send====="+receivedUser.getId());
+        System.out.print("====send=====" + receivedUser.getId());
         model.addAttribute("receivedUser", receivedUser);
         session.setAttribute("receivedUser", receivedUser);
         return "feedback/createFeedBack";
     }
 
-    @PostMapping("/add-feedback")
+    @PostMapping("/addFeedback")
     public String addFeedback(@RequestParam String comment, @RequestParam Integer rating) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
         UserDTO sessionUser = (UserDTO) sessionInfo;
         long senderId = sessionUser.getId();
-        UserDTO receivedUser = (UserDTO)session.getAttribute("receivedUser");
-
+        UserDTO receivedUser = (UserDTO) session.getAttribute("receivedUser");
 
         Feedback feedBack = new Feedback();
         feedBack.setRate(rating);
         feedBack.setComment(comment);
-        feedBack.setReceiverid(receivedUser.getId());
-        feedBack.setSenderid(senderId);
+        feedBack.setReceiver(userService.getUserById(receivedUser.getId()));
+        feedBack.setSender(userService.getUserById(senderId));
+        feedBack.setCreated(Instant.now());
 
-        
         feedbackService.save(feedBack);
-        return "redirect:/admin/skills";
+        return "redirect:feedback";
     }
 
     @GetMapping("/all-feedback")
@@ -98,10 +97,10 @@ public class FeedbackController {
         long userId = user.getId();
 
         ArrayList<FeedbackVo> feedbacks = new ArrayList<>();
-        List<Feedback> feedback_raw = feedbackService.getFeedbackReceived(userId);
-        for (Feedback f :feedback_raw ) {
-            UserDTO sender_user = userService.findUser(f.getSenderid());
-            feedbacks.add(new FeedbackVo(sender_user.getFirstName() + " " + sender_user.getLastName(), f.getRate(), f.getComment()));
+        List<Feedback> feedbacksRaw = feedbackService.getFeedbackReceived(userService.getUserById(userId));
+        for (Feedback f : feedbacksRaw) {
+            UserDTO sender = Utility.mapUser(f.getSender());
+            feedbacks.add(new FeedbackVo(sender.getFirstName() + " " + sender.getLastName(), f.getRate(), f.getComment()));
         }
         model.addAttribute("feedbacks", feedbacks);
         model.addAttribute("viewedUser", user);
