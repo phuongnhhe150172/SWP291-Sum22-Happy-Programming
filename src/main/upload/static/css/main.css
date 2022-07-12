@@ -970,16 +970,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 6rem;
 }
 
-.w-44 {
-  width: 11rem;
-}
-
 .w-\[80vw\] {
   width: 80vw;
 }
 
 .w-\[90\%\] {
   width: 90%;
+}
+
+.w-44 {
+  width: 11rem;
 }
 
 .min-w-\[60vw\] {
@@ -2035,6 +2035,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .duration-300 {
   transition-duration: 300ms;
 }
+
+/*npx tailwindcss -i ./src/main/upload/static/css/input.css -o ./src/main/upload/static/css/main.css*/
 
 .after\:absolute::after {
   content: var(--tw-content);
