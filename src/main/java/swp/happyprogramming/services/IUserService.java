@@ -20,8 +20,6 @@ public interface IUserService extends UserDetailsService {
 
     int countUsersByRolesLike(String role);
 
-    int statusRequest(long mentorId, long menteeId);
-
     Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber);
     List<UserAvatarDTO> getConnectionsById(long id);
 
@@ -29,7 +27,7 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO findUser(long id);
 
-    User getUserById(long id);
+    User getUserById(Long id);
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 

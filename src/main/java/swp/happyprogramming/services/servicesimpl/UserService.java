@@ -16,7 +16,10 @@ import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
-import swp.happyprogramming.repository.*;
+import swp.happyprogramming.repository.IAddressRepository;
+import swp.happyprogramming.repository.IRoleRepository;
+import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.repository.IWardRepository;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
 
@@ -26,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,11 +97,6 @@ public class UserService implements IUserService {
         return userRepository.countUsersByRolesLike(role);
     }
 
-    @Override
-    public int statusRequest(long mentorId, long menteeId) {
-        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(-1);
-    }
-
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
@@ -144,7 +141,7 @@ public class UserService implements IUserService {
         return Utility.mapUser(user);
     }
 
-    public User getUserById(long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -218,19 +215,12 @@ public class UserService implements IUserService {
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = new ArrayList<>();
-        for (User mentee : mentees) {
-            boolean check = true;
-            for (Role role1 : mentee.getRoles()) {
-                if (role1.getName().equals("ROLE_ADMIN")) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                UserDTO userDTO = findUser(mentee.getId());
-                menteesDTO.add(userDTO);
-            }
-        }
+        mentees.stream()
+                .filter(user -> !user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN")))
+                .forEach(mentee -> {
+                    UserDTO userDTO = findUser(mentee.getId());
+                    menteesDTO.add(userDTO);
+                });
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(menteesDTO, pageNumbers);
     }
