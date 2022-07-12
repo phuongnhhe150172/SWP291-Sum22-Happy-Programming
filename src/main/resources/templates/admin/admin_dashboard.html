@@ -14,44 +14,44 @@
 <div class="bg-gray-900 grow flex">
     <div class="grow p-4 space-y-8">
         <div class="">
-            <h1 class="font-semibold text-5xl my-4 px-3">Have a nice day, team!</h1>
+            <h1 class="font-semibold text-4xl my-4 px-3">Have a nice day, team!</h1>
         </div>
         <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-red-900/30 via-gray-800 to-gray-800">
             <div class="flex items-center mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
-                <h1 class="font-medium text-2xl px-3">Summary</h1>
+                <h1 class="font-medium text-1xl px-3">Summary</h1>
             </div>
             <div class="flex">
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentors}"></h5>
+                    <h5 class="my-3 text-3xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentors}"></h5>
                     <p class="font-normal text-gray-300 dark:text-gray-400">Number of mentors</p>
                 </div>
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentees}"></h5>
+                    <h5 class="my-3 text-3xl font-semibold tracking-tight mb-6 text-white" th:text="${totalNumberOfMentees}"></h5>
                     <p class="font-normal text-gray-300 dark:text-gray-400">Number of mentees</p>
                 </div>
                 <div class="px-6 grow text-center">
-                    <h5 class="my-3 text-5xl font-semibold tracking-tight mb-6 text-white"  th:text="${totalNumberOfRequests}">272</h5>
+                    <h5 class="my-3 text-3xl font-semibold tracking-tight mb-6 text-white"  th:text="${totalNumberOfRequests}">272</h5>
                     <p class="font-normal text-gray-300 dark:text-gray-400">Number of Requests</p>
                 </div>
             </div>
         </div>
-        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-gray-800 via-gray-800 to-blue-900/30">
-            <div class="flex items-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                </svg>
-                <h1 class="font-medium text-2xl px-3">Numbers</h1>
-            </div>
-            <div>
+<!--        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-gray-800 via-gray-800 to-blue-900/30">-->
+<!--            <div class="flex items-center mb-6">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />-->
+<!--                </svg>-->
+<!--                <h1 class="font-medium text-1xl px-3">Numbers</h1>-->
+<!--            </div>-->
+<!--            <div>-->
 
-            </div>
-        </div>
-        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-gradient-to-br from-gray-800 via-gray-800 to-blue-900/30">
+<!--            </div>-->
+<!--        </div>-->
+        <div class="justify-between gap-3 p-6 rounded-3xl border border-gray-700 bg-slate-100">
             <div class="shadow-lg rounded-lg overflow-hidden">
-                <div class="py-3 px-5">Line chart</div>
+                <h1 class="font-medium text-1xl px-3 text-black">Mothly New Mentees</h1>
                 <canvas class="p-10" id="chartLine"></canvas>
             </div>
         </div>
@@ -72,7 +72,7 @@
         labels: labels,
         datasets: [
             {
-                label: "Amount",
+                label: "Total",
                 data: [
                     listAmountNewMentees[0],
                     listAmountNewMentees[1],
@@ -81,12 +81,12 @@
                     listAmountNewMentees[4],
                     listAmountNewMentees[5],
                     listAmountNewMentees[6],
-                    ,
-                    ,
-                    ,
-                    ,
-                    ,
-                    ,
+                    listAmountNewMentees[7],
+                    listAmountNewMentees[8],
+                    listAmountNewMentees[9],
+                    listAmountNewMentees[10],
+                    listAmountNewMentees[11],
+                    listAmountNewMentees[12],
                     20],
                 backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
                 borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
@@ -97,7 +97,7 @@
     };
 
     const configLineChart = {
-        type: "line",
+        type: "bar",
         data,
         options: {},
     };
