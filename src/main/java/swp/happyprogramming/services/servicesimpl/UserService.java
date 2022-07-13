@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -172,17 +171,6 @@ public class UserService implements IUserService {
         userRepository.save(currentUser);
         User userSaved = userRepository.findById(userDTO.getId()).orElse(new User());
         return Utility.mapUser(userSaved);
-    }
-
-    @Override
-    public List<UserAvatarDTO> getRequestsByEmail(String email) {
-        ArrayList<User> users = userRepository.findRequestsByEmail(email);
-        return users.stream()
-                .map(user -> new UserAvatarDTO(
-                        user.getId(),
-                        user.getFirstName() + " " + user.getLastName(),
-                        user.getImage())
-                ).collect(Collectors.toList());
     }
 
     @Override
