@@ -214,13 +214,10 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-        List<UserDTO> menteesDTO = new ArrayList<>();
-        mentees.stream()
+        List<UserDTO> menteesDTO = mentees.stream()
                 .filter(user -> !user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN")))
-                .forEach(mentee -> {
-                    UserDTO userDTO = findUser(mentee.getId());
-                    menteesDTO.add(userDTO);
-                });
+                .map(mentee -> findUser(mentee.getId()))
+                .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(menteesDTO, pageNumbers);
     }
