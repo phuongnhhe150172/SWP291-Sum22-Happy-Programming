@@ -25,13 +25,13 @@
                     <td class="px-4 py-4 items-center gap-3 text-white font-medium"  >
                         <img class="w-12 h-12 rounded-full inline-flex" th:src="@{*{mentee.image}}"
                              alt="Bonnie image"/>
-                        <a th:href="@{/profile(id=*{mentee.id})}" class="inline-flex"
+                        <a th:href="@{/admin/mentee(id=*{mentee.id})}" class="inline-flex"
                            th:text="*{mentee.firstName + ' ' + mentee.lastName}">Nguyen Hong Phuong</a>
                     </td>
                     <td class="px-4 py-4 items-center gap-3 text-white font-medium"  >
                         <img class="w-12 h-12 rounded-full inline-flex" th:src="@{*{mentor.image}}"
                              alt="Bonnie image"/>
-                        <a th:href="@{/profile(id=*{mentor.id})}" class="inline-flex"
+                        <a th:href="@{/admin/mentor(id=*{mentor.id})}" class="inline-flex"
                            th:text="*{mentor.firstName + ' ' + mentor.lastName}">Nguyen Hong Phuong</a>
                     </td>
                 </tr>

@@ -65,11 +65,16 @@ public class AdminController {
         String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail;
 
         Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
+        List<UserDTO> mentees = page.getPaginatedList();
+        int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
+        int totalMenteesFound = mentees.size();
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
         model.addAttribute("first_name", firstName);
         model.addAttribute("last_name", lastName);
+        model.addAttribute("totalMentees", totalNumberOfMentees);
+        model.addAttribute("totalMenteesFound", totalMenteesFound);
         model.addAttribute("phone", phone);
         model.addAttribute("email", email);
         return "admin/all-mentees";
@@ -81,7 +86,7 @@ public class AdminController {
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentors", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("totalPages", page.getPaginatedList().size());
+        model.addAttribute("totalPages", page.getPageNumbers().size());
         return "admin/all-mentors";
     }
 
