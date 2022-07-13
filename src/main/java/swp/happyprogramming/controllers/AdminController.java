@@ -182,15 +182,17 @@ public class AdminController {
     }
 
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id", required = false) int id) {
+    public String enableUser(@RequestParam(value = "id", required = false) int id
+                             ,@RequestParam(value = "status", required = false) int status) {
         userService.enableUser(id);
-        return "redirect:mentors";
+        if(status == 1){
+            return "redirect:mentors";
+        }else{
+            return "redirect:mentees";
+        }
+
     }
 
-    @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id", required = false) int id) {
-        userService.disableUser(id);
-        return "redirect:mentors";
-    }
+
 
 }
