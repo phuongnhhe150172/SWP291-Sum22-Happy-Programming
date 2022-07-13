@@ -151,7 +151,10 @@ public class UserService implements IUserService {
 
         Address address = currentUser.getAddress();
 
-        Ward ward = wardRepository.findById(wardId).orElse(null);
+        Ward ward = wardRepository
+                .findById(wardId)
+                .orElse(null);
+
         address.setWard(ward);
         address.setName(userDTO.getAddress().getName());
 
