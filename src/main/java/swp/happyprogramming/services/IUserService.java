@@ -31,8 +31,6 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
-    List<UserAvatarDTO> getRequestsByEmail(String email);
-
     void removeMentee(long menteeId);
 
     void updateImage(Long id, Path currentFolder, MultipartFile image);

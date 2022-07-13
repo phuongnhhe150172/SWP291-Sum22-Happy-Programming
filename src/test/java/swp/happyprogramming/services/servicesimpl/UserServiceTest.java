@@ -3,6 +3,7 @@ package swp.happyprogramming.services.servicesimpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.User;
@@ -55,9 +56,15 @@ class UserServiceTest {
     }
 
     @Test
-    void findByEmail_notExist() {
-        String nonExistEmail = "nonExistEmail";
-        assertNull(userService.findByEmail(nonExistEmail));
+    void findByEmail_invalidEmail() {
+        String invalidEmailFormat = "invalidEmailFormat";
+        assertNull(userService.findByEmail(invalidEmailFormat));
+    }
+
+    @Test
+    void findByEmail_notExistEmail() {
+        String notExistEmail = "notExistEmail@gmail.com";
+        assertNull(userService.findByEmail(notExistEmail));
     }
 
     @Test
@@ -132,6 +139,12 @@ class UserServiceTest {
 
     @Test
     void updatePassword() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        long id = 12L;
+        String password = "test";
+        User user = userService.getUserById(id);
+        userService.updatePassword(user, password);
+        assertTrue(encoder.matches(password, user.getPassword()));
     }
 
     @Test
