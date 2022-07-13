@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <div class="" th:replace="components/head.html :: head"></div>
 <body class="text-white flex">
+<script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 <!--Left-sidebar-->
 <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
 <!--End-Left-sidebar-->
@@ -115,7 +116,7 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                                 <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <a th:href="@{/admin/mentors}"
+                                        <a th:href="@{/admin/mentees}"
                                            type="button"
                                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -129,11 +130,11 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to enable this user?</h3>
-                                            <a th:href="@{/admin/enable(id=${mentee.id})}" type="button"
+                                            <a th:href="@{/admin/enable(id=${mentee.id},status=2)}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
-                                            <a th:href="@{/admin/mentors}"
+                                            <a th:href="@{/admin/mentees}"
                                                type="button"
                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200
                                                rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10
@@ -148,9 +149,11 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                                 <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <a th:href="@{/admin/mentors}"
+                                        <a th:href="@{/admin/mentees}"
                                            type="button"
-                                           class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
+                                           class="absolute top-3 right-2.5 text-gray-400 bg-transparent
+                                           hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto
+                                           inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd"
@@ -162,11 +165,11 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to disable this user?</h3>
-                                            <a th:href="@{/admin/disable(id=${mentee.id})}" type="button"
+                                            <a th:href="@{/admin/disable(id=${mentee.id},status=2)}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
-                                            <a th:href="@{/admin/mentors}"
+                                            <a th:href="@{/admin/mentees}"
                                                type="button"
                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200
                                                rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10
