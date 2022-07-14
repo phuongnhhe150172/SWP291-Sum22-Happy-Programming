@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="flex items-center gap-3 rounded-md p-4 my-4" th:if="${session.userInformation == null}">
-            <img th:src="@{/upload/static/imgs/avatar_default}" alt=""
+            <img th:src="@{/upload/static/imgs/avatar_default.jpg}" alt=""
                  class="w-10 h-10 rounded-full">
             <div class="">
                 <a href="/login">
@@ -39,10 +39,10 @@
                 </a>
             </div>
         </div>
-        <ul class="space-y-4">
+        <ul class="space-y-2">
             <li>
                 <a href="/chat"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400" viewBox="0 0 20 20"
                          fill="currentColor">
@@ -54,7 +54,7 @@
             </li>
             <li>
                 <a href="/requests"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -66,7 +66,7 @@
             </li>
             <li>
                 <a href="/request/sent"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -78,7 +78,7 @@
             </li>
             <li>
                 <a href="/connections"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -89,7 +89,7 @@
             </li>
             <li>
                 <a href="/feedback"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          viewBox="0 0 20 20" fill="currentColor">
@@ -102,7 +102,7 @@
             </li>
             <li>
                 <a href="/mentor"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -115,7 +115,7 @@
             <li>
                 <a th:href="@{/cv}" href=""
                    th:if="${session.role == 'MENTOR_AND_MENTEE'}"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -126,7 +126,7 @@
             </li>
             <li>
                 <a th:href="@{/create}" href="" th:if="${session.role == 'MENTEE'}"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400"
                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -137,7 +137,7 @@
             </li>
             <li>
                 <a th:href="@{/notification/all}" href="#"
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white ">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600 ">
                     <svg class="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -150,7 +150,7 @@
             </li>
             <li>
                 <a th:href="@{/logout}" href=""
-                   class="group cursor-default flex items-center py-1.5 px-4 text-base font-normal rounded-md text-white">
+                   class="group flex items-center py-2.5 px-4 text-base font-normal rounded-md text-white hover:bg-zinc-600">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="flex-shrink-0 w-6 h-6 transition duration-75 text-zinc-400" viewBox="0 0 20 20"
                          fill="currentColor">

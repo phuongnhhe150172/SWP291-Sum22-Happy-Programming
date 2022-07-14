@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -151,7 +150,10 @@ public class UserService implements IUserService {
 
         Address address = currentUser.getAddress();
 
-        Ward ward = wardRepository.findById(wardId).orElse(null);
+        Ward ward = wardRepository
+                .findById(wardId)
+                .orElse(null);
+
         address.setWard(ward);
         address.setName(userDTO.getAddress().getName());
 
@@ -169,17 +171,6 @@ public class UserService implements IUserService {
         userRepository.save(currentUser);
         User userSaved = userRepository.findById(userDTO.getId()).orElse(new User());
         return Utility.mapUser(userSaved);
-    }
-
-    @Override
-    public List<UserAvatarDTO> getRequestsByEmail(String email) {
-        ArrayList<User> users = userRepository.findRequestsByEmail(email);
-        return users.stream()
-                .map(user -> new UserAvatarDTO(
-                        user.getId(),
-                        user.getFirstName() + " " + user.getLastName(),
-                        user.getImage())
-                ).collect(Collectors.toList());
     }
 
     @Override
@@ -214,13 +205,10 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-        List<UserDTO> menteesDTO = new ArrayList<>();
-        mentees.stream()
+        List<UserDTO> menteesDTO = mentees.stream()
                 .filter(user -> !user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN")))
-                .forEach(mentee -> {
-                    UserDTO userDTO = findUser(mentee.getId());
-                    menteesDTO.add(userDTO);
-                });
+                .map(mentee -> findUser(mentee.getId()))
+                .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(menteesDTO, pageNumbers);
     }

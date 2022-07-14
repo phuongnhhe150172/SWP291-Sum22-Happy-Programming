@@ -91,7 +91,7 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to enable this user?</h3>
-                                            <a th:href="@{/admin/enable(id=${mentor.id})}" type="button"
+                                            <a th:href="@{/admin/enable(id=${mentor.id},status=1)}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
@@ -124,7 +124,7 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to disable this user?</h3>
-                                            <a th:href="@{/admin/disable(id=${mentor.id})}" type="button"
+                                            <a th:href="@{/admin/disable(id=${mentor.id},status=1)}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
@@ -148,7 +148,7 @@
             <ul class="inline-flex -space-x-px">
                 <li>
                     <a th:href="@{/admin/mentors(pageNumber=1)}"
-                       class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                       class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">First</a>
                 </li>
                 <li>
                     <a th:if="${pageNumber - 2 > 1}" th:href="@{/admin/mentors(pageNumber=${pageNumber - 2})}"
@@ -166,20 +166,20 @@
                        th:text="${pageNumber}">3</a>
                 </li>
                 <li>
-                    <a th:if="${pageNumber + 1 < totalPages - 1}"
+                    <a th:if="${pageNumber + 1 < totalPages}"
                        th:href="@{/admin/mentors(pageNumber=${pageNumber + 1})}"
                        class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                        th:text="${pageNumber + 1}">4</a>
                 </li>
                 <li>
-                    <a th:if="${pageNumber + 2 < totalPages - 1}"
+                    <a th:if="${pageNumber + 2 < totalPages}"
                        th:href="@{/admin/mentors(pageNumber=${pageNumber + 2})}"
                        class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                        th:text="${pageNumber + 2}">5</a>
                 </li>
                 <li>
-                    <a th:href="@{/admin/mentors(pageNumber=${totalPages - 1})}"
-                       class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                    <a th:href="@{/admin/mentors(pageNumber=${totalPages})}"
+                       class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Last</a>
                 </li>
             </ul>
         </nav>
