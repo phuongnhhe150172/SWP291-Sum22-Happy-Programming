@@ -203,6 +203,8 @@ public class UserManagementController {
         try {
             long userId = Integer.parseInt(id);
             mentorService.createCv(userId, experieceValue, skillValue);
+            String sessionRole = "MENTOR_AND_MENTEE";
+            session.setAttribute("role", sessionRole);
             return "redirect:cv";
         } catch (NumberFormatException e) {
             return INDEX_PAGE;
