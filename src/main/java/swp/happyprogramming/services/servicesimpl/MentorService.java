@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -70,12 +71,13 @@ public class MentorService implements IMentorService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     //    UPDATE SECTION
-    public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
+    public UserDTO updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
         Optional<Mentor> optionalUserProfile = mentorRepository.findByUserId(mentorDTO.getId());
         if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) {
-            return;
+            return null;
         }
         Mentor profile = optionalUserProfile.get();
         User user = optionalUser.get();
@@ -101,6 +103,9 @@ public class MentorService implements IMentorService {
         if (skillValue != null) {
             saveUserSkills(mentorDTO.getProfileId(), skillValue);
         }
+
+        User userSaved = userRepository.findById(mentorDTO.getId()).orElse(new User());
+        return Utility.mapUser(userSaved);
 
     }
 
