@@ -35,36 +35,40 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
         User user = userService.findByEmail(email);
         UserDTO userDTO = Utility.mapUser(user);
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        authorities.forEach(authority -> {
-            session.setAttribute("id", userDTO.getId());
-            session.setAttribute("userInformation", userDTO);
-            if (authority.getAuthority().equals("ROLE_MENTOR")) {
-                try {
-                    String sessionRole = "MENTOR_AND_MENTEE";
-                    session.setAttribute("role", sessionRole);
-                    redirectStrategy.sendRedirect(request, response, "/home");
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (user.getStatus() == 0){
+               redirectStrategy.sendRedirect(request, response, "/login?msg");
+        }else{
+            authorities.forEach(authority -> {
+                session.setAttribute("id", userDTO.getId());
+                session.setAttribute("userInformation", userDTO);
+                if (authority.getAuthority().equals("ROLE_MENTOR")) {
+                    try {
+                        String sessionRole = "MENTOR_AND_MENTEE";
+                        session.setAttribute("role", sessionRole);
+                        redirectStrategy.sendRedirect(request, response, "/home");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (authority.getAuthority().equals("ROLE_MENTEE")) {
+                    try {
+                        String sessionRole = "MENTEE";
+                        session.setAttribute("role", sessionRole);
+                        redirectStrategy.sendRedirect(request, response, "/home");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (authority.getAuthority().contains("ROLE_ADMIN")) {
+                    try {
+                        String sessionRole = "ADMIN";
+                        session.setAttribute("role", sessionRole);
+                        redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    throw new IllegalStateException();
                 }
-            } else if (authority.getAuthority().equals("ROLE_MENTEE")) {
-                try {
-                    String sessionRole = "MENTEE";
-                    session.setAttribute("role", sessionRole);
-                    redirectStrategy.sendRedirect(request, response, "/home");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (authority.getAuthority().contains("ROLE_ADMIN")) {
-                try {
-                    String sessionRole = "ADMIN";
-                    session.setAttribute("role", sessionRole);
-                    redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                throw new IllegalStateException();
-            }
-        });
+            });
+        }
     }
 }
