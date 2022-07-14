@@ -374,7 +374,42 @@
 
         $("#form-submit").validate({
             rules: {
-
+                gender: {
+                    validateGender: true
+                },
+                provinceId: {
+                    validateProvince: true
+                },
+                districtId: {
+                    validateDistrict: true
+                },
+                wardId: {
+                    validateWard: true
+                },
+                dob: {
+                    validateDOB: true
+                },
+                firstName: {
+                    validateFirstName: true,
+                    maxlength: 5
+                },
+                lastName: {
+                    validateFirstName: true,
+                    maxlength: 5
+                },
+                price: {
+                    validatePrice: true
+                },
+                phoneNumber: {
+                    validatePhone: true,
+                    validateLength: true
+                },
+                bio: {
+                    validateBio: true
+                },
+                school: {
+                    validateSchool: true
+                }
             },
             messages: {
 
