@@ -24,7 +24,6 @@ public class UserSpe {
             temp = getByColumn("email", email);
             spec = spec!=null?Specification.where(spec).and(temp):temp;
         }
-     
         return spec;
     }
 
