@@ -332,7 +332,45 @@
             },
         );
 
-        
+        $.validator.addMethod(
+            "validateFirstName",
+            function (value,element){
+                const re = /[^a-zA-Z]/;
+                return !re.test(value);
+            },
+        );
+
+        $.validator.addMethod(
+            "validatePhone",
+            function (value,element){
+                const re = /[^0-9]/;
+                return !re.test(value);
+            },
+        );
+
+        //error
+        $.validator.addMethod(
+            "validatePrice",
+            function (value,element){
+                const re = /[1-9][0-9]*.?[0-9]+/;
+                return re.test(value);
+            },
+        );
+
+        $.validator.addMethod(
+            "validateBio",
+            function (value,element){
+                const re = /[^a-zA-Z0-9 ]/;
+                return !re.test(value);
+            },
+        );
+        $.validator.addMethod(
+            "validateSchool",
+            function (value,element){
+                const re = /[^a-zA-Z0-9 ]/;
+                return !re.test(value);
+            },
+        );
 
         $("#form-submit").validate({
             rules: {
