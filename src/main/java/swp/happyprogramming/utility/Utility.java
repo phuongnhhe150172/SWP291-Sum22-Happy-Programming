@@ -114,17 +114,17 @@ public class Utility {
         LocalDateTime todayDateTime = today.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
-        LocalDateTime createdDateTime = notification.getCreated().toInstant()
+        LocalDateTime modifiedDateTime = notification.getModified().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
-        long secondsElapsed = ChronoUnit.SECONDS.between(createdDateTime, todayDateTime);
-        long minutesElapsed = ChronoUnit.MINUTES.between(createdDateTime, todayDateTime);
-        long hoursElapsed = ChronoUnit.HOURS.between(createdDateTime, todayDateTime);
-        long daysElapsed = ChronoUnit.DAYS.between(createdDateTime, todayDateTime);
-        long weeksElapsed = ChronoUnit.WEEKS.between(createdDateTime, todayDateTime);
-        long monthsElapsed = ChronoUnit.MONTHS.between(createdDateTime, todayDateTime);
-        long yearsElapsed = ChronoUnit.YEARS.between(createdDateTime, todayDateTime);
+        long secondsElapsed = ChronoUnit.SECONDS.between(modifiedDateTime, todayDateTime);
+        long minutesElapsed = ChronoUnit.MINUTES.between(modifiedDateTime, todayDateTime);
+        long hoursElapsed = ChronoUnit.HOURS.between(modifiedDateTime, todayDateTime);
+        long daysElapsed = ChronoUnit.DAYS.between(modifiedDateTime, todayDateTime);
+        long weeksElapsed = ChronoUnit.WEEKS.between(modifiedDateTime, todayDateTime);
+        long monthsElapsed = ChronoUnit.MONTHS.between(modifiedDateTime, todayDateTime);
+        long yearsElapsed = ChronoUnit.YEARS.between(modifiedDateTime, todayDateTime);
         if (yearsElapsed > 0) {
             notificationDTO.setTime(yearsElapsed + " years ago");
         } else if (monthsElapsed > 0) {

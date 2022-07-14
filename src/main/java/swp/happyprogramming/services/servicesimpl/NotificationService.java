@@ -38,7 +38,7 @@ public class NotificationService implements INotificationService {
 
     @Override
     public Pagination<NotificationDTO> getNotificationByRoles(int pageNumber, Set<Role> roles) {
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5, Sort.by(Sort.Direction.DESC, "modified"));
         Page<Notification> page = notificationRepository.getNotificationsByNotificationToRolesIn(pageRequest, roles);
         int totalPages = page.getTotalPages();
         List<Notification> notifications = page.getContent();
