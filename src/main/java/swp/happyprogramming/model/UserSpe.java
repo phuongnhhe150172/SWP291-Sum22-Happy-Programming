@@ -20,9 +20,9 @@ public class UserSpe {
             temp = getByColumn("phoneNumber", phone);
             spec = spec!=null?Specification.where(spec).and(temp):temp;
         }
-        if (email != null){
+        if (email != null) {
             temp = getByColumn("email", email);
-            spec = spec!=null?Specification.where(spec).and(temp):temp;
+            spec = spec != null ? Specification.where(spec).and(temp) : temp;
         }
         return spec;
     }

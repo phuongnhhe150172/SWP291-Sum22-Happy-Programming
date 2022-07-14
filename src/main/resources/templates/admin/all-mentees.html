@@ -12,7 +12,7 @@
         <form method="get" th:action="@{/admin/mentees}">
             <div class="grid xl:grid-cols-2 xl:gap-6">
                 <div class="py-2">
-                    <label for="firstname" class="block font-medium text-gray-300 text-sm mb-2">First Name</label>
+                    <label for="firstname" class="block font-medium text-gray-300 text-sm mb-2">First name</label>
                     <input type="text" id="firstname" class="bg-gray-50 border border-gray-300 text-sm rounded-lg
                         focus:outline-none focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
@@ -20,7 +20,7 @@
                            placeholder="John">
                 </div>
                 <div class="py-2">
-                    <label for="lastname" class="block font-medium text-gray-300 text-sm mb-2">Last Name</label>
+                    <label for="lastname" class="block font-medium text-gray-300 text-sm mb-2">Last name</label>
                     <input type="text" id="lastname" class="bg-gray-50 border border-gray-300 text-sm rounded-lg
                         focus:outline-none focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
@@ -30,14 +30,14 @@
             </div>
             <div class="grid xl:grid-cols-2 xl:gap-6">
                 <div class="py-2">
-                    <label for="phone" class="block font-medium text-gray-300 text-sm mb-2">Last Name</label>
+                    <label for="phone" class="block font-medium text-gray-300 text-sm mb-2">Phone number</label>
                     <input type="text" id="phone" class="bg-gray-50 border border-gray-300 text-sm rounded-lg
                         focus:outline-none focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600
                         placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                            th:value="${phone}" name="phone"
                            placeholder="0337607098">
                 </div>
-                <div class="py-4">
+                <div class="py-2">
                     <label for="email" class="block font-medium text-gray-300 text-sm mb-2">Email</label>
                     <input type="text" id="email" name="email" th:value="${email}"
                            class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:outline-none
@@ -67,6 +67,7 @@
                     <th class="px-6 py-4"> phone</th>
                     <th class="px-6 py-4"> Email</th>
                     <th class="px-6 py-4"> Address</th>
+                    <th class="px-6 py-4"> Created Date</th>
                     <th scope="col" class="px-6 py-4">
                         Actions
                     </th>
@@ -80,6 +81,7 @@
                     <td class="px-6 py-4" th:utext="${mentee.phoneNumber}"></td>
                     <td class="px-6 py-4" th:utext="${mentee.email}"></td>
                     <td class="px-6 py-4" th:utext="${mentee.address.ward.name + ', ' + mentee.address.district.name + ', ' + mentee.address.province.name}"></td>
+                    <td class="px-6 py-4" th:utext="${mentee.created}"></td>
                     <td class="px-6 py-4">
                         <div class="w-[100%] h-[100%] flex items-center">
                             <a th:href="@{/admin/mentee(id=${mentee.id})}" class="text-green-500 hover:text-gray-500">
