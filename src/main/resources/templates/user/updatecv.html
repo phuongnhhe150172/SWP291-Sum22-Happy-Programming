@@ -5,6 +5,11 @@
 <body class="bg-gray-900 text-white font-['Open_Sans']">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<style>
+    .error{
+        color: red;
+    }
+</style>
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
 
@@ -306,17 +311,142 @@
             },
         );
 
-        
+        $.validator.addMethod(
+            "validateDistrict",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        $.validator.addMethod(
+            "validateWard",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        $.validator.addMethod(
+            "validateLength",
+            function (value,element){
+                return value.length == 10;
+            },
+        );
+
+        $.validator.addMethod(
+            "validateFirstName",
+            function (value,element){
+                const re = /[^a-zA-Z]/;
+                return !re.test(value);
+            },
+        );
+
+        $.validator.addMethod(
+            "validatePhone",
+            function (value,element){
+                const re = /[^0-9]/;
+                return !re.test(value);
+            },
+        );
+
+        //error
+        $.validator.addMethod(
+            "validatePrice",
+            function (value,element){
+                const re = /[1-9][0-9]*.?[0-9]+/;
+                return re.test(value);
+            },
+        );
+
+        $.validator.addMethod(
+            "validateBio",
+            function (value,element){
+                const re = /[^a-zA-Z0-9 ]/;
+                return !re.test(value);
+            },
+        );
+        $.validator.addMethod(
+            "validateSchool",
+            function (value,element){
+                const re = /[^a-zA-Z0-9 ]/;
+                return !re.test(value);
+            },
+        );
 
         $("#form-submit").validate({
             rules: {
                 gender: {
                     validateGender: true
+                },
+                provinceId: {
+                    validateProvince: true
+                },
+                districtId: {
+                    validateDistrict: true
+                },
+                wardId: {
+                    validateWard: true
+                },
+                dob: {
+                    validateDOB: true
+                },
+                firstName: {
+                    validateFirstName: true,
+                    maxlength: 5
+                },
+                lastName: {
+                    validateFirstName: true,
+                    maxlength: 5
+                },
+                price: {
+                    validatePrice: true
+                },
+                phoneNumber: {
+                    validatePhone: true,
+                    validateLength: true
+                },
+                bio: {
+                    validateBio: true
+                },
+                school: {
+                    validateSchool: true
                 }
             },
             messages: {
                 gender: {
                     validateGender: "You should choose gender"
+                },
+                dob: {
+                    validateDOB: "Date of birth need before created date"
+                },
+                firstName: {
+                    validateFirstName: "First Name contain only characters",
+                    maxlength: "First Name have length equal 5"
+                },
+                lastName: {
+                    validateFirstName: "Last Name contain only characters",
+                    maxlength: "Last Name have length smaller than 6"
+                },
+                price: {
+                    validatePrice: "Price wrong format"
+                },
+                provinceId: {
+                    validateProvince: "You should choose province"
+                },
+                districtId: {
+                    validateDistrict: "You should choose district"
+                },
+                wardId: {
+                    validateWard: "You should choose ward"
+                },
+                phoneNumber: {
+                    validatePhone: "Phone number contain only number",
+                    validateLength: "Phone have length equal 10"
+                },
+                bio: {
+                    validateBio: "Bio not contain special character"
+                },
+                school: {
+                    validateSchool: "School not contain special charater"
                 }
             }
         });
