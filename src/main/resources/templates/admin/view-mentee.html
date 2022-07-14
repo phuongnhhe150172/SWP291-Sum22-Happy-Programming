@@ -21,14 +21,6 @@
                              class="w-48 h-48 rounded-full border-2 border-gray-400" alt="">
                         <h1 class="text-2xl text-center font-bold my-6" th:text="${mentee.lastName + ' ' + mentee.firstName}">ABC</h1>
                         <div class=" mb-2 w-48">
-                            <a class="w-full my-[10px]" th:href="@{/update(id=${mentee.id})}">
-                                <button type="button"
-                                        class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                                    Edit profile
-                                </button>
-                            </a>
-                        </div>
-                        <div class=" mb-2 w-48">
                             <a class="w-full my-[10px]" th:href="@{/admin/mentees}">
                                 <button class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-green-500" >
                                     Cancel

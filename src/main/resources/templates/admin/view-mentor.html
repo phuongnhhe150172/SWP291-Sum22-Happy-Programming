@@ -68,12 +68,6 @@
               <p th:text="${mentor.phoneNumber}">012 345 6789</p>
             </div>
           </div>
-          <a class="w-full my-[10px]" th:href="@{/update/cv(id=${mentor.getId()})}">
-            <button type="button"
-                    class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-              Edit profile
-            </button>
-          </a>
           <a class="" th:href="@{/admin/mentors}">
             <button class="py-2.5 px-5 w-full text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-2 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-green-500" >
               Cancel

@@ -59,10 +59,10 @@ public class AdminController {
         String rawLastName = params.get("last_name");
         String rawPhone = params.get("phone");
         String rawEmail = params.get("email");
-        String firstName = (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName;
-        String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName;
-        String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone;
-        String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail;
+        String firstName = (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName.trim();
+        String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName.trim();
+        String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone.trim();
+        String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail.trim();
 
         Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
         List<UserDTO> mentees = page.getPaginatedList();
