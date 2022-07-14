@@ -17,13 +17,60 @@
             <div class="space-y-4 xl:mr-40" th:each="noti: ${notifications}">
                 <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800 mb-5"
                      th:object="${noti}">
-                    <span class="w-3/4" th:text="*{content}"></span>
-                    <span th:text="*{time}" class="text-blue-500"></span>
+                    <span class="w-3/4" th:text="*{content}">Welcome to happy programming mentoring system</span>
+                    <span th:text="*{time}" class="text-blue-500">3 months ago</span>
                 </div>
             </div>
         </div>
 
     </div>
+    <nav aria-label="Page navigation example" class="mt-6 flex justify-end">
+        <ul class="inline-flex -space-x-px">
+            <li>
+                <a th:if="${pageNumber - 1 >= 1}"  th:href="@{/notification/all(pageNumber=${pageNumber - 1})}"
+                   class="py-2 px-3 leading-tight rounded-l-lg border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                >Previous</a>
+                <a th:if="${pageNumber - 1 < 1}"
+                   class="py-2 px-3 leading-tight rounded-l-lg border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                >Previous</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber - 2 >= 1}" th:href="@{/notification/all(pageNumber=${pageNumber - 2})}"
+                   class="py-2 px-3 leading-tight border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                   th:text="${pageNumber -2}">1</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber - 1 >= 1}" th:href="@{/notification/all(pageNumber=${pageNumber - 1})}"
+                   class="py-2 px-3 leading-tight border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                   th:text="${pageNumber - 1}">2</a>
+            </li>
+            <li>
+                <a href="#" aria-current="page"
+                   class="py-2 px-3 border hover:bg-blue-100 hover:text-blue-700 border-gray-700 bg-gray-700 text-white"
+                   th:text="${pageNumber}">3</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber + 1 <= totalPages}"
+                   th:href="@{/notification/all(pageNumber=${pageNumber + 1})}"
+                   class="py-2 px-3 leading-tight border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                   th:text="${pageNumber + 1}">4</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber + 2 <= totalPages}"
+                   th:href="@{/notification/all(pageNumber=${pageNumber + 2})}"
+                   class="py-2 px-3 leading-tight border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                   th:text="${pageNumber + 2}">5</a>
+            </li>
+            <li>
+                <a th:if="${pageNumber + 1 <= totalPages}"  th:href="@{/notification/all(pageNumber=${pageNumber + 1})}"
+                   class="py-2 px-3 leading-tight rounded-r-lg border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                >Next</a>
+                <a th:if="${pageNumber + 1 > totalPages}"
+                   class="py-2 px-3 leading-tight rounded-r-lg border bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white"
+                >Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 </body>

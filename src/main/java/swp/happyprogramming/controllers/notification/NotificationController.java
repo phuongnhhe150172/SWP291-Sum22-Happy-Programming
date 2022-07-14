@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import swp.happyprogramming.dto.ConnectDTO;
 import swp.happyprogramming.dto.NotificationDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Notification;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.repository.INotificationRepository;
@@ -41,18 +43,19 @@ public class NotificationController {
     private IUserService userService;
 
     @GetMapping("all")
-    public String getNotifications(Model model){
+    public String getNotifications(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.findByEmail(email);
 
-//        List<Role> roleList = (List<)user.getRoles();
-        Set<Role> roles = new HashSet<>();
-        Set<Role> roles1 = new HashSet<Role>(user.getRoles());
 
+        Set<Role> roles = new HashSet<Role>(user.getRoles());
 
-        List<NotificationDTO> notifications = notificationService.getNotificationByRoles(roles1);
-        model.addAttribute("notifications", notifications);
+        Pagination<NotificationDTO> notification = notificationService.getNotificationByRoles(pageNumber, roles);
+        model.addAttribute("notifications", notification.getPaginatedList());
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("totalPages", notification.getPageNumbers().size());
+
         return "notification/notifications";
     }
 
