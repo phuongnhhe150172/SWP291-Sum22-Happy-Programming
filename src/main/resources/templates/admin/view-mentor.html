@@ -16,8 +16,8 @@
     <div class="relative overflow-x-auto sm:rounded-lg">
       <div class="max-w-[1400px] mx-auto grid lg:grid-cols-4">
         <div class="lg:col-span-1 grow min-h-[100vh] mt-[2rem] px-4 flex flex-col" th:object="${mentor}">
-          <img src="../../../styleindex/imgs/avatar1.jpg"
-               class="w-72 h-72 rounded-full border-2 border-gray-400 mx-auto" alt="" />
+          <img th:src="${mentor.image}"
+               class="rounded-full border-2 border-gray-400" alt="">
           <h1 class="text-2xl font-bold my-6" th:text="*{firstName + ' ' + lastName}">abc</h1>
           <div class="text-gray-300">
             <div class="flex items-center gap-4 my-2">
