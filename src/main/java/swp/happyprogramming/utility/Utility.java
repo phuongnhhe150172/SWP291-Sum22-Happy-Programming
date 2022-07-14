@@ -126,19 +126,26 @@ public class Utility {
         long monthsElapsed = ChronoUnit.MONTHS.between(modifiedDateTime, todayDateTime);
         long yearsElapsed = ChronoUnit.YEARS.between(modifiedDateTime, todayDateTime);
         if (yearsElapsed > 0) {
-            notificationDTO.setTime(yearsElapsed + " years ago");
+            if (yearsElapsed == 1) notificationDTO.setTime(yearsElapsed + " year ago");
+            else notificationDTO.setTime(yearsElapsed + " years ago");
         } else if (monthsElapsed > 0) {
-            notificationDTO.setTime(monthsElapsed + " months ago");
+            if (monthsElapsed == 1) notificationDTO.setTime(monthsElapsed + " month ago");
+            else notificationDTO.setTime(monthsElapsed + " months ago");
         } else if (weeksElapsed > 0) {
-            notificationDTO.setTime(weeksElapsed + " weeks ago");
+            if (weeksElapsed == 1) notificationDTO.setTime(weeksElapsed + " week ago");
+            else notificationDTO.setTime(weeksElapsed + " weeks ago");
         } else if (daysElapsed > 0) {
-            notificationDTO.setTime(daysElapsed + " days ago");
+            if (daysElapsed == 1) notificationDTO.setTime(daysElapsed + " days ago");
+            else notificationDTO.setTime(daysElapsed + " days ago");
         } else if (hoursElapsed > 0) {
-            notificationDTO.setTime(hoursElapsed + " hours ago");
+            if (hoursElapsed == 1) notificationDTO.setTime(hoursElapsed + " hours ago");
+            else notificationDTO.setTime(hoursElapsed + " hours ago");
         } else if (minutesElapsed > 0) {
-            notificationDTO.setTime(minutesElapsed + " minutes ago");
+            if (minutesElapsed == 1) notificationDTO.setTime(minutesElapsed + " minutes ago");
+            else notificationDTO.setTime(minutesElapsed + " minutes ago");
         } else {
-            notificationDTO.setTime(secondsElapsed + " seconds ago");
+            if (secondsElapsed == 1) notificationDTO.setTime(secondsElapsed + " second ago");
+            else notificationDTO.setTime(secondsElapsed + " seconds ago");
         }
         return notificationDTO;
     }
