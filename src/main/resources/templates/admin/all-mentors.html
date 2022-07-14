@@ -24,7 +24,7 @@
                     <th class="px-4 py-4"> phone</th>
                     <th class="px-4 py-4"> Email</th>
                     <th class="px-4 py-4"> Address</th>
-                    <th scope="col" class="px-4 py-3">
+                    <th scope="col" class="px-4 py-4">
                         <span class="sr-only">Action</span>
                     </th>
                     <th class="px-4 py-4">Trigger</th>
@@ -33,28 +33,28 @@
                 <tbody>
                 <th:block th:each="mentor: ${mentors}">
                     <tr class="border-b bg-gray-800 border-gray-700">
-                        <td class="px-4 py-4 flex items-center gap-3 text-white font-medium ">
-                            <img class="w-12 h-12 rounded-full" th:src="@{${mentor.image}}"
-                                 alt="Bonnie image"/>
+                        <td class="px-4 py-2 flex items-center gap-3 text-white font-medium ">
+<!--                            <img class="w-12 h-12 rounded-full" th:src="@{${mentor.image}}"-->
+<!--                                 alt="Bonnie image"/>-->
                             <a th:href="@{/profile(id=${mentor.id})}"
                                th:text="${mentor.firstName + ' ' + mentor.lastName}">Nguyen Hong Phuong</a>
                         </td>
-                        <td class="px-4 py-4" th:text="${mentor.phoneNumber}">
+                        <td class="px-4 py-2" th:text="${mentor.phoneNumber}">
                             0987654321
                         </td>
-                        <td class="px-4 py-4" th:text="${mentor.email}">
+                        <td class="px-4 py-2" th:text="${mentor.email}">
                             test@example.com.vn
                         </td>
-                        <td class="px-4 py-4 max-w-[300px]"
+                        <td class="px-4 py-2 max-w-[300px]"
                             th:text="${mentor.address.ward.name+', '+mentor.address.district.name+', '+mentor.address.province.name }">
                             Hoa Lac, Thach That, Hanoi
                         </td>
-                        <td class="px-4 py-4">
+                        <td class="px-4 py-2">
                             <a th:href="@{/admin/mentor(id=${mentor.id})}" class="mr-4 text-green-500 hover:underline">
                                 View
                             </a>
                         </td>
-                        <td class="px-6 py-4 flex items-center gap-4 h-[100%]">
+                        <td class="px-6 py-2 flex items-center gap-4 h-[100%]">
                             <label th:attr="for=${'small-toggle'+mentor.id}"
                                    class="inline-flex relative items-center mb-5 cursor-pointer">
                                 <input th:if="${mentor.status == 0}"
