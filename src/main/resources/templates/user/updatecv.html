@@ -311,6 +311,27 @@
             },
         );
 
+        $.validator.addMethod(
+            "validateDistrict",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        $.validator.addMethod(
+            "validateWard",
+            function (value,element){
+                return value != "-1";
+            },
+        );
+
+        $.validator.addMethod(
+            "validateLength",
+            function (value,element){
+                return value.length == 10;
+            },
+        );
+
         
 
         $("#form-submit").validate({
