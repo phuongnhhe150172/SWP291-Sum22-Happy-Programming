@@ -161,8 +161,8 @@ public class UserManagementController {
         try {
             long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
 
-            mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
-
+            UserDTO user =  mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
+            session.setAttribute(USER_SESSION, user);
             return "redirect:../cv";
         } catch (NumberFormatException e) {
             return INDEX_PAGE;
