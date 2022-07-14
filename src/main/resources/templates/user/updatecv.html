@@ -5,6 +5,11 @@
 <body class="bg-gray-900 text-white font-['Open_Sans']">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<style>
+    .error{
+        color: red;
+    }
+</style>
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="max-w-[1400px] ml-[16rem] mx-auto grid grid-cols-4">
 
@@ -310,14 +315,10 @@
 
         $("#form-submit").validate({
             rules: {
-                gender: {
-                    validateGender: true
-                }
+
             },
             messages: {
-                gender: {
-                    validateGender: "You should choose gender"
-                }
+
             }
         });
     });
