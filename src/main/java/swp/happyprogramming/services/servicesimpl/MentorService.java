@@ -128,7 +128,7 @@ public class MentorService implements IMentorService {
 
         mentorRepository.save(mentor);
 
-        userRepository.convertToMentor(userId);
+        userRepository.convertToMentor(userId,1);
 
         Mentor mentorLast = mentorRepository.findMentorLast();
         if (experienceValue != null) {
