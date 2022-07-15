@@ -32,6 +32,11 @@ public class Role {
     public Role() {
     }
 
+    public Role(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",

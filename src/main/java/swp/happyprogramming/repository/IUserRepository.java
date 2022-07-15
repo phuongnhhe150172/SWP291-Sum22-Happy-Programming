@@ -24,7 +24,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user_roles where role_id in (select id from roles where `name` = ?1)", nativeQuery = true)
     int countUsersByRolesLike(String role);
 
-    Page<User> findAll(Specification<User> specification, Pageable pageable);
+    @Query(value = "SELECT * FROM users As a join user_roles as b ON a.id = b.user_id and b.role_id = 2", nativeQuery = true)
+    Page<User> findMentees(Specification<User> specification,Pageable pageable);
 
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
@@ -42,8 +43,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     ArrayList<User> findRequestsByEmail(String email);
 
     User findByResetPasswordToken(String token);
-
-    Page<User> findUsersByRoles(Pageable pageable, Role role);
 
     @Modifying
     @Transactional
