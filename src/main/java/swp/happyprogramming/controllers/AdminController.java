@@ -10,6 +10,9 @@ import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +57,7 @@ public class AdminController {
             Model model,
             @RequestParam Map<String, String> params,
             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber
-    ) {
+    ) throws ParseException {
         String rawFirstName = params.get("first_name");
         String rawLastName = params.get("last_name");
         String rawPhone = params.get("phone");
