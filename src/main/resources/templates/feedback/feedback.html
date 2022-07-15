@@ -4,6 +4,15 @@
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="ml-64 p-6 grow gap-4 xl:mr-40">
+    <a th:href="@{/cv(id=${viewedUser.getId()})}" class="flex items-center my-5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+             stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <p>
+            Back to profile
+        </p>
+    </a>
     <h1 class="text-3xl my-4 font-semibold">Feedback</h1>
     <div class="flex items-center gap-20 my-10">
         <div class="">
@@ -75,7 +84,7 @@
         </a>
         <div class="bg-gray-700 rounded-xl p-6" th:each="feedback, state: ${feedbacks}">
             <div class="flex justify-between items-center">
-                <a href="" class="flex items-center gap-4">
+                <a th:href="@{/profile(id=${feedback.sender.id})}" class="flex items-center gap-4">
                     <img th:src="@{${feedback.sender.image}}" alt="" class="w-10 h-10 rounded-full">
                     <p class="font-medium" th:text="${feedback.sender.firstName + ' ' + feedback.sender.lastName}">Anna
                         Amelius</p>
