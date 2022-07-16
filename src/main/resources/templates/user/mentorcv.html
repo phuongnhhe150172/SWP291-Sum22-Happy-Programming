@@ -152,7 +152,7 @@
         <div class="py-4">
             <div class="">
                 <h2 class="my-4 font-medium text-xl">Experiences</h2>
-                <div class="flex gap-4">
+                <div class="flex gap-4 flex-wrap">
                     <div th:each="experience,state : ${mentor.experiences}"
                          class="block max-w-lg p-6 rounded-lg shadow-md bg-gray-800">
                         <p class="font-normal text-gray-200" th:text="${experience.description}">
