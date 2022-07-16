@@ -57,7 +57,7 @@ public class AdminController {
             Model model,
             @RequestParam Map<String, String> params,
             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber
-    ) throws ParseException {
+    ) {
         String rawFirstName = params.get("first_name");
         String rawLastName = params.get("last_name");
         String rawPhone = params.get("phone");

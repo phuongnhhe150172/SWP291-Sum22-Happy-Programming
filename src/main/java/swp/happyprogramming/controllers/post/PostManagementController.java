@@ -137,7 +137,6 @@ public class PostManagementController {
             pi.setLiked(liked);
             result.add(pi);
         }
-
         model.addAttribute("posts", result);
         return "/admin/all-posts";
     }
