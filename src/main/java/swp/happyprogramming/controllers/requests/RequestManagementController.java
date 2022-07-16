@@ -28,7 +28,6 @@ public class RequestManagementController {
     @Autowired
     private HttpSession session;
 
-    //    This class will be used both for admin and user
     @GetMapping("/requests")
     public String requests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         //    Nguyễn Huy Hoàng - view all received requests
@@ -104,8 +103,9 @@ public class RequestManagementController {
         UserDTO user = (UserDTO) sessionObj;
 
         List<Request> requestList = requestService.getRequestReceived(user.getId());
-        Request request = requestService.getRequestById(requestId);
-        if (requestList.contains(request)) requestService.deleteReceivedRequest(requestId);
+        if (requestList.stream().map(Request::getId).anyMatch(id -> id == requestId)) {
+            requestService.deleteRequest(requestId);
+        }
 
         return "redirect:/requests";
     }

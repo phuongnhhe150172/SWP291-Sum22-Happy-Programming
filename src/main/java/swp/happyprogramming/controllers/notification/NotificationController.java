@@ -9,20 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import swp.happyprogramming.dto.ConnectDTO;
 import swp.happyprogramming.dto.NotificationDTO;
-import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Notification;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.INotificationRepository;
-import swp.happyprogramming.repository.IRoleRepository;
 import swp.happyprogramming.services.INotificationService;
 import swp.happyprogramming.services.IUserService;
-import swp.happyprogramming.services.servicesimpl.NotificationService;
-
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
