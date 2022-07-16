@@ -13,7 +13,7 @@ import swp.happyprogramming.model.User;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface IUserService extends UserDetailsService {
+public interface IUserService extends UserDetailsService{
     void registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException;
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
