@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.IFeedbackService;
 import swp.happyprogramming.services.IUserService;
@@ -34,6 +35,7 @@ public class FeedbackController {
 
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
+                                   @RequestParam(required = false, defaultValue = "1") int pageNumber,
                                    @RequestParam(value = "id", required = false) String id) {
         //    show user feedback
         long userId;
@@ -46,10 +48,10 @@ public class FeedbackController {
             userId = Integer.parseInt(id);
         }
         UserDTO viewedUser = userService.findUser(userId);
-        List<Feedback> feedbacks = feedbackService.getFeedbackReceived(userService.getUserById(userId));
-        double avgRate = Utility.getAverageRate(feedbacks);
-        double[] count = feedbackService.feedBackCount();
-        model.addAttribute("feedbacks", feedbacks);
+        Pagination<Feedback> feedbacks = feedbackService.getFeedbackReceived(userService.getUserById(userId), pageNumber);
+        double avgRate = Utility.getAverageRate(feedbacks.getPaginatedList());
+        double[] count = feedbackService.feedBackCount(userId);
+        model.addAttribute("feedbacks", feedbacks.getPaginatedList());
         model.addAttribute("viewedUser", viewedUser);
         model.addAttribute("avgRate", avgRate);
         model.addAttribute("count", count);
@@ -60,10 +62,17 @@ public class FeedbackController {
     public String createFeedback(Model model, @RequestParam(value = "id") String id) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
-        Integer receivedId = Integer.parseInt(id);
+        int receivedId = Integer.parseInt(id);
+
+        UserDTO sessionUser = (UserDTO) sessionInfo;
 
         UserDTO receivedUser = userService.findUser(receivedId);
-        System.out.print("====send=====" + receivedUser.getId());
+        List<Feedback> feedback = feedbackService.getFeedbackReceived(userService.getUserById((long) receivedId));
+        for (Feedback f : feedback) {
+            if (f.getSender().getId() == sessionUser.getId()) {
+                return "redirect:feedback?id=" + receivedId;
+            }
+        }
         model.addAttribute("receivedUser", receivedUser);
         session.setAttribute("receivedUser", receivedUser);
         return "feedback/createFeedBack";
@@ -76,6 +85,13 @@ public class FeedbackController {
         UserDTO sessionUser = (UserDTO) sessionInfo;
         long senderId = sessionUser.getId();
         UserDTO receivedUser = (UserDTO) session.getAttribute("receivedUser");
+
+        List<Feedback> feedback = feedbackService.getFeedbackReceived(userService.getUserById(receivedUser.getId()));
+        for (Feedback f : feedback) {
+            if (f.getSender().getId() == sessionUser.getId()) {
+                return "redirect:feedback?id=" + receivedUser.getId();
+            }
+        }
 
         Feedback feedBack = new Feedback();
         feedBack.setRate(rating);
