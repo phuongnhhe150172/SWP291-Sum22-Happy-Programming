@@ -30,7 +30,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Query(value = "select r.status from request as r where r.mentor_id = ?1 and r.mentee_id = ?2", nativeQuery = true)
     Optional<Integer> statusRequestByMentorIdAndMenteeId(long mentorId, long menteeId);
 
-    @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
+    @Query(value = "select * from users where id in " +
+            "(select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
             nativeQuery = true)
     Page<User> findConnectionsById(Pageable pageable, long id);
 
