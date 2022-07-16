@@ -1,17 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All post - Happy Programming</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="text-white flex">
-<!--Left-sidebar-->
-<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
-<!--End-Left-sidebar-->
+<div class="" th:replace="components/head.html :: head"></div>
+<body class="flex bg-zinc-900 text-white font-['SF_Pro_Text']">
+<div class="" th:replace="components/nav.html :: aside"></div>
 <div class="bg-gray-900 grow flex min-h-[100vh]">
     <div class="flex grow flex-col justify-center items-center">
         <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 min-w-[60vw]">
