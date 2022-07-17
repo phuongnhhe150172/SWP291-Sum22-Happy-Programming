@@ -10,6 +10,8 @@ import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
+import swp.happyprogramming.services.INotificationService;
+
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private IConnectService connectService;
+
+    @Autowired
+    private INotificationService notificationService;
 
 
     @GetMapping("/dashboard")
@@ -186,6 +191,17 @@ public class AdminController {
     public String disableUser(@RequestParam(value = "id", required = false) int id) {
         userService.disableUser(id);
         return "redirect:mentors";
+    }
+
+    @GetMapping("notification")
+    public String getAllNotifications(Model model){
+
+
+        List<NotificationDTO> notifications = notificationService.getAllNotifications();
+        model.addAttribute("notifications", notifications);
+
+
+        return "admin/admin_notification";
     }
 
 }
