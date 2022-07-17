@@ -3,74 +3,89 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <div class="" th:replace="components/head.html :: head"></div>
 <body class="flex bg-zinc-900 text-white font-['SF_Pro_Text']">
-<div class="" th:replace="components/nav.html :: aside"></div>
+<!-- <div class="" th:replace="components/nav.html :: aside"></div> -->
+
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/nav :: nav}"></aside>
+
+
+<div class="p-6 grow gap-4">
+    <h1 class="text-3xl my-4 font-semibold">Posts</h1>
+    <div class="relative rounded-lg">
+        <div class="relative overflow-x-auto sm:rounded-lg">
+
+            <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 min-w-[60vw]">
+                <div class="flex items-center justify-between m-2">
+                    <div class="flex items-center">
+                        <div class="m-2">
+                            <img src="../../static/imgs/avatar1.jpg" th:src="@{${session.userInformation.image}}" alt=""
+                            class="w-10 h-10 rounded-full">
+                        </div>
+    
+                        <div class="flex flex-col items-left m-2">
+                            <!-- <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}"></p> -->
+                            <p class="font-bold text-md" th:text="${post.fullName}"></p>
+                            <div th:switch="${post.status}"> 
+                                <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
+                                <p th:case="*" class="text-red-900 dark:text-red-300">Offline</p> 
+                            </div>
+                            <div class="">
+                                <select id="" disabled
+                                        class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
+                                    <option value="1" th:selected="(${post.status} == 1)" >Completed</option>
+                                    <option value="2" th:selected="(${post.status} == 2)">OnGoing</option>
+                                    <option value="0" th:selected="(${post.status} == 0)">Canceled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
+                    <label for="editor" class="sr-only">Publish post</label>
+                    <p class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    th:text="${post.description}">Bla bla</p>
+                </div>
+                <div class="">
+                    <div class="">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Price: </p>
+                            <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
+                            th:text="${post.price}">1000</p>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <h6 style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Method: </h6>
+                            <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
+                            th:text="${post.methodName}">1000</p>     
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" th:attr="onclick=|carePost(${post.id})|">
+                    <div th:switch="${post.liked}"> 
+                        <div th:case="1">
+                            <svg th:id="${post.id}" class="w-6 h-6" fill="red" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+    
+                        </div>
+                        <div th:case="0">
+                            <svg th:id="${post.id}" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                      </div>
+                    
+                </button>
+                
+                <!-- <svg class="w-6 h-6" fill="red" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <div class="bg-gray-900 grow flex min-h-[100vh]">
     <div class="flex grow flex-col justify-center items-center">
-        <div th:each="post : ${posts}" class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700 min-w-[60vw]">
-            <div class="flex items-center justify-between m-2">
-                <div class="flex items-center">
-                    <div class="m-2">
-                        <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                            th:src="@{/imgs/avatar1.jpg}"
-                        >
-                    </div>
-
-                    <div class="flex flex-col items-left m-2">
-                        <!-- <p class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}"></p> -->
-                        <p class="font-bold text-md" th:text="${post.fullName}"></p>
-                        <div th:switch="${post.status}"> 
-                            <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
-                            <p th:case="*" class="text-red-900 dark:text-red-300">Offline</p> 
-                        </div>
-                        <div class="">
-                            <select id="" disabled
-                                    class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
-                                <option value="1" th:selected="(${post.status} == 1)" >Completed</option>
-                                <option value="2" th:selected="(${post.status} == 2)">OnGoing</option>
-                                <option value="0" th:selected="(${post.status} == 0)">Canceled</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
-                <label for="editor" class="sr-only">Publish post</label>
-                <p class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                th:text="${post.description}">Bla bla</p>
-            </div>
-            <div class="">
-                <div class="">
-                    <div class="relative z-0 w-full mb-6 group">
-                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Price: </p>
-                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
-                        th:text="${post.price}">1000</p>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="relative z-0 w-full mb-6 group">
-                        <h6 style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5">Method: </h6>
-                        <p style="display:inline-block" class="text-sm text-white-500 mx-1 font-semibold mt-5" 
-                        th:text="${post.methodName}">1000</p>     
-                    </div>
-                </div>
-            </div>
-            <button class="btn" th:attr="onclick=|carePost(${post.id})|">
-                <div th:switch="${post.liked}"> 
-                    <div th:case="1">
-                        <svg th:id="${post.id}" class="w-6 h-6" fill="red" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-
-                    </div>
-                    <div th:case="0">
-                        <svg th:id="${post.id}" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    </div>
-                  </div>
-                
-            </button>
-            
-            <!-- <svg class="w-6 h-6" fill="red" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg> -->
-        </div>
+        
     </div>
 </div>
 
