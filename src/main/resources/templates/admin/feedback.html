@@ -8,47 +8,92 @@
     <title>All post - Happy Programming</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white flex">
+<body class="text-white  bg-gray-900 flex">
 <!--Left-sidebar-->
-<aside class="w-64" aria-label="Sidebar" th:insert="~{components/nav :: nav}"></aside>
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
 <!--End-Left-sidebar-->
-<div class="p-6 grow gap-4">
-  <h1 class="text-3xl my-4 font-semibold">Create Feedback</h1>
-  <div class="relative rounded-lg">
-      <div class="relative overflow-x-auto sm:rounded-lg">
-            <form th:action="@{/addFeedback}" method="POST">
-              <div class="mb-2 pa-3">
-                <p class="font-bold text-md text-lg text-white-800" th:text="'Add a feed back to ' + ${receivedUser.firstName} +' '+ ${receivedUser.lastName}"></p>
-                <textarea
-                id="comment"
-                    style="color:black"
-                  class="mt-4 w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
-                  name="comment"
-                  placeholder=""></textarea>
-                
-              </div>
-              <input id="receiverId" th:value="${receivedUser.id}" name="receiverId" style="display:none" >
-              <input
-              id="rating" name="rating"
-              class="rating bg-gray-900"
-              max="6"
-              oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-              step="1"
-              style="--stars:5;--value:2"
-              type="range"
-              value="2">
 
-              <div class="mt-2">
-                <button class="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded" type="submit">
-                  Send feedback
-                </button>
-                <button
-                  class="px-3 py-2 text-sm text-blue-600 border border-blue-500 rounded">
-                  Cancel
-                </button>
-              </div>
-            </form>
-  </div>
+<div class="p-6 grow gap-4">
+    <h1 class="text-3xl my-4 font-semibold">Feedback</h1>
+    <div class="relative rounded-lg">
+        <div class="relative overflow-x-auto sm:rounded-lg">
+            <div class="space-y-4 xl:mr-40"  th:each="feedback : ${feedbacks}">
+                <div class="items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800 mb-5"
+                     >
+                     <div class="mb-2">
+                        <p class="font-bold text-md text-lg text-white-800 ma-3" th:text="${feedback.senderName} +' to ' + ${feedback.receiverName}"></p>
+                        <p
+                        disabled
+                            id="comment"
+                            class="mt-4 w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                            name="comment"
+                            placeholder=""
+                            th:text="${feedback.comment}"
+                          
+                        ></p>
+                        
+                      </div>
+                      <div th:switch="${feedback.rate}"> 
+                        <input
+                            th:case="0"
+                            id="rating" name="rating"
+                            class="rating bg-gray-800"
+                            max="6"
+                            step="1"
+                            style="--stars:5;--value:0"
+                            type="range"
+                        >
+                        <input
+                        th:case="1"
+                        id="rating" name="rating"
+                        class="rating bg-gray-800"
+                        max="6"
+                        step="1"
+                        style="--stars:5;--value:1"
+                        type="range"
+                            >
+                        <input
+                        th:case="2"
+                        id="rating" name="rating"
+                        class="rating bg-gray-800"
+                        max="6"
+                        step="1"
+                        style="--stars:5;--value:2"
+                        type="range"
+                        >
+                        <input
+                        th:case="3"
+                        id="rating" name="rating"
+                        class="rating bg-gray-800"
+                        max="6"
+                        step="1"
+                        style="--stars:5;--value:3"
+                        type="range"
+                        >
+                        <input
+                        th:case="4"
+                        id="rating" name="rating"
+                        class="rating bg-gray-800"
+                        max="6"
+                        step="1"
+                        style="--stars:5;--value:4"
+                        type="range"
+                        >
+                        <input
+                        th:case="5"
+                        id="rating" name="rating"
+                        class="rating bg-gray-800"
+                        max="6"
+                        step="1"
+                        style="--stars:5;--value:5"
+                        type="range"
+                        >
+        
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>

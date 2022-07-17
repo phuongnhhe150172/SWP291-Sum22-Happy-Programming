@@ -5,18 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.*;
+import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.Notification;
 import swp.happyprogramming.model.Pagination;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import swp.happyprogramming.services.INotificationService;
+import swp.happyprogramming.vo.FeedbackVo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import swp.happyprogramming.utility.Utility;
 
 @Controller
 @RequestMapping("/admin")
@@ -41,6 +49,9 @@ public class AdminController {
 
     @Autowired
     private INotificationService notificationService;
+
+    @Autowired
+    private IFeedbackService feedbackService;
 
 
     @GetMapping("/dashboard")
@@ -141,6 +152,38 @@ public class AdminController {
         return "redirect:/admin/skills";
     }
 
+    @GetMapping("create-notification")
+    public String createNotifications(Model model){
+        // model.addAttribute("notifications", notifications);
+        return "admin/admin-create-notification";
+    }
+
+    @PostMapping("create-notification")
+    public String createNewNotifications(Model model, @RequestParam Map<String, Object> params){
+        // model.addAttribute("notifications", notifications);
+
+        String content = String.valueOf(params.get("content"));
+        Notification noti = new Notification();
+        noti.setContent(content);
+        Notification savedNoti = notificationService.save(noti);
+
+        long notiId =  savedNoti.getId();
+
+        
+
+        if (params.containsKey("mentor")) {
+            notificationService.informNotiForRole(notiId, 1);
+        }
+        if (params.containsKey("mentee")) {
+            notificationService.informNotiForRole(notiId, 2);
+        }
+        if (params.containsKey("admin")) {
+            notificationService.informNotiForRole(notiId, 3);
+        }
+
+        return "redirect:/admin/notification";
+    }
+
     @GetMapping("/update-skill")
     public String showSkillToUpdate(Model model, @RequestParam(value = "id", required = false) long id) {
         Skill skill = skillService.findSkillById(id);
@@ -221,6 +264,30 @@ public class AdminController {
 
 
         return "admin/admin_notification";
+    }
+
+    @GetMapping("/feedback")
+    public String showAllFeedback(Model model) {
+        //    show user feedback
+
+        ArrayList<FeedbackVo> feedbacks = new ArrayList<>();
+        List<Feedback> feedbacksRaw = feedbackService.getAllFeedBack();
+        for (Feedback f : feedbacksRaw) {
+            UserDTO sender = Utility.mapUser(f.getSender());
+            UserDTO receiver = Utility.mapUser(f.getReceiver());
+            FeedbackVo fv = new FeedbackVo(sender.getFirstName() + " " + sender.getLastName(), f.getRate(), f.getComment());
+            fv.setReceiverName(receiver.getFirstName() + " " + receiver.getLastName());
+            feedbacks.add(fv);
+        }
+        Collections.sort(feedbacks, new Comparator<FeedbackVo>() {
+            @Override
+            public int compare(FeedbackVo lhs, FeedbackVo rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getRate() > rhs.getRate() ? -1 : (lhs.getRate() < rhs.getRate()) ? 1 : 0;
+            }
+        });
+        model.addAttribute("feedbacks", feedbacks);
+        return "admin/feedback";
     }
 
 }

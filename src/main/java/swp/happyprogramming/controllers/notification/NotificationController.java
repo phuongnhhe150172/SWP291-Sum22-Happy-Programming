@@ -59,36 +59,6 @@ public class NotificationController {
 
     
 
-    @GetMapping("create")
-    public String createNotifications(Model model){
-        // model.addAttribute("notifications", notifications);
-        return "notification/createNotification";
-    }
-
-    @PostMapping("create")
-    public String createNewNotifications(Model model, @RequestParam Map<String, Object> params){
-        // model.addAttribute("notifications", notifications);
-
-        String content = String.valueOf(params.get("content"));
-        Notification noti = new Notification();
-        noti.setContent(content);
-        Notification savedNoti = notificationService.save(noti);
-
-        long notiId =  savedNoti.getId();
-
-        
-
-        if (params.containsKey("mentor")) {
-            notificationService.informNotiForRole(notiId, 1);
-        }
-        if (params.containsKey("mentee")) {
-            notificationService.informNotiForRole(notiId, 2);
-        }
-        if (params.containsKey("admin")) {
-            notificationService.informNotiForRole(notiId, 3);
-        }
-
-        return "notification/createNotification";
-    }
+  
 
 }
