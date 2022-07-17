@@ -189,7 +189,7 @@ public class PostManagementController {
             String content = String.valueOf(params.get("content"));
             float price = Float.parseFloat(String.valueOf(params.get("price")));
             postService.createNewPost(user, status, content, method, price);
-            return "/post/all";
+            return "redirect:/post/all";
         }catch (NumberFormatException e){
             return "redirect:index";
         }
