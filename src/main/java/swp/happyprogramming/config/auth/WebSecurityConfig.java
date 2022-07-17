@@ -51,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                     .antMatchers("/home").permitAll()
+                    .antMatchers("/admin**").hasAnyAuthority("ROME_ADMIN")
                     .antMatchers("/upload/static/**").permitAll()
                     .antMatchers("/").hasAnyAuthority("ROLE_MENTEE", "ROLE_MENTOR")
-                    .antMatchers("/admin**").hasAnyAuthority("ROME_ADMIN")
                     .antMatchers("/signup", "/login", "/*").permitAll()
                     .anyRequest().authenticated()
                     .and()
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .exceptionHandling()
-                .accessDeniedPage("/404")
+                .accessDeniedPage("/login")
         ;
     }
 }

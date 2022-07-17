@@ -91,7 +91,7 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to enable this user?</h3>
-                                            <a th:href="@{/admin/enable(id=${mentor.id},status=1)}" type="button"
+                                            <a th:href="@{/admin/enable(id=${mentor.id},status=1,page=${pageNumber})}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>
@@ -124,7 +124,7 @@
                                             <h3
                                                     class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                 Do you want to disable this user?</h3>
-                                            <a th:href="@{/admin/disable(id=${mentor.id},status=1)}" type="button"
+                                            <a th:href="@{/admin/disable(id=${mentor.id},status=1,page=${pageNumber})}" type="button"
                                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300
                                                dark:focus:ring-green-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5
                                                text-center mr-2">Yes</a>

@@ -1,6 +1,8 @@
 package swp.happyprogramming.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -99,6 +101,7 @@ public class AdminController {
         return "admin/all-mentees";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/mentors")
     public String showMentors(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
         // Nguyễn Huy Hoàng - 46 - List all mentors (admin)
@@ -128,7 +131,7 @@ public class AdminController {
         userService.removeMentee(menteeId);
         return "redirect:/admin/mentees";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/skills")
     public String getAllSkill(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<Skill> skills = skillService.getAllSkill(pageNumber);
@@ -200,7 +203,7 @@ public class AdminController {
         skillService.save(skill);
         return "redirect:/admin/skills";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Trinh Trung Kien - 52 - View all requests (admin)
@@ -222,7 +225,7 @@ public class AdminController {
         model.addAttribute("totalPages", page.getPageNumbers().size());
         return "/admin/all-posts";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/connections")
     public String viewAllConn(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
@@ -232,26 +235,30 @@ public class AdminController {
         return "admin/all-connections";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id", required = false) int id
-                             ,@RequestParam(value = "status", required = false) int status) {
+    public String enableUser(@RequestParam(value = "id", required = false) int id,
+                             @RequestParam(value = "status", required = false) int status,
+                             @RequestParam(value = "page", required = false) int page) {
         userService.enableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
 
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id", required = false) int id
-            ,@RequestParam(value = "status", required = false) int status) {
+    public String disableUser(@RequestParam(value = "id", required = false) int id,
+                              @RequestParam(value = "status", required = false) int status,
+                              @RequestParam(value = "page", required = false) int page) {
         userService.disableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
     }
 
