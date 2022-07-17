@@ -10,6 +10,8 @@ import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
+import swp.happyprogramming.services.INotificationService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +38,9 @@ public class AdminController {
 
     @Autowired
     private IConnectService connectService;
+
+    @Autowired
+    private INotificationService notificationService;
 
 
     @GetMapping("/dashboard")
@@ -205,6 +210,17 @@ public class AdminController {
         }else{
             return "redirect:mentees";
         }
+    }
+
+    @GetMapping("notification")
+    public String getAllNotifications(Model model){
+
+
+        List<NotificationDTO> notifications = notificationService.getAllNotifications();
+        model.addAttribute("notifications", notifications);
+
+
+        return "admin/admin_notification";
     }
 
 }

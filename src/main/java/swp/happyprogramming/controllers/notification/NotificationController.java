@@ -16,6 +16,11 @@ import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.INotificationService;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.services.servicesimpl.NotificationService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
@@ -52,34 +57,7 @@ public class NotificationController {
         return "notification/notifications";
     }
 
-    @GetMapping("all-notification")
-    public String getAllNotifications(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.findByEmail(email);
-
-        Set<Role> roles1 = new HashSet<Role>(user.getRoles());
-        user.getRoles();
-        // if (user.getRoles() ) {
-
-        // }
-        boolean isAdmin = false;
-        for (Role s : roles1) {
-            if (s.getId() == 3) {
-                isAdmin = true;
-            }
-        }
-
-        if (isAdmin == false) {
-            return "redirect:/notification/all";
-        }
-
-        List<NotificationDTO> notifications = notificationService.getAllNotifications();
-        model.addAttribute("notifications", notifications);
-
-
-        return "notification/notifications";
-    }
+    
 
     @GetMapping("create")
     public String createNotifications(Model model){
