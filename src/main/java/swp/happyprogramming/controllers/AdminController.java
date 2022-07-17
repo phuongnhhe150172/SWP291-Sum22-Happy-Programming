@@ -120,7 +120,7 @@ public class AdminController {
         userService.removeMentee(menteeId);
         return "redirect:/admin/mentees";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/skills")
     public String getAllSkill(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<Skill> skills = skillService.getAllSkill(pageNumber);
@@ -160,7 +160,7 @@ public class AdminController {
         skillService.save(skill);
         return "redirect:/admin/skills";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Trinh Trung Kien - 52 - View all requests (admin)
@@ -182,7 +182,7 @@ public class AdminController {
         model.addAttribute("totalPages", page.getPageNumbers().size());
         return "/admin/all-posts";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/connections")
     public String viewAllConn(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
