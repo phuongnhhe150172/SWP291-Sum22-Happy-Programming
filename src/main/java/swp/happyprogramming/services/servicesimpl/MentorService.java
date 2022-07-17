@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.MentorDTO;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.*;
 import swp.happyprogramming.repository.*;
 import swp.happyprogramming.services.IMentorService;
@@ -52,7 +53,7 @@ public class MentorService implements IMentorService {
         List<Mentor> mentors = page.getContent();
         List<MentorDTO> mentorDTOS = mentors
                 .stream()
-                .map(mentor -> findMentor(mentor.getUser().getId()))
+                .map(Utility::mapMentor)
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(mentorDTOS, pageNumbers);
@@ -70,12 +71,13 @@ public class MentorService implements IMentorService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     //    UPDATE SECTION
-    public void updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
+    public UserDTO updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue, List<String> skillValue) {
         Optional<User> optionalUser = userRepository.findById(mentorDTO.getId());
         Optional<Mentor> optionalUserProfile = mentorRepository.findByUserId(mentorDTO.getId());
         if (!optionalUser.isPresent() || !optionalUserProfile.isPresent()) {
-            return;
+            return null;
         }
         Mentor profile = optionalUserProfile.get();
         User user = optionalUser.get();
@@ -102,6 +104,9 @@ public class MentorService implements IMentorService {
             saveUserSkills(mentorDTO.getProfileId(), skillValue);
         }
 
+        User userSaved = userRepository.findById(mentorDTO.getId()).orElse(new User());
+        return Utility.mapUser(userSaved);
+
     }
 
     public Map<Skill, Integer> findMapSkill(List<Skill> listSkill, List<Skill> mentorSkill) {
@@ -123,7 +128,7 @@ public class MentorService implements IMentorService {
 
         mentorRepository.save(mentor);
 
-        userRepository.convertToMentor(userId);
+        userRepository.convertToMentor(userId,1);
 
         Mentor mentorLast = mentorRepository.findMentorLast();
         if (experienceValue != null) {

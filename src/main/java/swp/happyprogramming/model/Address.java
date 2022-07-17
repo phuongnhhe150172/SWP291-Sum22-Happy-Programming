@@ -13,7 +13,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -22,7 +22,7 @@ public class Address {
         this.name = "";
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "ward_id")
     private Ward ward;
 }

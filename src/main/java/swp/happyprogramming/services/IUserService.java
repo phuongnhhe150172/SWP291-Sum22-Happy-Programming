@@ -13,14 +13,12 @@ import swp.happyprogramming.model.User;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface IUserService extends UserDetailsService {
+public interface IUserService extends UserDetailsService{
     void registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException;
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     int countUsersByRolesLike(String role);
-
-    int statusRequest(long mentorId, long menteeId);
 
     Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber);
     List<UserAvatarDTO> getConnectionsById(long id);
@@ -29,11 +27,9 @@ public interface IUserService extends UserDetailsService {
 
     UserDTO findUser(long id);
 
-    User getUserById(long id);
+    User getUserById(Long id);
 
     UserDTO updateUserProfile(UserDTO userDTO, long wardId);
-
-    List<UserAvatarDTO> getRequestsByEmail(String email);
 
     void removeMentee(long menteeId);
 

@@ -31,7 +31,7 @@ public class District {
     @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
     private Collection<Ward> wards;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "province_id")
     private Province province;
 }

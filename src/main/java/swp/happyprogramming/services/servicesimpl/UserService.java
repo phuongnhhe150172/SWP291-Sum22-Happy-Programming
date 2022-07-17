@@ -4,31 +4,35 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import swp.happyprogramming.dto.MentorDTO;
 import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.model.*;
-import swp.happyprogramming.repository.*;
+import swp.happyprogramming.repository.IAddressRepository;
+import swp.happyprogramming.repository.IRoleRepository;
+import swp.happyprogramming.repository.IUserRepository;
+import swp.happyprogramming.repository.IWardRepository;
 import swp.happyprogramming.services.IUserService;
 import swp.happyprogramming.utility.Utility;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -95,11 +99,6 @@ public class UserService implements IUserService {
         return userRepository.countUsersByRolesLike(role);
     }
 
-    @Override
-    public int statusRequest(long mentorId, long menteeId) {
-        return userRepository.statusRequestByMentorIdAndMenteeId(mentorId, menteeId).orElse(-1);
-    }
-
     private Collection<? extends GrantedAuthority> mapRoleToAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
@@ -144,7 +143,7 @@ public class UserService implements IUserService {
         return Utility.mapUser(user);
     }
 
-    public User getUserById(long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -154,7 +153,10 @@ public class UserService implements IUserService {
 
         Address address = currentUser.getAddress();
 
-        Ward ward = wardRepository.findById(wardId).orElse(null);
+        Ward ward = wardRepository
+                .findById(wardId)
+                .orElse(null);
+
         address.setWard(ward);
         address.setName(userDTO.getAddress().getName());
 
@@ -172,17 +174,6 @@ public class UserService implements IUserService {
         userRepository.save(currentUser);
         User userSaved = userRepository.findById(userDTO.getId()).orElse(new User());
         return Utility.mapUser(userSaved);
-    }
-
-    @Override
-    public List<UserAvatarDTO> getRequestsByEmail(String email) {
-        ArrayList<User> users = userRepository.findRequestsByEmail(email);
-        return users.stream()
-                .map(user -> new UserAvatarDTO(
-                        user.getId(),
-                        user.getFirstName() + " " + user.getLastName(),
-                        user.getImage())
-                ).collect(Collectors.toList());
     }
 
     @Override
@@ -212,25 +203,15 @@ public class UserService implements IUserService {
 
     @Override
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "Id");
         Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
-        List<UserDTO> menteesDTO = new ArrayList<>();
-        for (User mentee : mentees) {
-            boolean check = true;
-            for (Role role1 : mentee.getRoles()) {
-                if (role1.getName().equals("ROLE_ADMIN")) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                UserDTO userDTO = findUser(mentee.getId());
-                menteesDTO.add(userDTO);
-            }
-        }
+        List<UserDTO> menteesDTO = mentees.stream()
+                .filter(user -> !user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN")))
+                .map(mentee -> findUser(mentee.getId()))
+                .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(menteesDTO, pageNumbers);
     }

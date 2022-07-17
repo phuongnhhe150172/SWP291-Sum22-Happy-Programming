@@ -38,7 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Đường Vương Thúc Mẫu',1834),(2,'abc',1),(3,'mnb',4),(4,'uio',6),(5,'',1),(6,'',1),(7,'',NULL),(11,'a',1),(12,'',32250),(13,'',32251),(15,'',32252),(16,'',32253),(17,'',1),(18,'',NULL),(22,'12',4),(23,'1',13);
+INSERT INTO `address` VALUES (1,'Đường Vương Thúc Mẫu',1834),(2,'abc',1),(3,'mnb',4),(4,'uio',6),(5,'',1),(6,'',1),(7,'',NULL),(11,'a',1),(12,'',32250),(13,'',32251),(15,'',32252),(16,'',32253),(17,'',1),(18,'',NULL),(22,'12',4),(23,'1',3284);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `chat_messages` (
   KEY `connidmess_idx` (`receiver_id`),
   CONSTRAINT `connidmess` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `senderidmess` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `chat_messages` (
 
 LOCK TABLES `chat_messages` WRITE;
 /*!40000 ALTER TABLE `chat_messages` DISABLE KEYS */;
-INSERT INTO `chat_messages` VALUES (41,42,339,'2022-07-04 16:52:52','https://dribbble.com/shots/15557119/attachments/7340061?mode=media','Dribbble - Shot 02 DM.png by Cai Cardenas','/upload/static/imgs/noimage.jpg','https://dribbble.com/shots/15557119/attachments/7340061?mode=media');
+INSERT INTO `chat_messages` VALUES (41,42,339,'2022-07-04 16:52:52','https://dribbble.com/shots/15557119/attachments/7340061?mode=media','Dribbble - Shot 02 DM.png by Cai Cardenas','/upload/static/imgs/noimage.jpg','https://dribbble.com/shots/15557119/attachments/7340061?mode=media'),(41,42,340,'2022-07-05 09:02:39','a',NULL,NULL,''),(41,42,341,'2022-07-05 09:02:45','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,342,'2022-07-11 11:37:30','textt',NULL,NULL,''),(41,42,343,'2022-07-11 11:43:48','a',NULL,NULL,''),(41,42,344,'2022-07-11 11:49:07','c',NULL,NULL,''),(41,42,345,'2022-07-11 11:51:30','a',NULL,NULL,''),(41,42,346,'2022-07-11 11:51:32','test ',NULL,NULL,''),(41,42,347,'2022-07-11 11:51:50','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s',NULL,NULL,'https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,348,'2022-07-11 15:42:59','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,37,349,'2022-07-11 15:49:19','a',NULL,NULL,NULL),(41,37,350,'2022-07-11 15:49:25','acsascacs',NULL,NULL,NULL),(41,37,351,'2022-07-11 15:50:35','a',NULL,NULL,NULL),(41,37,352,'2022-07-11 15:51:46','test',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `chat_messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,12 +226,13 @@ CREATE TABLE `feedback` (
   `sender_id` int DEFAULT NULL,
   `rate` tinyint(1) DEFAULT NULL,
   `comment` varchar(2000) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `mentorfeed_idx` (`received_id`),
   KEY `menteefeed_idx` (`sender_id`),
   CONSTRAINT `menteefeed` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   CONSTRAINT `mentorfeed` FOREIGN KEY (`received_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,6 +241,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,42,41,5,'Good','2022-06-03 00:00:00'),(2,42,22,3,'Almost nice','2022-07-11 16:59:15');
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +332,7 @@ DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notification` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
   `content` text,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -416,9 +418,6 @@ CREATE TABLE `request` (
   `id` int NOT NULL AUTO_INCREMENT,
   `mentor_id` int DEFAULT NULL,
   `mentee_id` int DEFAULT NULL,
-  `budget` bigint DEFAULT NULL,
-  `status` int DEFAULT NULL,
-  `skill_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `mentorrequest_idx` (`mentor_id`),
   KEY `menteerequest_idx` (`mentee_id`),
@@ -433,7 +432,7 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
-INSERT INTO `request` VALUES (1,12,20,NULL,NULL,NULL),(2,19,21,NULL,NULL,NULL),(5,19,23,NULL,NULL,NULL);
+INSERT INTO `request` VALUES (1,12,20),(2,19,21),(5,19,23);
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -634,7 +633,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(24,'test','test','testad@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(25,'test','test','testee2@gmail.com','$2a$10$fv1zH9ebcieCAw1mzv7BUeDTwhlvjNeFmrr0O8FoNR/nozXV1Z.Eq','2022-06-17 10:37:20','2022-06-17 10:37:20',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(29,'test','Mentee','testee4@gmail.com','$2a$10$5PhtBEDua5p/l7seXyIYxeNQeF0zml8TN0Ryzead95mBD6MK2SYe2','2022-06-17 10:53:12','2022-06-18 08:53:49',1,'1212-12-12 00:00:00','12','dfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfggg','FPT University',NULL,NULL,1,'/upload/static/imgs/image29.jpg',23,NULL,NULL),(30,'test','test','testee5@gmail.com','$2a$10$/Ce9lqQJGk8Ys6C5bSGnfOqfQbCOTN7W6gRQQEoQNQBdbLAQPqJZ2','2022-06-17 10:56:59','2022-06-17 10:56:59',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(31,'test','test','testee6@gmail.com','$2a$10$.yq9QBfJOdNlQHKMmtmIh.ITR5r0/ePpdktu6icqIK.py72kb5QMO','2022-06-17 10:58:15','2022-06-17 10:58:15',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(33,'test','test','testee8@gmail.com','$2a$10$sIZSDz3rAWvEAek2oz9Ml.BOLvriiuROcyn67.F82Jst9K4l4SS7m','2022-06-17 11:07:47','2022-06-17 11:07:47',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(34,'test','test','testee9@gmail.com','$2a$10$ixHlykq9EGSkEAUwNFRVweJJZGjVkT5k7F7WNxF0QjZjnbZ3yO3xy','2022-06-17 11:12:04','2022-06-17 11:12:04',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(35,'test','test','testee10@gmail.com','$2a$10$PhkgITzZ5Hz2iI51iDvp1OfAW8lgLR5NnbAbqgMOJWGGKWcsrPIzm','2022-06-17 11:12:56','2022-06-17 11:12:56',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(36,'test','test','testee11@gmail.com','$2a$10$IVMpE5QcxYrZIuxoRPXsQOf1/LBUGgm3kPUfi97.OCXHkbekE.s1e','2022-06-17 11:24:29','2022-06-17 11:24:29',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(37,'testee13','test','testee13@gmail.com','$2a$10$8cUBfH5nCdVQR2ffYoz6b.j.n8sC53dwnf6MIDqhmgAza.Mtra14m','2022-06-21 21:16:48','2022-06-21 21:16:48',0,'1212-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/avatar_default.jpg',23,NULL,0),(41,'test','test','testee062201@gmail.com','$2a$10$30v0MVTqm8Xv/Ucy7vtumeJ4xwZU0kBLe.csgyINcruI5ThECZZIy','2022-06-22 07:27:29','2022-06-22 07:27:29',0,'2002-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/avatar_default.jpg',23,NULL,0),(42,'test062202','test','testee062202@gmail.com','$2a$10$DM2MWSZCdvJSnY/nQtR5zOnj9sUnqmg2gzJ4F1NGZ9DtMh3MfdsrO','2022-06-22 17:35:56','2022-06-22 17:35:56',1,'1212-12-12 00:00:00','1','','1',NULL,NULL,1,'/upload/static/imgs/image42.jpg',23,NULL,0);
+INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(24,'test','test','testad@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(25,'test','test','testee2@gmail.com','$2a$10$fv1zH9ebcieCAw1mzv7BUeDTwhlvjNeFmrr0O8FoNR/nozXV1Z.Eq','2022-06-17 10:37:20','2022-06-17 10:37:20',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(29,'test','Mentee','testee4@gmail.com','$2a$10$5PhtBEDua5p/l7seXyIYxeNQeF0zml8TN0Ryzead95mBD6MK2SYe2','2022-06-17 10:53:12','2022-06-18 08:53:49',1,'1212-12-12 00:00:00','12','dfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfggg','FPT University',NULL,NULL,1,'/upload/static/imgs/image29.jpg',23,NULL,NULL),(30,'test','test','testee5@gmail.com','$2a$10$/Ce9lqQJGk8Ys6C5bSGnfOqfQbCOTN7W6gRQQEoQNQBdbLAQPqJZ2','2022-06-17 10:56:59','2022-06-17 10:56:59',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(31,'test','test','testee6@gmail.com','$2a$10$.yq9QBfJOdNlQHKMmtmIh.ITR5r0/ePpdktu6icqIK.py72kb5QMO','2022-06-17 10:58:15','2022-06-17 10:58:15',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(33,'test','test','testee8@gmail.com','$2a$10$sIZSDz3rAWvEAek2oz9Ml.BOLvriiuROcyn67.F82Jst9K4l4SS7m','2022-06-17 11:07:47','2022-06-17 11:07:47',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(34,'test','test','testee9@gmail.com','$2a$10$ixHlykq9EGSkEAUwNFRVweJJZGjVkT5k7F7WNxF0QjZjnbZ3yO3xy','2022-06-17 11:12:04','2022-06-17 11:12:04',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(35,'test','test','testee10@gmail.com','$2a$10$PhkgITzZ5Hz2iI51iDvp1OfAW8lgLR5NnbAbqgMOJWGGKWcsrPIzm','2022-06-17 11:12:56','2022-06-17 11:12:56',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(36,'test','test','testee11@gmail.com','$2a$10$IVMpE5QcxYrZIuxoRPXsQOf1/LBUGgm3kPUfi97.OCXHkbekE.s1e','2022-06-17 11:24:29','2022-06-17 11:24:29',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(37,'testee13','test','testee13@gmail.com','$2a$10$8cUBfH5nCdVQR2ffYoz6b.j.n8sC53dwnf6MIDqhmgAza.Mtra14m','2022-06-21 21:16:48','2022-06-21 21:16:48',0,'1212-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/avatar_default.jpg',23,NULL,0),(41,'test','test','testee062201@gmail.com','$2a$10$30v0MVTqm8Xv/Ucy7vtumeJ4xwZU0kBLe.csgyINcruI5ThECZZIy','2022-06-22 07:27:29','2022-06-22 07:27:29',0,'2002-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/image41.jpg',23,NULL,0),(42,'test062202','test','testee062202@gmail.com','$2a$10$DM2MWSZCdvJSnY/nQtR5zOnj9sUnqmg2gzJ4F1NGZ9DtMh3MfdsrO','2022-06-22 17:35:56','2022-06-22 17:35:56',1,'1212-12-12 00:00:00','1','','1',NULL,NULL,1,'/upload/static/imgs/image42.jpg',23,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -675,4 +674,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-04 21:18:40
+-- Dump completed on 2022-07-11 20:08:09

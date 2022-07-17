@@ -32,8 +32,8 @@ public class Utility {
 
     public static UserDTO mapUser(User user) {
         if (user == null) return null;
-        // if (user.getId() == null) return null;
-        // if (user.getAddress() == null) return null;
+        if (user.getId() == null) return null;
+        if (user.getAddress() == null) return null;
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
         return userDTO;
@@ -114,31 +114,38 @@ public class Utility {
         LocalDateTime todayDateTime = today.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
-        LocalDateTime createdDateTime = notification.getCreated().toInstant()
+        LocalDateTime modifiedDateTime = notification.getModified().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
-        long secondsElapsed = ChronoUnit.SECONDS.between(createdDateTime, todayDateTime);
-        long minutesElapsed = ChronoUnit.MINUTES.between(createdDateTime, todayDateTime);
-        long hoursElapsed = ChronoUnit.HOURS.between(createdDateTime, todayDateTime);
-        long daysElapsed = ChronoUnit.DAYS.between(createdDateTime, todayDateTime);
-        long weeksElapsed = ChronoUnit.WEEKS.between(createdDateTime, todayDateTime);
-        long monthsElapsed = ChronoUnit.MONTHS.between(createdDateTime, todayDateTime);
-        long yearsElapsed = ChronoUnit.YEARS.between(createdDateTime, todayDateTime);
+        long secondsElapsed = ChronoUnit.SECONDS.between(modifiedDateTime, todayDateTime);
+        long minutesElapsed = ChronoUnit.MINUTES.between(modifiedDateTime, todayDateTime);
+        long hoursElapsed = ChronoUnit.HOURS.between(modifiedDateTime, todayDateTime);
+        long daysElapsed = ChronoUnit.DAYS.between(modifiedDateTime, todayDateTime);
+        long weeksElapsed = ChronoUnit.WEEKS.between(modifiedDateTime, todayDateTime);
+        long monthsElapsed = ChronoUnit.MONTHS.between(modifiedDateTime, todayDateTime);
+        long yearsElapsed = ChronoUnit.YEARS.between(modifiedDateTime, todayDateTime);
         if (yearsElapsed > 0) {
-            notificationDTO.setTime(yearsElapsed + " years ago");
+            if (yearsElapsed == 1) notificationDTO.setTime(yearsElapsed + " year ago");
+            else notificationDTO.setTime(yearsElapsed + " years ago");
         } else if (monthsElapsed > 0) {
-            notificationDTO.setTime(monthsElapsed + " months ago");
+            if (monthsElapsed == 1) notificationDTO.setTime(monthsElapsed + " month ago");
+            else notificationDTO.setTime(monthsElapsed + " months ago");
         } else if (weeksElapsed > 0) {
-            notificationDTO.setTime(weeksElapsed + " weeks ago");
+            if (weeksElapsed == 1) notificationDTO.setTime(weeksElapsed + " week ago");
+            else notificationDTO.setTime(weeksElapsed + " weeks ago");
         } else if (daysElapsed > 0) {
-            notificationDTO.setTime(daysElapsed + " days ago");
+            if (daysElapsed == 1) notificationDTO.setTime(daysElapsed + " days ago");
+            else notificationDTO.setTime(daysElapsed + " days ago");
         } else if (hoursElapsed > 0) {
-            notificationDTO.setTime(hoursElapsed + " hours ago");
+            if (hoursElapsed == 1) notificationDTO.setTime(hoursElapsed + " hours ago");
+            else notificationDTO.setTime(hoursElapsed + " hours ago");
         } else if (minutesElapsed > 0) {
-            notificationDTO.setTime(minutesElapsed + " minutes ago");
+            if (minutesElapsed == 1) notificationDTO.setTime(minutesElapsed + " minutes ago");
+            else notificationDTO.setTime(minutesElapsed + " minutes ago");
         } else {
-            notificationDTO.setTime(secondsElapsed + " seconds ago");
+            if (secondsElapsed == 1) notificationDTO.setTime(secondsElapsed + " second ago");
+            else notificationDTO.setTime(secondsElapsed + " seconds ago");
         }
         return notificationDTO;
     }

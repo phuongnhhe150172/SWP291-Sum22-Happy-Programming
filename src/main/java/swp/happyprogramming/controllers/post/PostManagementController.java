@@ -78,7 +78,7 @@ public class PostManagementController {
 
             postService.updatePost(postDTO,method,userDTO);
 
-            return "redirect:update?id=" + postDTO.getId();
+            return "redirect:detail?id=" + postDTO.getId();
         }catch (NumberFormatException e){
             return "redirect:index";
         }
@@ -137,7 +137,6 @@ public class PostManagementController {
             pi.setLiked(liked);
             result.add(pi);
         }
-
         model.addAttribute("posts", result);
         return "/admin/all-posts";
     }

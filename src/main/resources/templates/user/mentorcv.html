@@ -3,13 +3,26 @@
 <div class="" th:replace="components/head.html :: head"></div>
 
 <body class="bg-gray-900 text-white">
+<script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 <div class="" th:replace="components/nav.html :: aside"></div>
 
 <div class="max-w-[1400px] ml-[16rem] mx-auto lg:flex">
     <div class="min-w-[20rem] lg:max-w-[50%] grow min-h-[100vh] mt-[2rem] px-4 flex flex-col grow-0 basis-1/4"
          th:object="${mentor}">
         <img th:src="@{${mentor.image}}" class="w-72 h-72 rounded-full" alt="Avatar"/>
-        <h1 class="text-2xl font-bold my-6" th:text="*{firstName + ' ' + lastName}">abc</h1>
+        <div th:if="${session.userInformation.id != mentor.id}"
+                class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold my-6" th:text="*{firstName + ' ' + lastName}">abc</h1>
+            <a th:href="@{feedback(id=${mentor.id})}"
+                    type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
+            font-medium rounded-lg text-sm px-2.5 py-1.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700
+            focus:outline-none dark:focus:ring-blue-800">Feedback</a>
+        </div>
+        <div th:if="${session.userInformation.id == mentor.id}"
+                class="">
+            <h1 class="text-2xl font-bold my-6" th:text="*{firstName + ' ' + lastName}">abc</h1>
+        </div>
+
         <div class="text-gray-300">
             <div class="flex items-center gap-4 my-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -106,8 +119,9 @@
                                 <div class="p-6 text-center">
                                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                         Do you want to send request?</h3>
-                                    <a th:href="@{/sent(from=${session.userInformation.id},to=${mentor.id})}" type="button" class="text-white bg-green-600 hover:bg-green-800 focus:ring-4
-                                    focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg
+                                    <a th:href="@{/sent(from=${session.userInformation.id},to=${mentor.id})}" type="button"
+                                       class="text-white bg-sky-500 hover:bg-sky-800 focus:ring-4
+                                    focus:outline-none focus:ring-sky-900 dark:focus:ring-green-800 font-medium rounded-lg
                                     text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                         Yes</a>
                                     <button data-modal-toggle="popup-modal" type="button"
@@ -138,7 +152,7 @@
         <div class="py-4">
             <div class="">
                 <h2 class="my-4 font-medium text-xl">Experiences</h2>
-                <div class="flex gap-4">
+                <div class="flex gap-4 flex-wrap">
                     <div th:each="experience,state : ${mentor.experiences}"
                          class="block max-w-lg p-6 rounded-lg shadow-md bg-gray-800">
                         <p class="font-normal text-gray-200" th:text="${experience.description}">

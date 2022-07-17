@@ -36,9 +36,12 @@
                     <a href="signup" class="border border-gray-700 hover:bg-gray-700 px-5 py-2.5 rounded-lg text-medium">Sign up</a>
                 </div>
             </div>
-            <div class="my-5 flex items-center justify-between">
-                <p th:if="${param.error}" class="error danger" style="color: red">Invalid email or
+            <div th:if="${param.error}" class="my-5 flex items-center justify-between">
+                <p class="error danger" style="color: red">Invalid email or
                     password</p>
+            </div>
+            <div th:if="${param.msg}" class="my-5 flex items-center justify-between">
+                <p class="error danger" style="color: red">Cannot log in because your account is deactivated</p>
             </div>
         </form>
     </div>

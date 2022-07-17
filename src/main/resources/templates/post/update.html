@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+<!--<head>-->
+<!--    <meta charset="UTF-8"/>-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+
 <!--    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>-->
 <!--    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>-->
 <!--    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-    <title>Document</title>
-</head>
+
+<!--    <title>Document</title>-->
+<!--</head>-->
+
+<div class="" th:replace="components/head.html :: head"></div>
 
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
-
+<!--<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <div class="w-64" th:replace="components/nav.html :: aside"></div>
 
 <div class="ml-[16rem] max-w-[1400px]">

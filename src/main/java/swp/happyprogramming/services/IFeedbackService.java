@@ -1,12 +1,17 @@
 package swp.happyprogramming.services;
 
 import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.User;
 
 import java.util.List;
 
 public interface IFeedbackService {
-    List<Feedback> getFeedbackReceived(Long id);
+    Pagination<Feedback> getFeedbackReceived(User user, int pageNumber);
 
-    int[] feedBackCount();
+    List<Feedback> getFeedbackReceived(User user);
+
+    double[] feedBackCount(long userId);
+
     Feedback save(Feedback feedback);
 }

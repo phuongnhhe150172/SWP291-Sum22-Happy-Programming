@@ -12,6 +12,9 @@ import swp.happyprogramming.services.*;
 
 import swp.happyprogramming.services.INotificationService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -64,17 +67,22 @@ public class AdminController {
         String rawLastName = params.get("last_name");
         String rawPhone = params.get("phone");
         String rawEmail = params.get("email");
-        String firstName = (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName;
-        String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName;
-        String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone;
-        String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail;
+        String firstName = (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName.trim();
+        String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName.trim();
+        String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone.trim();
+        String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail.trim();
 
         Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
+        List<UserDTO> mentees = page.getPaginatedList();
+        int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
+        int totalMenteesFound = mentees.size();
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
         model.addAttribute("first_name", firstName);
         model.addAttribute("last_name", lastName);
+        model.addAttribute("totalMentees", totalNumberOfMentees);
+        model.addAttribute("totalMenteesFound", totalMenteesFound);
         model.addAttribute("phone", phone);
         model.addAttribute("email", email);
         return "admin/all-mentees";
@@ -86,7 +94,7 @@ public class AdminController {
         Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
         model.addAttribute("mentors", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("totalPages", page.getPaginatedList().size());
+        model.addAttribute("totalPages", page.getPageNumbers().size());
         return "admin/all-mentors";
     }
 
@@ -182,15 +190,26 @@ public class AdminController {
     }
 
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id", required = false) int id) {
+    public String enableUser(@RequestParam(value = "id", required = false) int id
+                             ,@RequestParam(value = "status", required = false) int status) {
         userService.enableUser(id);
-        return "redirect:mentors";
+        if(status == 1){
+            return "redirect:mentors";
+        }else{
+            return "redirect:mentees";
+        }
+
     }
 
     @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id", required = false) int id) {
+    public String disableUser(@RequestParam(value = "id", required = false) int id
+            ,@RequestParam(value = "status", required = false) int status) {
         userService.disableUser(id);
-        return "redirect:mentors";
+        if(status == 1){
+            return "redirect:mentors";
+        }else{
+            return "redirect:mentees";
+        }
     }
 
     @GetMapping("notification")

@@ -1,35 +1,40 @@
 package swp.happyprogramming;
 
 import org.junit.jupiter.api.Test;
+import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.utility.Utility;
 
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 // @SpringBootTest
 class UtilityTest {
     @Test
     void testGetFirstLink_inSentence() {
-        String message = "This message contains http://localhost.com not dot";
-        String expected = "http://localhost.com";
+        String message = "This message contains https://www.localhost.com not dot";
+        String expected = "https://www.localhost.com";
         String actual = Utility.getFirstLink(message);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetFirstLink_alone() {
-        String message = "http://localhost.com";
-        String expected = "http://localhost.com";
+        String message = "https://www.localhost.com";
+        String expected = "https://www.localhost.com";
         String actual = Utility.getFirstLink(message);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetFirstLink_mutipleLevel() {
-        String message = "http://localhost.com.vn";
-        String expected = "http://localhost.com.vn";
+        String message = "https://www.localhost.com.vn";
+        String expected = "https://www.localhost.com.vn";
         String actual = Utility.getFirstLink(message);
         assertEquals(expected, actual);
     }
@@ -59,7 +64,7 @@ class UtilityTest {
     }
 
     @Test
-    void testGetFirstLink_withDot() {
+    void testGetFirstLink_textWithDot() {
         String message = "2 links with dot http://localhost.com. Also http://localhost2.com";
         String expected = "http://localhost.com";
         String actual = Utility.getFirstLink(message);
@@ -84,8 +89,8 @@ class UtilityTest {
 
     @Test
     void testGetFirstLink_otherProtocol() {
-        String message = "https protocol https://localhost.com https://localhost2.com";
-        String expected = "https://localhost.com";
+        String message = "http protocol http://localhost.com http://localhost2.com";
+        String expected = "http://localhost.com";
         String actual = Utility.getFirstLink(message);
         assertEquals(expected, actual);
     }
@@ -115,8 +120,24 @@ class UtilityTest {
     }
 
     @Test
+    void testIsInteger_zero() {
+        String message = "0";
+        boolean expected = true;
+        boolean actual = Utility.isInteger(message);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void testIsInteger_float() {
         String message = "1.23";
+        boolean expected = false;
+        boolean actual = Utility.isInteger(message);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testIsInteger_commaFloat() {
+        String message = "100,000";
         boolean expected = false;
         boolean actual = Utility.isInteger(message);
         assertEquals(expected, actual);
@@ -129,7 +150,7 @@ class UtilityTest {
         map.put("content", testContent);
         try {
             Utility.addOG(map);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail();
         }
         assertNull(map.get("link"));
@@ -144,7 +165,7 @@ class UtilityTest {
         map.put("content", testContent);
         try {
             Utility.addOG(map);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail();
         }
         assertEquals(map.get("link"), testContent);
@@ -159,7 +180,7 @@ class UtilityTest {
         map.put("content", testContent);
         try {
             Utility.addOG(map);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail();
         }
         assertEquals("https://www.youtube.com/", map.get("link"));
@@ -174,7 +195,7 @@ class UtilityTest {
         map.put("content", testContent);
         try {
             Utility.addOG(map);
-        } catch (Exception e) {
+        } catch (IOException e) {
             fail();
         }
         assertEquals("https://www.google.com/", map.get("link"));
@@ -183,22 +204,17 @@ class UtilityTest {
     }
 
     @Test
-    void testMapUser_noUser() {
-        assertNull(Utility.mapUser(null));
-    }
-
-    @Test
-    void testMapUser_noUserId() {
-        User user = new User();
-        user.setId(null);
-        assertNull(Utility.mapUser(user));
-    }
-
-    @Test
-    void testMapUser_noAddress() {
-        User user = new User();
-        user.setId((long) 10);
-        user.setAddress(null);
-        assertNull(Utility.mapUser(user));
+    void testAddOG_noImageWithSurroundingText() {
+        String testContent = "This is https://www.google.com/ for Google";
+        Map map = new HashMap();
+        map.put("content", testContent);
+        try {
+            Utility.addOG(map);
+        } catch (IOException e) {
+            fail();
+        }
+        assertEquals("https://www.google.com/", map.get("link"));
+        assertEquals("Google", map.get("title"));
+        assertEquals("/upload/static/imgs/noimage.jpg", map.get("image"));
     }
 }

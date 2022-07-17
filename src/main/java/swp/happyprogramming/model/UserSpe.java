@@ -2,6 +2,12 @@ package swp.happyprogramming.model;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+import java.util.Collection;
+
 public class UserSpe {
 
     public static Specification<User> getUserSpe(String firstName, String lastName, String phone, String email){
@@ -20,9 +26,9 @@ public class UserSpe {
             temp = getByColumn("phoneNumber", phone);
             spec = spec!=null?Specification.where(spec).and(temp):temp;
         }
-        if (email != null){
+        if (email != null) {
             temp = getByColumn("email", email);
-            spec = spec!=null?Specification.where(spec).and(temp):temp;
+            spec = spec != null ? Specification.where(spec).and(temp) : temp;
         }
         return spec;
     }

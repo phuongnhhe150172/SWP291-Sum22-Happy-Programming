@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Programming</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<div class="" th:replace="components/head.html :: head"></div>
 <body class="flex text-white">
 <div class="" th:replace="components/nav.html :: aside"></div>
 <div class="bg-gray-900 grow ml-64 p-5 min-h-[100vh]">
     <h1 class="font-semibold my-6 text-3xl">Top Mentors</h1>
     <div class="space-y-6">
-        <a th:href="@{/cv(id=${mentor.id})}" class="bg-gray-800 p-5 rounded-lg flex items-center"
-           th:each="mentor: ${mentorList}" th:object="${mentor}">
-            <div class="flex items-center gap-5">
-                <img th:src="@{*{image}}" th:alt="${mentor.name}" class="rounded-full h-12 w-12">
-                <h2 class="text-xl font-medium" th:text="*{name}"></h2>
+        <div class="flex" th:each="mentor, iter: ${mentorList}">
+            <div class="bg-blue-800 font-semibold py-5 pl-2 pr-4 rounded-lg flex items-center -mr-2"
+                 th:text="${iter.index + 1}">1
             </div>
-            <div class=""></div>
-        </a>
+            <a th:href="@{/cv(id=${mentor.id})}" class="bg-gray-800 p-5 rounded-lg flex items-center grow"
+               th:object="${mentor}">
+                <div class="flex items-center gap-5">
+                    <img th:src="@{*{image}}" th:alt="${mentor.name}" class="rounded-full h-12 w-12">
+                    <h2 class="text-xl font-medium" th:text="*{name}"></h2>
+                </div>
+                <div class=""></div>
+            </a>
+        </div>
     </div>
 </div>
 </body>
