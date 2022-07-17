@@ -12,7 +12,14 @@ import java.util.Optional;
 
 @Repository
 public interface IMentorRepository extends JpaRepository<Mentor, Long> {
-    @Query(value = "select * from mentor order by created limit 10", nativeQuery = true)
+    @Query(value = "select * from((select id, user_id, created, modified from mentor, \n" +
+            "(select received_id, avg(rate) as avg_rate from feedback group by received_id) \n" +
+            "as feedback_count \n" +
+            "where mentor.user_id = feedback_count.received_id\n" +
+            "order by avg_rate desc)\n" +
+            "union distinct\n" +
+            "(select * from mentor where user_id not in (select received_id from feedback)\n" +
+            "order by created desc)) as top_mentor limit 10", nativeQuery = true)
     List<Mentor> getTopMentors();
 
     Optional<Mentor> findByUserId(long userID);

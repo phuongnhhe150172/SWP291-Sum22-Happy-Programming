@@ -53,7 +53,7 @@ public class MentorService implements IMentorService {
         List<Mentor> mentors = page.getContent();
         List<MentorDTO> mentorDTOS = mentors
                 .stream()
-                .map(mentor -> findMentor(mentor.getUser().getId()))
+                .map(Utility::mapMentor)
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
         return new Pagination<>(mentorDTOS, pageNumbers);
