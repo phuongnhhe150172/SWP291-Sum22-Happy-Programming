@@ -174,7 +174,7 @@ public class UserManagementController {
         //      Hoàng Văn Nam -   - Upload avatar
         UserDTO userDTO = (UserDTO) session.getAttribute(USER_SESSION);
         userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
-        userDTO.setImage("/upload/static/imgs/image" + userDTO.getId() + ".jpg");
+
         session.setAttribute(USER_SESSION, userDTO);
         return "redirect:profile";
     }
