@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <title>Document</title>
+</head>
+
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+
+    <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+
+    <div class="bg-gray-900 grow flex min-h-[100vh]">
+        <div class="grow p-4">
+        <form onsubmit="return validateForm()" id="form" name="form" class="block w-[90%] min-h-[100vh] mx-auto p-4" th:action="@{/admin/edit-notification}" th:method="post" th:object="${post}">
+            <div class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
+                <input id="id" th:value="${id}" name="id" style="display:none" >
+                <div class="flex items-center justify-between m-2">
+                    <div class="flex items-center">
+                        <div class="flex flex-col items-left m-2">
+                            <p class="font-bold text-md" >Inform to</p>
+                            <div class="checkbox-group">
+                                <div class="flex items-center mb-4">
+                                    <input th:checked="${role1}" id="mentor" name ="mentor" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="default-checkbox" class="ml-2 text-sm font-medium text-white-900 dark:text-white-300">Mentor</label>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <input th:checked="${role2}" id="mentee" name ="mentee" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="default-checkbox" class="ml-2 text-sm font-medium text-white-900 dark:text-white-300">Mentee</label>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <input th:checked="${role3}" id="admin" name ="admin" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="default-checkbox" class="ml-2 text-sm font-medium text-white-900 dark:text-white-300">Admin</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
+                    <label for="content" class="sr-only">Notification content</label>
+                    <textarea th:text="${content}" id="content" rows="8"  name="content"
+                              class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                              placeholder="Write an notification..." required>
+                    </textarea>
+                </div>
+                <button id="submit" type="submit" name="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2 mx-2 mb-2 mt-4 w-full dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Send
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    function validateForm() {
+        let x =  (document.getElementById("mentor").checked || document.getElementById("mentee").checked || document.getElementById("admin").checked)
+        if (x === false) {
+            alert("Chose one to inform!")
+            return false
+        }
+        
+        if(document.getElementById("content").value.trim().length == 0) {
+            alert("Empty content")
+            return false
+        } 
+        return true
+    }
+</script>
+</body>
+
+</html>

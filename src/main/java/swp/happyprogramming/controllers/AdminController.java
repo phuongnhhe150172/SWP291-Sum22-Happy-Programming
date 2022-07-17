@@ -187,6 +187,63 @@ public class AdminController {
         return "redirect:/admin/notification";
     }
 
+    @GetMapping("edit-notification")
+    public String editNotifications(Model model, @RequestParam(value = "id",required = false) long id){
+        // model.addAttribute("notifications", notifications);
+
+        NotificationDTO ndt = notificationService.getNotificationByID(id);
+
+        List<Integer> inform = notificationService.getNotiInform(id);
+
+        String content=  ndt.getContent();
+        Boolean role1 = false;
+        Boolean role2 = false;
+        Boolean role3 = false;
+
+
+
+        for(Integer ii : inform) {
+            if (ii ==  1) {
+                role1 = true;
+            }
+            if (ii ==  2) {
+                role2 = true;
+            }
+            if (ii ==  3) {
+                role3 = true;
+            }
+        }
+        model.addAttribute("id", id);
+        model.addAttribute("content", content);
+        model.addAttribute("role1", role1);
+        model.addAttribute("role2", role2);
+        model.addAttribute("role3", role3);
+
+        return "admin/admin_edit_notification";
+    }
+
+
+    @PostMapping("edit-notification")
+    public String editNotifications(Model model, @RequestParam Map<String, Object> params){
+        // model.addAttribute("notifications", notifications);
+        long notiId =  Long.parseLong(String.valueOf(params.get("id")));
+
+        String content = String.valueOf(params.get("content"));
+        notificationService.removeInform(notiId);
+        notificationService.editContentNoti(content, notiId);
+        if (params.containsKey("mentor")) {
+            notificationService.informNotiForRole(notiId, 1);
+        }
+        if (params.containsKey("mentee")) {
+            notificationService.informNotiForRole(notiId, 2);
+        }
+        if (params.containsKey("admin")) {
+            notificationService.informNotiForRole(notiId, 3);
+        }
+
+        return "redirect:/admin/notification";
+    }
+
     @GetMapping("/update-skill")
     public String showSkillToUpdate(Model model, @RequestParam(value = "id", required = false) long id) {
         Skill skill = skillService.findSkillById(id);
