@@ -194,26 +194,28 @@ public class AdminController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id", required = false) int id
-                             ,@RequestParam(value = "status", required = false) int status) {
+    public String enableUser(@RequestParam(value = "id", required = false) int id,
+                             @RequestParam(value = "status", required = false) int status,
+                             @RequestParam(value = "page", required = false) int page) {
         userService.enableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
 
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id", required = false) int id
-            ,@RequestParam(value = "status", required = false) int status) {
+    public String disableUser(@RequestParam(value = "id", required = false) int id,
+                              @RequestParam(value = "status", required = false) int status,
+                              @RequestParam(value = "page", required = false) int page) {
         userService.disableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
     }
 
