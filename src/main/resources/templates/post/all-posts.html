@@ -59,6 +59,11 @@
                             th:text="${post.methodName}">1000</p>     
                         </div>
                     </div>
+                    <div class="">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <span><a th:href="@{'/post/detail?id=' + ${post.id}}"><button class="px-3 py-1 bg-green-800 text-gray-200 hover:bg-green-600 rounded">View Detail</button></a></span>     
+                        </div>
+                    </div>
                 </div>
                 <button class="btn" th:attr="onclick=|carePost(${post.id})|">
                     <div th:switch="${post.liked}"> 
