@@ -192,6 +192,7 @@ public class AdminController {
         return "admin/all-connections";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/enable")
     public String enableUser(@RequestParam(value = "id", required = false) int id
                              ,@RequestParam(value = "status", required = false) int status) {
@@ -204,6 +205,7 @@ public class AdminController {
 
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/disable")
     public String disableUser(@RequestParam(value = "id", required = false) int id
             ,@RequestParam(value = "status", required = false) int status) {
