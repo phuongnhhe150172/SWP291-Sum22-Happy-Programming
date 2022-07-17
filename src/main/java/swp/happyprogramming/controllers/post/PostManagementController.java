@@ -2,6 +2,7 @@ package swp.happyprogramming.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -50,6 +51,7 @@ public class PostManagementController {
     @Autowired
     private ICareService careService;
 
+    @Secured("ROLE_MENTEE")
     @GetMapping("/update")
     public String updatePost(Model model, @RequestParam(value = "id",required = false) String id){
         try{
@@ -68,6 +70,7 @@ public class PostManagementController {
         }
     }
 
+    @Secured("ROLE_MENTEE")
     @PostMapping("/update")
     public String updatePost(@ModelAttribute("post") PostDTO postDTO,
                              @RequestParam Map<String, Object> params){
@@ -78,7 +81,7 @@ public class PostManagementController {
 
             postService.updatePost(postDTO,method,userDTO);
 
-            return "redirect:update?id=" + postDTO.getId();
+            return "redirect:detail?id=" + postDTO.getId();
         }catch (NumberFormatException e){
             return "redirect:index";
         }
