@@ -80,4 +80,10 @@ public class ConnectService implements IConnectService {
         }
         return connected;
     }
+
+    @Override
+    public void disconnect(long user1, long user2) {
+        connectRepository.deleteConnection(user1, user2);
+        
+    }
 }
