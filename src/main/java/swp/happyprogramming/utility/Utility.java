@@ -32,8 +32,8 @@ public class Utility {
 
     public static UserDTO mapUser(User user) {
         if (user == null) return null;
-        // if (user.getId() == null) return null;
-        // if (user.getAddress() == null) return null;
+        if (user.getId() == null) return null;
+        if (user.getAddress() == null) return null;
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
         return userDTO;

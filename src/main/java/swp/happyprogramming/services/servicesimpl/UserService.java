@@ -205,8 +205,6 @@ public class UserService implements IUserService {
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "Id");
         Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
-        List<Role> roles = new ArrayList<>();
-        roles.add(new Role(2, "ROLE_MENTEE"));
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();

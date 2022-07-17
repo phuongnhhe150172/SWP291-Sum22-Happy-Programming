@@ -35,7 +35,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
             nativeQuery = true)
     Page<User> findConnectionsById(Pageable pageable, long id);
 
-    @Query(value = "select * from users where id in (select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
+    @Query(value = "select * from users where id in " +
+            "(select user1 from connections where user2 = ?1 union select user2 from connections where user1 = ?1)",
             nativeQuery = true)
     List<User> findConnectionsById(long id);
 

@@ -29,11 +29,10 @@ public class NotificationService implements INotificationService {
     @Override
     public List<NotificationDTO> getNotificationByRoles(Set<Role> roles) {
         List<Notification> notifications = notificationRepository.getNotificationsByNotificationToRolesIn(roles);
-        List<NotificationDTO> notificationDTOS = notifications
+        return notifications
                 .stream()
-                .map(notification -> Utility.mapNotification(notification))
+                .map(Utility::mapNotification)
                 .collect(Collectors.toList());
-        return notificationDTOS;
     }
 
     @Override
@@ -53,14 +52,11 @@ public class NotificationService implements INotificationService {
     @Override
     public List<NotificationDTO> getAllNotifications() {
         List<Notification> notifications = notificationRepository.findAll();
-        List<NotificationDTO> notificationDTOS = notifications
+        return notifications
         .stream()
-        .map(notification -> Utility.mapNotification(notification))
+        .map(Utility::mapNotification)
         .collect(Collectors.toList());
-            return notificationDTOS;
     }
-
-
 
     @Override
     public Notification save(Notification notification) {
