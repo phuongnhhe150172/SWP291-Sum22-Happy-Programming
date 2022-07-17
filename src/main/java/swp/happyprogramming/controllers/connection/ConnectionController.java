@@ -1,6 +1,7 @@
 package swp.happyprogramming.controllers.connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,11 @@ public class ConnectionController {
     @Autowired
     private HttpSession session;
 
+    @Secured({"ROLE_MENTOR", "ROLE_MENTEE"})
     @GetMapping("/connections")
     public String getUserConnections(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Nguyễn Huy Hoàng - 33 - view connections
         Object sessionUser = session.getAttribute("userInformation");
-        if (sessionUser == null) return "redirect:/login";
 
         UserDTO user = (UserDTO) sessionUser;
 

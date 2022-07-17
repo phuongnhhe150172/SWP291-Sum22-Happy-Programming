@@ -1,6 +1,7 @@
 package swp.happyprogramming.controllers.messages;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,16 +24,20 @@ public class MessageController {
     @Autowired
     private IMessageService messageService;
 
+    @Secured({"ROLE_MENTOR", "ROLE_MENTEE"})
     @GetMapping("/chat")
     public String chat(Model model, @RequestParam(value = "id", required = false) String id) {
         Object sessionUser = session.getAttribute("userInformation");
-        if (sessionUser == null) return "redirect:/login";
         UserDTO user = (UserDTO) sessionUser;
 
         List<UserAvatarDTO> connections = userService.getConnectionsById(user.getId());
 
         // Get the desired connection
         List<Long> ids = getConnectionsIds(connections);
+
+        if (ids.isEmpty()) {
+            return "redirect:/mentor";
+        }
 
         if (id == null || !ids.contains(Long.parseLong(id))) return "redirect:/chat?id=" + ids.get(0);
 

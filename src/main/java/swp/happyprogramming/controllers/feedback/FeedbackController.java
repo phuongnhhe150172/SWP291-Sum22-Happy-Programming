@@ -1,6 +1,7 @@
 package swp.happyprogramming.controllers.feedback;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class FeedbackController {
     @Autowired
     private IUserService userService;
 
+    @Secured("ROLE_MENTOR")
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
                                    @RequestParam(required = false, defaultValue = "1") int pageNumber,
@@ -41,7 +43,6 @@ public class FeedbackController {
         long userId;
         if (id == null) {
             Object sessionInfo = session.getAttribute("userInformation");
-            if (sessionInfo == null) return "redirect:/login";
             UserDTO sessionUser = (UserDTO) sessionInfo;
             userId = sessionUser.getId();
         } else {

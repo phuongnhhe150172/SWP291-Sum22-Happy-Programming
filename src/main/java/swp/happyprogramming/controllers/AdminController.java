@@ -1,6 +1,8 @@
 package swp.happyprogramming.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -88,6 +90,7 @@ public class AdminController {
         return "admin/all-mentees";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/mentors")
     public String showMentors(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
         // Nguyễn Huy Hoàng - 46 - List all mentors (admin)
