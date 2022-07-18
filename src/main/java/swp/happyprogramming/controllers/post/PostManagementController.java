@@ -76,8 +76,9 @@ public class PostManagementController {
                              @RequestParam Map<String, Object> params){
         try{
             long method = Integer.parseInt(String.valueOf(params.get("method")));
-            UserDTO user =(UserDTO) session.getAttribute("userInformation");
-            UserDTO userDTO = userService.findUser(user.getId());
+            long useId = Integer.parseInt(String.valueOf(params.get("useId")));
+//            UserDTO user =(UserDTO) session.getAttribute("userInformation");
+            UserDTO userDTO = userService.findUser(useId);
 
             postService.updatePost(postDTO,method,userDTO);
 

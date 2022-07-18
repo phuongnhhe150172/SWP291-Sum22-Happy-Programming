@@ -111,7 +111,7 @@ public class UserManagementController {
 
     }
 
-    @Secured({"ROLE_MENTEE", "ROLE_MENTOR"})
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @GetMapping("/cv")
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - View profile mentor
@@ -138,7 +138,7 @@ public class UserManagementController {
         }
     }
 
-    @Secured("ROLE_MENTOR")
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @GetMapping("/update/cv")
     public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - Update profile mentor
@@ -158,7 +158,7 @@ public class UserManagementController {
         }
     }
 
-    @Secured("ROLE_MENTOR")
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @PostMapping("/update/cv")
     public String updateMentorCv(@ModelAttribute("mentor") MentorDTO mentor,
                                  @RequestParam Map<String, Object> params,
@@ -187,7 +187,7 @@ public class UserManagementController {
         return "redirect:profile";
     }
 
-    @Secured("ROLE_MENTEE")
+    @Secured({"ROLE_MENTEE"})
     @GetMapping("/create")
     public String createCv(Model model, @RequestParam(value = "id", required = false) String id) {
         UserDTO user;
@@ -205,7 +205,7 @@ public class UserManagementController {
         return "user/createcv";
     }
 
-    @Secured("ROLE_MENTEE")
+    @Secured({"ROLE_MENTEE"})
     @PostMapping("/create")
     public String createCv(@RequestParam(value = "id", required = false) String id,
                            @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
