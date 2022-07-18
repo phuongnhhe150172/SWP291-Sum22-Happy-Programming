@@ -8,14 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.*;
 import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.Method;
 import swp.happyprogramming.model.Notification;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Post;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import swp.happyprogramming.services.INotificationService;
 import swp.happyprogramming.vo.FeedbackVo;
+import swp.happyprogramming.vo.PostVo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +57,9 @@ public class AdminController {
 
     @Autowired
     private IFeedbackService feedbackService;
+
+    @Autowired
+    private ICareService careService;
 
 
     @GetMapping("/dashboard")
@@ -273,15 +279,32 @@ public class AdminController {
 
     @GetMapping("/posts")
     public String viewAllPost(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-        Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
-        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
+        // Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
+        // Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
 
-        model.addAttribute("listPost", page.getPaginatedList());
-        model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("mapLikePost", mapLikePost);
-        model.addAttribute("totalPages", page.getPageNumbers().size());
-        return "/admin/all-posts";
+        // model.addAttribute("listPost", page.getPaginatedList());
+        // model.addAttribute("pageNumber", pageNumber);
+        // model.addAttribute("mapLikePost", mapLikePost);
+        // model.addAttribute("totalPages", page.getPageNumbers().size());
+        // return "/admin/all-posts";
+
+        ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
+        ArrayList<PostVo> result = new ArrayList<>();
+
+        for (Post p : posts) {
+            PostDTO postDTO = postService.findPost(p.getId());
+            UserDTO userDTO = postDTO.getUser();
+            Method methodDTO = postDTO.getMethod();
+            int liked  = careService.checkCared(userDTO.getId(), p.getId());
+            PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            pi.setLiked(liked);
+            result.add(pi);
+        }
+
+        model.addAttribute("posts", result);
+        return "/admin/admin_post";
     }
+
     @Secured("ROLE_ADMIN")
     @GetMapping("/connections")
     public String viewAllConn(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
