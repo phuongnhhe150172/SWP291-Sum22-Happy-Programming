@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<div class="" th:replace="components/head.html :: head"></div>
+
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+
+<!--Left-sidebar-->
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+<!--End-Left-sidebar-->
+
+
+<div class="p-6 grow gap-4">
+    <h1 class="text-3xl my-4 font-semibold">Cared</h1>
+    <div class="relative rounded-lg">
+        <div class="relative overflow-x-auto sm:rounded-lg">
+            <div class="space-y-4 xl:mr-40" th:each="user: ${users}">
+                <div class="flex items-center justify-between gap-4 p-6 text-white rounded-lg bg-gray-800 mb-5"
+                     th:object="${user}">
+                    <span class="w-3/4" th:text="*{firstName} + *{lastName} "></span>
+                    <div th:switch="*{status}"> 
+                        <p th:case="1" class="text-green-900 dark:text-green-300">Online</p>
+                        <p th:case="*" class="text-red-900 dark:text-red-300">Offline</p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

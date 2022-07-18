@@ -15,11 +15,11 @@
 
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
 
-<div class="w-64" th:replace="components/nav.html :: aside"></div>
+    <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
 
-<div class="max-w-[1400px]">
-    <div class="w-[80vw]">
-        <form onsubmit="return validateForm()" id="form" name="form" class="block w-[90%] min-h-[100vh] mx-auto p-4" th:action="@{/notification/create}" th:method="post" th:object="${post}">
+    <div class="bg-gray-900 grow flex min-h-[100vh]">
+        <div class="grow p-4">
+        <form onsubmit="return validateForm()" id="form" name="form" class="block w-[90%] min-h-[100vh] mx-auto p-4" th:action="@{/admin/create-notification}" th:method="post" th:object="${post}">
             <div class="block py-4 px-6 m-5 rounded-lg border border-gray-200 shadow-md bg-gray-800 border-gray-700">
                 <div class="flex items-center justify-between m-2">
                     <div class="flex items-center">

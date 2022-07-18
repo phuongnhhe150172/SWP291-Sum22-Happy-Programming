@@ -1,6 +1,7 @@
 package swp.happyprogramming.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +57,7 @@ public class UserManagementController {
     @Autowired
     private IConnectService connectService;
 
+    @Secured("ROLE_MENTEE")
     @GetMapping("/profile")
     public String showUserProfile(Model model,
                                   @RequestParam(value = "id", required = false) String id) {
@@ -80,6 +82,7 @@ public class UserManagementController {
         return "user/user-profile";
     }
 
+    @Secured("ROLE_MENTEE")
     @GetMapping("/update")
     public String updateUserProfile(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam - Update profile mentee
@@ -91,6 +94,7 @@ public class UserManagementController {
         return "user/update-profile";
     }
 
+    @Secured("ROLE_MENTEE")
     @PostMapping("/update")
     public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
                                     @RequestParam Map<String, Object> params) {
@@ -107,6 +111,7 @@ public class UserManagementController {
 
     }
 
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @GetMapping("/cv")
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - View profile mentor
@@ -133,6 +138,7 @@ public class UserManagementController {
         }
     }
 
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @GetMapping("/update/cv")
     public String updateMentorCv(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - Update profile mentor
@@ -152,6 +158,7 @@ public class UserManagementController {
         }
     }
 
+    @Secured({"ROLE_MENTOR","ROLE_MENTEE"})
     @PostMapping("/update/cv")
     public String updateMentorCv(@ModelAttribute("mentor") MentorDTO mentor,
                                  @RequestParam Map<String, Object> params,
@@ -169,16 +176,18 @@ public class UserManagementController {
         }
     }
 
+    @Secured("ROLE_MENTEE")
     @PostMapping("/uploading")
     public String updateImage(@RequestParam("image") MultipartFile image) {
         //      Hoàng Văn Nam -   - Upload avatar
         UserDTO userDTO = (UserDTO) session.getAttribute(USER_SESSION);
         userService.updateImage(userDTO.getId(), CURRENT_FOLDER, image);
-        userDTO.setImage("/upload/static/imgs/image" + userDTO.getId() + ".jpg");
+
         session.setAttribute(USER_SESSION, userDTO);
         return "redirect:profile";
     }
 
+    @Secured({"ROLE_MENTEE"})
     @GetMapping("/create")
     public String createCv(Model model, @RequestParam(value = "id", required = false) String id) {
         UserDTO user;
@@ -196,6 +205,7 @@ public class UserManagementController {
         return "user/createcv";
     }
 
+    @Secured({"ROLE_MENTEE"})
     @PostMapping("/create")
     public String createCv(@RequestParam(value = "id", required = false) String id,
                            @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,

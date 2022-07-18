@@ -11,6 +11,8 @@ public interface IFeedbackService {
 
     List<Feedback> getFeedbackReceived(User user);
 
+    List<Feedback> getAllFeedBack();
+
     double[] feedBackCount(long userId);
 
     Feedback save(Feedback feedback);

@@ -33,6 +33,11 @@ public class FeedbackService implements IFeedbackService {
         return feedbackRepository.findByReceiverOrderByCreatedDesc(user);
     }
 
+    @Override
+    public List<Feedback> getAllFeedBack() {
+        return feedbackRepository.findAll();
+    }
+
     public double[] feedBackCount(long userId) {
         double[] count = new double[6];
         count[0] = feedbackRepository.countByRateAndReceiverId(1, userId);

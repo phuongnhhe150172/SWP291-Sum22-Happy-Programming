@@ -1,6 +1,7 @@
 package swp.happyprogramming.controllers.requests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,12 +29,12 @@ public class RequestManagementController {
     @Autowired
     private HttpSession session;
 
+    @Secured("ROLE_MENTOR")
     @GetMapping("/requests")
     public String requests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         //    Nguyễn Huy Hoàng - view all received requests
         //    Current user's requests
         Object sessionObj = session.getAttribute("userInformation");
-        if (sessionObj == null) return "redirect:/login";
         UserDTO user = (UserDTO) sessionObj;
 
         Pagination<Request> requests = requestService.getRequestReceived(user.getId(), pageNumber);
@@ -43,6 +44,7 @@ public class RequestManagementController {
         return "requests";
     }
 
+    @Secured({"ROLE_MENTEE", "ROLE_MENTOR"})
     @GetMapping("/request/sent")
     public String getRequestSent(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         //  Trinh Trung Kien - 21 - view all sent requests (mentee)
@@ -83,10 +85,10 @@ public class RequestManagementController {
         }
     }
 
+    @Secured("ROLE_MENTOR")
     @GetMapping("/request/accept")
     public String acceptRequest(@RequestParam(value = "id") long requestId) {
         Object sessionObj = session.getAttribute("userInformation");
-        if (sessionObj == null) return "redirect:/login";
         UserDTO user = (UserDTO) sessionObj;
 
         List<Request> requestList = requestService.getRequestReceived(user.getId());
@@ -96,10 +98,10 @@ public class RequestManagementController {
         return "redirect:/requests";
     }
 
+    @Secured("ROLE_MENTOR")
     @GetMapping("/request/delete")
     public String deleteReceivedRequest(@RequestParam(value = "id") long requestId) {
         Object sessionObj = session.getAttribute("userInformation");
-        if (sessionObj == null) return "redirect:/login";
         UserDTO user = (UserDTO) sessionObj;
 
         List<Request> requestList = requestService.getRequestReceived(user.getId());

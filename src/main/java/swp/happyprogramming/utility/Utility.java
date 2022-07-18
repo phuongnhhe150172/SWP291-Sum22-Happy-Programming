@@ -32,8 +32,8 @@ public class Utility {
 
     public static UserDTO mapUser(User user) {
         if (user == null) return null;
-        // if (user.getId() == null) return null;
-        // if (user.getAddress() == null) return null;
+        if (user.getId() == null) return null;
+        if (user.getAddress() == null) return null;
         UserDTO userDTO = mapper.map(user, UserDTO.class);
         userDTO.setAddress(mapAddress(user.getAddress()));
         return userDTO;
@@ -65,13 +65,14 @@ public class Utility {
 
     public static void addOG(Map value) throws IOException {
         String firstURL = getFirstLink((String) value.get("content"));
-        if (firstURL == "") return;
+        if (firstURL.isEmpty()) return;
         value.put("link", firstURL);
         Document doc = Jsoup.connect(firstURL)
                 // .userAgent(USER_AGENT)
                 .header("Accept-Encoding", "gzip,deflate,sdch")
                 .timeout(0)
                 .maxBodySize(0)
+                .ignoreContentType(true)
                 .get();
         if (doc.selectFirst("title") != null) {
             value.put("title", doc.selectFirst("title").text());

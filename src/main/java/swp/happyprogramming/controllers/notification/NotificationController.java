@@ -16,6 +16,11 @@ import swp.happyprogramming.model.Role;
 import swp.happyprogramming.model.User;
 import swp.happyprogramming.services.INotificationService;
 import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.services.servicesimpl.NotificationService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
@@ -52,65 +57,8 @@ public class NotificationController {
         return "notification/notifications";
     }
 
-    @GetMapping("all-notification")
-    public String getAllNotifications(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.findByEmail(email);
+    
 
-        Set<Role> roles1 = new HashSet<Role>(user.getRoles());
-        user.getRoles();
-        // if (user.getRoles() ) {
-
-        // }
-        boolean isAdmin = false;
-        for (Role s : roles1) {
-            if (s.getId() == 3) {
-                isAdmin = true;
-            }
-        }
-
-        if (isAdmin == false) {
-            return "redirect:/notification/all";
-        }
-
-        List<NotificationDTO> notifications = notificationService.getAllNotifications();
-        model.addAttribute("notifications", notifications);
-
-
-        return "notification/notifications";
-    }
-
-    @GetMapping("create")
-    public String createNotifications(Model model){
-        // model.addAttribute("notifications", notifications);
-        return "notification/createNotification";
-    }
-
-    @PostMapping("create")
-    public String createNewNotifications(Model model, @RequestParam Map<String, Object> params){
-        // model.addAttribute("notifications", notifications);
-
-        String content = String.valueOf(params.get("content"));
-        Notification noti = new Notification();
-        noti.setContent(content);
-        Notification savedNoti = notificationService.save(noti);
-
-        long notiId =  savedNoti.getId();
-
-        
-
-        if (params.containsKey("mentor")) {
-            notificationService.informNotiForRole(notiId, 1);
-        }
-        if (params.containsKey("mentee")) {
-            notificationService.informNotiForRole(notiId, 2);
-        }
-        if (params.containsKey("admin")) {
-            notificationService.informNotiForRole(notiId, 3);
-        }
-
-        return "notification/createNotification";
-    }
+  
 
 }

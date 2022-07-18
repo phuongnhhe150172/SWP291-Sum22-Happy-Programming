@@ -204,14 +204,13 @@ public class UserService implements IUserService {
     @Override
     public Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "Id");
-        Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email);
-        List<Role> roles = new ArrayList<>();
-        roles.add(new Role(2, "ROLE_MENTEE"));
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(new Role(2));
+        Specification<User> filtered = UserSpe.getUserSpe(firstName, lastName, phone, email, roles);
         Page<User> page = userRepository.findAll(filtered, pageRequest);
         int totalPages = page.getTotalPages();
         List<User> mentees = page.getContent();
         List<UserDTO> menteesDTO = mentees.stream()
-                .filter(user -> !user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN")))
                 .map(mentee -> findUser(mentee.getId()))
                 .collect(Collectors.toList());
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());

@@ -21,4 +21,8 @@ public interface IPostRepository extends JpaRepository<Post,Long> {
     @Query(value = "select id from users where id in (select user_id from user_like_posts where post_id = ?1)",
             nativeQuery = true)
     List<Long> findAllUserLikePost(long postId);
+
+    @Query(value = "select users.* from users where id in (select user_id from user_like_posts where post_id = ?1)",
+    nativeQuery = true)
+    List<User> findAllUserNameLikePost(long postId);
 }
