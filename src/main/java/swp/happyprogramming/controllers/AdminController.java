@@ -69,14 +69,14 @@ public class AdminController {
 
         Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone, email);
         List<UserDTO> mentees = page.getPaginatedList();
-        int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
+//        int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
         int totalMenteesFound = mentees.size();
         model.addAttribute("mentees", page.getPaginatedList());
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("totalPages", page.getPageNumbers().size());
         model.addAttribute("first_name", firstName);
         model.addAttribute("last_name", lastName);
-        model.addAttribute("totalMentees", totalNumberOfMentees);
+//        model.addAttribute("totalMentees", totalNumberOfMentees);
         model.addAttribute("totalMenteesFound", totalMenteesFound);
         model.addAttribute("phone", phone);
         model.addAttribute("email", email);
