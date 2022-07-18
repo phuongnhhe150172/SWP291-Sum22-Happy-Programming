@@ -29,7 +29,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`id`),
   KEY `wardidaddress_idx` (`ward_id`),
   CONSTRAINT `wardidaddress` FOREIGN KEY (`ward_id`) REFERENCES `ward` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Đường Vương Thúc Mẫu',1834),(2,'abc',1),(3,'mnb',4),(4,'uio',6),(5,'',1),(6,'',1),(7,'',NULL),(11,'a',1),(12,'',32250),(13,'',32251),(15,'',32252),(16,'',32253),(17,'',1),(18,'',NULL),(22,'12',4),(23,'1',3284);
+INSERT INTO `address` VALUES (1,'Đường Vương Thúc Mẫu',1834),(2,'abc',1),(3,'mnb',6766),(4,'uio',6),(5,'',1),(6,'',1),(7,'',NULL),(11,'a',1),(12,'',32250),(13,'',32251),(15,'',32252),(16,'',32253),(17,'',1),(18,'',NULL),(22,'12',4),(23,'1',3284),(24,'',1),(25,'',1),(26,'',1),(29,'',1),(30,'',1),(31,'',1),(33,'',1),(35,'',1);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `chat_messages` (
   KEY `connidmess_idx` (`receiver_id`),
   CONSTRAINT `connidmess` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `senderidmess` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `chat_messages` (
 
 LOCK TABLES `chat_messages` WRITE;
 /*!40000 ALTER TABLE `chat_messages` DISABLE KEYS */;
-INSERT INTO `chat_messages` VALUES (41,42,339,'2022-07-04 16:52:52','https://dribbble.com/shots/15557119/attachments/7340061?mode=media','Dribbble - Shot 02 DM.png by Cai Cardenas','/upload/static/imgs/noimage.jpg','https://dribbble.com/shots/15557119/attachments/7340061?mode=media'),(41,42,340,'2022-07-05 09:02:39','a',NULL,NULL,''),(41,42,341,'2022-07-05 09:02:45','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,342,'2022-07-11 11:37:30','textt',NULL,NULL,''),(41,42,343,'2022-07-11 11:43:48','a',NULL,NULL,''),(41,42,344,'2022-07-11 11:49:07','c',NULL,NULL,''),(41,42,345,'2022-07-11 11:51:30','a',NULL,NULL,''),(41,42,346,'2022-07-11 11:51:32','test ',NULL,NULL,''),(41,42,347,'2022-07-11 11:51:50','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s',NULL,NULL,'https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,348,'2022-07-11 15:42:59','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,37,349,'2022-07-11 15:49:19','a',NULL,NULL,NULL),(41,37,350,'2022-07-11 15:49:25','acsascacs',NULL,NULL,NULL),(41,37,351,'2022-07-11 15:50:35','a',NULL,NULL,NULL),(41,37,352,'2022-07-11 15:51:46','test',NULL,NULL,NULL);
+INSERT INTO `chat_messages` VALUES (41,42,339,'2022-07-04 16:52:52','https://dribbble.com/shots/15557119/attachments/7340061?mode=media','Dribbble - Shot 02 DM.png by Cai Cardenas','/upload/static/imgs/noimage.jpg','https://dribbble.com/shots/15557119/attachments/7340061?mode=media'),(41,42,340,'2022-07-05 09:02:39','a',NULL,NULL,''),(41,42,341,'2022-07-05 09:02:45','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,342,'2022-07-11 11:37:30','textt',NULL,NULL,''),(41,42,343,'2022-07-11 11:43:48','a',NULL,NULL,''),(41,42,344,'2022-07-11 11:49:07','c',NULL,NULL,''),(41,42,345,'2022-07-11 11:51:30','a',NULL,NULL,''),(41,42,346,'2022-07-11 11:51:32','test ',NULL,NULL,''),(41,42,347,'2022-07-11 11:51:50','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s',NULL,NULL,'https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,42,348,'2022-07-11 15:42:59','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(41,37,349,'2022-07-11 15:49:19','a',NULL,NULL,NULL),(41,37,350,'2022-07-11 15:49:25','acsascacs',NULL,NULL,NULL),(41,37,351,'2022-07-11 15:50:35','a',NULL,NULL,NULL),(41,37,352,'2022-07-11 15:51:46','test',NULL,NULL,NULL),(42,41,353,'2022-07-13 11:22:37','a',NULL,NULL,NULL),(42,41,354,'2022-07-13 11:23:07','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s',NULL,NULL,'https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(42,41,355,'2022-07-13 11:23:07','ca',NULL,NULL,NULL),(42,41,356,'2022-07-13 11:24:18','a',NULL,NULL,NULL),(42,41,357,'2022-07-13 11:24:19','c',NULL,NULL,NULL),(42,41,358,'2022-07-13 11:24:19','c',NULL,NULL,NULL),(42,41,359,'2022-07-13 11:24:20','c',NULL,NULL,NULL),(42,41,360,'2022-07-13 14:57:13','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s','Nonstop Vinahouse Duyên Trời Lấy 2 - Nhạc Remix 2022 Hay Nhất Hiện Nay - Nhạc DJ - YouTube','https://i.ytimg.com/vi/z_NaYPVhEDU/hqdefault.jpg','https://www.youtube.com/watch?v=z_NaYPVhEDU&t=435s'),(42,23,361,'2022-07-17 09:55:31','https://www.youtube.com/watch?v=_ZKliUdu4T0','Nothing\'s Gonna Change My Love for You (Piano Cover by Riyandi Kusuma) - YouTube','https://i.ytimg.com/vi/_ZKliUdu4T0/maxresdefault.jpg','https://www.youtube.com/watch?v=_ZKliUdu4T0'),(42,41,362,'2022-07-17 09:56:08','https://www.youtube.com/watch?v=dQw4w9WgXcQ','Rick Astley - Never Gonna Give You Up (Official Music Video) - YouTube','https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg','https://www.youtube.com/watch?v=dQw4w9WgXcQ'),(42,23,363,'2022-07-17 17:26:09','https://mermaid.ink/img/pako:eNp9Ub2OwjAMfpXKE-jgBTKwHDcgwQC9MYsvMaUiTXqOg4QQ736pQqUTf54--ftxHF_ABEugINJvIm9o2WLD2Glf5dqQl8Ab9NhQl_Fn8MLBOeL5YvFR2Jr41BpSlUHnqobkO_SFiZPp_5ibcHCuSmdHfYhtBud37gfxkLBEwR-M49h6uy7isf9iyo4ksa-YYnLyJv5utSe2h51e_9VT_1gwg464w9bmI1wGToMccoIGlaFFPmrQ_pp1qbco9GWHV4Lao4s0A0wS6rM3oIQTjaLbFUvz-gfGbKm-',NULL,NULL,'https://mermaid.ink/img/pako:eNp9Ub2OwjAMfpXKE-jgBTKwHDcgwQC9MYsvMaUiTXqOg4QQ736pQqUTf54--ftxHF_ABEugINJvIm9o2WLD2Glf5dqQl8Ab9NhQl_Fn8MLBOeL5YvFR2Jr41BpSlUHnqobkO_SFiZPp_5ibcHCuSmdHfYhtBud37gfxkLBEwR-M49h6uy7isf9iyo4ksa-YYnLyJv5utSe2h51e_9VT_1gwg464w9bmI1wGToMccoIGlaFFPmrQ_pp1qbco9GWHV4Lao4s0A0wS6rM3oIQTjaLbFUvz-gfGbKm-'),(42,23,364,'2022-07-17 17:26:46','https://mermaid.live/edit#pako:eNp9UcFuwjAM_ZXKpyHYD_TABXaYtB5GOeZiEqurliad4yAhxL-TKlRCK61PzvN7z3Z8Be0NQQmB_iI5TfsWG8ZOuSJFRU48V-iwoS7lO--EvbXE79vtOldr4nOrqSw0Wls0JEff50p4Wz3bPIiD8jMjB-p9aFNyWVJPyIPDHgVPGMa29fdXJo_4TJcDSWRXMIVoZcH-32ovZJOd5v_qpX4M2EBH3GFr0hGuQ02B_CQHBWVKDfKvAuVuiRd7g0IfZpgSSuFIG8Aovr44Pb4z53HEDN7uH9qpcw','Online FlowChart & Diagrams Editor - Mermaid Live Editor','/upload/static/imgs/noimage.jpg','https://mermaid.live/edit#pako:eNp9UcFuwjAM_ZXKpyHYD_TABXaYtB5GOeZiEqurliad4yAhxL-TKlRCK61PzvN7z3Z8Be0NQQmB_iI5TfsWG8ZOuSJFRU48V-iwoS7lO--EvbXE79vtOldr4nOrqSw0Wls0JEff50p4Wz3bPIiD8jMjB-p9aFNyWVJPyIPDHgVPGMa29fdXJo_4TJcDSWRXMIVoZcH-32ovZJOd5v_qpX4M2EBH3GFr0hGuQ02B_CQHBWVKDfKvAuVuiRd7g0IfZpgSSuFIG8Aovr44Pb4z53HEDN7uH9qpcw'),(42,23,365,'2022-07-17 17:27:01','https://mermaid-js.github.io/mermaid/#/','mermaid - Markdownish syntax for generating flowcharts, sequence diagrams, class diagrams,\n      gantt charts and git graphs.','/upload/static/imgs/noimage.jpg','https://mermaid-js.github.io/mermaid/#/'),(42,23,366,'2022-07-17 17:27:15','https://github.com/phuongnhhe150172/SWP291-Sum22-Happy-Programming','GitHub - phuongnhhe150172/SWP291-Sum22-Happy-Programming','https://opengraph.githubassets.com/2d7085fce0315a287438fe9ff575e76c183779c026b184431bab31b1b5a784b4/phuongnhhe150172/SWP291-Sum22-Happy-Programming','https://github.com/phuongnhhe150172/SWP291-Sum22-Happy-Programming'),(42,23,367,'2022-07-17 17:29:04','https://mermaid.ink/img/pako:eNp9UcFuwjAM_ZXKpyHYD_TABXaYtB5GOeZiEqurliad4yAhxL-TKlRCK61PzvN7z3Z8Be0NQQmB_iI5TfsWG8ZOuSJFRU48V-iwoS7lO--EvbXE79vtOldr4nOrqSw0Wls0JEff50p4Wz3bPIiD8jMjB-p9aFNyWVJPyIPDHgVPGMa29fdXJo_4TJcDSWRXMIVoZcH-32ovZJOd5v_qpX4M2EBH3GFr0hGuQ02B_CQHBWVKDfKvAuVuiRd7g0IfZpgSSuFIG8Aovr44Pb4z53HEDN7uH9qpcw','Untitled','/upload/static/imgs/noimage.jpg','https://mermaid.ink/img/pako:eNp9UcFuwjAM_ZXKpyHYD_TABXaYtB5GOeZiEqurliad4yAhxL-TKlRCK61PzvN7z3Z8Be0NQQmB_iI5TfsWG8ZOuSJFRU48V-iwoS7lO--EvbXE79vtOldr4nOrqSw0Wls0JEff50p4Wz3bPIiD8jMjB-p9aFNyWVJPyIPDHgVPGMa29fdXJo_4TJcDSWRXMIVoZcH-32ovZJOd5v_qpX4M2EBH3GFr0hGuQ02B_CQHBWVKDfKvAuVuiRd7g0IfZpgSSuFIG8Aovr44Pb4z53HEDN7uH9qpcw');
 /*!40000 ALTER TABLE `chat_messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ CREATE TABLE `connections` (
   KEY `mentorconn_idx` (`user2`),
   CONSTRAINT `menteeconn` FOREIGN KEY (`user1`) REFERENCES `users` (`id`),
   CONSTRAINT `mentorconn` FOREIGN KEY (`user2`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `connections` (
 
 LOCK TABLES `connections` WRITE;
 /*!40000 ALTER TABLE `connections` DISABLE KEYS */;
-INSERT INTO `connections` VALUES (1,23,22,'2022-06-03 00:00:00'),(3,41,42,'2022-06-03 00:00:00'),(4,41,37,'2022-06-03 00:00:00'),(5,23,42,'2022-06-30 16:14:28');
+INSERT INTO `connections` VALUES (1,23,22,'2022-06-03 00:00:00'),(3,41,42,'2022-06-03 00:00:00'),(4,41,37,'2022-06-03 00:00:00'),(5,23,42,'2022-06-30 16:14:28'),(6,41,50,'2022-07-17 18:13:06');
 /*!40000 ALTER TABLE `connections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +232,7 @@ CREATE TABLE `feedback` (
   KEY `menteefeed_idx` (`sender_id`),
   CONSTRAINT `menteefeed` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   CONSTRAINT `mentorfeed` FOREIGN KEY (`received_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,42,41,5,'Good','2022-06-03 00:00:00'),(2,42,22,3,'Almost nice','2022-07-11 16:59:15');
+INSERT INTO `feedback` VALUES (1,42,41,5,'Good','2022-06-03 00:00:00'),(2,42,22,3,'Almost nice','2022-07-11 16:59:15'),(3,41,42,5,'Nice','2022-07-13 08:44:17'),(5,41,50,5,'Nice 2','2022-07-17 18:05:57');
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +332,7 @@ DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notification` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `content` text,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -423,7 +423,7 @@ CREATE TABLE `request` (
   KEY `menteerequest_idx` (`mentee_id`),
   CONSTRAINT `menteerequest` FOREIGN KEY (`mentee_id`) REFERENCES `users` (`id`),
   CONSTRAINT `mentorrequest` FOREIGN KEY (`mentor_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,7 +432,7 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
-INSERT INTO `request` VALUES (1,12,20),(2,19,21),(5,19,23);
+INSERT INTO `request` VALUES (1,12,20),(2,19,21),(5,19,23),(9,41,49);
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -563,7 +563,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (12,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,3),(25,1),(37,2),(41,1),(42,2);
+INSERT INTO `user_roles` VALUES (12,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,3),(25,1),(37,2),(41,1),(42,2),(43,2),(44,2),(48,2),(49,2),(50,2);
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -624,7 +624,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `addressiduser_idx` (`address_id`),
   CONSTRAINT `addressiduser` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -633,7 +633,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','12345678','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(24,'test','test','testad@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(25,'test','test','testee2@gmail.com','$2a$10$fv1zH9ebcieCAw1mzv7BUeDTwhlvjNeFmrr0O8FoNR/nozXV1Z.Eq','2022-06-17 10:37:20','2022-06-17 10:37:20',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(29,'test','Mentee','testee4@gmail.com','$2a$10$5PhtBEDua5p/l7seXyIYxeNQeF0zml8TN0Ryzead95mBD6MK2SYe2','2022-06-17 10:53:12','2022-06-18 08:53:49',1,'1212-12-12 00:00:00','12','dfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfggg','FPT University',NULL,NULL,1,'/upload/static/imgs/image29.jpg',23,NULL,NULL),(30,'test','test','testee5@gmail.com','$2a$10$/Ce9lqQJGk8Ys6C5bSGnfOqfQbCOTN7W6gRQQEoQNQBdbLAQPqJZ2','2022-06-17 10:56:59','2022-06-17 10:56:59',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(31,'test','test','testee6@gmail.com','$2a$10$.yq9QBfJOdNlQHKMmtmIh.ITR5r0/ePpdktu6icqIK.py72kb5QMO','2022-06-17 10:58:15','2022-06-17 10:58:15',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(33,'test','test','testee8@gmail.com','$2a$10$sIZSDz3rAWvEAek2oz9Ml.BOLvriiuROcyn67.F82Jst9K4l4SS7m','2022-06-17 11:07:47','2022-06-17 11:07:47',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(34,'test','test','testee9@gmail.com','$2a$10$ixHlykq9EGSkEAUwNFRVweJJZGjVkT5k7F7WNxF0QjZjnbZ3yO3xy','2022-06-17 11:12:04','2022-06-17 11:12:04',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(35,'test','test','testee10@gmail.com','$2a$10$PhkgITzZ5Hz2iI51iDvp1OfAW8lgLR5NnbAbqgMOJWGGKWcsrPIzm','2022-06-17 11:12:56','2022-06-17 11:12:56',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(36,'test','test','testee11@gmail.com','$2a$10$IVMpE5QcxYrZIuxoRPXsQOf1/LBUGgm3kPUfi97.OCXHkbekE.s1e','2022-06-17 11:24:29','2022-06-17 11:24:29',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',23,NULL,NULL),(37,'testee13','test','testee13@gmail.com','$2a$10$8cUBfH5nCdVQR2ffYoz6b.j.n8sC53dwnf6MIDqhmgAza.Mtra14m','2022-06-21 21:16:48','2022-06-21 21:16:48',0,'1212-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/avatar_default.jpg',23,NULL,0),(41,'test','test','testee062201@gmail.com','$2a$10$30v0MVTqm8Xv/Ucy7vtumeJ4xwZU0kBLe.csgyINcruI5ThECZZIy','2022-06-22 07:27:29','2022-06-22 07:27:29',0,'2002-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/image41.jpg',23,NULL,0),(42,'test062202','test','testee062202@gmail.com','$2a$10$DM2MWSZCdvJSnY/nQtR5zOnj9sUnqmg2gzJ4F1NGZ9DtMh3MfdsrO','2022-06-22 17:35:56','2022-06-22 17:35:56',1,'1212-12-12 00:00:00','1','','1',NULL,NULL,1,'/upload/static/imgs/image42.jpg',23,NULL,0);
+INSERT INTO `users` VALUES (12,'John','anser','khansignus@gmail.com','$2a$10$libNePKePC093vesEtIc.unKXKTsJTImgmf0aR/9RU5EHkDbKLPkS','2022-05-20 11:56:24','2022-05-20 11:56:24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',1,NULL,1),(19,'Test3','Test3','test3@gmail.com','test3','2022-05-20 21:25:21','2022-05-20 21:25:21',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',2,NULL,NULL),(20,'hoang','nam','nam66666@gmail.com','$2a$10$IEWMLUp/vcGQtmE6Ea2LBuS5vI0FZJTxPjJQcdia55RUJ.qgqGkEq','2022-05-25 11:29:47','2022-05-25 11:29:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',3,NULL,NULL),(21,'hoang','nam','nam66@gmail.com','$2a$10$M7xSsilMXICKMGPAWtf4Ae6pZx3EgP0wjGsdasH0GUVi4rWA01Bv6','2022-05-29 23:35:38','2022-05-29 23:35:38',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',4,NULL,NULL),(22,'test','test','testee@gmail.com','$2a$10$k.JTLSwzOcmkXGv88HSdqudTjC8xaDoozRhI84gSnwHSbnsK4b5lu','2022-06-03 22:30:29','2022-06-03 22:30:29',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',5,NULL,NULL),(23,'test','test','testor@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',6,NULL,NULL),(24,'test','test','testad@gmail.com','$2a$10$ImrovI93xzLtNIcw/Sd59OQI/cOiMSAeYwsJ6egqDPOUM1lc6.8O.','2022-06-03 22:49:06','2022-06-03 22:49:06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',5,NULL,NULL),(25,'test','test','testee2@gmail.com','$2a$10$fv1zH9ebcieCAw1mzv7BUeDTwhlvjNeFmrr0O8FoNR/nozXV1Z.Eq','2022-06-17 10:37:20','2022-06-17 10:37:20',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',4,NULL,NULL),(29,'test','Mentee','testee4@gmail.com','$2a$10$5PhtBEDua5p/l7seXyIYxeNQeF0zml8TN0Ryzead95mBD6MK2SYe2','2022-06-17 10:53:12','2022-06-18 08:53:49',1,'1212-12-12 00:00:00','12','dfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfgggggggggggggggggggggggggggggggggdfggg','FPT University',NULL,NULL,1,'/upload/static/imgs/image29.jpg',3,NULL,NULL),(30,'test','test','testee5@gmail.com','$2a$10$/Ce9lqQJGk8Ys6C5bSGnfOqfQbCOTN7W6gRQQEoQNQBdbLAQPqJZ2','2022-06-17 10:56:59','2022-06-17 10:56:59',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',1,NULL,NULL),(31,'test','test','testee6@gmail.com','$2a$10$.yq9QBfJOdNlQHKMmtmIh.ITR5r0/ePpdktu6icqIK.py72kb5QMO','2022-06-17 10:58:15','2022-06-17 10:58:15',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',2,NULL,NULL),(33,'test','test','testee8@gmail.com','$2a$10$sIZSDz3rAWvEAek2oz9Ml.BOLvriiuROcyn67.F82Jst9K4l4SS7m','2022-06-17 11:07:47','2022-06-17 11:07:47',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',2,NULL,NULL),(34,'test','test','testee9@gmail.com','$2a$10$ixHlykq9EGSkEAUwNFRVweJJZGjVkT5k7F7WNxF0QjZjnbZ3yO3xy','2022-06-17 11:12:04','2022-06-17 11:12:04',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',3,NULL,NULL),(35,'test','test','testee10@gmail.com','$2a$10$PhkgITzZ5Hz2iI51iDvp1OfAW8lgLR5NnbAbqgMOJWGGKWcsrPIzm','2022-06-17 11:12:56','2022-06-17 11:12:56',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',5,NULL,NULL),(36,'test','test','testee11@gmail.com','$2a$10$IVMpE5QcxYrZIuxoRPXsQOf1/LBUGgm3kPUfi97.OCXHkbekE.s1e','2022-06-17 11:24:29','2022-06-17 11:24:29',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',6,NULL,NULL),(37,'testee13','test','testee13@gmail.com','$2a$10$8cUBfH5nCdVQR2ffYoz6b.j.n8sC53dwnf6MIDqhmgAza.Mtra14m','2022-06-21 21:16:48','2022-06-21 21:16:48',0,'1212-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/avatar_default.jpg',1,NULL,1),(41,'test','test','testee062201@gmail.com','$2a$10$30v0MVTqm8Xv/Ucy7vtumeJ4xwZU0kBLe.csgyINcruI5ThECZZIy','2022-06-22 07:27:29','2022-06-22 07:27:29',0,'2002-12-12 00:00:00','12','','12',NULL,NULL,12,'/upload/static/imgs/image41.jpg',5,NULL,1),(42,'test062202','test','testee062202@gmail.com','$2a$10$DM2MWSZCdvJSnY/nQtR5zOnj9sUnqmg2gzJ4F1NGZ9DtMh3MfdsrO','2022-06-22 17:35:56','2022-06-22 17:35:56',1,'1212-12-12 00:00:00','1','Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.\r\n\r\nBring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.','1',NULL,NULL,100000,'/upload/static/imgs/image42.jpg',3,NULL,1),(43,'','','testee2022-07-12T02:01:38.283241700Z@gmail.com','$2a$10$VRUQFDIwaGcqI1tbtLn1metKP4aJ1EddL2gljQfDA4d07ZwRHieRy','2022-07-12 09:01:38','2022-07-12 09:01:38',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',24,NULL,1),(44,'','','testee2022-07-12T02:03:08.421984100Z@gmail.com','$2a$10$cEe3h4WaGNSxFK2z1DH6d.Q8Pdbiq92Mgpl3r2FDJLGjAiDT4NYoC','2022-07-12 09:03:08','2022-07-12 09:03:08',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',25,NULL,1),(48,'test','test','testee071701@gmail.com','$2a$10$AfG61A9nKeTyx2qZD7/9Fep5Z5t/lkglI3AMl9SRiZWoWHjyD6NXi','2022-07-17 16:55:46','2022-07-17 16:55:46',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/image48.jpg',29,NULL,1),(49,'menteerequest01','test','menteerequest01@gmail.com','$2a$10$TKPTHKf8FHirY4upcg6ZAufGXbwmpPzYeXlIWhRefQG0Adt2OFl/u','2022-07-17 18:03:54','2022-07-17 18:03:54',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',30,NULL,1),(50,'menteerequest02','test','menteerequest02@gmail.com','$2a$10$.hn0DwAzjOuyg9TTzDkELuTdz6aPlNdlGfjukqEkRbowysc941wGW','2022-07-17 18:04:33','2022-07-17 18:04:33',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',31,NULL,1),(54,'firstName','lastName','example11111@gmail.com','$2a$10$yfG6GnWYb/HlD/jj0WOPwOLxhmYOkkERD0KlqUrHW6KyGFczwry5G','2022-07-17 23:21:37','2022-07-17 23:21:37',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/upload/static/imgs/avatar_default.jpg',35,NULL,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -674,4 +674,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-11 20:08:09
+-- Dump completed on 2022-07-18 10:04:43

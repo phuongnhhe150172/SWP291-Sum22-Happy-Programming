@@ -35,7 +35,7 @@ public class FeedbackController {
     @Autowired
     private IUserService userService;
 
-    @Secured({"ROLE_MENTEE", "ROLE_MENTOR"})
+    @Secured({"ROLE_MENTOR", "ROLE_MENTEE"})
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
                                    @RequestParam(required = false, defaultValue = "1") int pageNumber,
