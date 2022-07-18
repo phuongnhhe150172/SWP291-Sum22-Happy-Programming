@@ -111,7 +111,7 @@ public class UserManagementController {
 
     }
 
-    @Secured("ROLE_MENTOR")
+    @Secured({"ROLE_MENTEE", "ROLE_MENTOR"})
     @GetMapping("/cv")
     public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
         //      Hoàng Văn Nam -   - View profile mentor
