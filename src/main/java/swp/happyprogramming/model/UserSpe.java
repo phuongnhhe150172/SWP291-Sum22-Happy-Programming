@@ -13,7 +13,7 @@ public class UserSpe {
         return (root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             Join<User, Role> userRoles = root.join("roles");
-            list.add(cb.equal(userRoles.get("role_id"), 2));
+            list.add(cb.equal(userRoles.get("id"), 2));
             if (firstName != null) {
                 list.add(cb.like(cb.lower(root.get("firstName")), "%" + firstName.toLowerCase() + "%"));
             }
