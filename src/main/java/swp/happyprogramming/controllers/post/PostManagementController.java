@@ -146,6 +146,15 @@ public class PostManagementController {
         return "/post/all-posts";
     }
 
+    @GetMapping("/cared")
+    public String getCaredUser(Model model,  @RequestParam(value = "id",required = true) long id) {
+
+        List<UserDTO>  users = postService.getListUserLikePost(id);
+
+        model.addAttribute("users", users);
+        return "/post/cared-user";
+    }
+
     @GetMapping("/created-post")
     public String getCreatedPosts(Model model) {
         ArrayList<PostVo> result = new ArrayList<>();
