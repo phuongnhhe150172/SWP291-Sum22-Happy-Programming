@@ -7,18 +7,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import swp.happyprogramming.dto.*;
+import swp.happyprogramming.model.Feedback;
+import swp.happyprogramming.model.Method;
+import swp.happyprogramming.model.Notification;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.model.Post;
 import swp.happyprogramming.model.Request;
 import swp.happyprogramming.model.Skill;
 import swp.happyprogramming.services.*;
 
 import swp.happyprogramming.services.INotificationService;
+import swp.happyprogramming.vo.FeedbackVo;
+import swp.happyprogramming.vo.PostVo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import swp.happyprogramming.utility.Utility;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,6 +54,12 @@ public class AdminController {
 
     @Autowired
     private INotificationService notificationService;
+
+    @Autowired
+    private IFeedbackService feedbackService;
+
+    @Autowired
+    private ICareService careService;
 
 
     @GetMapping("/dashboard")
@@ -120,7 +137,7 @@ public class AdminController {
         userService.removeMentee(menteeId);
         return "redirect:/admin/mentees";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/skills")
     public String getAllSkill(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<Skill> skills = skillService.getAllSkill(pageNumber);
@@ -144,6 +161,95 @@ public class AdminController {
         return "redirect:/admin/skills";
     }
 
+    @GetMapping("create-notification")
+    public String createNotifications(Model model){
+        // model.addAttribute("notifications", notifications);
+        return "admin/admin-create-notification";
+    }
+
+    @PostMapping("create-notification")
+    public String createNewNotifications(Model model, @RequestParam Map<String, Object> params){
+        // model.addAttribute("notifications", notifications);
+
+        String content = String.valueOf(params.get("content"));
+        Notification noti = new Notification();
+        noti.setContent(content);
+        Notification savedNoti = notificationService.save(noti);
+
+        long notiId =  savedNoti.getId();
+
+        
+
+        if (params.containsKey("mentor")) {
+            notificationService.informNotiForRole(notiId, 1);
+        }
+        if (params.containsKey("mentee")) {
+            notificationService.informNotiForRole(notiId, 2);
+        }
+        if (params.containsKey("admin")) {
+            notificationService.informNotiForRole(notiId, 3);
+        }
+
+        return "redirect:/admin/notification";
+    }
+
+    @GetMapping("edit-notification")
+    public String editNotifications(Model model, @RequestParam(value = "id",required = false) long id){
+        // model.addAttribute("notifications", notifications);
+
+        NotificationDTO ndt = notificationService.getNotificationByID(id);
+
+        List<Integer> inform = notificationService.getNotiInform(id);
+
+        String content=  ndt.getContent();
+        Boolean role1 = false;
+        Boolean role2 = false;
+        Boolean role3 = false;
+
+
+
+        for(Integer ii : inform) {
+            if (ii ==  1) {
+                role1 = true;
+            }
+            if (ii ==  2) {
+                role2 = true;
+            }
+            if (ii ==  3) {
+                role3 = true;
+            }
+        }
+        model.addAttribute("id", id);
+        model.addAttribute("content", content);
+        model.addAttribute("role1", role1);
+        model.addAttribute("role2", role2);
+        model.addAttribute("role3", role3);
+
+        return "admin/admin_edit_notification";
+    }
+
+
+    @PostMapping("edit-notification")
+    public String editNotifications(Model model, @RequestParam Map<String, Object> params){
+        // model.addAttribute("notifications", notifications);
+        long notiId =  Long.parseLong(String.valueOf(params.get("id")));
+
+        String content = String.valueOf(params.get("content"));
+        notificationService.removeInform(notiId);
+        notificationService.editContentNoti(content, notiId);
+        if (params.containsKey("mentor")) {
+            notificationService.informNotiForRole(notiId, 1);
+        }
+        if (params.containsKey("mentee")) {
+            notificationService.informNotiForRole(notiId, 2);
+        }
+        if (params.containsKey("admin")) {
+            notificationService.informNotiForRole(notiId, 3);
+        }
+
+        return "redirect:/admin/notification";
+    }
+
     @GetMapping("/update-skill")
     public String showSkillToUpdate(Model model, @RequestParam(value = "id", required = false) long id) {
         Skill skill = skillService.findSkillById(id);
@@ -160,7 +266,7 @@ public class AdminController {
         skillService.save(skill);
         return "redirect:/admin/skills";
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/requests")
     public String showAllRequests(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         // Trinh Trung Kien - 52 - View all requests (admin)
@@ -173,16 +279,33 @@ public class AdminController {
 
     @GetMapping("/posts")
     public String viewAllPost(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-        Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
-        Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
+        // Pagination<PostDTO> page = postService.getPostsPaging(pageNumber);
+        // Map<Long, List<UserDTO>> mapLikePost = postService.mapLikePost(page.getPaginatedList());
 
-        model.addAttribute("listPost", page.getPaginatedList());
-        model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("mapLikePost", mapLikePost);
-        model.addAttribute("totalPages", page.getPageNumbers().size());
-        return "/admin/all-posts";
+        // model.addAttribute("listPost", page.getPaginatedList());
+        // model.addAttribute("pageNumber", pageNumber);
+        // model.addAttribute("mapLikePost", mapLikePost);
+        // model.addAttribute("totalPages", page.getPageNumbers().size());
+        // return "/admin/all-posts";
+
+        ArrayList<Post> posts = (ArrayList<Post>) postService.getAllPosts();
+        ArrayList<PostVo> result = new ArrayList<>();
+
+        for (Post p : posts) {
+            PostDTO postDTO = postService.findPost(p.getId());
+            UserDTO userDTO = postDTO.getUser();
+            Method methodDTO = postDTO.getMethod();
+            int liked  = careService.checkCared(userDTO.getId(), p.getId());
+            PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(), userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(), postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
+            pi.setLiked(liked);
+            result.add(pi);
+        }
+
+        model.addAttribute("posts", result);
+        return "/admin/admin_post";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/connections")
     public String viewAllConn(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber) {
         Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
@@ -192,26 +315,30 @@ public class AdminController {
         return "admin/all-connections";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/enable")
-    public String enableUser(@RequestParam(value = "id", required = false) int id
-                             ,@RequestParam(value = "status", required = false) int status) {
+    public String enableUser(@RequestParam(value = "id", required = false) int id,
+                             @RequestParam(value = "status", required = false) int status,
+                             @RequestParam(value = "page", required = false) int page) {
         userService.enableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
 
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/disable")
-    public String disableUser(@RequestParam(value = "id", required = false) int id
-            ,@RequestParam(value = "status", required = false) int status) {
+    public String disableUser(@RequestParam(value = "id", required = false) int id,
+                              @RequestParam(value = "status", required = false) int status,
+                              @RequestParam(value = "page", required = false) int page) {
         userService.disableUser(id);
         if(status == 1){
-            return "redirect:mentors";
+            return "redirect:mentors?pageNumber=" + page;
         }else{
-            return "redirect:mentees";
+            return "redirect:mentees?pageNumber=" + page;
         }
     }
 
@@ -224,6 +351,30 @@ public class AdminController {
 
 
         return "admin/admin_notification";
+    }
+
+    @GetMapping("/feedback")
+    public String showAllFeedback(Model model) {
+        //    show user feedback
+
+        ArrayList<FeedbackVo> feedbacks = new ArrayList<>();
+        List<Feedback> feedbacksRaw = feedbackService.getAllFeedBack();
+        for (Feedback f : feedbacksRaw) {
+            UserDTO sender = Utility.mapUser(f.getSender());
+            UserDTO receiver = Utility.mapUser(f.getReceiver());
+            FeedbackVo fv = new FeedbackVo(sender.getFirstName() + " " + sender.getLastName(), f.getRate(), f.getComment());
+            fv.setReceiverName(receiver.getFirstName() + " " + receiver.getLastName());
+            feedbacks.add(fv);
+        }
+        Collections.sort(feedbacks, new Comparator<FeedbackVo>() {
+            @Override
+            public int compare(FeedbackVo lhs, FeedbackVo rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getRate() > rhs.getRate() ? -1 : (lhs.getRate() < rhs.getRate()) ? 1 : 0;
+            }
+        });
+        model.addAttribute("feedbacks", feedbacks);
+        return "admin/feedback";
     }
 
 }

@@ -21,10 +21,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
+import org.modelmapper.ModelMapper;
+
 @Service
 public class NotificationService implements INotificationService {
     @Autowired
     private INotificationRepository notificationRepository;
+
+
+    ModelMapper mapper = new ModelMapper();
 
     @Override
     public List<NotificationDTO> getNotificationByRoles(Set<Role> roles) {
@@ -50,12 +56,25 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
+    public NotificationDTO getNotificationByID(long id) {
+        Notification noti = notificationRepository.findById(id);
+        if (noti == null) return null;
+        NotificationDTO notiDTO = mapper.map(noti, NotificationDTO.class);
+        return notiDTO;
+    }
+
+    @Override
     public List<NotificationDTO> getAllNotifications() {
         List<Notification> notifications = notificationRepository.findAll();
         return notifications
         .stream()
         .map(Utility::mapNotification)
         .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> getNotiInform(long id) {
+        return notificationRepository.getNotiInform(id);
     }
 
     @Override
@@ -66,5 +85,14 @@ public class NotificationService implements INotificationService {
     @Override
     public void informNotiForRole(long noti_id, long role_id) {
         notificationRepository.insertRoleHasNotification(noti_id, role_id);
+    }
+    @Override
+    public void removeInform(long id) {
+        notificationRepository.deleteNotiInform(id);
+    }
+
+    @Override
+    public void editContentNoti(String content, long id) {
+        notificationRepository.editContentNoti(content, id);
     }
 }

@@ -195,5 +195,17 @@ public class MentorService implements IMentorService {
         listSkill.forEach(value -> mentorRepository.deleteByUserIdAndSkillId(profileId, value.getId()));
     }
 
+    @Override
+    public List<MentorDTO> filterMentors(String word) {
+        // TODO Auto-generated method stub
+
+        List<Mentor> mentors = mentorRepository.filterMentor(word);
+        List<MentorDTO> mentorDTOS = mentors
+                .stream()
+                .map(Utility::mapMentor)
+                .collect(Collectors.toList());
+        return mentorDTOS;
+    }
+
 
 }

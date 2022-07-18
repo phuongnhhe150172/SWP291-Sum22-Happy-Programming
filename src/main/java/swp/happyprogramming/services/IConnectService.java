@@ -14,4 +14,5 @@ public interface IConnectService {
     List<ConnectDTO> findAllConnections();
     Pagination<ConnectDTO> findAllConnections(int pageNumber);
     List<Long> getConnectedMentor(long menteeId);
+    void disconnect(long user1, long user2);
 }

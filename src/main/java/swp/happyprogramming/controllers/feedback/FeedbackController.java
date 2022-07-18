@@ -5,6 +5,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserDTO;
@@ -34,7 +35,7 @@ public class FeedbackController {
     @Autowired
     private IUserService userService;
 
-    @Secured("ROLE_MENTOR")
+    @Secured({"ROLE_MENTEE", "ROLE_MENTOR"})
     @GetMapping("/feedback")
     public String showUserFeedback(Model model,
                                    @RequestParam(required = false, defaultValue = "1") int pageNumber,
@@ -80,47 +81,28 @@ public class FeedbackController {
     }
 
     @PostMapping("/addFeedback")
-    public String addFeedback(@RequestParam String comment, @RequestParam Integer rating) {
+    public String addFeedback(@RequestParam String comment, @RequestParam Integer rating, @RequestParam Long receiverId) {
         Object sessionInfo = session.getAttribute("userInformation");
         if (sessionInfo == null) return "redirect:/login";
         UserDTO sessionUser = (UserDTO) sessionInfo;
         long senderId = sessionUser.getId();
-        UserDTO receivedUser = (UserDTO) session.getAttribute("receivedUser");
 
-        List<Feedback> feedback = feedbackService.getFeedbackReceived(userService.getUserById(receivedUser.getId()));
+        List<Feedback> feedback = feedbackService.getFeedbackReceived(userService.getUserById(receiverId));
         for (Feedback f : feedback) {
             if (f.getSender().getId() == sessionUser.getId()) {
-                return "redirect:feedback?id=" + receivedUser.getId();
+                return "redirect:feedback?id=" + receiverId;
             }
         }
 
         Feedback feedBack = new Feedback();
         feedBack.setRate(rating);
         feedBack.setComment(comment);
-        feedBack.setReceiver(userService.getUserById(receivedUser.getId()));
+        feedBack.setReceiver(userService.getUserById(receiverId));
         feedBack.setSender(userService.getUserById(senderId));
         feedBack.setCreated(Instant.now());
 
         feedbackService.save(feedBack);
-        return "redirect:feedback";
+        return "redirect:feedback?id="+receiverId;
     }
 
-    @GetMapping("/all-feedback")
-    public String showAllFeedback(Model model) {
-        //    show user feedback
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.findByEmail(email);
-        long userId = user.getId();
-
-        ArrayList<FeedbackVo> feedbacks = new ArrayList<>();
-        List<Feedback> feedbacksRaw = feedbackService.getFeedbackReceived(userService.getUserById(userId));
-        for (Feedback f : feedbacksRaw) {
-            UserDTO sender = Utility.mapUser(f.getSender());
-            feedbacks.add(new FeedbackVo(sender.getFirstName() + " " + sender.getLastName(), f.getRate(), f.getComment()));
-        }
-        model.addAttribute("feedbacks", feedbacks);
-        model.addAttribute("viewedUser", user);
-        return "feedback/created_feedback";
-    }
 }

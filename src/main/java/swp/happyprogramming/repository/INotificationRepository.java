@@ -26,4 +26,19 @@ public interface INotificationRepository extends JpaRepository<Notification, Lon
     @Transactional
     @Query(value = "Insert into role_has_notification(noti_id, role_id) values (?1,?2)", nativeQuery = true)
     void insertRoleHasNotification(long role_id, long noti_id);
+
+    Notification findById(long id);
+
+    @Query(value = "select role_id from role_has_notification where noti_id = ?1 ", nativeQuery = true)
+    List<Integer> getNotiInform(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from role_has_notification where noti_id = ?1 ", nativeQuery = true)
+    void deleteNotiInform(long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE notification set content = ?1  where id = ?2 ", nativeQuery = true)
+    void editContentNoti(String content, long id);
 }

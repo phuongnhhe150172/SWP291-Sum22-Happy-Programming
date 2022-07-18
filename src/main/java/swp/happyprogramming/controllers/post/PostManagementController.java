@@ -2,6 +2,7 @@ package swp.happyprogramming.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -50,6 +51,7 @@ public class PostManagementController {
     @Autowired
     private ICareService careService;
 
+    @Secured("ROLE_MENTEE")
     @GetMapping("/update")
     public String updatePost(Model model, @RequestParam(value = "id",required = false) String id){
         try{
@@ -68,17 +70,19 @@ public class PostManagementController {
         }
     }
 
+    @Secured("ROLE_MENTEE")
     @PostMapping("/update")
     public String updatePost(@ModelAttribute("post") PostDTO postDTO,
                              @RequestParam Map<String, Object> params){
         try{
             long method = Integer.parseInt(String.valueOf(params.get("method")));
-            UserDTO user =(UserDTO) session.getAttribute("userInformation");
-            UserDTO userDTO = userService.findUser(user.getId());
+            long useId = Integer.parseInt(String.valueOf(params.get("useId")));
+//            UserDTO user =(UserDTO) session.getAttribute("userInformation");
+            UserDTO userDTO = userService.findUser(useId);
 
             postService.updatePost(postDTO,method,userDTO);
 
-            return "redirect:update?id=" + postDTO.getId();
+            return "redirect:detail?id=" + postDTO.getId();
         }catch (NumberFormatException e){
             return "redirect:index";
         }
@@ -142,6 +146,15 @@ public class PostManagementController {
         return "/post/all-posts";
     }
 
+    @GetMapping("/cared")
+    public String getCaredUser(Model model,  @RequestParam(value = "id",required = true) long id) {
+
+        List<UserDTO>  users = postService.getListUserLikePost(id);
+
+        model.addAttribute("users", users);
+        return "/post/cared-user";
+    }
+
     @GetMapping("/created-post")
     public String getCreatedPosts(Model model) {
         ArrayList<PostVo> result = new ArrayList<>();
@@ -190,7 +203,7 @@ public class PostManagementController {
             String content = String.valueOf(params.get("content"));
             float price = Float.parseFloat(String.valueOf(params.get("price")));
             postService.createNewPost(user, status, content, method, price);
-            return "redirect:/post/created-post";
+            return "redirect:/post/all";
         }catch (NumberFormatException e){
             return "redirect:index";
         }

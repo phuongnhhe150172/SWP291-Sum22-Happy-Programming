@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!--<head>-->
-<!--    <meta charset="UTF-8"/>-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>-->
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
-
-<!--    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>-->
-<!--    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>-->
-<!--    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>-->
-
-<!--    <title>Document</title>-->
-<!--</head>-->
-
 <div class="" th:replace="components/head.html :: head"></div>
 
 <body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
-<!--<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <div class="w-64" th:replace="components/nav.html :: aside"></div>
@@ -30,13 +16,13 @@
                     <div class="flex items-center">
                         <div class="m-2">
                             <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                 th:src="@{${session.userInformation.image}}"
+                                 th:src="@{${post.user.image}}"
                                  alt="Bordered avatar">
                         </div>
 
                         <div class="flex flex-col items-left m-2">
                             <a th:href="@{../profile(id=${user.id})}"
-                                    class="font-bold text-md" th:text="${user.firstName} +' '+ ${user.lastName}">Hoàng Văn Nam</a>
+                                    class="font-bold text-md" th:text="${post.user.firstName} +' '+ ${post.user.lastName}">Hoàng Văn Nam</a>
                             <div class="">
                                 <select id="" th:field="*{status}"
                                         class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 w-[100px] py-1 mt-[5px]">
@@ -82,6 +68,8 @@
                     </div>
                 </div>
                 <input type="hidden" th:name="id" th:value="*{id}">
+                <input type="hidden" th:name="useId" th:value="${post.user.id}">
+                <input type="hidden" th:name="created" th:value="*{created}">
                 <button type="submit"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2 mx-2 mb-2 mt-4 w-full dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                     Save

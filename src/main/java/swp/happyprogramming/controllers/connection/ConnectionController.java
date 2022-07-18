@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.dto.UserAvatarDTO;
 import swp.happyprogramming.dto.UserDTO;
 import swp.happyprogramming.model.Pagination;
+import swp.happyprogramming.services.IConnectService;
 import swp.happyprogramming.services.IUserService;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,11 @@ import javax.servlet.http.HttpSession;
 public class ConnectionController {
     @Autowired
     private IUserService userService;
+
+
+    @Autowired
+    private IConnectService connectService;
+
     @Autowired
     private HttpSession session;
 
@@ -34,5 +40,15 @@ public class ConnectionController {
         model.addAttribute("totalPages", connections.getPageNumbers().size());
 
         return "connections";
+    }
+
+    @GetMapping("/disconnect")
+    public String disConnections(Model model, @RequestParam(required = false, defaultValue = "1") long id) {
+        Object sessionUser = session.getAttribute("userInformation");
+
+        UserDTO user = (UserDTO) sessionUser;
+        connectService.disconnect(id, user.getId());
+        connectService.disconnect(user.getId(), id);
+        return "redirect:/connections";
     }
 }

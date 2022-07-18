@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
@@ -9,14 +9,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-white flex">
+Left-sidebar
+<aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
+End-Left-sidebar
+<div class="bg-gray-900 grow flex min-h-[100vh]">
+    <div class="flex grow flex-col justify-center items-center">
+
+    </div>
+</div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<div class="" th:replace="components/head.html :: head"></div>
+
+<body class="flex bg-gray-900 text-white font-['SF_Pro_Text']">
+
 <!--Left-sidebar-->
 <aside class="w-64" aria-label="Sidebar" th:insert="~{components/admin-navbar :: admin-navbar}"></aside>
 <!--End-Left-sidebar-->
-<div class="bg-gray-900 grow flex min-h-[100vh]">
-    <div class="flex grow flex-col justify-center items-center">
-        <form th:action="@{/admin/create-skill}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+
+<div class="p-6 grow gap-4">
+    <h1 class="text-3xl my-4 font-semibold">Skills</h1>
+    <div class="relative rounded-lg">
+        <form th:action="@{/admin/create-skill}" method="POST" class="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillName">
+                <label class="block text-white text-sm font-bold mb-2" for="skillName">
                     Create new Skill
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="skillName" name="skillName" type="text" placeholder="Skill name">

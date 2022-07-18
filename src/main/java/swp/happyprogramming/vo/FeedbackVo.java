@@ -4,6 +4,7 @@ package swp.happyprogramming.vo;
 public class FeedbackVo {
     private static final long serialVersionUID = 1L;
     private String senderName;
+    private String receiverName;
 
     private Integer rate;
 
@@ -14,6 +15,16 @@ public class FeedbackVo {
         this.rate = rate;
         this.comment = comment;
     }
+
+
+    public String getReceiverName() {
+        return this.receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
 
     public String getSenderName() {
         return this.senderName;
