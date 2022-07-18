@@ -210,13 +210,13 @@
                        th:text="${pageNumber}">3</a>
                 </li>
                 <li>
-                    <a th:if="${pageNumber + 1 < totalPages}"
+                    <a th:if="${pageNumber + 1 <= totalPages}"
                        th:href="@{/admin/mentees(pageNumber=${pageNumber + 1})}"
                        class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                        th:text="${pageNumber + 1}">4</a>
                 </li>
                 <li>
-                    <a th:if="${pageNumber + 2 < totalPages}"
+                    <a th:if="${pageNumber + 2 <= totalPages}"
                        th:href="@{/admin/mentees(pageNumber=${pageNumber + 2})}"
                        class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                        th:text="${pageNumber + 2}">5</a>
