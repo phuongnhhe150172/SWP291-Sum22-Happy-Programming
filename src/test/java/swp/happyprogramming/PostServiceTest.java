@@ -3,15 +3,11 @@ package swp.happyprogramming;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import swp.happyprogramming.dto.PostDTO;
-import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.model.Post;
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.IPostRepository;
-import swp.happyprogramming.services.IPostService;
+import swp.happyprogramming.domain.dto.PostDTO;
+import swp.happyprogramming.adapter.port.out.IPostRepository;
+import swp.happyprogramming.application.usecase.IPostService;
 
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 public class PostServiceTest {

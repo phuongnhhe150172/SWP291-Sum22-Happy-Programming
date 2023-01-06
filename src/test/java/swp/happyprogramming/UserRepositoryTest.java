@@ -1,21 +1,17 @@
 package swp.happyprogramming;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
-import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.repository.IUserRepository;
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.adapter.port.out.IUserRepository;
+import swp.happyprogramming.domain.model.User;
+import swp.happyprogramming.application.usecase.IUserService;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

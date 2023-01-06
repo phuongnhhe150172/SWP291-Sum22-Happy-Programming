@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.boot.test.context.SpringBootTest;
-import swp.happyprogramming.dto.NotificationDTO;
+import swp.happyprogramming.domain.dto.NotificationDTO;
 
-import swp.happyprogramming.model.Notification;
+import swp.happyprogramming.domain.model.Notification;
 
-import swp.happyprogramming.repository.INotificationRepository;
-import swp.happyprogramming.services.IUserService;
+import swp.happyprogramming.adapter.port.out.INotificationRepository;
+import swp.happyprogramming.application.usecase.IUserService;
 import swp.happyprogramming.utility.Utility;
 
 

@@ -1,23 +1,17 @@
 package swp.happyprogramming;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import swp.happyprogramming.dto.ConnectDTO;
-import swp.happyprogramming.dto.MentorDTO;
-import swp.happyprogramming.model.Connect;
-import swp.happyprogramming.model.User;
-import swp.happyprogramming.repository.IConnectRepository;
-import swp.happyprogramming.repository.IUserRepository;
-import swp.happyprogramming.services.IConnectService;
-import swp.happyprogramming.services.IMentorService;
+import swp.happyprogramming.domain.dto.ConnectDTO;
+import swp.happyprogramming.domain.dto.MentorDTO;
+import swp.happyprogramming.adapter.port.out.IConnectRepository;
+import swp.happyprogramming.adapter.port.out.IUserRepository;
+import swp.happyprogramming.application.usecase.IConnectService;
+import swp.happyprogramming.application.usecase.IMentorService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @SpringBootTest
 public class MentorServiceTest {

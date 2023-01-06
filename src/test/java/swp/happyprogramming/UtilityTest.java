@@ -1,13 +1,9 @@
 package swp.happyprogramming;
 
 import org.junit.jupiter.api.Test;
-import swp.happyprogramming.dto.UserDTO;
-import swp.happyprogramming.model.User;
 import swp.happyprogramming.utility.Utility;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

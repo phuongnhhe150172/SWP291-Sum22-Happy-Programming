@@ -1,13 +1,5 @@
 package swp.happyprogramming.utility;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.modelmapper.ModelMapper;
-import swp.happyprogramming.dto.*;
-import swp.happyprogramming.model.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +7,25 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.modelmapper.ModelMapper;
+import swp.happyprogramming.domain.dto.AddressDTO;
+import swp.happyprogramming.domain.dto.DistrictDTO;
+import swp.happyprogramming.domain.dto.MentorDTO;
+import swp.happyprogramming.domain.dto.NotificationDTO;
+import swp.happyprogramming.domain.dto.ProvinceDTO;
+import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.domain.dto.WardDTO;
+import swp.happyprogramming.domain.model.Address;
+import swp.happyprogramming.domain.model.Experience;
+import swp.happyprogramming.domain.model.Feedback;
+import swp.happyprogramming.domain.model.Mentor;
+import swp.happyprogramming.domain.model.Notification;
+import swp.happyprogramming.domain.model.Skill;
+import swp.happyprogramming.domain.model.User;
 
 public class Utility {
 

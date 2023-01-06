@@ -1,0 +1,14 @@
+package swp.happyprogramming.adapter.port.out;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import swp.happyprogramming.domain.model.District;
+
+import java.util.List;
+
+@Repository
+public interface IDistrictRepository extends JpaRepository<District,Long> {
+    public List<District> findAllByProvinceId(long provinceId);
+
+    District findDistrictById(long districtId);
+}
