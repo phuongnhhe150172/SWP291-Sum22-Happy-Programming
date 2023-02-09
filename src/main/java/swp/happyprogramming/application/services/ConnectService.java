@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.port.out.IConnectRepository;
 import swp.happyprogramming.application.usecase.IConnectService;
-import swp.happyprogramming.domain.dto.ConnectDTO;
+import swp.happyprogramming.adapter.dto.ConnectDTO;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.utility.Utility;

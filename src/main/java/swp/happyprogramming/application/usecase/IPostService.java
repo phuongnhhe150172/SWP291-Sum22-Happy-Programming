@@ -1,7 +1,7 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.PostDTO;
-import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.adapter.dto.PostDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Post;
 

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.boot.test.context.SpringBootTest;
-import swp.happyprogramming.domain.dto.NotificationDTO;
+import swp.happyprogramming.adapter.dto.NotificationDTO;
 
 import swp.happyprogramming.domain.model.Notification;
 

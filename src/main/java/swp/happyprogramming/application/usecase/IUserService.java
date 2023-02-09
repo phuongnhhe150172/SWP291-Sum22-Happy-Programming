@@ -1,45 +1,72 @@
 package swp.happyprogramming.application.usecase;
 
+import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
-import swp.happyprogramming.domain.dto.UserAvatarDTO;
-import swp.happyprogramming.domain.dto.UserDTO;
-import swp.happyprogramming.domain.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.adapter.dto.MentorDTO;
+import swp.happyprogramming.adapter.dto.MethodDTO;
+import swp.happyprogramming.adapter.dto.UserAvatarDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.domain.model.Care;
+import swp.happyprogramming.domain.model.Method;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.User;
 
-import java.nio.file.Path;
-import java.util.List;
+public interface IUserService extends UserDetailsService {
 
-public interface IUserService extends UserDetailsService{
-    void registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException;
+  void registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException;
 
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+  UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    int countUsersByRolesLike(String role);
+  int countUsersByRolesLike(String role);
 
-    Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber);
-    List<UserAvatarDTO> getConnectionsById(long id);
+  Pagination<UserAvatarDTO> getConnectionsById(long id, int pageNumber);
 
-    User findByEmail(String email);
+  List<UserAvatarDTO> getConnectionsById(long id);
 
-    UserDTO findUser(long id);
+  User findByEmail(String email);
 
-    User getUserById(Long id);
+  UserDTO findUser(long id);
 
-    UserDTO updateUserProfile(UserDTO userDTO, long wardId);
+  User getUserById(Long id);
 
-    void removeMentee(long menteeId);
+  UserDTO updateUserProfile(UserDTO userDTO, long wardId);
 
-    void updateImage(Long id, Path currentFolder, MultipartFile image);
+  void removeMentee(long menteeId);
 
-    Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone, String email);
+  void updateImage(Long id, MultipartFile image);
 
-    void enableUser(long id);
+  Pagination<UserDTO> getMentees(int pageNumber, String firstName, String lastName, String phone,
+    String email);
 
-    void disableUser(long id);
+  void enableUser(long id);
 
-    List<Integer> getMonthlyNewMentees();
+  void disableUser(long id);
+
+  List<Integer> getMonthlyNewMentees();
+
+  Care save(Care care);
+
+  int deleteCare(long userId, long postId);
+
+  int checkCared(long userId, long postId);
+
+  Pagination<MentorDTO> getMentors(int pageNumber);
+
+  List<UserAvatarDTO> getTopMentors();
+
+  //    UPDATE SECTION
+  UserDTO updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue,
+    List<String> skillValue);
+
+  void createCv(long userId, List<String> experienceValue, List<String> skillValue);
+
+  List<MentorDTO> filterMentors(String word);
+
+  List<Method> getAllMethod();
+
+  MethodDTO findMethod(long id);
 }

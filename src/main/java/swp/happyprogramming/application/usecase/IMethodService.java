@@ -1,6 +1,6 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.MethodDTO;
+import swp.happyprogramming.adapter.dto.MethodDTO;
 import swp.happyprogramming.domain.model.Method;
 
 import java.util.List;

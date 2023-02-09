@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.domain.dto.UserAvatarDTO;
-import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.adapter.dto.UserAvatarDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.application.usecase.IConnectService;
 import swp.happyprogramming.application.usecase.IUserService;
@@ -18,11 +18,8 @@ import jakarta.servlet.http.HttpSession;
 public class ConnectionController {
     @Autowired
     private IUserService userService;
-
-
     @Autowired
     private IConnectService connectService;
-
     @Autowired
     private HttpSession session;
 

@@ -1,6 +1,6 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.NotificationDTO;
+import swp.happyprogramming.adapter.dto.NotificationDTO;
 import swp.happyprogramming.domain.model.Notification;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Role;

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-import swp.happyprogramming.domain.dto.UserDTO;
-import swp.happyprogramming.domain.exception.auth.UserAlreadyExistException;
+import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
 
 import swp.happyprogramming.application.usecase.IUserService;
 

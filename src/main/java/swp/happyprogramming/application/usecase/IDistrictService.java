@@ -1,6 +1,6 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.DistrictDTO;
+import swp.happyprogramming.adapter.dto.DistrictDTO;
 
 import java.util.List;
 

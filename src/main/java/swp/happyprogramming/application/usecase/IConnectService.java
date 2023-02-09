@@ -1,6 +1,6 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.ConnectDTO;
+import swp.happyprogramming.adapter.dto.ConnectDTO;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 

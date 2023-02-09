@@ -1,8 +1,8 @@
 package swp.happyprogramming.application.usecase;
 
-import swp.happyprogramming.domain.dto.UserAvatarDTO;
-import swp.happyprogramming.domain.dto.MentorDTO;
-import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.adapter.dto.UserAvatarDTO;
+import swp.happyprogramming.adapter.dto.MentorDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
 

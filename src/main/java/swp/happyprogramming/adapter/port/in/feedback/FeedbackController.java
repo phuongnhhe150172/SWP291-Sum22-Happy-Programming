@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.domain.model.Feedback;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.application.usecase.IFeedbackService;

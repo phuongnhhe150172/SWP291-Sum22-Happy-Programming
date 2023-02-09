@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import swp.happyprogramming.domain.dto.UserDTO;
+import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.application.usecase.IUserService;
 import swp.happyprogramming.utility.Utility;

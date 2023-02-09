@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.domain.dto.NotificationDTO;
+import swp.happyprogramming.adapter.dto.NotificationDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Role;
 import swp.happyprogramming.domain.model.User;
