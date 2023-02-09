@@ -96,7 +96,7 @@
                     <label for="province"
                            class="block font-medium text-sm text-gray-300 mb-2">Province</label>
                     <div class="" id="province-id">
-                        <select id="province" th:name="provinceId"
+                        <select id="province" th:name="provinceId" th:field="*{address.province.id}"
                                 class="bg-gray-900 border text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose province --</option>
                             <option th:each="province,state : ${listProvinces}"
@@ -111,6 +111,7 @@
                            class="block font-medium text-sm text-gray-300 mb-2">District</label>
                     <div class="" id="district-id">
                         <select id="district" th:name="districtId"
+                                th:field="*{address.district.id}"
                                 th:value="*{address.district.id}"
                                 class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose district --</option>
@@ -127,6 +128,7 @@
                            class="block font-medium text-sm text-gray-300 mb-2">Ward</label>
                     <div class="" id="ward-id">
                         <select id="ward" th:name="wardId" th:value="*{address.ward.id}"
+                                th:field="*{address.ward.id}"
                                 class="bg-gray-900 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option th:value="-1"> -- Choose ward --</option>
                             <option th:if="*{address.ward.id != null}"
