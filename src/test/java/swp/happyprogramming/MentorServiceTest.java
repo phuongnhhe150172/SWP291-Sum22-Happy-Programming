@@ -9,7 +9,6 @@ import swp.happyprogramming.adapter.dto.MentorDTO;
 import swp.happyprogramming.adapter.port.out.IConnectRepository;
 import swp.happyprogramming.adapter.port.out.IUserRepository;
 import swp.happyprogramming.application.usecase.IConnectService;
-import swp.happyprogramming.application.usecase.IMentorService;
 
 import java.util.List;
 

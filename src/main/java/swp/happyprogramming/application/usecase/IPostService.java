@@ -11,8 +11,6 @@ import java.util.Map;
 public interface IPostService {
     List<Post> getAllPosts();
 
-    PostDTO findPost(long id);
-
     void updatePost(PostDTO postDTO, long methodId, UserDTO userDTO);
 
     List<PostDTO> getListPostOngoing();

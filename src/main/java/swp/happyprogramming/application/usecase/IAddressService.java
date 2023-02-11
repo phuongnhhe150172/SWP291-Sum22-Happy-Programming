@@ -4,6 +4,7 @@ import java.util.List;
 import swp.happyprogramming.adapter.dto.DistrictDTO;
 import swp.happyprogramming.adapter.dto.ProvinceDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.domain.model.Address;
 
 public interface IAddressService {
     String getAddress(long addressId);
@@ -19,4 +20,12 @@ public interface IAddressService {
   List<ProvinceDTO> findAllProvinces();
 
   long getProvinceIdByDistrictId(long districtId);
+
+  Address createNewAddress();
+
+  //    delete address
+  void deleteAddress(long addressId);
+
+  //  save address
+  void saveAddress(Address address);
 }

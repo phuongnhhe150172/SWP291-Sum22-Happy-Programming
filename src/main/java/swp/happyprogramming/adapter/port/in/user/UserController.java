@@ -20,15 +20,12 @@ import swp.happyprogramming.adapter.dto.ProvinceDTO;
 import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.application.usecase.IAddressService;
 import swp.happyprogramming.application.usecase.IConnectService;
-import swp.happyprogramming.application.usecase.IDistrictService;
 import swp.happyprogramming.application.usecase.IExperienceService;
-import swp.happyprogramming.application.usecase.IMentorService;
-import swp.happyprogramming.application.usecase.IProvinceService;
 import swp.happyprogramming.application.usecase.IRequestService;
 import swp.happyprogramming.application.usecase.ISkillService;
 import swp.happyprogramming.application.usecase.IUserService;
-import swp.happyprogramming.application.usecase.IWardService;
 import swp.happyprogramming.domain.model.Experience;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
@@ -43,31 +40,16 @@ public class UserController {
 
   @Autowired
   private HttpSession session;
-
   @Autowired
   private IUserService userService;
-
   @Autowired
-  private IProvinceService provinceService;
-
-  @Autowired
-  private IDistrictService districtService;
-
-  @Autowired
-  private IWardService wardService;
-
-  @Autowired
-  private IMentorService mentorService;
-
+  private IAddressService addressService;
   @Autowired
   private IExperienceService experienceService;
-
   @Autowired
   private ISkillService skillService;
-
   @Autowired
   private IRequestService requestService;
-
   @Autowired
   private IConnectService connectService;
 
@@ -116,8 +98,7 @@ public class UserController {
   public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
     @RequestParam Map<String, Object> params) {
     try {
-      long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
-      UserDTO user = userService.updateUserProfile(userDTO, wardId);
+      UserDTO user = userService.updateUserProfile(userDTO);
       // Update session
       session.setAttribute(USER_SESSION, user);
       return "redirect:profile";
@@ -139,10 +120,10 @@ public class UserController {
       MentorDTO mentor;
       if (id != null) {
         long mentorId = Integer.parseInt(id);
-        mentor = mentorService.findMentor(mentorId);
+        mentor = userService.findMentor(mentorId);
         addStatusAttribute(model, mentor, user);
       } else {
-        mentor = mentorService.findMentor(user.getId());
+        mentor = userService.findMentor(user.getId());
       }
       model.addAttribute("mentor", mentor);
       String role = (String) session.getAttribute("role");
@@ -160,7 +141,7 @@ public class UserController {
     //      Hoàng Văn Nam -   - Update profile mentor
     try {
       long mentorId = Integer.parseInt(id);
-      MentorDTO mentorDTO = mentorService.findMentor(mentorId);
+      MentorDTO mentorDTO = userService.findMentor(mentorId);
 
       addAddressAttribute(model, mentorDTO);
       addSkillAttribute(model, mentorDTO);
@@ -184,7 +165,7 @@ public class UserController {
     try {
       long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
 
-      UserDTO user = mentorService.updateMentor(mentor, wardId, experieceValue, skillValue);
+      UserDTO user = userService.updateMentor(mentor, wardId, experieceValue, skillValue);
       session.setAttribute(USER_SESSION, user);
       return "redirect:../cv";
     } catch (NumberFormatException e) {
@@ -230,7 +211,7 @@ public class UserController {
     @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
     try {
       long userId = Integer.parseInt(id);
-      mentorService.createCv(userId, experieceValue, skillValue);
+      userService.createCv(userId, experieceValue, skillValue);
       String sessionRole = "MENTOR_AND_MENTEE";
       session.setAttribute("role", sessionRole);
       return "redirect:cv";
@@ -243,9 +224,9 @@ public class UserController {
     long districtId = user.getAddress().getDistrict().getId();
     long provinceId = user.getAddress().getProvince().getId();
 
-    List<ProvinceDTO> listProvinces = provinceService.findAllProvinces();
-    List<DistrictDTO> listDistrict = districtService.findAllDistrict(provinceId);
-    List<WardDTO> listWard = wardService.findAllWard(districtId);
+    List<ProvinceDTO> listProvinces = addressService.findAllProvinces();
+    List<DistrictDTO> listDistrict = addressService.findAllDistrict(provinceId);
+    List<WardDTO> listWard = addressService.findAllWard(districtId);
 
     model.addAttribute("listProvinces", listProvinces);
     model.addAttribute("listDistrict", listDistrict);
@@ -254,7 +235,7 @@ public class UserController {
 
   public void addSkillAttribute(Model model, MentorDTO mentor) {
     List<Skill> listSkill = skillService.getAllSkill();
-    Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill, mentor.getSkills());
+    Map<Skill, Integer> mapSkill = userService.findMapSkill(listSkill, mentor.getSkills());
     model.addAttribute("mapSkill", mapSkill);
   }
 
@@ -285,7 +266,7 @@ public class UserController {
     }
 
     User user = userService.findByEmail(email);
-    Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
+    Pagination<MentorDTO> page = userService.getMentors(pageNumber);
     List<Long> connectedMentorIds = connectService.getConnectedMentor(user.getId());
     List<Long> requestedMentorIds = requestService.getRequestedMentorId(user.getId());
 
@@ -306,7 +287,7 @@ public class UserController {
     }
 
     User user = userService.findByEmail(email);
-    List<MentorDTO> page = mentorService.filterMentors(String.valueOf(params.get("search")));
+    List<MentorDTO> page = userService.filterMentors(String.valueOf(params.get("search")));
     List<Long> connectedMentorIds = connectService.getConnectedMentor(user.getId());
     List<Long> requestedMentorIds = requestService.getRequestedMentorId(user.getId());
 
@@ -319,7 +300,7 @@ public class UserController {
 
   @GetMapping("/mentor/top")
   public String topMentor(Model model) {
-    List<UserAvatarDTO> mentorList = mentorService.getTopMentors();
+    List<UserAvatarDTO> mentorList = userService.getTopMentors();
     model.addAttribute("mentorList", mentorList);
     return "mentor/suggestions";
   }

@@ -1,6 +1,7 @@
 package swp.happyprogramming.application.usecase;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import swp.happyprogramming.application.exception.auth.UserAlreadyExistException
 import swp.happyprogramming.domain.model.Care;
 import swp.happyprogramming.domain.model.Method;
 import swp.happyprogramming.domain.model.Pagination;
+import swp.happyprogramming.domain.model.Skill;
 import swp.happyprogramming.domain.model.User;
 
 public interface IUserService extends UserDetailsService {
@@ -33,7 +35,7 @@ public interface IUserService extends UserDetailsService {
 
   User getUserById(Long id);
 
-  UserDTO updateUserProfile(UserDTO userDTO, long wardId);
+  UserDTO updateUserProfile(UserDTO userDTO);
 
   void removeMentee(long menteeId);
 
@@ -54,6 +56,8 @@ public interface IUserService extends UserDetailsService {
 
   int checkCared(long userId, long postId);
 
+  MentorDTO findMentor(long id);
+
   Pagination<MentorDTO> getMentors(int pageNumber);
 
   List<UserAvatarDTO> getTopMentors();
@@ -61,6 +65,8 @@ public interface IUserService extends UserDetailsService {
   //    UPDATE SECTION
   UserDTO updateMentor(MentorDTO mentorDTO, long wardId, List<String> experienceValue,
     List<String> skillValue);
+
+  Map<Skill, Integer> findMapSkill(List<Skill> skills, List<Skill> mentorSkill);
 
   void createCv(long userId, List<String> experienceValue, List<String> skillValue);
 

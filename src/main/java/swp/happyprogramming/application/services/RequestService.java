@@ -15,6 +15,7 @@ import swp.happyprogramming.application.usecase.IRequestService;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Request;
+import swp.happyprogramming.utility.Utility;
 
 @Service
 public class RequestService implements IRequestService {
@@ -28,20 +29,14 @@ public class RequestService implements IRequestService {
     public Pagination<Request> getRequestSent(long menteeId, int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
         Page<Request> page = requestRepository.findRequestByMenteeId(pageRequest, menteeId);
-        int totalPages = page.getTotalPages();
-        List<Request> requests = page.getContent();
-        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-        return new Pagination<>(requests, pageNumbers);
+        return Utility.getPagination(page);
     }
 
     @Override
     public Pagination<Request> getRequestReceived(long mentorId, int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
         Page<Request> page = requestRepository.findRequestByMentorId(pageRequest, mentorId);
-        int totalPages = page.getTotalPages();
-        List<Request> requests = page.getContent();
-        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-        return new Pagination<>(requests, pageNumbers);
+        return Utility.getPagination(page);
     }
 
     @Override
@@ -68,10 +63,7 @@ public class RequestService implements IRequestService {
     public Pagination<Request> getAllRequest(int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 5);
         Page<Request> page = requestRepository.findAll(pageRequest);
-        int totalPages = page.getTotalPages();
-        List<Request> requests = page.getContent();
-        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-        return new Pagination<>(requests, pageNumbers);
+        return Utility.getPagination(page);
     }
 
     @Override

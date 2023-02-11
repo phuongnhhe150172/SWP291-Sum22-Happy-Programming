@@ -79,6 +79,10 @@ public class Utility {
     return mentorDTO;
   }
 
+  public static List<MentorDTO> mapMentors(List<Mentor> mentors) {
+    return mentors.stream().map(Utility::mapMentor).collect(Collectors.toList());
+  }
+
   public static AddressDTO mapAddress(Address address) {
     AddressDTO addressDTO = mapper.map(address, AddressDTO.class);
     addressDTO.setWard(mapper.map(address.getWard(), WardDTO.class));

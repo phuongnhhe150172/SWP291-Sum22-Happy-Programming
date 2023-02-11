@@ -12,6 +12,7 @@ import swp.happyprogramming.application.usecase.IFeedbackService;
 import swp.happyprogramming.domain.model.Feedback;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.User;
+import swp.happyprogramming.utility.Utility;
 
 @Service
 public class FeedbackService implements IFeedbackService {
@@ -22,9 +23,7 @@ public class FeedbackService implements IFeedbackService {
     public Pagination<Feedback> getFeedbackReceived(User user, int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, 10);
         Page<Feedback> feedbacks = feedbackRepository.findByReceiverOrderByCreatedDesc(user, pageRequest);
-        int totalPages = feedbacks.getTotalPages();
-        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-        return new Pagination<>(feedbacks.getContent(), pageNumbers);
+        return Utility.getPagination(feedbacks);
     }
 
     @Override
