@@ -7,8 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 import swp.happyprogramming.adapter.port.out.IUserRepository;
-import swp.happyprogramming.domain.model.User;
-import swp.happyprogramming.application.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.IUserService;
 
 import java.time.Instant;
 import java.util.Date;
@@ -35,7 +34,6 @@ public class UserRepositoryTest {
         user.setEmail("PhuongNHHE150172@gmail.com");
         user.setPassword("A1234567890");
         user.setCreated(Date.from(Instant.now()));
-        user.setModified(Date.from(Instant.now()));
         userRepository.save(user);
     }
 

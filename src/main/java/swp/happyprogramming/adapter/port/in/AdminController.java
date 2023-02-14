@@ -1,8 +1,6 @@
 package swp.happyprogramming.adapter.port.in;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.application.usecase.IConnectService;
-import swp.happyprogramming.application.usecase.IFeedbackService;
-import swp.happyprogramming.application.usecase.INotificationService;
-import swp.happyprogramming.application.usecase.IPostService;
-import swp.happyprogramming.application.usecase.IRequestService;
-import swp.happyprogramming.application.usecase.ISkillService;
-import swp.happyprogramming.application.usecase.IUserService;
 import swp.happyprogramming.adapter.dto.ConnectDTO;
 import swp.happyprogramming.adapter.dto.MentorDTO;
 import swp.happyprogramming.adapter.dto.NotificationDTO;
 import swp.happyprogramming.adapter.dto.PostDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.port.usecase.IConnectService;
+import swp.happyprogramming.application.port.usecase.IFeedbackService;
+import swp.happyprogramming.application.port.usecase.INotificationService;
+import swp.happyprogramming.application.port.usecase.IPostService;
+import swp.happyprogramming.application.port.usecase.IRequestService;
+import swp.happyprogramming.application.port.usecase.ISkillService;
+import swp.happyprogramming.application.port.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.MentorUseCase;
 import swp.happyprogramming.domain.model.Feedback;
 import swp.happyprogramming.domain.model.Method;
 import swp.happyprogramming.domain.model.Notification;
@@ -42,6 +41,8 @@ public class AdminController {
 
   @Autowired
   private IUserService userService;
+  @Autowired
+  private MentorUseCase mentorService;
 
   @Autowired
   private ISkillService skillService;
@@ -76,19 +77,25 @@ public class AdminController {
   }
 
   @GetMapping("/mentees")
-  public String showAllMentees(Model model, @RequestParam Map<String, String> params,
+  public String showAllMentees(Model model,
+    @RequestParam Map<String, String> params,
     @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
     String rawFirstName = params.get("first_name");
     String rawLastName = params.get("last_name");
     String rawPhone = params.get("phone");
     String rawEmail = params.get("email");
     String firstName =
-      (rawFirstName == null || rawFirstName.trim() == "") ? null : rawFirstName.trim();
-    String lastName = (rawLastName == null || rawLastName.trim() == "") ? null : rawLastName.trim();
-    String phone = (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone.trim();
-    String email = (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail.trim();
+      (rawFirstName == null || rawFirstName.trim() == "") ? null
+        : rawFirstName.trim();
+    String lastName = (rawLastName == null || rawLastName.trim() == "") ? null
+      : rawLastName.trim();
+    String phone =
+      (rawPhone == null || rawPhone.trim() == "") ? null : rawPhone.trim();
+    String email =
+      (rawEmail == null || rawEmail.trim() == "") ? null : rawEmail.trim();
 
-    Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName, lastName, phone,
+    Pagination<UserDTO> page = userService.getMentees(pageNumber, firstName,
+      lastName, phone,
       email);
     List<UserDTO> mentees = page.getPaginatedList();
     int totalNumberOfMentees = userService.countUsersByRolesLike("ROLE_MENTEE");
@@ -110,7 +117,7 @@ public class AdminController {
   public String showMentors(Model model,
     @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
     // Nguyễn Huy Hoàng - 46 - List all mentors (admin)
-    Pagination<MentorDTO> page = userService.getMentors(pageNumber);
+    Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
     model.addAttribute("mentors", page.getPaginatedList());
     model.addAttribute("pageNumber", pageNumber);
     model.addAttribute("totalPages", page.getPageNumbers().size());
@@ -120,7 +127,7 @@ public class AdminController {
   @GetMapping("/mentor")
   public String viewMentor(Model model,
     @RequestParam(value = "id", required = false) long mentorId) {
-    MentorDTO mentorDTO = userService.findMentor(mentorId);
+    MentorDTO mentorDTO = mentorService.findMentor(mentorId);
     model.addAttribute("mentor", mentorDTO);
     return "admin/view-mentor";
   }
@@ -128,13 +135,14 @@ public class AdminController {
   @GetMapping("/mentee")
   public String showMentee(Model model,
     @RequestParam(value = "id", required = false) long menteeId) {
-    UserDTO mentee = userService.findUser(menteeId);
+    UserDTO mentee = userService.findUserDTO(menteeId);
     model.addAttribute("mentee", mentee);
     return "admin/view-mentee";
   }
 
   @GetMapping("/delete")
-  public String deleteMentee(@RequestParam(value = "id", required = false) long menteeId) {
+  public String deleteMentee(
+    @RequestParam(value = "id", required = false) long menteeId) {
     userService.removeMentee(menteeId);
     return "redirect:/admin/mentees";
   }
@@ -171,7 +179,8 @@ public class AdminController {
   }
 
   @PostMapping("create-notification")
-  public String createNewNotifications(Model model, @RequestParam Map<String, Object> params) {
+  public String createNewNotifications(Model model,
+    @RequestParam Map<String, Object> params) {
     // model.addAttribute("notifications", notifications);
 
     String content = String.valueOf(params.get("content"));
@@ -230,7 +239,8 @@ public class AdminController {
 
 
   @PostMapping("edit-notification")
-  public String editNotifications(Model model, @RequestParam Map<String, Object> params) {
+  public String editNotifications(Model model,
+    @RequestParam Map<String, Object> params) {
     // model.addAttribute("notifications", notifications);
     long notiId = Long.parseLong(String.valueOf(params.get("id")));
 
@@ -259,7 +269,8 @@ public class AdminController {
   }
 
   @PostMapping("/update-skill")
-  public String updateSkill(@RequestParam String skillId, @RequestParam String skillName) {
+  public String updateSkill(@RequestParam String skillId,
+    @RequestParam String skillName) {
     Skill skill = new Skill();
     long id = Integer.parseInt(String.valueOf(skillId));
     skill.setId(id);
@@ -292,7 +303,8 @@ public class AdminController {
       Method methodDTO = postDTO.getMethod();
       int liked = userService.checkCared(userDTO.getId(), p.getId());
       PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(),
-        userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(),
+        userDTO.getFirstName() + userDTO.getLastName(),
+        postDTO.getDescription(),
         postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
       pi.setLiked(liked);
       result.add(pi);
@@ -306,7 +318,8 @@ public class AdminController {
   @GetMapping("/connections")
   public String viewAllConn(Model model,
     @RequestParam(required = false, defaultValue = "1") int pageNumber) {
-    Pagination<ConnectDTO> connects = connectService.findAllConnections(pageNumber);
+    Pagination<ConnectDTO> connects = connectService.findAllConnections(
+      pageNumber);
     model.addAttribute("connections", connects.getPaginatedList());
     model.addAttribute("pageNumber", pageNumber);
     model.addAttribute("totalPages", connects.getPageNumbers().size());
@@ -329,7 +342,8 @@ public class AdminController {
 
   @Secured("ROLE_ADMIN")
   @GetMapping("/disable")
-  public String disableUser(@RequestParam(value = "id", required = false) int id,
+  public String disableUser(
+    @RequestParam(value = "id", required = false) int id,
     @RequestParam(value = "status", required = false) int status,
     @RequestParam(value = "page", required = false) int page) {
     userService.disableUser(id);
@@ -358,9 +372,11 @@ public class AdminController {
     for (Feedback f : feedbacksRaw) {
       UserDTO sender = Utility.mapUser(f.getSender());
       UserDTO receiver = Utility.mapUser(f.getReceiver());
-      FeedbackVo fv = new FeedbackVo(sender.getFirstName() + " " + sender.getLastName(),
+      FeedbackVo fv = new FeedbackVo(
+        sender.getFirstName() + " " + sender.getLastName(),
         f.getRate(), f.getComment());
-      fv.setReceiverName(receiver.getFirstName() + " " + receiver.getLastName());
+      fv.setReceiverName(
+        receiver.getFirstName() + " " + receiver.getLastName());
       feedbacks.add(fv);
     }
     feedbacks.sort((lhs, rhs) -> rhs.getRate().compareTo(lhs.getRate()));

@@ -1,45 +1,28 @@
 package swp.happyprogramming.domain.model;
 
-import lombok.Data;
-
-import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.Date;
+import lombok.Data;
 
-@Entity
-@Table(name = "posts")
 @Data
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  private long id;
 
-    @Column(name = "description")
-    private String description;
+  private String description;
 
-    @Column(name = "price")
-    private float price;
+  private float price;
 
-    @Column(name = "created")
-    private Date created;
+  private Date created;
 
-    @Column(name = "modified")
-    private Date modified;
+  private Date modified;
 
-    @Column(name = "status")
-    private int status;
+  private int status;
+  private User user;
+  private Method method;
 
-    public Post(){
-        created = Date.from(Instant.now());
-        modified = Date.from(Instant.now());
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "mentee_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "method_id")
-    private Method method;
+  public Post() {
+    created = Date.from(Instant.now());
+    modified = Date.from(Instant.now());
+  }
 }

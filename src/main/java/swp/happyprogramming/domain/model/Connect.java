@@ -1,32 +1,20 @@
 package swp.happyprogramming.domain.model;
 
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.*;
-import java.time.Instant;
-
-@Entity
-@Table(name = "connections")
 @Getter
 @Setter
 public class Connect {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
-    @Column(name = "date_created")
-    private Instant created;
+  private long id;
 
-    public Connect() {
-        this.created = Instant.now();
-    }
+  private Instant created;
+  private User user1;
+  private User user2;
 
-    @ManyToOne
-    @JoinColumn(name = "user1")
-    private User user1;
-
-    @ManyToOne
-    @JoinColumn(name = "user2")
-    private User user2;
+  public Connect() {
+    this.created = Instant.now();
+  }
 }

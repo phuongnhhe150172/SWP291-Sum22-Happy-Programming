@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import swp.happyprogramming.domain.model.Message;
-import swp.happyprogramming.application.usecase.IMessageService;
-import swp.happyprogramming.application.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.IMessageService;
+import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.utility.Utility;
 
 import java.io.IOException;

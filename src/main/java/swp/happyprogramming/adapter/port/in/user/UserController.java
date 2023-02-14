@@ -20,12 +20,13 @@ import swp.happyprogramming.adapter.dto.ProvinceDTO;
 import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
-import swp.happyprogramming.application.usecase.IAddressService;
-import swp.happyprogramming.application.usecase.IConnectService;
-import swp.happyprogramming.application.usecase.IExperienceService;
-import swp.happyprogramming.application.usecase.IRequestService;
-import swp.happyprogramming.application.usecase.ISkillService;
-import swp.happyprogramming.application.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.IAddressService;
+import swp.happyprogramming.application.port.usecase.IConnectService;
+import swp.happyprogramming.application.port.usecase.IExperienceService;
+import swp.happyprogramming.application.port.usecase.IRequestService;
+import swp.happyprogramming.application.port.usecase.ISkillService;
+import swp.happyprogramming.application.port.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.MentorUseCase;
 import swp.happyprogramming.domain.model.Experience;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
@@ -43,6 +44,8 @@ public class UserController {
   @Autowired
   private IUserService userService;
   @Autowired
+  private MentorUseCase mentorService;
+  @Autowired
   private IAddressService addressService;
   @Autowired
   private IExperienceService experienceService;
@@ -57,8 +60,6 @@ public class UserController {
   @GetMapping("/profile")
   public String showUserProfile(Model model,
     @RequestParam(value = "id", required = false) String id) {
-    //        Nguyễn Huy Hoàng - 04 - View public mentor profile
-    //        Hoàng Văn Nam -   - View mentee profile
     Object sessionUser = session.getAttribute(USER_SESSION);
     if (sessionUser == null) {
       return "redirect:/login";
@@ -67,7 +68,7 @@ public class UserController {
     UserDTO user;
     if (id != null) {
       long userId = Integer.parseInt(id);
-      user = userService.findUser(userId);
+      user = userService.findUserDTO(userId);
       UserDTO userDTO = (UserDTO) sessionUser;
 
       addStatusAttribute(model, user, userDTO);
@@ -86,7 +87,7 @@ public class UserController {
     @RequestParam(value = "id", required = false) String id) {
     //      Hoàng Văn Nam - Update profile mentee
     UserDTO user = id != null ?
-      userService.findUser(Integer.parseInt(id)) :
+      userService.findUserDTO(Integer.parseInt(id)) :
       (UserDTO) session.getAttribute(USER_SESSION);
     addAddressAttribute(model, user);
     model.addAttribute("user", user);
@@ -110,7 +111,8 @@ public class UserController {
 
   @Secured({"ROLE_MENTOR", "ROLE_MENTEE"})
   @GetMapping("/cv")
-  public String viewMentorCV(Model model, @RequestParam(value = "id", required = false) String id) {
+  public String viewMentorCV(Model model,
+    @RequestParam(value = "id", required = false) String id) {
     try {
       Object sessionUser = session.getAttribute(USER_SESSION);
       if (sessionUser == null) {
@@ -120,10 +122,10 @@ public class UserController {
       MentorDTO mentor;
       if (id != null) {
         long mentorId = Integer.parseInt(id);
-        mentor = userService.findMentor(mentorId);
+        mentor = mentorService.findMentor(mentorId);
         addStatusAttribute(model, mentor, user);
       } else {
-        mentor = userService.findMentor(user.getId());
+        mentor = mentorService.findMentor(user.getId());
       }
       model.addAttribute("mentor", mentor);
       String role = (String) session.getAttribute("role");
@@ -141,7 +143,7 @@ public class UserController {
     //      Hoàng Văn Nam -   - Update profile mentor
     try {
       long mentorId = Integer.parseInt(id);
-      MentorDTO mentorDTO = userService.findMentor(mentorId);
+      MentorDTO mentorDTO = mentorService.findMentor(mentorId);
 
       addAddressAttribute(model, mentorDTO);
       addSkillAttribute(model, mentorDTO);
@@ -165,7 +167,8 @@ public class UserController {
     try {
       long wardId = Integer.parseInt(String.valueOf(params.get("wardId")));
 
-      UserDTO user = userService.updateMentor(mentor, wardId, experieceValue, skillValue);
+      UserDTO user = mentorService.updateMentor(mentor, wardId, experieceValue,
+        skillValue);
       session.setAttribute(USER_SESSION, user);
       return "redirect:../cv";
     } catch (NumberFormatException e) {
@@ -186,14 +189,15 @@ public class UserController {
 
   @Secured({"ROLE_MENTEE"})
   @GetMapping("/create")
-  public String createCv(Model model, @RequestParam(value = "id", required = false) String id) {
+  public String createCv(Model model,
+    @RequestParam(value = "id", required = false) String id) {
     UserDTO user;
     if (id != null) {
       if (!Utility.isInteger(id)) {
         return INDEX_PAGE;
       }
       long userId = Integer.parseInt(id);
-      user = userService.findUser(userId);
+      user = userService.findUserDTO(userId);
     } else {
       user = (UserDTO) session.getAttribute(USER_SESSION);
     }
@@ -206,12 +210,13 @@ public class UserController {
 
   @Secured({"ROLE_MENTEE"})
   @PostMapping("/create")
-  public String createCv(@RequestParam(value = "id", required = false) String id,
+  public String createCv(
+    @RequestParam(value = "id", required = false) String id,
     @RequestParam(value = "experieceValue", required = false) List<String> experieceValue,
     @RequestParam(value = "skillValue", required = false) List<String> skillValue) {
     try {
       long userId = Integer.parseInt(id);
-      userService.createCv(userId, experieceValue, skillValue);
+      mentorService.createCv(userId, experieceValue, skillValue);
       String sessionRole = "MENTOR_AND_MENTEE";
       session.setAttribute("role", sessionRole);
       return "redirect:cv";
@@ -235,7 +240,8 @@ public class UserController {
 
   public void addSkillAttribute(Model model, MentorDTO mentor) {
     List<Skill> listSkill = skillService.getAllSkill();
-    Map<Skill, Integer> mapSkill = userService.findMapSkill(listSkill, mentor.getSkills());
+    Map<Skill, Integer> mapSkill = mentorService.findMapSkill(listSkill,
+      mentor.getSkills());
     model.addAttribute("mapSkill", mapSkill);
   }
 
@@ -245,12 +251,16 @@ public class UserController {
     model.addAttribute("listExperience", listExperience);
   }
 
-  public void addStatusAttribute(Model model, UserDTO target, UserDTO currentUser) {
+  public void addStatusAttribute(Model model, UserDTO target,
+    UserDTO currentUser) {
     Integer statusRequest =
-      (requestService.findStatusRequest(target.getId(), currentUser.getId()) != null) ? 1 : 0;
+      (requestService.findStatusRequest(target.getId(), currentUser.getId())
+        != null) ? 1 : 0;
     Integer statusConnect =
-      (connectService.findConnectByUser1AndUser2(target.getId(), currentUser.getId()) != null ||
-        connectService.findConnectByUser1AndUser2(currentUser.getId(), target.getId()) != null) ? 1
+      (connectService.findConnectByUser1AndUser2(target.getId(),
+        currentUser.getId()) != null ||
+        connectService.findConnectByUser1AndUser2(currentUser.getId(),
+          target.getId()) != null) ? 1
         : 0;
     model.addAttribute("statusConnect", statusConnect);
     model.addAttribute("statusRequest", statusRequest);
@@ -259,16 +269,19 @@ public class UserController {
   @GetMapping("/mentor")
   public String showMentor(Model model,
     @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Authentication authentication = SecurityContextHolder.getContext()
+      .getAuthentication();
     String email = authentication.getName();
     if (email.equalsIgnoreCase("anonymousUser")) {
       return "redirect:/login";
     }
 
     User user = userService.findByEmail(email);
-    Pagination<MentorDTO> page = userService.getMentors(pageNumber);
-    List<Long> connectedMentorIds = connectService.getConnectedMentor(user.getId());
-    List<Long> requestedMentorIds = requestService.getRequestedMentorId(user.getId());
+    Pagination<MentorDTO> page = mentorService.getMentors(pageNumber);
+    List<Long> connectedMentorIds = connectService.getConnectedMentor(
+      user.getId());
+    List<Long> requestedMentorIds = requestService.getRequestedMentorId(
+      user.getId());
 
     model.addAttribute("connections", connectedMentorIds);
     model.addAttribute("requests", requestedMentorIds);
@@ -279,17 +292,22 @@ public class UserController {
   }
 
   @PostMapping("/mentor")
-  public String showMentor(Model model, @RequestParam Map<String, Object> params) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+  public String showMentor(Model model,
+    @RequestParam Map<String, Object> params) {
+    Authentication authentication = SecurityContextHolder.getContext()
+      .getAuthentication();
     String email = authentication.getName();
     if (email.equalsIgnoreCase("anonymousUser")) {
       return "redirect:/login";
     }
 
     User user = userService.findByEmail(email);
-    List<MentorDTO> page = userService.filterMentors(String.valueOf(params.get("search")));
-    List<Long> connectedMentorIds = connectService.getConnectedMentor(user.getId());
-    List<Long> requestedMentorIds = requestService.getRequestedMentorId(user.getId());
+    List<MentorDTO> page = mentorService.filterMentors(
+      String.valueOf(params.get("search")));
+    List<Long> connectedMentorIds = connectService.getConnectedMentor(
+      user.getId());
+    List<Long> requestedMentorIds = requestService.getRequestedMentorId(
+      user.getId());
 
     model.addAttribute("connections", connectedMentorIds);
     model.addAttribute("requests", requestedMentorIds);
@@ -300,7 +318,7 @@ public class UserController {
 
   @GetMapping("/mentor/top")
   public String topMentor(Model model) {
-    List<UserAvatarDTO> mentorList = userService.getTopMentors();
+    List<UserAvatarDTO> mentorList = mentorService.getTopMentors();
     model.addAttribute("mentorList", mentorList);
     return "mentor/suggestions";
   }

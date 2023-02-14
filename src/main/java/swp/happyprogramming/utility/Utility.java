@@ -1,5 +1,6 @@
 package swp.happyprogramming.utility;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +11,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.jsoup.Jsoup;
@@ -40,7 +40,8 @@ public class Utility {
 
   private static final ModelMapper mapper = new ModelMapper();
   private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0";
-  private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
+  private static final Path CURRENT_FOLDER = Paths.get(
+    System.getProperty("user.dir"));
 
   private Utility() {
     //    Overwrite default constructor
@@ -79,16 +80,14 @@ public class Utility {
     return mentorDTO;
   }
 
-  public static List<MentorDTO> mapMentors(List<Mentor> mentors) {
-    return mentors.stream().map(Utility::mapMentor).collect(Collectors.toList());
-  }
-
   public static AddressDTO mapAddress(Address address) {
     AddressDTO addressDTO = mapper.map(address, AddressDTO.class);
     addressDTO.setWard(mapper.map(address.getWard(), WardDTO.class));
-    addressDTO.setDistrict(mapper.map(address.getWard().getDistrict(), DistrictDTO.class));
+    addressDTO.setDistrict(
+      mapper.map(address.getWard().getDistrict(), DistrictDTO.class));
     addressDTO.setProvince(
-      mapper.map(address.getWard().getDistrict().getProvince(), ProvinceDTO.class));
+      mapper.map(address.getWard().getDistrict().getProvince(),
+        ProvinceDTO.class));
     return addressDTO;
   }
 
@@ -96,7 +95,8 @@ public class Utility {
     if (feedback.isEmpty()) {
       return 0;
     }
-    return (double) feedback.stream().mapToInt(Feedback::getRate).sum() / feedback.size();
+    return (double) feedback.stream().mapToInt(Feedback::getRate).sum()
+      / feedback.size();
   }
 
   public static void addOG(Map value) throws IOException {
@@ -148,21 +148,33 @@ public class Utility {
   }
 
   public static NotificationDTO mapNotification(Notification notification) {
-    NotificationDTO notificationDTO = mapper.map(notification, NotificationDTO.class);
+    if (notification == null) {
+      return null;
+    }
+
+    NotificationDTO notificationDTO = mapper.map(notification,
+      NotificationDTO.class);
     Date today = new Date();
 
-    LocalDateTime todayDateTime = today.toInstant().atZone(ZoneId.systemDefault())
+    LocalDateTime todayDateTime = today.toInstant()
+      .atZone(ZoneId.systemDefault())
       .toLocalDateTime();
     LocalDateTime modifiedDateTime = notification.getModified().toInstant()
       .atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-    long secondsElapsed = ChronoUnit.SECONDS.between(modifiedDateTime, todayDateTime);
-    long minutesElapsed = ChronoUnit.MINUTES.between(modifiedDateTime, todayDateTime);
-    long hoursElapsed = ChronoUnit.HOURS.between(modifiedDateTime, todayDateTime);
+    long secondsElapsed = ChronoUnit.SECONDS.between(modifiedDateTime,
+      todayDateTime);
+    long minutesElapsed = ChronoUnit.MINUTES.between(modifiedDateTime,
+      todayDateTime);
+    long hoursElapsed = ChronoUnit.HOURS.between(modifiedDateTime,
+      todayDateTime);
     long daysElapsed = ChronoUnit.DAYS.between(modifiedDateTime, todayDateTime);
-    long weeksElapsed = ChronoUnit.WEEKS.between(modifiedDateTime, todayDateTime);
-    long monthsElapsed = ChronoUnit.MONTHS.between(modifiedDateTime, todayDateTime);
-    long yearsElapsed = ChronoUnit.YEARS.between(modifiedDateTime, todayDateTime);
+    long weeksElapsed = ChronoUnit.WEEKS.between(modifiedDateTime,
+      todayDateTime);
+    long monthsElapsed = ChronoUnit.MONTHS.between(modifiedDateTime,
+      todayDateTime);
+    long yearsElapsed = ChronoUnit.YEARS.between(modifiedDateTime,
+      todayDateTime);
     if (yearsElapsed > 0) {
       if (yearsElapsed == 1) {
         notificationDTO.setTime(yearsElapsed + " year ago");
@@ -210,12 +222,14 @@ public class Utility {
   }
 
   public static UserAvatarDTO mapUserToAvatarDTO(User user) {
-    return new UserAvatarDTO(user.getId(), user.getFirstName() + " " + user.getLastName(),
+    return new UserAvatarDTO(user.getId(),
+      user.getFirstName() + " " + user.getLastName(),
       user.getImage());
   }
 
   public static List<UserAvatarDTO> mapUsersToAvatarDTO(List<User> users) {
-    return users.stream().map(Utility::mapUserToAvatarDTO).collect(Collectors.toList());
+    return users.stream().map(Utility::mapUserToAvatarDTO)
+      .collect(Collectors.toList());
   }
 
   public static UserAvatarDTO mapMentorToAvatarDTO(Mentor mentor) {
@@ -224,27 +238,25 @@ public class Utility {
       mentor.getUser().getImage());
   }
 
-  public static <V> Pagination<V> getPagination(int totalPages, List<V> connections) {
+  public static <V> Pagination<V> getPagination(int totalPages, List<V> list) {
     List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed()
       .collect(Collectors.toList());
-    return new Pagination<>(connections, pageNumbers);
+    return new Pagination<>(list, pageNumbers);
   }
 
   public static <V> Pagination<V> getPagination(Page<V> page) {
     List<V> content = page.getContent();
     int totalPages = page.getTotalPages();
-    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed()
-      .collect(Collectors.toList());
-    return new Pagination<>(content, pageNumbers);
+    return getPagination(totalPages, content);
   }
 
-  public static <K, V> Pagination<V> getPagination(Page<K> page, Transformer<K, V> transformer) {
+  public static <K, V> Pagination<V> getPagination(Page<K> page,
+    Transformer<K, V> transformer) {
     List<K> content = page.getContent();
     int totalPages = page.getTotalPages();
-    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed()
+    List<V> transformed = content.stream().map(transformer::transform)
       .collect(Collectors.toList());
-    List<V> transformed = content.stream().map(transformer::transform).collect(Collectors.toList());
-    return new Pagination<>(transformed, pageNumbers);
+    return getPagination(totalPages, transformed);
   }
 
   public static void saveImage(MultipartFile image, String imageName) {
@@ -256,5 +268,11 @@ public class Utility {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public static <K, V> List<V> mapList(List<K> list,
+    Transformer<K, V> transformer) {
+    return list.stream().map(transformer::transform)
+      .collect(Collectors.toList());
   }
 }

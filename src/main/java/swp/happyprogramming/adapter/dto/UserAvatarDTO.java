@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAvatarDTO {
-    private long id;
-    private String name;
-    private String image;
+
+  private long id;
+  private String name;
+  private String image;
 }

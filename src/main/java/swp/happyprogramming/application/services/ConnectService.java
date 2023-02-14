@@ -4,15 +4,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.port.out.IConnectRepository;
-import swp.happyprogramming.application.usecase.IConnectService;
 import swp.happyprogramming.adapter.dto.ConnectDTO;
+import swp.happyprogramming.application.port.out.IConnectRepository;
+import swp.happyprogramming.application.port.usecase.IConnectService;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.utility.Utility;
@@ -20,21 +19,22 @@ import swp.happyprogramming.utility.Utility;
 @Service
 public class ConnectService implements IConnectService {
 
+  ModelMapper mapper = new ModelMapper();
   @Autowired
   private IConnectRepository connectRepository;
 
-  ModelMapper mapper = new ModelMapper();
-
   @Override
   public Connect findConnectByUser1AndUser2(long user1Id, long user2Id) {
-    return connectRepository.findConnectByUser1IdAndUser2Id(user1Id, user2Id).orElse(null);
+    return connectRepository.findConnectByUser1IdAndUser2Id(user1Id, user2Id)
+      .orElse(null);
   }
 
   @Override
   public List<ConnectDTO> findAllConnections() {
     List<Connect> connects = connectRepository.findAll();
     List<ConnectDTO> connectDTOS = connects.stream()
-      .map(connect -> mapper.map(connect, ConnectDTO.class)).collect(Collectors.toList());
+      .map(connect -> mapper.map(connect, ConnectDTO.class))
+      .collect(Collectors.toList());
     for (int i = 0; i < connects.size(); i++) {
       connectDTOS.get(i).setCreated(Date.from(connects.get(i).getCreated()));
       connectDTOS.get(i).setUser1(Utility.mapUser(connects.get(i).getUser1()));
@@ -76,6 +76,5 @@ public class ConnectService implements IConnectService {
   @Override
   public void disconnect(long user1, long user2) {
     connectRepository.deleteConnection(user1, user2);
-
   }
 }

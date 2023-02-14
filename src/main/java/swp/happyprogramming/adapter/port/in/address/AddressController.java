@@ -1,5 +1,6 @@
 package swp.happyprogramming.adapter.port.in.address;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.adapter.dto.DistrictDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
-
-import java.util.List;
-import swp.happyprogramming.application.usecase.IAddressService;
+import swp.happyprogramming.application.port.usecase.IAddressService;
 
 @Controller
 public class AddressController {

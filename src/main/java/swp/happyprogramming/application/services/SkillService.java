@@ -2,14 +2,12 @@ package swp.happyprogramming.application.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.port.out.ISkillRepository;
-import swp.happyprogramming.application.usecase.ISkillService;
+import swp.happyprogramming.application.port.out.ISkillRepository;
+import swp.happyprogramming.application.port.usecase.ISkillService;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
 import swp.happyprogramming.utility.Utility;

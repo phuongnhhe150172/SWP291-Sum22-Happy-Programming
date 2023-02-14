@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.port.out.IExperienceRepository;
-import swp.happyprogramming.application.usecase.IExperienceService;
+import swp.happyprogramming.application.port.out.IExperienceRepository;
+import swp.happyprogramming.application.port.usecase.IExperienceService;
 import swp.happyprogramming.domain.model.Experience;
 
 @Service
@@ -29,7 +29,8 @@ public class ExperienceService implements IExperienceService {
   //    delete experience by mentor id
   @Override
   public void deleteExperienceByMentorId(long id) {
-    ArrayList<Experience> listExperience = experienceRepository.findByMentorId(id);
+    ArrayList<Experience> listExperience = experienceRepository.findByMentorId(
+      id);
     List<Long> listIdExperience = listExperience.stream().map(Experience::getId)
       .collect(Collectors.toList());
     experienceRepository.deleteAllById(listIdExperience);

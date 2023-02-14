@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import swp.happyprogramming.adapter.dto.ConnectDTO;
-import swp.happyprogramming.domain.model.Connect;
-import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.adapter.port.out.IConnectRepository;
-import swp.happyprogramming.application.usecase.IConnectService;
+import swp.happyprogramming.application.port.usecase.IConnectService;
 
 import java.util.List;
 

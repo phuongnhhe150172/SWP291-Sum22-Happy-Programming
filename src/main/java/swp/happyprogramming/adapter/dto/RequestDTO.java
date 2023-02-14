@@ -5,9 +5,10 @@ import lombok.Data;
 
 @Data
 public class RequestDTO {
-    private long id;
 
-    private UserDTO mentor;
+  private long id;
 
-    private UserDTO mentee;
+  private UserDTO mentor;
+
+  private UserDTO mentee;
 }

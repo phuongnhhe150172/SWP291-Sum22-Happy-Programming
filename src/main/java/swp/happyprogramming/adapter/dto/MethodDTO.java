@@ -10,6 +10,7 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 public class MethodDTO {
-    private long id;
-    private String name;
+
+  private long id;
+  private String name;
 }

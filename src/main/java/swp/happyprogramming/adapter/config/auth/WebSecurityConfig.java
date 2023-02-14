@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import swp.happyprogramming.adapter.sercurity.SimpleAuthenticationSuccessHandler;
-import swp.happyprogramming.application.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.IUserService;
 
 @Configuration
 @EnableWebSecurity

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import swp.happyprogramming.application.services.UserService;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.domain.model.User;
 
 import java.time.Instant;
 

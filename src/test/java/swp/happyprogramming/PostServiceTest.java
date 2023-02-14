@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import swp.happyprogramming.adapter.dto.PostDTO;
 import swp.happyprogramming.adapter.port.out.IPostRepository;
-import swp.happyprogramming.application.usecase.IPostService;
+import swp.happyprogramming.application.port.usecase.IPostService;
 
 import java.util.List;
 

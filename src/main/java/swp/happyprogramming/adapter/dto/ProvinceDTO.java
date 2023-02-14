@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProvinceDTO {
-    private long id;
-    private String name;
-    private String type;
+
+  private long id;
+  private String name;
+  private String type;
 }

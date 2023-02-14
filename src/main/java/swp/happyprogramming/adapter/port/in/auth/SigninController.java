@@ -7,8 +7,9 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 public class SigninController {
-    @GetMapping("/login")
-    public String signinPage(WebRequest request, Model model) {
-        return "login";
-    }
+
+  @GetMapping("/login")
+  public String signinPage(WebRequest request, Model model) {
+    return "login";
+  }
 }

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.adapter.dto.PostDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
-import swp.happyprogramming.application.usecase.IPostService;
-import swp.happyprogramming.application.usecase.IUserService;
+import swp.happyprogramming.application.port.usecase.IPostService;
+import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Care;
 import swp.happyprogramming.domain.model.Method;
 import swp.happyprogramming.domain.model.Post;
@@ -41,12 +41,13 @@ public class PostController {
 
   @Secured("ROLE_MENTEE")
   @GetMapping("/update")
-  public String updatePost(Model model, @RequestParam(value = "id", required = false) String id) {
+  public String updatePost(Model model,
+    @RequestParam(value = "id", required = false) String id) {
     try {
       long postId = Integer.parseInt(id);
 
       PostDTO postDTO = postService.getPostById(postId);
-      UserDTO userDTO = userService.findUser(postDTO.getUser().getId());
+      UserDTO userDTO = userService.findUserDTO(postDTO.getUser().getId());
       List<Method> listMethod = userService.getAllMethod();
 
       model.addAttribute("post", postDTO);
@@ -65,7 +66,7 @@ public class PostController {
     try {
       long method = Integer.parseInt(String.valueOf(params.get("method")));
       long useId = Integer.parseInt(String.valueOf(params.get("useId")));
-      UserDTO userDTO = userService.findUser(useId);
+      UserDTO userDTO = userService.findUserDTO(useId);
 
       postService.updatePost(postDTO, method, userDTO);
 
@@ -77,19 +78,22 @@ public class PostController {
 
 
   @RequestMapping(value = "/care", method = RequestMethod.GET)
-  public String CarePost(Model map, @RequestParam(value = "id", required = false) String id) {
+  public String CarePost(Model map,
+    @RequestParam(value = "id", required = false) String id) {
     //map.addAttribute("foo", "bar");
     User user = getUser();
-    System.out.print("================================" + id + "======" + user.getId());
+    System.out.print(
+      "================================" + id + "======" + user.getId());
     Care care = new Care();
     care.setUserId(user.getId());
     care.setPostId(Long.parseLong(id));
-    userService.save(care);
+    userService.care(care);
     return null;
   }
 
   @RequestMapping(value = "/uncare", method = RequestMethod.GET)
-  public String unCarePost(Model map, @RequestParam(value = "id", required = false) String id) {
+  public String unCarePost(Model map,
+    @RequestParam(value = "id", required = false) String id) {
     //map.addAttribute("foo", "bar");
     User user = getUser();
 
@@ -98,7 +102,8 @@ public class PostController {
   }
 
   private User getUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Authentication authentication = SecurityContextHolder.getContext()
+      .getAuthentication();
     String email = authentication.getName();
     return userService.findByEmail(email);
   }
@@ -128,7 +133,8 @@ public class PostController {
       Method methodDTO = postDTO.getMethod();
       int liked = userService.checkCared(userDTO.getId(), p.getId());
       PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(),
-        userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(),
+        userDTO.getFirstName() + userDTO.getLastName(),
+        postDTO.getDescription(),
         postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
       pi.setLiked(liked);
       result.add(pi);
@@ -159,7 +165,8 @@ public class PostController {
       UserDTO userDTO = postDTO.getUser();
       Method methodDTO = postDTO.getMethod();
       PostVo pi = new PostVo(postDTO.getId(), userDTO.getImage(),
-        userDTO.getFirstName() + userDTO.getLastName(), postDTO.getDescription(),
+        userDTO.getFirstName() + userDTO.getLastName(),
+        postDTO.getDescription(),
         postDTO.getStatus(), postDTO.getPrice(), methodDTO.getName());
       result.add(pi);
     }
@@ -199,12 +206,13 @@ public class PostController {
   }
 
   @GetMapping("/detail")
-  public String detailPost(Model model, @RequestParam(value = "id", required = false) String id) {
+  public String detailPost(Model model,
+    @RequestParam(value = "id", required = false) String id) {
     try {
       long postId = Integer.parseInt(id);
 
       PostDTO postDTO = postService.getPostById(postId);
-      UserDTO userDTO = userService.findUser(postDTO.getUser().getId());
+      UserDTO userDTO = userService.findUserDTO(postDTO.getUser().getId());
       List<Method> listMethod = userService.getAllMethod();
 
       model.addAttribute("post", postDTO);

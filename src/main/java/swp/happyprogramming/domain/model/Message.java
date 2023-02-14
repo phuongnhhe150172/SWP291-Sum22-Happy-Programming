@@ -1,45 +1,30 @@
 package swp.happyprogramming.domain.model;
 
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
-import java.time.Instant;
-
-@Entity
-@Table(name = "chat_messages")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+  private User sender;
 
-    @JoinColumn(name = "content")
-    private String content;
+  private User receiver;
 
-    @Column(name = "timestamp")
-    private Instant timestamp;
+  private String content;
 
-    @Column(name = "title")
-    private String title;
+  private Instant timestamp;
 
-    @Column(name = "image")
-    private String image;
+  private String title;
 
-    @Column(name = "link")
-    private String link;
+  private String image;
+
+  private String link;
 }

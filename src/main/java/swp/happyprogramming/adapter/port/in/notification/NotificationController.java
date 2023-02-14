@@ -1,5 +1,8 @@
 package swp.happyprogramming.adapter.port.in.notification;
 
+import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,48 +12,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import swp.happyprogramming.adapter.dto.NotificationDTO;
+import swp.happyprogramming.application.port.usecase.INotificationService;
+import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Pagination;
-import swp.happyprogramming.domain.model.Role;
 import swp.happyprogramming.domain.model.User;
-import swp.happyprogramming.application.usecase.INotificationService;
-import swp.happyprogramming.application.usecase.IUserService;
-
-
-import jakarta.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/notification/")
 public class NotificationController {
-    @Autowired
-    private HttpSession session;
 
-    @Autowired
-    private INotificationService notificationService;
+  @Autowired
+  private HttpSession session;
 
-    @Autowired
-    private IUserService userService;
+  @Autowired
+  private INotificationService notificationService;
 
-    @GetMapping("all")
-    public String getNotifications(Model model, @RequestParam(required = false, defaultValue = "1") int pageNumber){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.findByEmail(email);
+  @Autowired
+  private IUserService userService;
 
+  @GetMapping("all")
+  public String getNotifications(Model model,
+    @RequestParam(required = false, defaultValue = "1") int pageNumber) {
+    Authentication authentication = SecurityContextHolder.getContext()
+      .getAuthentication();
+    String email = authentication.getName();
+    User user = userService.findByEmail(email);
 
-        Set<Role> roles = new HashSet<Role>(user.getRoles());
+    Set<Role> roles = new HashSet<Role>(user.getRoles());
 
-        Pagination<NotificationDTO> notification = notificationService.getNotificationByRoles(pageNumber, roles);
-        model.addAttribute("notifications", notification.getPaginatedList());
-        model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("totalPages", notification.getPageNumbers().size());
+    Pagination<NotificationDTO> notification = notificationService.getNotificationByRoles(
+      pageNumber, roles);
+    model.addAttribute("notifications", notification.getPaginatedList());
+    model.addAttribute("pageNumber", pageNumber);
+    model.addAttribute("totalPages", notification.getPageNumbers().size());
 
-        return "notification/notifications";
-    }
+    return "notification/notifications";
+  }
 
-    
-
-  
 
 }

@@ -6,23 +6,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.DistrictDTO;
-import swp.happyprogramming.adapter.dto.MentorDTO;
 import swp.happyprogramming.adapter.dto.ProvinceDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
-import swp.happyprogramming.adapter.port.out.IAddressRepository;
-import swp.happyprogramming.adapter.port.out.IDistrictRepository;
-import swp.happyprogramming.adapter.port.out.IProvinceRepository;
-import swp.happyprogramming.adapter.port.out.IWardRepository;
-import swp.happyprogramming.application.usecase.IAddressService;
+import swp.happyprogramming.application.port.out.IAddressRepository;
+import swp.happyprogramming.application.port.out.IDistrictRepository;
+import swp.happyprogramming.application.port.out.IProvinceRepository;
+import swp.happyprogramming.application.port.out.IWardRepository;
+import swp.happyprogramming.application.port.usecase.IAddressService;
 import swp.happyprogramming.domain.model.Address;
 import swp.happyprogramming.domain.model.District;
 import swp.happyprogramming.domain.model.Province;
+import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.domain.model.Ward;
 
 @Service
 public class AddressService implements IAddressService {
 
-  ModelMapper mapper = new ModelMapper();
   @Autowired
   private IAddressRepository addressRepository;
   @Autowired
@@ -36,9 +35,12 @@ public class AddressService implements IAddressService {
   public String getAddress(long addressId) {
     Address address = addressRepository.findByAddressId(addressId);
     Ward ward = wardRepository.findWardById(address.getWard().getId());
-    District district = districtRepository.findDistrictById(ward.getDistrict().getId());
-    Province province = provinceRepository.findProvinceById(district.getProvince().getId());
-    return address.getName() + ", " + ward.getName() + ", " + district.getName() + ", "
+    District district = districtRepository.findDistrictById(
+      ward.getDistrict().getId());
+    Province province = provinceRepository.findProvinceById(
+      district.getProvince().getId());
+    return address.getName() + ", " + ward.getName() + ", " + district.getName()
+      + ", "
       + province.getName();
   }
 
@@ -80,16 +82,20 @@ public class AddressService implements IAddressService {
 
   @Override
   public long getProvinceIdByDistrictId(long districtId) {
-    District district = districtRepository.findById(districtId).orElse(new District());
+    District district = districtRepository.findById(districtId)
+      .orElse(new District());
     return district.getProvince().getId();
   }
 
-  public void updateAddress(MentorDTO mentorDTO, long wardId) {
-    Address address = mapper.map(mentorDTO.getAddress(), Address.class);
-    Ward ward = wardRepository.findById(wardId).orElse(new Ward());
+  @Override
+  public void updateAddress(User user, long wardId, String name) {
+    Address address = user.getAddress();
+
+    Ward ward = wardRepository.findById(wardId).orElse(null);
     address.setWard(ward);
-    address.setName(mentorDTO.getAddress().getName());
-    addressRepository.save(address);
+    address.setName(name);
+
+    user.setAddress(address);
   }
 
   @Override
