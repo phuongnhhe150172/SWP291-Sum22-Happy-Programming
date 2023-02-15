@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Date;
 
 @Entity
-@IdClass(embedCare.class)
+@IdClass(CareID.class)
 @Table(name = "user_like_posts")
 @Getter
 @Setter

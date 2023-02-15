@@ -10,7 +10,7 @@ import swp.happyprogramming.application.port.out.CarePortOut;
 import swp.happyprogramming.domain.model.Care;
 
 
-@Repository
+@Repository("careRepository")
 public interface ICareRepository extends JpaRepository<Care, Long> ,
   CarePortOut {
 

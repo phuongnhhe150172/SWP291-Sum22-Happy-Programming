@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.UserPortOut;
 import swp.happyprogramming.domain.model.User;
 
-@Repository
+@Repository("userRepository")
 public interface IUserRepository extends JpaRepository<User, Long> ,
   UserPortOut {
 

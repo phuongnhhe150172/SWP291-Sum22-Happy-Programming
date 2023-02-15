@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.MentorPortOut;
 import swp.happyprogramming.domain.model.Mentor;
 
-@Repository
+@Repository("mentorRepository")
 public interface IMentorRepository extends JpaRepository<Mentor, Long> ,
   MentorPortOut {
 

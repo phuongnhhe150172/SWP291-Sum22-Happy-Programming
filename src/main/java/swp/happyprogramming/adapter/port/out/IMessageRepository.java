@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.MessagePortOut;
 import swp.happyprogramming.domain.model.Message;
 
-@Repository
+@Repository("messageRepository")
 public interface IMessageRepository extends JpaRepository<Message, Long> ,
   MessagePortOut {
 

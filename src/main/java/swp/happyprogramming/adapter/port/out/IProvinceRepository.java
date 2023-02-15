@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.ProvincePortOut;
 import swp.happyprogramming.domain.model.Province;
 
-@Repository
+@Repository("provinceRepository")
 public interface IProvinceRepository extends JpaRepository<Province, Long> ,
   ProvincePortOut {
 

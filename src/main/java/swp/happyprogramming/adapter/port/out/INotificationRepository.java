@@ -13,7 +13,7 @@ import swp.happyprogramming.application.port.out.NotificationPortOut;
 import swp.happyprogramming.domain.model.Notification;
 import swp.happyprogramming.domain.model.Role;
 
-@Repository
+@Repository("notificationRepository")
 public interface INotificationRepository extends
   JpaRepository<Notification, Long>,
   NotificationPortOut {

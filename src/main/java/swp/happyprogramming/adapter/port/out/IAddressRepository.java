@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.AddressPortOut;
 import swp.happyprogramming.domain.model.Address;
 
-@Repository
+@Repository("addressRepository")
 public interface IAddressRepository extends JpaRepository<Address, Long>,
   AddressPortOut {
 

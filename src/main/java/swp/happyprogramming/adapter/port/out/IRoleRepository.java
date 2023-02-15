@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.RolePortOut;
 import swp.happyprogramming.domain.model.Role;
 
-@Repository
+@Repository("roleRepository")
 public interface IRoleRepository extends JpaRepository<Role, Long> ,
   RolePortOut {
 

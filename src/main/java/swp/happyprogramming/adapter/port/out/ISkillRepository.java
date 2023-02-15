@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.SkillPortOut;
 import swp.happyprogramming.domain.model.Skill;
 
-@Repository
+@Repository("skillRepository")
 public interface ISkillRepository extends JpaRepository<Skill, Long>,
   SkillPortOut {
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.WardPortOut;
 import swp.happyprogramming.domain.model.Ward;
 
-@Repository
+@Repository("wardRepository")
 public interface IWardRepository extends JpaRepository<Ward, Long> ,
   WardPortOut {
 

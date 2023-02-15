@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.MethodPortOut;
 import swp.happyprogramming.domain.model.Method;
 
-@Repository
+@Repository("methodRepository")
 public interface IMethodRepository extends JpaRepository<Method, Long> ,
   MethodPortOut {
 

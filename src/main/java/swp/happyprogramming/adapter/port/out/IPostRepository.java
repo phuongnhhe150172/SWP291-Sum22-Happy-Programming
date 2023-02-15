@@ -10,7 +10,7 @@ import swp.happyprogramming.application.port.out.PostPortOut;
 import swp.happyprogramming.domain.model.Post;
 import swp.happyprogramming.domain.model.User;
 
-@Repository
+@Repository("postRepository")
 public interface IPostRepository extends JpaRepository<Post, Long> ,
   PostPortOut {
 

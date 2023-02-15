@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.DistrictPortOut;
 import swp.happyprogramming.domain.model.District;
 
-@Repository
+@Repository("districtRepository")
 public interface IDistrictRepository extends JpaRepository<District, Long> ,
   DistrictPortOut {
 
