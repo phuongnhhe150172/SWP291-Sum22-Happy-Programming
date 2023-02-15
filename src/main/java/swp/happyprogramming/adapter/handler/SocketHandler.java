@@ -1,6 +1,12 @@
 package swp.happyprogramming.adapter.handler;
 
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -8,14 +14,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import swp.happyprogramming.application.port.usecase.IMessageService;
 import swp.happyprogramming.application.port.usecase.IUserService;
+import swp.happyprogramming.domain.model.Message;
 import swp.happyprogramming.utility.Utility;
-
-import java.io.IOException;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class SocketHandler extends TextWebSocketHandler {

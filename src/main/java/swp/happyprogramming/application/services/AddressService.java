@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.DistrictDTO;
 import swp.happyprogramming.adapter.dto.ProvinceDTO;
 import swp.happyprogramming.adapter.dto.WardDTO;
-import swp.happyprogramming.application.port.out.IAddressRepository;
-import swp.happyprogramming.application.port.out.IDistrictRepository;
-import swp.happyprogramming.application.port.out.IProvinceRepository;
-import swp.happyprogramming.application.port.out.IWardRepository;
+import swp.happyprogramming.application.port.out.AddressPortOut;
+import swp.happyprogramming.application.port.out.DistrictPortOut;
+import swp.happyprogramming.application.port.out.ProvincePortOut;
+import swp.happyprogramming.application.port.out.WardPortOut;
 import swp.happyprogramming.application.port.usecase.IAddressService;
 import swp.happyprogramming.domain.model.Address;
 import swp.happyprogramming.domain.model.District;
@@ -23,13 +23,13 @@ import swp.happyprogramming.domain.model.Ward;
 public class AddressService implements IAddressService {
 
   @Autowired
-  private IAddressRepository addressRepository;
+  private AddressPortOut addressRepository;
   @Autowired
-  private IWardRepository wardRepository;
+  private WardPortOut wardRepository;
   @Autowired
-  private IDistrictRepository districtRepository;
+  private DistrictPortOut districtRepository;
   @Autowired
-  private IProvinceRepository provinceRepository;
+  private ProvincePortOut provinceRepository;
 
   @Override
   public String getAddress(long addressId) {

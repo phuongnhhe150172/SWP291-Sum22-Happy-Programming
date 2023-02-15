@@ -12,6 +12,7 @@ import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.port.usecase.IMessageService;
 import swp.happyprogramming.application.port.usecase.IUserService;
+import swp.happyprogramming.domain.model.Message;
 
 @Controller
 public class MessageController {

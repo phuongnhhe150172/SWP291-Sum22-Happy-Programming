@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.ConnectDTO;
-import swp.happyprogramming.application.port.out.IConnectRepository;
+import swp.happyprogramming.application.port.out.ConnectPortOut;
 import swp.happyprogramming.application.port.usecase.IConnectService;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
@@ -21,7 +21,7 @@ public class ConnectService implements IConnectService {
 
   ModelMapper mapper = new ModelMapper();
   @Autowired
-  private IConnectRepository connectRepository;
+  private ConnectPortOut connectRepository;
 
   @Override
   public Connect findConnectByUser1AndUser2(long user1Id, long user2Id) {

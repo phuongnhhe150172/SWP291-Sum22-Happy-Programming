@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.NotificationDTO;
-import swp.happyprogramming.application.port.out.INotificationRepository;
+import swp.happyprogramming.application.port.out.NotificationPortOut;
 import swp.happyprogramming.application.port.usecase.INotificationService;
 import swp.happyprogramming.domain.model.Notification;
 import swp.happyprogramming.domain.model.Pagination;
@@ -19,7 +19,7 @@ import swp.happyprogramming.utility.Utility;
 public class NotificationService implements INotificationService {
 
   @Autowired
-  private INotificationRepository notificationRepository;
+  private NotificationPortOut notificationRepository;
 
   @Override
   public List<NotificationDTO> getNotificationByRoles(Set<Role> roles) {

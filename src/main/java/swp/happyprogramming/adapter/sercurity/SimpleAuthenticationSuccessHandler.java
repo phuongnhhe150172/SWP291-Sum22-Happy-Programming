@@ -1,5 +1,11 @@
 package swp.happyprogramming.adapter.sercurity;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
@@ -10,14 +16,8 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.port.usecase.IUserService;
+import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.utility.Utility;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Collection;
 
 @Configuration
 public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

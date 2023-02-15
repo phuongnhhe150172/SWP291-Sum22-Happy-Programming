@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.application.port.out.IExperienceRepository;
+import swp.happyprogramming.application.port.out.ExperiencePortOut;
 import swp.happyprogramming.application.port.usecase.IExperienceService;
 import swp.happyprogramming.domain.model.Experience;
 
@@ -13,7 +13,7 @@ import swp.happyprogramming.domain.model.Experience;
 public class ExperienceService implements IExperienceService {
 
   @Autowired
-  private IExperienceRepository experienceRepository;
+  private ExperiencePortOut experienceRepository;
 
   @Override
   public ArrayList<Experience> getAllExperienceByProfileID(long id) {

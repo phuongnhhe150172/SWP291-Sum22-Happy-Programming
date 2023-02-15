@@ -12,9 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.PostDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
-import swp.happyprogramming.application.port.out.IMethodRepository;
-import swp.happyprogramming.application.port.out.IPostRepository;
-import swp.happyprogramming.application.port.out.IUserRepository;
+import swp.happyprogramming.application.port.out.MethodPortOut;
+import swp.happyprogramming.application.port.out.PostPortOut;
+import swp.happyprogramming.application.port.out.UserPortOut;
 import swp.happyprogramming.application.port.usecase.IPostService;
 import swp.happyprogramming.domain.model.Method;
 import swp.happyprogramming.domain.model.Pagination;
@@ -27,11 +27,11 @@ public class PostService implements IPostService {
 
   ModelMapper mapper = new ModelMapper();
   @Autowired
-  private IPostRepository postRepository;
+  private PostPortOut postRepository;
   @Autowired
-  private IMethodRepository methodRepository;
+  private MethodPortOut methodRepository;
   @Autowired
-  private IUserRepository userRepository;
+  private UserPortOut userRepository;
 
   @Override
   public List<Post> getAllPosts() {

@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.application.port.out.IMessageRepository;
+import swp.happyprogramming.application.port.out.MessagePortOut;
 import swp.happyprogramming.application.port.usecase.IMessageService;
 import swp.happyprogramming.domain.model.Message;
 
@@ -13,7 +13,7 @@ import swp.happyprogramming.domain.model.Message;
 public class MessageService implements IMessageService {
 
   @Autowired
-  private IMessageRepository messageRepository;
+  private MessagePortOut messageRepository;
 
   @Override
   public List<Message> getMessagesByUserId(long id, long recId) {

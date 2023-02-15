@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import swp.happyprogramming.adapter.dto.MentorDTO;
 import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
-import swp.happyprogramming.application.port.out.IMentorRepository;
+import swp.happyprogramming.application.port.out.MentorPortOut;
 import swp.happyprogramming.application.port.usecase.IAddressService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.application.port.usecase.MentorUseCase;
@@ -27,7 +27,7 @@ import swp.happyprogramming.utility.Utility;
 public class MentorService implements MentorUseCase {
 
   @Autowired
-  private IMentorRepository mentorRepository;
+  private MentorPortOut mentorRepository;
   @Autowired
   private ModelMapper mapper;
   @Autowired

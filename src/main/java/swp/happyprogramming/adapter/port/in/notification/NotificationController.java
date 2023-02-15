@@ -15,6 +15,7 @@ import swp.happyprogramming.adapter.dto.NotificationDTO;
 import swp.happyprogramming.application.port.usecase.INotificationService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Pagination;
+import swp.happyprogramming.domain.model.Role;
 import swp.happyprogramming.domain.model.User;
 
 @Controller

@@ -21,11 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
-import swp.happyprogramming.application.port.out.ICareRepository;
-import swp.happyprogramming.application.port.out.IMentorRepository;
-import swp.happyprogramming.application.port.out.IMethodRepository;
-import swp.happyprogramming.application.port.out.IRoleRepository;
-import swp.happyprogramming.application.port.out.IUserRepository;
+import swp.happyprogramming.application.port.out.CarePortOut;
+import swp.happyprogramming.application.port.out.MentorPortOut;
+import swp.happyprogramming.application.port.out.MethodPortOut;
+import swp.happyprogramming.application.port.out.RolePortOut;
+import swp.happyprogramming.application.port.out.UserPortOut;
 import swp.happyprogramming.application.port.usecase.IAddressService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Address;
@@ -44,19 +44,19 @@ public class UserService implements IUserService {
   @Autowired
   private ModelMapper mapper;
   @Autowired
-  private IMethodRepository methodRepository;
+  private MethodPortOut methodRepository;
   @Autowired
-  private IUserRepository userRepository;
+  private UserPortOut userRepository;
   @Autowired
   private IAddressService addressService;
   @Autowired
   private BCryptPasswordEncoder passwordEncoder;
   @Autowired
-  private ICareRepository careRepository;
+  private CarePortOut careRepository;
   @Autowired
-  private IRoleRepository roleRepository;
+  private RolePortOut roleRepository;
   @Autowired
-  private IMentorRepository mentorRepository;
+  private MentorPortOut mentorRepository;
 
   @Override
   public void registerNewUserAccount(UserDTO userDTO)

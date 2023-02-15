@@ -14,6 +14,7 @@ import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.port.usecase.IFeedbackService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Feedback;
+import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.utility.Utility;
 
 @Controller

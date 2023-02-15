@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.application.port.out.IConnectRepository;
-import swp.happyprogramming.application.port.out.IRequestRepository;
+import swp.happyprogramming.application.port.out.ConnectPortOut;
+import swp.happyprogramming.application.port.out.RequestPortOut;
 import swp.happyprogramming.application.port.usecase.IRequestService;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
@@ -19,10 +19,10 @@ import swp.happyprogramming.utility.Utility;
 public class RequestService implements IRequestService {
 
   @Autowired
-  private IRequestRepository requestRepository;
+  private RequestPortOut requestRepository;
 
   @Autowired
-  private IConnectRepository connectRepository;
+  private ConnectPortOut connectRepository;
 
   @Override
   public Pagination<Request> getRequestSent(long menteeId, int pageNumber) {

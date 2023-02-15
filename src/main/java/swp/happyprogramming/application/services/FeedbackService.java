@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import swp.happyprogramming.application.port.out.IFeedbackRepository;
+import swp.happyprogramming.application.port.out.FeedbackPortOut;
 import swp.happyprogramming.application.port.usecase.IFeedbackService;
 import swp.happyprogramming.domain.model.Feedback;
 import swp.happyprogramming.domain.model.Pagination;
@@ -16,7 +16,7 @@ import swp.happyprogramming.utility.Utility;
 public class FeedbackService implements IFeedbackService {
 
   @Autowired
-  private IFeedbackRepository feedbackRepository;
+  private FeedbackPortOut feedbackRepository;
 
   @Override
   public Pagination<Feedback> getFeedbackReceived(User user, int pageNumber) {
