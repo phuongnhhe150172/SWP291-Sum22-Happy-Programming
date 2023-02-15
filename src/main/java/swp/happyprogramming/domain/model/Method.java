@@ -1,14 +1,21 @@
 package swp.happyprogramming.domain.model;
 
-import java.util.Collection;
 import lombok.Data;
 
+import jakarta.persistence.*;
+import java.util.Collection;
+
+@Entity
+@Table(name = "method")
 @Data
 public class Method {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-  private long id;
+    @Column(name = "name")
+    private String name;
 
-  private String name;
-
-  private Collection<Post> posts;
+    @OneToMany(mappedBy = "method")
+    private Collection<Post> posts;
 }

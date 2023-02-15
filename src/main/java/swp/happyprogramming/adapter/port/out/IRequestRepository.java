@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.RequestPortOut;
 import swp.happyprogramming.domain.model.Request;
 
-@Repository
+@Repository("requestRepository")
 public interface IRequestRepository extends JpaRepository<Request, Long> ,
   RequestPortOut {
 
@@ -31,4 +31,6 @@ public interface IRequestRepository extends JpaRepository<Request, Long> ,
   @Transactional
   @Query(value = "Insert into request(mentor_id,mentee_id) values (?1,?2)", nativeQuery = true)
   void insertByMentorIdAndMenteeId(long mentorId, long menteeId);
+
+  Page<Request> findAll(Pageable pageRequest);
 }

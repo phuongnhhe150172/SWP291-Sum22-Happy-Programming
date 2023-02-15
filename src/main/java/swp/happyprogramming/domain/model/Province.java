@@ -1,21 +1,32 @@
 package swp.happyprogramming.domain.model;
 
-import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
+import java.util.Collection;
+
+@Entity
+@Table(name = "province")
 @Getter
 @Setter
 public class Province {
 
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
 
-  private String name;
+    @Column(name = "name")
+    private String name;
 
-  private String type;
-  private Collection<District> districts;
+    @Column(name = "type")
+    private String type;
 
-  public Province() {
-    this.id = 1;
-  }
+    public Province() {
+        this.id = 1;
+    }
+
+    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
+    private Collection<District> districts;
 }

@@ -3,7 +3,7 @@ package swp.happyprogramming.application.port.out;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import swp.happyprogramming.domain.model.Mentor;
 
 
@@ -33,5 +33,5 @@ public interface MentorPortOut {
 
   Mentor save(Mentor mentor);
 
-  Page<Mentor> findAll(PageRequest pageRequest);
+  Page<Mentor> findAll(Pageable pageRequest);
 }

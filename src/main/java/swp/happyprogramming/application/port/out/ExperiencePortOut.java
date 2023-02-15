@@ -10,9 +10,7 @@ public interface ExperiencePortOut {
 
   ArrayList<Experience> findExperienceLast(int number);
 
-  void deleteAllById(List<Long> listIdExperience);
-
-  List<Experience> saveAll(List<Experience> experiences);
+  void deleteAllByIdIn(List<Long> listIdExperience);
 
   Experience save(Experience experience);
 }

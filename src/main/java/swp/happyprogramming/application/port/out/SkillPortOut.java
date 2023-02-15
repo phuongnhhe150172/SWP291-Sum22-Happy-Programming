@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import swp.happyprogramming.domain.model.Skill;
 
 public interface SkillPortOut {
@@ -15,7 +15,7 @@ public interface SkillPortOut {
 
   Skill getById(Long id);
 
-  Page<Skill> findAll(PageRequest pageRequest);
+  Page<Skill> findAll(Pageable pageRequest);
 
   List<Skill> findAll();
 

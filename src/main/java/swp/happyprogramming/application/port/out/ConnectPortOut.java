@@ -3,7 +3,7 @@ package swp.happyprogramming.application.port.out;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import swp.happyprogramming.domain.model.Connect;
 
 
@@ -17,5 +17,5 @@ public interface ConnectPortOut {
 
   List<Connect> findAll();
 
-  Page<Connect> findAll(PageRequest pageRequest);
+  Page<Connect> findAll(Pageable pageRequest);
 }

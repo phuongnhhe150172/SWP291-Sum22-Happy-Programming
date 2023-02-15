@@ -1,7 +1,10 @@
 package swp.happyprogramming.adapter.port.out;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import swp.happyprogramming.application.port.out.ConnectPortOut;
 import swp.happyprogramming.domain.model.Connect;
 
-@Repository
+@Repository("connectRepository")
 public interface IConnectRepository extends JpaRepository<Connect, Long> ,
   ConnectPortOut {
 
@@ -20,4 +23,8 @@ public interface IConnectRepository extends JpaRepository<Connect, Long> ,
   @Transactional
   @Query(value = "delete from connections where user1 = ?1 and user2 = ?2 ", nativeQuery = true)
   void deleteConnection(long user1, long user2);
+
+  List<Connect> findAll();
+
+  Page<Connect> findAll(Pageable pageRequest);
 }

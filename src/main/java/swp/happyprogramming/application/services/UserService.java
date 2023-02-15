@@ -22,7 +22,6 @@ import swp.happyprogramming.adapter.dto.UserAvatarDTO;
 import swp.happyprogramming.adapter.dto.UserDTO;
 import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.application.port.out.CarePortOut;
-import swp.happyprogramming.application.port.out.MentorPortOut;
 import swp.happyprogramming.application.port.out.MethodPortOut;
 import swp.happyprogramming.application.port.out.RolePortOut;
 import swp.happyprogramming.application.port.out.UserPortOut;
@@ -55,8 +54,6 @@ public class UserService implements IUserService {
   private CarePortOut careRepository;
   @Autowired
   private RolePortOut roleRepository;
-  @Autowired
-  private MentorPortOut mentorRepository;
 
   @Override
   public void registerNewUserAccount(UserDTO userDTO)

@@ -1,72 +1,111 @@
 package swp.happyprogramming.domain.model;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+@Entity
+@Table(name = "users")
 @Getter
 @Setter
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
 
-  private Long id;
+    @Column(name = "firstname")
+    private String firstName;
+    @Column(name = "lastname")
+    private String lastName;
 
-  private String firstName;
-  private String lastName;
+    @Column(name = "email", unique = true)
+    private String email;
+    @Column(name = "password")
+    private String password;
 
-  private String email;
-  private String password;
+    @Column(name = "gender")
+    private Integer gender;
+    @Column(name = "dob")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    @Column(name = "bio")
+    private String bio;
+    @Column(name = "school")
+    private String school;
+    @Column(name = "is_online")
+    private Integer isOnline;
+    @Column(name = "is_offline")
+    private Integer isOffline;
+    @Column(name = "price")
+    private Double price;
+    @Column(name = "image")
+    private String image;
+    @Column(name = "status")
+    private Integer status;
 
-  private Integer gender;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private Date dob;
-  private String phoneNumber;
-  private String bio;
-  private String school;
-  private Integer isOnline;
-  private Integer isOffline;
-  private Double price;
-  private String image = "/upload/static/imgs/avatar_default.jpg";
-  private Integer status = 1;
+    @Column(name = "created")
+    private Date created;
+    @Column(name = "modified")
+    private Date modified;
 
-  private Date created;
+    @Column(name = "password_token")
+    private String resetPasswordToken;
 
-  private Date modified;
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
 
-  private String resetPasswordToken;
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
 
-  private Collection<Role> roles;
-  private Address address;
-  private Collection<Mentor> mentors;
-  private Collection<Post> posts;
-  private Collection<Connect> connects1;
-  private Collection<Connect> connects2;
-  private Collection<Request> requestReceived;
-  private Collection<Request> requestSent;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
-  public User() {
-    this.created = Date.from(Instant.now());
-    this.modified = Date.from(Instant.now());
-    this.roles = new ArrayList<>();
-  }
+    public User() {
+        this.created = Date.from(Instant.now());
+        this.modified = Date.from(Instant.now());
+        this.roles = new ArrayList<>();
+    }
 
-  public String getResetPasswordToken() {
-    return resetPasswordToken;
-  }
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 
-  public void setResetPasswordToken(String resetPasswordToken) {
-    this.resetPasswordToken = resetPasswordToken;
-  }
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-  public void addRole(Role role) {
-    this.roles.add(role);
-  }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Mentor> mentors;
 
-  public void markModified() {
-    this.modified = Date.from(Instant.now());
-  }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Post> posts;
 
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
+    private Collection<Connect> connects1;
+
+    @OneToMany(mappedBy = "user2",cascade = CascadeType.ALL)
+    private Collection<Connect> connects2;
+
+    @OneToMany(mappedBy = "mentor",cascade = CascadeType.ALL)
+    private Collection<Request> requestReceived;
+
+    @OneToMany(mappedBy = "mentee",cascade = CascadeType.ALL)
+    private Collection<Request> requestSent;
 }

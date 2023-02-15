@@ -1,20 +1,33 @@
 package swp.happyprogramming.domain.model;
 
-import java.time.Instant;
 import lombok.Data;
 
+import jakarta.persistence.*;
+import java.time.Instant;
+
+@Entity
+@Table(name = "feedback")
 @Data
 public class Feedback {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
 
-  private long id;
+    @ManyToOne
+    @JoinColumn(name = "received_id")
+    private User receiver;
 
-  private User receiver;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
-  private User sender;
+    @Column(name = "rate")
+    private int rate;
 
-  private int rate;
+    @Column(name = "comment")
+    private String comment;
 
-  private String comment;
-
-  private Instant created;
+    @Column(name = "created")
+    private Instant created;
 }

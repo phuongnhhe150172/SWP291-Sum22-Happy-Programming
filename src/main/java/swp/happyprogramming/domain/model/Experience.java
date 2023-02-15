@@ -1,15 +1,12 @@
 package swp.happyprogramming.domain.model;
 
-import java.util.Collection;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import jakarta.persistence.*;
+import java.util.Collection;
+
+@Entity
+@Table(name = "experience")
 @Getter
 @Setter
 @ToString
@@ -18,12 +15,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Experience {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
 
-  private long id;
+    @NonNull
+    @Column(name = "description")
+    private String description;
 
-  @NonNull
-  private String description;
-
-  private Collection<Mentor> mentors;
+    @ManyToMany(mappedBy = "experiences", cascade = CascadeType.ALL)
+    private Collection<Mentor> mentors;
 
 }
