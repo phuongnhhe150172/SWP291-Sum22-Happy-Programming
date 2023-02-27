@@ -2,20 +2,19 @@ package swp.happyprogramming.application.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 import swp.happyprogramming.application.port.out.SkillPortOut;
 import swp.happyprogramming.application.port.usecase.ISkillService;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class SkillService implements ISkillService {
 
-  @Autowired
+  //@Autowired
   private SkillPortOut skillRepository;
 
   @Override

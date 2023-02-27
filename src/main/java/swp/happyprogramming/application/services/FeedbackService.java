@@ -1,10 +1,9 @@
 package swp.happyprogramming.application.services;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 import swp.happyprogramming.application.port.out.FeedbackPortOut;
 import swp.happyprogramming.application.port.usecase.IFeedbackService;
 import swp.happyprogramming.domain.model.Feedback;
@@ -12,10 +11,9 @@ import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class FeedbackService implements IFeedbackService {
 
-  @Autowired
   private FeedbackPortOut feedbackRepository;
 
   @Override

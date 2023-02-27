@@ -1,9 +1,9 @@
 package swp.happyprogramming.application.port.usecase;
 
 import java.util.List;
-import swp.happyprogramming.adapter.dto.DistrictDTO;
-import swp.happyprogramming.adapter.dto.ProvinceDTO;
-import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.application.dto.DistrictDTO;
+import swp.happyprogramming.application.dto.ProvinceDTO;
+import swp.happyprogramming.application.dto.WardDTO;
 import swp.happyprogramming.domain.model.Address;
 import swp.happyprogramming.domain.model.User;
 

@@ -29,5 +29,5 @@ public interface IRequestService {
 
   List<Request> getRequestReceived(long mentorId);
 
-  void acceptReceivedRequest(long requestId);
+  void acceptReceivedRequest(long userID, long requestId);
 }

@@ -1,4 +1,4 @@
-package swp.happyprogramming.adapter.dto;
+package swp.happyprogramming.application.dto;
 
 import java.time.Instant;
 import java.util.Date;

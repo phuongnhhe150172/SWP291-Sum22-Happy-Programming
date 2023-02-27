@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.dto.MentorDTO;
-import swp.happyprogramming.adapter.dto.UserAvatarDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.MentorDTO;
+import swp.happyprogramming.application.dto.UserAvatarDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.port.out.MentorPortOut;
 import swp.happyprogramming.application.port.usecase.IAddressService;
 import swp.happyprogramming.application.port.usecase.IUserService;
@@ -23,16 +22,12 @@ import swp.happyprogramming.domain.model.Skill;
 import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class MentorService implements MentorUseCase {
 
-  @Autowired
   private MentorPortOut mentorRepository;
-  @Autowired
   private ModelMapper mapper;
-  @Autowired
   private IUserService userService;
-  @Autowired
   private IAddressService addressService;
 
   @Override

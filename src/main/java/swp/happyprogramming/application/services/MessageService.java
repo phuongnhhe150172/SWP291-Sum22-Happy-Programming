@@ -3,16 +3,14 @@ package swp.happyprogramming.application.services;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
 import swp.happyprogramming.application.port.out.MessagePortOut;
 import swp.happyprogramming.application.port.usecase.IMessageService;
 import swp.happyprogramming.domain.model.Message;
 
-@Service
+@AllArgsConstructor
 public class MessageService implements IMessageService {
 
-  @Autowired
   private MessagePortOut messageRepository;
 
   @Override

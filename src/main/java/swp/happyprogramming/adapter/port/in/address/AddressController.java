@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.adapter.dto.DistrictDTO;
-import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.application.dto.DistrictDTO;
+import swp.happyprogramming.application.dto.WardDTO;
 import swp.happyprogramming.application.port.usecase.IAddressService;
 
 @Controller

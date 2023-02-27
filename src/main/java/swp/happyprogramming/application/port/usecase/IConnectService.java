@@ -1,7 +1,7 @@
 package swp.happyprogramming.application.port.usecase;
 
 import java.util.List;
-import swp.happyprogramming.adapter.dto.ConnectDTO;
+import swp.happyprogramming.application.dto.ConnectDTO;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 

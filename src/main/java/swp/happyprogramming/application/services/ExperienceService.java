@@ -2,20 +2,20 @@ package swp.happyprogramming.application.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 import swp.happyprogramming.application.port.out.ExperiencePortOut;
 import swp.happyprogramming.application.port.usecase.IExperienceService;
 import swp.happyprogramming.domain.model.Experience;
+import swp.happyprogramming.utility.Utility;
 
-@Service
 public class ExperienceService implements IExperienceService {
 
-  @Autowired
-  @Qualifier("experienceRepository")
+  //@Autowired
+  //@Qualifier("experienceRepository")
   private ExperiencePortOut experienceRepository;
+
+  public ExperienceService(ExperiencePortOut experienceRepository) {
+    this.experienceRepository = experienceRepository;
+  }
 
   @Override
   public ArrayList<Experience> getAllExperienceByProfileID(long id) {
@@ -32,8 +32,8 @@ public class ExperienceService implements IExperienceService {
   public void deleteExperienceByMentorId(long id) {
     ArrayList<Experience> listExperience = experienceRepository.findByMentorId(
       id);
-    List<Long> listIdExperience = listExperience.stream().map(Experience::getId)
-      .collect(Collectors.toList());
+    List<Long> listIdExperience = Utility.mapList(listExperience,
+      Experience::getId);
     experienceRepository.deleteAllByIdIn(listIdExperience);
   }
 

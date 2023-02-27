@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.dto.PostDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.PostDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.port.out.MethodPortOut;
 import swp.happyprogramming.application.port.out.PostPortOut;
 import swp.happyprogramming.application.port.out.UserPortOut;
@@ -22,16 +21,14 @@ import swp.happyprogramming.domain.model.Post;
 import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class PostService implements IPostService {
 
-  ModelMapper mapper = new ModelMapper();
-  @Autowired
+  private ModelMapper mapper;
   private PostPortOut postRepository;
-  @Autowired
   private MethodPortOut methodRepository;
-  @Autowired
   private UserPortOut userRepository;
+
 
   @Override
   public List<Post> getAllPosts() {

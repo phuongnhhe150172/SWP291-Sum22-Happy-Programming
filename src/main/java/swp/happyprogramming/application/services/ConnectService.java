@@ -5,23 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.dto.ConnectDTO;
+import swp.happyprogramming.application.dto.ConnectDTO;
 import swp.happyprogramming.application.port.out.ConnectPortOut;
 import swp.happyprogramming.application.port.usecase.IConnectService;
 import swp.happyprogramming.domain.model.Connect;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.utility.Utility;
 
-@Service
 public class ConnectService implements IConnectService {
 
   ModelMapper mapper = new ModelMapper();
-  @Autowired
   private ConnectPortOut connectRepository;
+
+  public ConnectService(ConnectPortOut connectRepository) {
+    this.connectRepository = connectRepository;
+  }
 
   @Override
   public Connect findConnectByUser1AndUser2(long user1Id, long user2Id) {

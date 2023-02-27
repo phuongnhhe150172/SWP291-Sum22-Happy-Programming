@@ -3,11 +3,9 @@ package swp.happyprogramming.application.services;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 import swp.happyprogramming.application.port.out.ConnectPortOut;
 import swp.happyprogramming.application.port.out.RequestPortOut;
 import swp.happyprogramming.application.port.usecase.IRequestService;
@@ -16,15 +14,15 @@ import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Request;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class RequestService implements IRequestService {
 
-  @Autowired
-  @Qualifier("requestRepository")
+  //@Autowired
+  //@Qualifier("requestRepository")
   private RequestPortOut requestRepository;
 
-  @Autowired
-  @Qualifier("connectRepository")
+  //@Autowired
+  //@Qualifier("connectRepository")
   private ConnectPortOut connectRepository;
 
   @Override
@@ -96,7 +94,14 @@ public class RequestService implements IRequestService {
     return requestedMentorId;
   }
 
-  public void acceptReceivedRequest(long requestId) {
+  @Override
+  public void acceptReceivedRequest(long userID, long requestId) {
+
+    List<Request> requestList = this.getRequestReceived(userID);
+    Request request = this.getRequestById(requestId);
+    if (!requestList.contains(request)) {
+      return;
+    }
     if (requestRepository.findById(requestId).isEmpty()) {
       return;
     }

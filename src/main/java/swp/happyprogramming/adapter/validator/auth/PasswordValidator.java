@@ -1,6 +1,6 @@
 package swp.happyprogramming.adapter.validator.auth;
 
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

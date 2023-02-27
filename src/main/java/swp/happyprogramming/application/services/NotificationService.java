@@ -2,12 +2,11 @@ package swp.happyprogramming.application.services;
 
 import java.util.List;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.dto.NotificationDTO;
+import swp.happyprogramming.application.dto.NotificationDTO;
 import swp.happyprogramming.application.port.out.NotificationPortOut;
 import swp.happyprogramming.application.port.usecase.INotificationService;
 import swp.happyprogramming.domain.model.Notification;
@@ -15,10 +14,9 @@ import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Role;
 import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class NotificationService implements INotificationService {
 
-  @Autowired
   private NotificationPortOut notificationRepository;
 
   @Override

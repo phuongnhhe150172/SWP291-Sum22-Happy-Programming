@@ -1,13 +1,11 @@
 package swp.happyprogramming.application.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import swp.happyprogramming.adapter.dto.DistrictDTO;
-import swp.happyprogramming.adapter.dto.ProvinceDTO;
-import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.application.dto.DistrictDTO;
+import swp.happyprogramming.application.dto.ProvinceDTO;
+import swp.happyprogramming.application.dto.WardDTO;
 import swp.happyprogramming.application.port.out.AddressPortOut;
 import swp.happyprogramming.application.port.out.DistrictPortOut;
 import swp.happyprogramming.application.port.out.ProvincePortOut;
@@ -18,17 +16,14 @@ import swp.happyprogramming.domain.model.District;
 import swp.happyprogramming.domain.model.Province;
 import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.domain.model.Ward;
+import swp.happyprogramming.utility.Utility;
 
-@Service
+@AllArgsConstructor
 public class AddressService implements IAddressService {
 
-  @Autowired
   private AddressPortOut addressRepository;
-  @Autowired
   private WardPortOut wardRepository;
-  @Autowired
   private DistrictPortOut districtRepository;
-  @Autowired
   private ProvincePortOut provinceRepository;
 
   @Override
@@ -48,8 +43,8 @@ public class AddressService implements IAddressService {
   public List<WardDTO> findAllWard(long districtId) {
     ModelMapper mapper = new ModelMapper();
     List<Ward> list = wardRepository.findAllByDistrictId(districtId);
-    return list.stream().map(value -> mapper.map(value, WardDTO.class))
-      .collect(Collectors.toList());
+    return Utility.mapList(list,
+      (Ward ward) -> mapper.map(ward, WardDTO.class));
   }
 
   @Override
@@ -62,8 +57,8 @@ public class AddressService implements IAddressService {
   public List<DistrictDTO> findAllDistrict(long provinceId) {
     ModelMapper mapper = new ModelMapper();
     List<District> list = districtRepository.findAllByProvinceId(provinceId);
-    return list.stream().map(value -> mapper.map(value, DistrictDTO.class))
-      .collect(Collectors.toList());
+    return Utility.mapList(list,
+      (District district) -> mapper.map(district, DistrictDTO.class));
   }
 
   @Override
@@ -76,8 +71,8 @@ public class AddressService implements IAddressService {
   public List<ProvinceDTO> findAllProvinces() {
     ModelMapper mapper = new ModelMapper();
     List<Province> list = provinceRepository.findAll();
-    return list.stream().map(value -> mapper.map(value, ProvinceDTO.class))
-      .collect(Collectors.toList());
+    return Utility.mapList(list,
+      (Province province) -> mapper.map(province, ProvinceDTO.class));
   }
 
   @Override

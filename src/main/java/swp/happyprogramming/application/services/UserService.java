@@ -1,12 +1,11 @@
 package swp.happyprogramming.application.services;
 
-import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,10 +15,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import swp.happyprogramming.adapter.dto.UserAvatarDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.UserAvatarDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
 import swp.happyprogramming.application.port.out.CarePortOut;
 import swp.happyprogramming.application.port.out.MethodPortOut;
@@ -36,23 +34,15 @@ import swp.happyprogramming.domain.model.User;
 import swp.happyprogramming.domain.model.UserSpe;
 import swp.happyprogramming.utility.Utility;
 
-@Service
-@Transactional
+@AllArgsConstructor
 public class UserService implements IUserService {
 
-  @Autowired
   private ModelMapper mapper;
-  @Autowired
   private MethodPortOut methodRepository;
-  @Autowired
   private UserPortOut userRepository;
-  @Autowired
   private IAddressService addressService;
-  @Autowired
   private BCryptPasswordEncoder passwordEncoder;
-  @Autowired
   private CarePortOut careRepository;
-  @Autowired
   private RolePortOut roleRepository;
 
   @Override
@@ -73,7 +63,7 @@ public class UserService implements IUserService {
   @Override
   public List<UserAvatarDTO> getConnectionsById(long id) {
     List<User> users = userRepository.findConnectionsById(id);
-    return Utility.mapUsersToAvatarDTO(users);
+    return Utility.mapList(users, Utility::mapUserToAvatarDTO);
   }
 
   @Override
