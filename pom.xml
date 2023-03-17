@@ -9,7 +9,7 @@
     <version>3.0.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>SWP391_Sum22</groupId>
+  <groupId>SWP392_Spring23</groupId>
   <artifactId>HappyProgramming</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>HappyProgramming</name>

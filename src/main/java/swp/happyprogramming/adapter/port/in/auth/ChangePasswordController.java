@@ -18,9 +18,7 @@ import swp.happyprogramming.domain.model.User;
 public class ChangePasswordController {
 
   @Autowired
-  private UserService userService;
-  @Autowired
-  private IUserService iUserService;
+  private IUserService userService;
 
   @GetMapping("/changePassword")
   public String changePassword(Model model) {
