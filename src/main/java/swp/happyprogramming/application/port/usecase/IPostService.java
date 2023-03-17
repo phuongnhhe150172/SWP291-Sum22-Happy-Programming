@@ -2,8 +2,8 @@ package swp.happyprogramming.application.port.usecase;
 
 import java.util.List;
 import java.util.Map;
-import swp.happyprogramming.adapter.dto.PostDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.PostDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Post;
 

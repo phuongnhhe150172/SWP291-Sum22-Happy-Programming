@@ -1,4 +1,4 @@
-package swp.happyprogramming.adapter.dto;
+package swp.happyprogramming.application.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

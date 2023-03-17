@@ -1,4 +1,4 @@
-package swp.happyprogramming.adapter.dto;
+package swp.happyprogramming.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

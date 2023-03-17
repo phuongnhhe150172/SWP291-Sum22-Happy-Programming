@@ -19,14 +19,14 @@ import org.jsoup.nodes.Element;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
-import swp.happyprogramming.adapter.dto.AddressDTO;
-import swp.happyprogramming.adapter.dto.DistrictDTO;
-import swp.happyprogramming.adapter.dto.MentorDTO;
-import swp.happyprogramming.adapter.dto.NotificationDTO;
-import swp.happyprogramming.adapter.dto.ProvinceDTO;
-import swp.happyprogramming.adapter.dto.UserAvatarDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
-import swp.happyprogramming.adapter.dto.WardDTO;
+import swp.happyprogramming.application.dto.AddressDTO;
+import swp.happyprogramming.application.dto.DistrictDTO;
+import swp.happyprogramming.application.dto.MentorDTO;
+import swp.happyprogramming.application.dto.NotificationDTO;
+import swp.happyprogramming.application.dto.ProvinceDTO;
+import swp.happyprogramming.application.dto.UserAvatarDTO;
+import swp.happyprogramming.application.dto.UserDTO;
+import swp.happyprogramming.application.dto.WardDTO;
 import swp.happyprogramming.domain.model.Address;
 import swp.happyprogramming.domain.model.Experience;
 import swp.happyprogramming.domain.model.Feedback;
@@ -123,7 +123,7 @@ public class Utility {
   }
 
   public static String getFirstLink(String content) {
-    String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]+\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$";
+    String regex = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]+\\.[a-zA-Z0-9()]{1,6}\\b?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*$";
 
     String[] words = content.split("\\s+");
     for (String word : words) {
@@ -195,19 +195,19 @@ public class Utility {
       }
     } else if (daysElapsed > 0) {
       if (daysElapsed == 1) {
-        notificationDTO.setTime(daysElapsed + " days ago");
+        notificationDTO.setTime(daysElapsed + " day ago");
       } else {
         notificationDTO.setTime(daysElapsed + " days ago");
       }
     } else if (hoursElapsed > 0) {
       if (hoursElapsed == 1) {
-        notificationDTO.setTime(hoursElapsed + " hours ago");
+        notificationDTO.setTime(hoursElapsed + " hour ago");
       } else {
         notificationDTO.setTime(hoursElapsed + " hours ago");
       }
     } else if (minutesElapsed > 0) {
       if (minutesElapsed == 1) {
-        notificationDTO.setTime(minutesElapsed + " minutes ago");
+        notificationDTO.setTime(minutesElapsed + " minute ago");
       } else {
         notificationDTO.setTime(minutesElapsed + " minutes ago");
       }
@@ -225,11 +225,6 @@ public class Utility {
     return new UserAvatarDTO(user.getId(),
       user.getFirstName() + " " + user.getLastName(),
       user.getImage());
-  }
-
-  public static List<UserAvatarDTO> mapUsersToAvatarDTO(List<User> users) {
-    return users.stream().map(Utility::mapUserToAvatarDTO)
-      .collect(Collectors.toList());
   }
 
   public static UserAvatarDTO mapMentorToAvatarDTO(Mentor mentor) {
@@ -254,8 +249,7 @@ public class Utility {
     Transformer<K, V> transformer) {
     List<K> content = page.getContent();
     int totalPages = page.getTotalPages();
-    List<V> transformed = content.stream().map(transformer::transform)
-      .collect(Collectors.toList());
+    List<V> transformed = mapList(content, transformer);
     return getPagination(totalPages, transformed);
   }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.port.usecase.IRequestService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Pagination;
@@ -33,8 +33,6 @@ public class RequestController {
   @GetMapping("/requests")
   public String requests(Model model,
     @RequestParam(required = false, defaultValue = "1") int pageNumber) {
-    //    Nguyễn Huy Hoàng - view all received requests
-    //    Current user's requests
     Object sessionObj = session.getAttribute("userInformation");
     UserDTO user = (UserDTO) sessionObj;
 
@@ -50,7 +48,6 @@ public class RequestController {
   @GetMapping("/request/sent")
   public String getRequestSent(Model model,
     @RequestParam(required = false, defaultValue = "1") int pageNumber) {
-    //  Trinh Trung Kien - 21 - view all sent requests (mentee)
     Authentication authentication = SecurityContextHolder.getContext()
       .getAuthentication();
     String email = authentication.getName();
@@ -66,7 +63,7 @@ public class RequestController {
 
   @GetMapping("/request/sent/delete")
   public String deleteRequest(
-    @RequestParam(required = true, value = "id") long requestId) {
+    @RequestParam(value = "id") long requestId) {
     Authentication authentication = SecurityContextHolder.getContext()
       .getAuthentication();
     String email = authentication.getName();
@@ -101,11 +98,7 @@ public class RequestController {
     Object sessionObj = session.getAttribute("userInformation");
     UserDTO user = (UserDTO) sessionObj;
 
-    List<Request> requestList = requestService.getRequestReceived(user.getId());
-    Request request = requestService.getRequestById(requestId);
-    if (requestList.contains(request)) {
-      requestService.acceptReceivedRequest(requestId);
-    }
+    requestService.acceptReceivedRequest(user.getId(), requestId);
 
     return "redirect:/requests";
   }

@@ -1,4 +1,4 @@
-package swp.happyprogramming.adapter.dto;
+package swp.happyprogramming.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAvatarDTO {
+public class WardDTO {
 
   private long id;
   private String name;
-  private String image;
+  private String type;
 }

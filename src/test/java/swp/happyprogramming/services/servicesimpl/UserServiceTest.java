@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import swp.happyprogramming.application.services.UserService;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.exception.auth.UserAlreadyExistException;
 
 import java.time.Instant;

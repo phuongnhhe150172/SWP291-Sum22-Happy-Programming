@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.application.port.usecase.IFeedbackService;
 import swp.happyprogramming.application.port.usecase.IUserService;
 import swp.happyprogramming.domain.model.Feedback;
@@ -57,9 +57,9 @@ public class FeedbackController {
   public String createFeedback(Model model,
     @RequestParam(value = "id") String id) {
     Object sessionInfo = session.getAttribute("userInformation");
-      if (sessionInfo == null) {
-          return "redirect:/login";
-      }
+    if (sessionInfo == null) {
+      return "redirect:/login";
+    }
     int receivedId = Integer.parseInt(id);
 
     UserDTO sessionUser = (UserDTO) sessionInfo;
@@ -81,9 +81,9 @@ public class FeedbackController {
   public String addFeedback(@RequestParam String comment,
     @RequestParam Integer rating, @RequestParam Long receiverId) {
     Object sessionInfo = session.getAttribute("userInformation");
-      if (sessionInfo == null) {
-          return "redirect:/login";
-      }
+    if (sessionInfo == null) {
+      return "redirect:/login";
+    }
     UserDTO sessionUser = (UserDTO) sessionInfo;
     long senderId = sessionUser.getId();
 

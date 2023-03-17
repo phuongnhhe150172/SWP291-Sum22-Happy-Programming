@@ -2,7 +2,7 @@ package swp.happyprogramming.application.port.usecase;
 
 import java.util.List;
 import java.util.Set;
-import swp.happyprogramming.adapter.dto.NotificationDTO;
+import swp.happyprogramming.application.dto.NotificationDTO;
 import swp.happyprogramming.domain.model.Notification;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Role;

@@ -2,9 +2,9 @@ package swp.happyprogramming.application.port.usecase;
 
 import java.util.List;
 import java.util.Map;
-import swp.happyprogramming.adapter.dto.MentorDTO;
-import swp.happyprogramming.adapter.dto.UserAvatarDTO;
-import swp.happyprogramming.adapter.dto.UserDTO;
+import swp.happyprogramming.application.dto.MentorDTO;
+import swp.happyprogramming.application.dto.UserAvatarDTO;
+import swp.happyprogramming.application.dto.UserDTO;
 import swp.happyprogramming.domain.model.Pagination;
 import swp.happyprogramming.domain.model.Skill;
 
