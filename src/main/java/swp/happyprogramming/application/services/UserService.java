@@ -217,6 +217,9 @@ public class UserService implements IUserService {
 
   private void saveUser(UserDTO userDTO) {
     userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    if (userDTO == null){
+      userDTO.setStatus(1);
+    }
     User user = mapper.map(userDTO, User.class);
     Address address = addressService.createNewAddress();
     user.setAddress(address);

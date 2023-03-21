@@ -62,7 +62,7 @@ public class WebSecurityConfig {
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeHttpRequests()
       .requestMatchers("/home").permitAll()
-      .requestMatchers("/admin**").hasAnyAuthority("ROME_ADMIN")
+      .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
       .requestMatchers("/upload/static/**").permitAll()
       .requestMatchers("/").hasAnyAuthority("ROLE_MENTEE", "ROLE_MENTOR")
       .requestMatchers("/signup", "/login", "/*").permitAll()
