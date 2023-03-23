@@ -99,6 +99,9 @@ public class UserController {
   public String updateUserProfile(@ModelAttribute("user") UserDTO userDTO,
     @RequestParam Map<String, Object> params) {
     try {
+      WardDTO wardDTO = new WardDTO();
+      wardDTO.setId(Integer.parseInt(params.get("wardId").toString()));
+      userDTO.getAddress().setWard(wardDTO);
       UserDTO user = userService.updateUserProfile(userDTO);
       // Update session
       session.setAttribute(USER_SESSION, user);
